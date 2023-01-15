@@ -1,0 +1,22 @@
+.container-fluid {
+  position:fixed;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.container-side-bar{
+  position:fixed;
+  color: white;
+  height: 96%;
+}
+.container-footer{
+  position:fixed;
+  color: white;
+  height: auto;
+}
+.h-96{
+  height: 96%;
+}
+.h-4{
+  height: 4%;
+}

@@ -1,0 +1,22 @@
+<nav class="navbar pb-0 navbar-light">
+  <div class="container-fluid justify-content-center">
+    <a class="navbar-brand">
+      <img
+        src="../../assets/OskLogo.png"
+        width="45"
+        class="d-inline-block align-top mx-2"
+        alt="OSK logo"
+      />
+      <h2 class="d-inline-block">OSK</h2>
+    </a>
+  </div>
+  <div class="container-fluid pb-2 border-bottom justify-content-end">
+    <i class="fa fa-2x fa-arrow-circle-o-up" aria-hidden="true"></i>
+    <a class="btn btn-top mb-1" (click)="openLogin(content)">Zaloguj</a>
+    <i class="mb-1">/</i>
+    <a class="btn btn-top mb-1" (click)="openRegister(content)">Zarejestruj</a>
+  </div>
+</nav>
+<ng-template #content let-offcanvas>
+  <app-login-registery-form [openPage]="openPage" (eventBack)="offcanvas.close($event)"></app-login-registery-form>
+</ng-template>

@@ -1,0 +1,237 @@
+<form
+  class="g-3 needs-validation"
+  [formGroup]="userForm"
+  (ngSubmit)="onSubmit(userForm.valid)"
+>
+  <div class="row my-3">
+    <div class="col form-group">
+      <label for="name" class="form-label ms-3 mb-0 px-2">Imię</label>
+      <input
+        type="text"
+        id="name"
+        class="form-control form-control-user el-login-border"
+        [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
+        formControlName="name"
+        required
+        aria-describedby="nameHelp"
+        placeholder="Wprowadź imię"
+      />
+      <div
+        *ngIf="name.invalid && (name.dirty || name.touched)"
+        class="ms-3 mb-0 text-style"
+      >
+        <div *ngIf="name.errors?.['required']">
+          Imię jest wymagane
+          <i class="fa fa-exclamation" aria-hidden="true"></i>
+        </div>
+        <div *ngIf="name.errors?.['minlength']">
+          Minimalna długość to 3
+          <i class="fa fa-exclamation" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col form-group">
+      <label for="secondName" class="form-label ms-3 mb-0 px-2"
+        >Drugie imię</label
+      >
+      <input
+        type="text"
+        class="form-control form-control-user el-login-border"
+        [class.is-invalid]="
+          secondName.invalid &&
+          (secondName.dirty || secondName.touched || name.touched)
+        "
+        id="secondName"
+        formControlName="secondName"
+        aria-describedby="nameHelp"
+        placeholder="Wprowadź drugie imię"
+      />
+      <div
+        *ngIf="
+          secondName.invalid &&
+          (secondName.dirty || secondName.touched || name.touched)
+        "
+        class="ms-3 mb-0 text-style"
+      >
+        <div *ngIf="secondName.errors?.['minlength']">
+          Minimalna długość to 3
+          <i class="fa fa-exclamation" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group my-3">
+    <label for="lastName" class="form-label ms-3 mb-0 px-2">Nazwisko</label>
+    <input
+      type="text"
+      class="form-control form-control-user el-login-border"
+      [class.is-invalid]="
+        lastName.invalid &&
+        (lastName.dirty || lastName.touched || (name.touched && name.invalid))
+      "
+      id="lastName"
+      required
+      formControlName="lastName"
+      aria-describedby="lastNameHelp"
+      placeholder="Wprowadź swoje nazwisko"
+    />
+    <div
+      *ngIf="
+        lastName.invalid &&
+        (lastName.dirty || lastName.touched || (name.touched && name.invalid))
+      "
+      class="ms-3 mb-0 text-style"
+    >
+      <div *ngIf="lastName.errors?.['required']">
+        Nazwisko jest wymagane
+        <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+      <div *ngIf="lastName.errors?.['minlength']">
+        Minimalna długość to 3
+        <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-group my-3">
+    <label for="dob" class="form-label ms-3 mb-0 px-2">Data urodzenia</label>
+    <input
+      class="form-control el-login-border"
+      [class.is-invalid]="
+        dob.invalid &&
+        (dob.dirty || dob.touched || (name.touched && name.invalid))
+      "
+      id="dob"
+      type="date"
+      aria-describedby="ageHelp"
+      placeholder="Wprowadź datę urodzenia"
+      required
+      formControlName="dob"
+    />
+    <div
+      *ngIf="
+        dob.invalid &&
+        (dob.dirty || dob.touched || (name.touched && name.invalid))
+      "
+      class="ms-3 mb-0 text-style"
+    >
+      <div *ngIf="dob.errors?.['required']">
+        Data jest wymagana <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+      <div *ngIf="dob.errors?.['valid']">
+        Błędna data <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+      <div *ngIf="dob.errors?.['age']">
+        Nie wystarczający wiek (14-100)
+        <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-group my-3">
+    <label for="email" class="form-label ms-3 mb-0 px-2">Email</label>
+    <input
+      type="email"
+      class="form-control form-control-user el-login-border"
+      [class.is-invalid]="
+        email.invalid &&
+        (email.dirty || email.touched || (name.touched && name.invalid))
+      "
+      id="email"
+      required
+      formControlName="email"
+      aria-describedby="emailHelp"
+      placeholder="Wprowadź swój email"
+    />
+    <div *ngIf="email.pending">
+      Validating...
+    </div>
+    <div
+      *ngIf="
+        email.invalid &&
+        (email.dirty || email.touched || (name.touched && name.invalid))
+      "
+      class="ms-3 mb-0 text-style"
+    >
+      <div *ngIf="email.errors?.['required']">
+        Email jest wymagany <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+      <div *ngIf="email.errors?.['pattern']">
+        Błędny email <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+      <div *ngIf="email.errors?.['uniqueEmail']">
+        Email jest zajęty <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-group my-3">
+    <label for="password" class="form-label ms-3 mb-0 px-2">Hasło</label>
+    <input
+      type="password"
+      class="form-control form-control-user el-login-border"
+      [class.is-invalid]="(password.invalid || userForm.errors?.['passwordIdentity']) &&
+      (password.dirty || password.touched || (name.touched && name.invalid))"
+      id="password"
+      required
+      formControlName="password"
+      placeholder="Hasło"
+    />
+    <div
+      *ngIf="
+      (password.invalid || userForm.errors?.['passwordIdentity']) &&
+      (password.dirty || password.touched || (name.touched && name.invalid))
+      "
+      class="ms-3 mb-0 text-style"
+    >
+      <div *ngIf="password.errors?.['required']">
+        Hasło jest wymagane <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+      <div *ngIf="password.errors?.['minlength']">
+        Minimalna długość to 6
+        <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+      <div
+        *ngIf="userForm.errors?.['passwordIdentity']
+        && !(password.errors?.['required'] || password.errors?.['minlength'])"
+      >
+        Hasła się nie zgadzają
+        <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-group my-3">
+    <label for="secondPassword" class="form-label ms-3 mb-0 px-2"
+      >Powtórz hasło</label
+    >
+    <input
+      type="password"
+      class="form-control form-control-user el-login-border"
+      [class.is-invalid]="(secondPassword.invalid || userForm.errors?.['passwordIdentity']) &&
+      (secondPassword.dirty || secondPassword.touched || (name.touched && name.invalid))"
+      id="secondPassword"
+      formControlName="secondPassword"
+      required
+      placeholder="Powtórz hasło"
+    />
+    <div
+      *ngIf="
+      (secondPassword.invalid || userForm.errors?.['passwordIdentity']) &&
+      (secondPassword.dirty || secondPassword.touched || (name.touched && name.invalid))
+      "
+      class="ms-3 mb-0 text-style"
+    >
+      <div *ngIf="secondPassword.errors?.['required']">
+        Powtórz hasło
+        <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-group my-3">
+    <div class="form-group my-3">
+      <button
+        type="submit"
+        class="form-control btn btn-success el-login-border btn-block fw-bold fs-6"
+      >
+        <i class="fa fa-reply me-2" aria-hidden="true"></i>Zarejestruj
+      </button>
+    </div>
+  </div>
+</form>
