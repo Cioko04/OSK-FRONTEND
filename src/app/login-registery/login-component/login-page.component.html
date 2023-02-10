@@ -1,10 +1,12 @@
-<form class="user">
+<form class="user" name="form" (ngSubmit)="login()" #f="ngForm">
   <div class="form-group my-3">
     <input
       type="text"
       class="form-control form-control-user el-login-border"
       id="email"
       name="email"
+      [(ngModel)]="model.email"
+      required
       aria-describedby="emailHelp"
       placeholder="Wprowadź swój email"
     />
@@ -15,6 +17,8 @@
       class="form-control form-control-user el-login-border"
       id="password"
       name="password"
+      [(ngModel)]="model.password"
+      required
       placeholder="Hasło"
     />
   </div>

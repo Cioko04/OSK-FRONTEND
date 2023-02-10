@@ -9,6 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { PasswordIdentityDirective } from 'src/app/shared/password-identity.directive';
+import * as bcrypt from 'bcryptjs';
 
 @Component({
   selector: 'app-register-page',
@@ -99,7 +100,7 @@ export class RegisterPageComponent implements OnInit {
       secondName: this.userForm.value.secondName,
       lastName: this.userForm.value.lastName,
       email: this.userForm.value.email,
-      password: this.userForm.value.password,
+      password: bcrypt.hashSync(this.userForm.value.password, 10),
       dob: this.userForm.value.dob,
     };
     this.userService.addUser(user);

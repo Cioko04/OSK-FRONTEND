@@ -1,6 +1,7 @@
+import { RequestInterceptor } from './request.interceptor';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +17,7 @@ import { UserComponent } from './user/user.component';
 import { UserHttpService } from './user/http/user-http.service';
 import { UserService } from './user/service/user.service';
 import { PasswordIdentityDirective } from './shared/password-identity.directive';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -35,9 +37,10 @@ import { PasswordIdentityDirective } from './shared/password-identity.directive'
     NgbModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AppRoutingModule
   ],
-  providers: [UserHttpService, UserService],
+  providers: [UserHttpService, UserService, {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

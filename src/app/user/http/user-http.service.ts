@@ -29,8 +29,9 @@ export class UserHttpService {
   }
 
   addUser(user: User) {
-    this.http.post(this.apiURL + '/users', user).subscribe((user) => {
-      console.log(user);
+    this.http.post(this.apiURL + '/users', user).subscribe({
+      error: (e: HttpErrorResponse) => console.log(e.status),
+      complete: () => console.log('saved'),
     });
   }
 }
