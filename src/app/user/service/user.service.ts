@@ -7,14 +7,14 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
   providedIn: 'root'
 })
 export class UserService {
-  apiURL = '/api/users';
+  API_URL = '/api/users';
   private users = new BehaviorSubject<Array<User>>([]);
   users$ = this.users.asObservable();
 
   constructor(private http: HttpClient) { }
 
   getUsers() {
-    return this.http.get<Array<User>>(this.apiURL).subscribe({
+    return this.http.get<Array<User>>(this.API_URL).subscribe({
       next: (users) => this.users.next(users),
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => console.log('complete'),
@@ -23,11 +23,11 @@ export class UserService {
 
   existsByEmail(email: string): Observable<boolean>{
     let queryParams = new HttpParams().append("email",email);
-    return this.http.get<boolean>(this.apiURL + '/checkEmail', {params:queryParams});
+    return this.http.get<boolean>(this.API_URL + '/checkEmail', {params:queryParams});
   }
 
   addUser(user: User) {
-    this.http.post(this.apiURL, user).subscribe({
+    this.http.post(this.API_URL, user).subscribe({
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => console.log('saved'),
     });
