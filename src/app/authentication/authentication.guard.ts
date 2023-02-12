@@ -24,10 +24,6 @@ export class AuthenticationGuard implements CanActivate {
         return this.router.parseUrl('/welcome');
       }
 
-      if(token) {
-        return this.router.parseUrl('');
-      }
-
       return true;
     }
 }

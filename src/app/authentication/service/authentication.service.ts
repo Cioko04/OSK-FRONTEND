@@ -1,34 +1,41 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
   private sessionId: any = '';
   private API_URL = 'api/auth/authenticate';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient) {}
 
-  authenticate(userLoginData: {email: string, password: string}){
-    const httpOptions : Object = {
+  getHttpOptions(): Object {
+    return {
       headers: new HttpHeaders({
-          'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       }),
-      responseType: 'text'
-  };
-  console.log(userLoginData);
-    this.http
-      .post<any>(this.API_URL, userLoginData, httpOptions)
-      .subscribe((res) => {
-        if (res) {
-          this.sessionId = res.sessionId;
-          sessionStorage.setItem('token', this.sessionId);
-          this.router.navigate(['']);
-        } else {
-          alert('Authentication failed.');
-        }
-      });
+      responseType: 'text',
+    };
+  }
+
+  authenticate(userLoginData: { email: string; password: string }) {
+    return new Promise((resolve, reject) => {
+      this.http
+        .post<any>(this.API_URL, userLoginData, this.getHttpOptions())
+        .subscribe({
+          next: (response) => {
+            resolve(response);
+            this.setToken(response);
+          },
+          error: (err) => reject(err),
+          complete: () => console.info('complete'),
+        });
+    });
+  }
+
+  setToken(res: any) {
+    this.sessionId = res.sessionId;
+    sessionStorage.setItem('token', this.sessionId);
   }
 }
