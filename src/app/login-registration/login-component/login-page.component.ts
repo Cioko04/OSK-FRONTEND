@@ -1,11 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, debounceTime, throwError } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/service/authentication.service';
-import { Alert } from 'src/app/shared/alert';
 
 @Component({
   selector: 'app-login-page',
@@ -15,9 +14,10 @@ import { Alert } from 'src/app/shared/alert';
 export class LoginPageComponent implements OnInit {
   loginForm: FormGroup | any;
 
-  private _failed = new Subject<string>();
+  @Output()
+  eventBack = new EventEmitter<string>();
 
-  staticAlertClosed = false;
+  private _failed = new Subject<string>();
   failMessage = '';
 
   constructor(
@@ -49,6 +49,7 @@ export class LoginPageComponent implements OnInit {
         password: this.loginForm.value.password,
       })
       .then(() => {
+        this.eventBack.emit('submit');
         this.router.navigate(['']);
       })
       .catch((serverLoginError: any) => {
