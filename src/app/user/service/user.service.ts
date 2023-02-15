@@ -1,22 +1,36 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { UserHttpService } from '../http/user-http.service';
 import { User } from '../model/user';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  API_URL = '/api/users';
+  private users = new BehaviorSubject<Array<User>>([]);
+  users$ = this.users.asObservable();
 
-  constructor(private httpUserService: UserHttpService) { }
+  constructor(private http: HttpClient) { }
+
+  getUsers() {
+    return this.http.get<Array<User>>(this.API_URL).subscribe({
+      next: (users) => this.users.next(users),
+      error: (e: HttpErrorResponse) => console.log(e.status),
+      complete: () => console.log('complete'),
+    });
+  }
 
   existsByEmail(email: string): Observable<boolean>{
-    return this.httpUserService.existsByEmail(email);
+    let queryParams = new HttpParams().append("email",email);
+    return this.http.get<boolean>(this.API_URL + '/checkEmail', {params:queryParams});
   }
 
   addUser(user: User) {
-    const u: User = user;
-    this.httpUserService.addUser(u);
+    this.http.post(this.API_URL, user).subscribe({
+      error: (e: HttpErrorResponse) => console.log(e.status),
+      complete: () => console.log('saved'),
+    });
   }
 
 

@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  TemplateRef,
   ViewEncapsulation,
 } from '@angular/core';
 import {

@@ -1,5 +1,5 @@
-import { UniqueEmailValidator } from './../../shared/UniqueEmailValidator';
-import { UserService } from './../../user/service/user.service';
+import { UniqueEmailValidator } from '../../shared/UniqueEmailValidator';
+import { UserService } from '../../user/service/user.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { User } from 'src/app/user/model/user';
 import {
@@ -9,13 +9,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { PasswordIdentityDirective } from 'src/app/shared/password-identity.directive';
+import * as bcrypt from 'bcryptjs';
 
 @Component({
-  selector: 'app-register-page',
-  templateUrl: './register-page.component.html',
-  styleUrls: ['./register-page.component.css'],
+  selector: 'app-registration-page',
+  templateUrl: './registration-page.component.html',
+  styleUrls: ['./registration-page.component.css'],
 })
-export class RegisterPageComponent implements OnInit {
+export class RegistrationPageComponent implements OnInit {
   userForm: FormGroup | any;
 
   @Output()
@@ -99,7 +100,7 @@ export class RegisterPageComponent implements OnInit {
       secondName: this.userForm.value.secondName,
       lastName: this.userForm.value.lastName,
       email: this.userForm.value.email,
-      password: this.userForm.value.password,
+      password: bcrypt.hashSync(this.userForm.value.password, 10),
       dob: this.userForm.value.dob,
     };
     this.userService.addUser(user);
