@@ -1,0 +1,46 @@
+<nav class="navbar navbar-expand-lg bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+      <app-logo></app-logo>
+    </a>
+    <form class="d-flex me-4" role="search">
+      <div class="input-group mb-3 search-form">
+        <button type="button" class="btn-search btn-md btn btn-dark">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+        <input
+          class="form-control search"
+          type="search"
+          placeholder="Wyszukaj..."
+          aria-label="Search"
+        />
+      </div>
+    </form>
+    <div class="btn-group" ngbDropdown>
+      <button type="button" class="btn btn-dark ps-0" ngbDropdownToggle>
+        <img
+          src="https://github.com/mdo.png"
+          alt=""
+          width="32"
+          height="32"
+          class="rounded-circle me-2"
+        />
+        <strong style="color: #dddbdb;">User</strong>
+      </button>
+      <ul
+        class="dropdown-menu dropdown-menu-dark dropdown-menu-end dropdown-min-width"
+        ngbDropdownMenu
+      >
+        <li>
+          <button class="btn btn-drop-down" ngbDropdownItem>Profil</button>
+        </li>
+        <li><hr class="dropdown-divider mx-2" /></li>
+        <li>
+          <button class="btn btn-drop-down" ngbDropdownItem (click)="logout()">
+            Wyloguj
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

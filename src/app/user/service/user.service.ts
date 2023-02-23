@@ -26,6 +26,10 @@ export class UserService {
     return this.http.get<boolean>(this.API_URL + '/checkEmail', {params:queryParams});
   }
 
+  getUserByEmail(email: string): Observable<User> {
+    return this.http.get<User>(this.API_URL + '${email}');
+  }
+
   addUser(user: User) {
     this.http.post(this.API_URL, user).subscribe({
       error: (e: HttpErrorResponse) => console.log(e.status),

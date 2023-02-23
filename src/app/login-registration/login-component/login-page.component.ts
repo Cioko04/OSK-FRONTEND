@@ -59,14 +59,14 @@ export class LoginPageComponent implements OnInit {
 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 403) {
-      this.popUpFailMessage();
+      return this.popUpFailMessage(true);
+    }else {
+      return this.popUpFailMessage(false);
     }
-    return throwError(
-      () => new Error('Something bad happened; please try again later.')
-    );
+
   }
 
-  public popUpFailMessage() {
-    this._failed.next(`Błędne dane logowania`);
+  public popUpFailMessage(isServerUp: boolean) {
+    return isServerUp ? this._failed.next(`Błędne dane logowania`) : this._failed.next(`Serwer nie odpowiada, prosimy spróbować później`);
   }
 }
