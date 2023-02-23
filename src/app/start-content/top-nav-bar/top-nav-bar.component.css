@@ -1,13 +1,15 @@
-.offcanvas{
+.offcanvas {
   width: 50% !important;
   margin-left: 25%;
   margin-top: 2%;
   background-color: rgba(255, 255, 255, 0);
-
 }
-.offcanvas.offcanvas-top{
+.offcanvas.offcanvas-top {
   border-bottom: none;
 }
-.btn-top:hover{
+.text-color {
+  color: #dddbdb;
+}
+.btn:hover {
   color: rgb(0, 119, 255);
 }

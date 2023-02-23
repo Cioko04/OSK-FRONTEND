@@ -1,0 +1,24 @@
+<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-tabs justify-content-center bg-dark">
+  <li class="nav-item" [ngbNavItem]="1">
+    <a class="nav-link nav-menu-style" ngbNavLink>
+      <i class="fa fa-university" aria-hidden="true"></i>
+      <strong class="ms-1">Kursy</strong>
+    </a>
+    <ng-template ngbNavContent><app-kursy></app-kursy></ng-template>
+  </li>
+  <li class="nav-item" [ngbNavItem]="2">
+    <a class="nav-link nav-menu-style" ngbNavLink>
+      <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+      <strong class="ms-1">Moje kursy</strong>
+    </a>
+    <ng-template ngbNavContent>Second content</ng-template>
+  </li>
+  <li class="nav-item" [ngbNavItem]="3">
+    <a class="nav-link nav-menu-style" ngbNavLink>
+      <i class="fa fa-credit-card" aria-hidden="true"></i>
+      <strong class="ms-1">Płatności</strong>
+    </a>
+    <ng-template ngbNavContent>Third content</ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav" class="mt-0"></div>

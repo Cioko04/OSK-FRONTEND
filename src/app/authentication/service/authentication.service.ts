@@ -34,6 +34,15 @@ export class AuthenticationService {
     });
   }
 
+  logout() {
+    this.dropToken();
+  }
+
+
+  dropToken() {
+    sessionStorage.removeItem('token');
+  }
+
   setToken(res: any) {
     this.sessionId = res.sessionId;
     sessionStorage.setItem('token', this.sessionId);
