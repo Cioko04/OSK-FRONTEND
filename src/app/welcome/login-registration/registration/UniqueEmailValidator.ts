@@ -1,4 +1,4 @@
-import { UserService } from './../user/service/user.service';
+import { UserService } from '../../../user/user.service';
 import { Injectable } from "@angular/core";
 import { AsyncValidator, AbstractControl, ValidationErrors } from "@angular/forms";
 import { Observable, map, catchError, of } from "rxjs";

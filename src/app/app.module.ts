@@ -5,38 +5,40 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MainContentComponent } from './start-content/main-content/main-content.component';
-import { LoginPageComponent } from './login-registration/login-component/login-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TopNavBarComponent } from './start-content/top-nav-bar/top-nav-bar.component';
-import { UserComponent } from './user/user.component';
-import { UserService } from './user/service/user.service';
-import { PasswordIdentityDirective } from './shared/password-identity.directive';
+import { UserService } from './user/user.service';
+import { PasswordIdentityDirective } from './welcome/login-registration/registration/password-identity.directive';
 import { AppRoutingModule } from './app-routing.module';
-import { RegistrationPageComponent } from './login-registration/registration-component/registration-page.component';
-import { LoginRegistrationFormComponent } from './login-registration/login-registration-form/login-registration-form.component';
-import { AuthenticationService } from './authentication/service/authentication.service';
+import { AuthenticationService } from './authentication/authentication.service';
 import { LogoComponent } from './logo/logo.component';
 import { MenuNavComponent } from './home/menu-nav/menu-nav.component';
-import { HomeTopNavComponent } from './home/home-top-nav/home-top-nav.component';
-import { HomePageComponent } from './home/home-page/home-page.component';
-import { KursyComponent } from './home/kursy/kursy.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { WelcomeNavComponent } from './welcome/welcome-nav/welcome-nav.component';
+import { LoginRegistrationComponent } from './welcome/login-registration/login-registration.component';
+import { LoginComponent } from './welcome/login-registration/login/login.component';
+import { RegistrationComponent } from './welcome/login-registration/registration/registration.component';
+import { HomeComponent } from './home/home.component';
+import { HomeNavComponent } from './home/home-nav/home-nav.component';
+import { PaymentsComponent } from './home/payments/payments.component';
+import { CoursesComponent } from './home/courses/courses.component';
+import { MyCoursesComponent } from './home/courses/my-courses/my-courses.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainContentComponent,
-    TopNavBarComponent,
-    LoginPageComponent,
-    RegistrationPageComponent,
-    LoginRegistrationFormComponent,
-    UserComponent,
     PasswordIdentityDirective,
     LogoComponent,
     MenuNavComponent,
-    HomeTopNavComponent,
-    HomePageComponent,
-    KursyComponent
+    WelcomeComponent,
+    WelcomeNavComponent,
+    LoginRegistrationComponent,
+    LoginComponent,
+    RegistrationComponent,
+    HomeComponent,
+    HomeNavComponent,
+    PaymentsComponent,
+    CoursesComponent,
+    MyCoursesComponent
   ],
   imports: [
     BrowserModule,

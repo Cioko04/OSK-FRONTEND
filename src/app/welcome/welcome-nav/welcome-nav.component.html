@@ -10,5 +10,5 @@
   </div>
 </nav>
 <ng-template #content let-offcanvas>
-  <app-login-registration-form [openPage]="openPage" (eventBack)="offcanvas.close($event)"></app-login-registration-form>
+  <app-login-registration [openPage]="openPage" (eventBack)="offcanvas.close($event)"></app-login-registration>
 </ng-template>

@@ -1,14 +1,14 @@
-import { UserService } from './../../user/service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from 'src/app/authentication/service/authentication.service';
+import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import { UserService } from 'src/app/user/user.service';
 
 @Component({
-  selector: 'app-home-top-nav',
-  templateUrl: './home-top-nav.component.html',
-  styleUrls: ['./home-top-nav.component.css'],
+  selector: 'app-home-nav',
+  templateUrl: './home-nav.component.html',
+  styleUrls: ['./home-nav.component.css'],
 })
-export class HomeTopNavComponent implements OnInit {
+export class HomeNavComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,

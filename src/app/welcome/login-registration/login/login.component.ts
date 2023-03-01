@@ -1,17 +1,17 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
-import { Subject, debounceTime, throwError } from 'rxjs';
-import { AuthenticationService } from 'src/app/authentication/service/authentication.service';
+import { Subject } from 'rxjs';
+import { AuthenticationService } from 'src/app/authentication/authentication.service';
 
 @Component({
-  selector: 'app-login-page',
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.css'],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
-export class LoginPageComponent implements OnInit {
+export class LoginComponent implements OnInit {
+
   loginForm: FormGroup | any;
 
   @Output()
@@ -50,7 +50,7 @@ export class LoginPageComponent implements OnInit {
       })
       .then(() => {
         this.eventBack.emit('submit');
-        this.router.navigate(['']);
+        this.router.navigate(['/home/courses']);
       })
       .catch((serverLoginError: any) => {
         this.handleError(serverLoginError);
