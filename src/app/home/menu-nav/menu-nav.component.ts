@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu-nav',
@@ -7,8 +7,10 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./menu-nav.component.css'],
 })
 export class MenuNavComponent implements OnInit {
-  active = 1;
-  constructor() {}
+  active = '/home/courses';
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.active = this.router.url;
+  }
 }

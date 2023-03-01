@@ -1,22 +1,26 @@
-import { UniqueEmailValidator } from '../../shared/UniqueEmailValidator';
-import { UserService } from '../../user/service/user.service';
+
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { User } from 'src/app/user/model/user';
+
 import {
   AbstractControl,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { PasswordIdentityDirective } from 'src/app/shared/password-identity.directive';
+
 import * as bcrypt from 'bcryptjs';
+import { User } from 'src/app/user/user';
+import { UserService } from 'src/app/user/user.service';
+import { UniqueEmailValidator } from './UniqueEmailValidator';
+import { PasswordIdentityDirective } from './password-identity.directive';
 
 @Component({
-  selector: 'app-registration-page',
-  templateUrl: './registration-page.component.html',
-  styleUrls: ['./registration-page.component.css'],
+  selector: 'app-registration',
+  templateUrl: './registration.component.html',
+  styleUrls: ['./registration.component.css']
 })
-export class RegistrationPageComponent implements OnInit {
+export class RegistrationComponent implements OnInit {
+
   userForm: FormGroup | any;
 
   @Output()
@@ -117,4 +121,5 @@ export class RegistrationPageComponent implements OnInit {
     }
     return age < 14 || age > 100 ? { age: true } : null;
   }
+
 }

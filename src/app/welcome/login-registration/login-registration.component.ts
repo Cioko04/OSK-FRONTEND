@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'app-login-registration-form',
-  templateUrl: './login-registration-form.component.html',
-  styleUrls: ['./login-registration-form.component.css','./semipolar.css'],
+  selector: 'app-login-registration',
+  templateUrl: './login-registration.component.html',
+  styleUrls: ['./login-registration.component.css','./semipolar.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class LoginRegistrationFormComponent implements OnInit {
+export class LoginRegistrationComponent implements OnInit {
 
   @Input()
   openPage = '';

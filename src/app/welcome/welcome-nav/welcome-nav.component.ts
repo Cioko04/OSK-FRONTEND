@@ -10,12 +10,13 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-top-nav-bar',
-  templateUrl: './top-nav-bar.component.html',
-  styleUrls: ['./top-nav-bar.component.css'],
+  selector: 'app-welcome-nav',
+  templateUrl: './welcome-nav.component.html',
+  styleUrls: ['./welcome-nav.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class TopNavBarComponent implements OnInit {
+export class WelcomeNavComponent implements OnInit {
+
   closeResult = '';
   openPage = '';
   constructor(
@@ -54,4 +55,5 @@ export class TopNavBarComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+
 }
