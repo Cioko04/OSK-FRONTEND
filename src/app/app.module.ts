@@ -18,7 +18,6 @@ import { LoginRegistrationComponent } from './welcome/login-registration/login-r
 import { LoginComponent } from './welcome/login-registration/login/login.component';
 import { RegistrationComponent } from './welcome/login-registration/registration/registration.component';
 import { HomeComponent } from './home/home.component';
-import { HomeNavComponent } from './home/home-nav/home-nav.component';
 import { PaymentsComponent } from './home/payments/payments.component';
 import { CoursesComponent } from './home/courses/courses.component';
 import { MyCoursesComponent } from './home/courses/my-courses/my-courses.component';
@@ -36,7 +35,6 @@ import { UserProfileComponent } from './user/user-profile/user-profile.component
     LoginComponent,
     RegistrationComponent,
     HomeComponent,
-    HomeNavComponent,
     PaymentsComponent,
     CoursesComponent,
     MyCoursesComponent,
