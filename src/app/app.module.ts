@@ -22,6 +22,7 @@ import { HomeNavComponent } from './home/home-nav/home-nav.component';
 import { PaymentsComponent } from './home/payments/payments.component';
 import { CoursesComponent } from './home/courses/courses.component';
 import { MyCoursesComponent } from './home/courses/my-courses/my-courses.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { MyCoursesComponent } from './home/courses/my-courses/my-courses.compone
     HomeNavComponent,
     PaymentsComponent,
     CoursesComponent,
-    MyCoursesComponent
+    MyCoursesComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
