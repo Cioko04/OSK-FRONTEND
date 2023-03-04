@@ -28,10 +28,6 @@ const routes: Routes = [
           {
             path: 'payments',
             component: PaymentsComponent,
-          },
-          {
-            path: 'user-profile',
-            component: UserProfileComponent,
           }
         ],
       },

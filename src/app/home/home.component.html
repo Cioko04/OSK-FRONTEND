@@ -32,7 +32,7 @@
         ngbDropdownMenu
       >
         <li>
-          <button routerLink="user-profile" class="btn btn-drop-down" ngbDropdownItem>Profil</button>
+          <button class="btn btn-drop-down" (click)="open(content)" ngbDropdownItem>Profil</button>
         </li>
         <li><hr class="dropdown-divider mx-2" /></li>
         <li>
@@ -46,3 +46,6 @@
 </nav>
 <app-menu-nav></app-menu-nav>
 <router-outlet></router-outlet>
+<ng-template #content let-offcanvas>
+  <app-user-profile (eventBack)="offcanvas.close($event)"></app-user-profile>
+</ng-template>

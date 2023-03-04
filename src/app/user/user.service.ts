@@ -9,7 +9,6 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 export class UserService {
   API_URL = '/api/users';
   private users = new BehaviorSubject<Array<User>>([]);
-  users$ = this.users.asObservable();
 
   constructor(private http: HttpClient) { }
 

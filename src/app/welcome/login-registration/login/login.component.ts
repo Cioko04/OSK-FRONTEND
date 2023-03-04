@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subject, switchMap } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import { User } from 'src/app/user/user';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +51,7 @@ export class LoginComponent implements OnInit {
       })
       .then(() => {
         this.eventBack.emit('submit');
+        this.eventBack.emit(this.email);
         this.router.navigate(['/home/courses']);
       })
       .catch((serverLoginError: any) => {
