@@ -1,9 +1,10 @@
-import { UserProfileComponent } from './../user/user-profile/user-profile.component';
-import { Component, Input, OnInit } from '@angular/core';
+import { UserService } from 'src/app/user/user.service';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { Router } from '@angular/router';
-import { UserService } from '../user/user.service';
-import { NgbActiveOffcanvas, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { User } from '../user/user';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -11,14 +12,20 @@ import { NgbActiveOffcanvas, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
+  user$: Observable<User | any>;
+
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
-    private userService: UserService,
-    private offcanvasService: NgbOffcanvas
-  ) {}
+    private offcanvasService: NgbOffcanvas,
+    private userService: UserService
+  ) {
+    this.user$ = userService.getUserByEmail(authenticationService.getUserEmail());
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
 
   logout() {
     this.authenticationService.logout();
@@ -30,6 +37,5 @@ export class HomeComponent implements OnInit {
       position: 'end',
       scroll: true,
     });
-    offcanvasRef.componentInstance.name = 'World';
   }
 }

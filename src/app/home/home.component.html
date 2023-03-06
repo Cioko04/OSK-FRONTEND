@@ -25,14 +25,24 @@
           height="32"
           class="rounded-circle me-2"
         />
-        <strong style="color: #dddbdb;">User</strong>
+        <strong style="color: #dddbdb">{{ (user$ | async)?.name }}</strong>
       </button>
       <ul
         class="dropdown-menu dropdown-menu-dark dropdown-menu-end dropdown-min-width"
         ngbDropdownMenu
       >
         <li>
-          <button class="btn btn-drop-down" (click)="open(content)" ngbDropdownItem>Profil</button>
+          <button
+            class="btn btn-drop-down"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasExample"
+            aria-controls="offcanvasExample"
+            (click)="open(content)"
+            ngbDropdownItem
+          >
+            Profil
+          </button>
         </li>
         <li><hr class="dropdown-divider mx-2" /></li>
         <li>

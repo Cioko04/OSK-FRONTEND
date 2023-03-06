@@ -95,14 +95,15 @@
           <input
             type="email"
             class="form-control form-control-user el-login-border"
-            [class.is-invalid]="email.invalid"
+            [class.is-invalid]="email.invalid && (user$ | async)?.email != userForm.value.email"
             id="email"
             formControlName="email"
             aria-describedby="emailHelp"
             placeholder="Wprowadź swój email"
           />
+
           <div *ngIf="email.pending && email.touched">Validating...</div>
-          <div *ngIf="email.invalid" class="ms-3 mb-0 text-style">
+          <div *ngIf="email.invalid && (user$ | async)?.email != userForm.value.email" class="ms-3 mb-0 text-style">
             <div *ngIf="email.errors?.['pattern']">
               Błędny email <i class="fa fa-exclamation" aria-hidden="true"></i>
             </div>

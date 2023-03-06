@@ -11,8 +11,8 @@ import {
 import * as bcrypt from 'bcryptjs';
 import { User } from 'src/app/user/user';
 import { UserService } from 'src/app/user/user.service';
-import { UniqueEmailValidator } from './UniqueEmailValidator';
-import { PasswordIdentityDirective } from './password-identity.directive';
+import { UniqueEmailValidator } from '../../../user/UniqueEmailValidator';
+import { PasswordIdentityDirective } from '../../../user/password-identity.directive';
 
 @Component({
   selector: 'app-registration',

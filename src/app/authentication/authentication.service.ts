@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class AuthenticationService {
   private sessionId: any = '';
+  private sessionUserEmail: string = '';
   private API_URL = 'api/auth/authenticate';
 
   constructor(private http: HttpClient) {}
@@ -24,9 +25,10 @@ export class AuthenticationService {
       this.http
         .post<any>(this.API_URL, userLoginData, this.getHttpOptions())
         .subscribe({
-          next: (response) => {
+          next: (response: string) => {
             resolve(response);
             this.setToken(response);
+            this.setSessionUserEmail(userLoginData.email);
           },
           error: (err) => reject(err),
           complete: () => console.info('complete'),
@@ -36,15 +38,34 @@ export class AuthenticationService {
 
   logout() {
     this.dropToken();
+    this.dropUserEmail();
+    sessionStorage.clear();
   }
 
 
-  dropToken() {
+  private dropToken() {
     sessionStorage.removeItem('token');
   }
 
-  setToken(res: any) {
-    this.sessionId = res.sessionId;
+  private dropUserEmail() {
+    sessionStorage.removeItem('email');
+  }
+
+  private setToken(res: any) {
+    this.sessionId = res;
     sessionStorage.setItem('token', this.sessionId);
+  }
+
+  private setSessionUserEmail(email: any) {
+    this.sessionUserEmail = email;
+    sessionStorage.setItem('email', this.sessionUserEmail);
+  }
+
+  getUserEmail(){
+    return sessionStorage.getItem('email');
+  }
+
+  getToken(): string {
+    return sessionStorage.getItem('token')!;
   }
 }
