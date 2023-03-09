@@ -1,3 +1,4 @@
+import { UserProfileComponent } from './home/user-profile/user-profile.component';
 import { HomeComponent } from './home/home.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { NgModule } from '@angular/core';
@@ -22,7 +23,7 @@ const routes: Routes = [
           },
           {
             path: 'my-courses',
-            component: MyCoursesComponent
+            component: MyCoursesComponent,
           },
           {
             path: 'payments',

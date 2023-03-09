@@ -1,11 +1,9 @@
-.offcanvas {
+.offcanvas.offcanvas-top {
+  border-bottom: none;
   width: 50% !important;
   margin-left: 25%;
   margin-top: 2%;
   background-color: rgba(255, 255, 255, 0);
-}
-.offcanvas.offcanvas-top {
-  border-bottom: none;
 }
 .text-color {
   color: #dddbdb;

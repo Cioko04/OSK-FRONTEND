@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './user/user.service';
-import { PasswordIdentityDirective } from './welcome/login-registration/registration/password-identity.directive';
+import { PasswordIdentityDirective } from './user/password-identity.directive';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthenticationService } from './authentication/authentication.service';
 import { LogoComponent } from './logo/logo.component';
@@ -18,10 +18,10 @@ import { LoginRegistrationComponent } from './welcome/login-registration/login-r
 import { LoginComponent } from './welcome/login-registration/login/login.component';
 import { RegistrationComponent } from './welcome/login-registration/registration/registration.component';
 import { HomeComponent } from './home/home.component';
-import { HomeNavComponent } from './home/home-nav/home-nav.component';
 import { PaymentsComponent } from './home/payments/payments.component';
 import { CoursesComponent } from './home/courses/courses.component';
 import { MyCoursesComponent } from './home/courses/my-courses/my-courses.component';
+import { UserProfileComponent } from './home/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -35,10 +35,10 @@ import { MyCoursesComponent } from './home/courses/my-courses/my-courses.compone
     LoginComponent,
     RegistrationComponent,
     HomeComponent,
-    HomeNavComponent,
     PaymentsComponent,
     CoursesComponent,
-    MyCoursesComponent
+    MyCoursesComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

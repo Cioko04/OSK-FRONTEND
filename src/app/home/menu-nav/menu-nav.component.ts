@@ -11,6 +11,9 @@ export class MenuNavComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
+  }
+
+  ngDoCheck(): void {
     this.active = this.router.url;
   }
 }
