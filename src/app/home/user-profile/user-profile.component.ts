@@ -39,7 +39,7 @@ export class UserProfileComponent implements OnInit {
     private emailValidator: UniqueEmailValidator,
     private auth: AuthenticationService
   ) {
-    this.user$ = userService.getUserByEmail(this.auth.getUserEmail());
+    this.user$ = this.userService.getUserByEmail(this.auth.getUserEmail());
   }
 
   ngOnInit(): void {
@@ -82,16 +82,23 @@ export class UserProfileComponent implements OnInit {
   }
 
   update() {
-    const user: User = {
-      name: this.userForm.value.name,
-      secondName: this.userForm.value.secondName,
-      lastName: this.userForm.value.lastName,
-      email: this.userForm.value.email,
-      password: bcrypt.hashSync(this.userForm.value.password, 10),
-      dob: this.userForm.value.dob,
-    };
-    this.userService.addUser(user);
-    this.eventBack.emit('submit');
+    let user: User = {};
+    this.user$.subscribe({
+      next: (v) => {
+        user.id = v.id;
+        user.name = this.userForm.value.name;
+        user.secondName = this.userForm.value.secondName;
+        user.lastName = this.userForm.value.lastName;
+        user.email = this.userForm.value.email;
+        user.password = bcrypt.hashSync(this.userForm.value.password, 10);
+        user.dob = this.userForm.value.dob;
+      },
+      error: (e) => console.error(e),
+      complete: () => {
+        this.userService.updateUser(user);
+        this.eventBack.emit('submit');
+      },
+    });
   }
 
   back(backMsg: string) {
@@ -138,7 +145,7 @@ export class UserProfileComponent implements OnInit {
   forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const forbidden = nameRe.test(control.value);
-      return forbidden ? {forbiddenName: {value: control.value}} : null;
+      return forbidden ? { forbiddenName: { value: control.value } } : null;
     };
   }
 }

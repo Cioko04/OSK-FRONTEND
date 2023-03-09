@@ -51,6 +51,22 @@ export class UserService {
     });
   }
 
+  updateUser(user: User) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + this.auth.getToken(),
+      }),
+    };
+
+    this.http
+      .put(this.API_URL + '/update/' + user.id, user, httpOptions)
+      .subscribe({
+        error: (e: HttpErrorResponse) => console.log(e.status),
+        complete: () => console.log('saved'),
+      });
+  }
+
   checkAge(control: AbstractControl) {
     const today = new Date();
     const birthDate = new Date(control.value);
