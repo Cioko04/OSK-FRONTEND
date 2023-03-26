@@ -1,10 +1,9 @@
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
+
 import {
   Component,
   EventEmitter,
   OnInit,
-  Output,
-  ViewEncapsulation,
+  Output
 } from '@angular/core';
 import {
   FormGroup,
@@ -18,8 +17,8 @@ import { UniqueEmailValidator } from 'src/app/user/UniqueEmailValidator';
 import { PasswordIdentityDirective } from 'src/app/user/password-identity.directive';
 import { User } from '../../user/user';
 import { UserService } from '../../user/user.service';
-import * as bcrypt from 'bcryptjs';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { AuthenticationService } from 'src/app/authentication/authentication.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -39,7 +38,7 @@ export class UserProfileComponent implements OnInit {
     private emailValidator: UniqueEmailValidator,
     private auth: AuthenticationService
   ) {
-    this.user$ = this.userService.getUserByEmail(this.auth.getUserEmail());
+    this.user$ = this.userService.getUserByEmail(this.auth.getSessionUserEmail());
   }
 
   ngOnInit(): void {
@@ -89,8 +88,7 @@ export class UserProfileComponent implements OnInit {
         user.name = this.userForm.value.name;
         user.secondName = this.userForm.value.secondName;
         user.lastName = this.userForm.value.lastName;
-        user.email = this.userForm.value.email;
-        user.password = bcrypt.hashSync(this.userForm.value.password, 10);
+        user.password = this.userForm.value.password;
         user.dob = this.userForm.value.dob;
       },
       error: (e) => console.error(e),
@@ -115,12 +113,12 @@ export class UserProfileComponent implements OnInit {
           Validators.required,
           this.userService.checkAge,
         ]),
-        email: new FormControl('', {
-          validators: [Validators.pattern(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)],
-          asyncValidators: [
-            this.emailValidator.validate.bind(this.emailValidator),
-          ],
-        }),
+        // email: new FormControl('', {
+        //   validators: [Validators.pattern(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)],
+        //   asyncValidators: [
+        //     this.emailValidator.validate.bind(this.emailValidator),
+        //   ],
+        // }),
         password: new FormControl('', [Validators.minLength(6)]),
         secondPassword: new FormControl('', []),
       },
@@ -140,12 +138,5 @@ export class UserProfileComponent implements OnInit {
         secondPassword: data.password,
       });
     });
-  }
-
-  forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const forbidden = nameRe.test(control.value);
-      return forbidden ? { forbiddenName: { value: control.value } } : null;
-    };
   }
 }

@@ -1,3 +1,4 @@
+import { AuthenticationService } from 'src/app/authentication/authentication.service';
 
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
@@ -8,9 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 
-import * as bcrypt from 'bcryptjs';
 import { User } from 'src/app/user/user';
-import { UserService } from 'src/app/user/user.service';
 import { UniqueEmailValidator } from '../../../user/UniqueEmailValidator';
 import { PasswordIdentityDirective } from '../../../user/password-identity.directive';
 
@@ -27,7 +26,7 @@ export class RegistrationComponent implements OnInit {
   eventBack = new EventEmitter<string>();
 
   constructor(
-    private userService: UserService,
+    private auth: AuthenticationService,
     private passwordIdentity: PasswordIdentityDirective,
     private emailValidator: UniqueEmailValidator
   ) {}
@@ -104,10 +103,10 @@ export class RegistrationComponent implements OnInit {
       secondName: this.userForm.value.secondName,
       lastName: this.userForm.value.lastName,
       email: this.userForm.value.email,
-      password: bcrypt.hashSync(this.userForm.value.password, 10),
+      password: this.userForm.value.password,
       dob: this.userForm.value.dob,
     };
-    this.userService.addUser(user);
+    this.auth.register(user);
     this.eventBack.emit('submit');
   }
 

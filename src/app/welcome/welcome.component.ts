@@ -1,3 +1,4 @@
+import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgIf } from '@angular/common';
@@ -9,7 +10,9 @@ import { NgIf } from '@angular/common';
 })
 export class WelcomeComponent implements OnInit {
   images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
-  constructor() {}
+  constructor(private auth: AuthenticationService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.auth.logout();
+  }
 }
