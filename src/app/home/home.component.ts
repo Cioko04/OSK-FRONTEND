@@ -1,10 +1,10 @@
 import { UserService } from 'src/app/user/user.service';
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../authentication/authentication.service';
 import { Router } from '@angular/router';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { User } from '../user/user';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
     private offcanvasService: NgbOffcanvas,
     private userService: UserService
   ) {
-    this.user$ = userService.getUserByEmail(authenticationService.getUserEmail());
+    this.user$ = userService.getUserByEmail(authenticationService.getSessionUserEmail());
   }
 
   ngOnInit(): void {
@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
   }
 
   logout() {
-    this.authenticationService.logout();
     this.router.navigate(['/welcome']);
   }
 

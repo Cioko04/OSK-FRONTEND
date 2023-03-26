@@ -1,6 +1,5 @@
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 import { User } from './user';
 import {
   HttpClient,
@@ -17,7 +16,7 @@ export class UserService {
   API_URL = '/api/users';
   private users = new BehaviorSubject<Array<User>>([]);
 
-  constructor(private http: HttpClient, private auth: AuthenticationService) {}
+  constructor(private http: HttpClient) {}
 
   getUsers() {
     return this.http.get<Array<User>>(this.API_URL).subscribe({
@@ -27,40 +26,14 @@ export class UserService {
     });
   }
 
-  existsByEmail(email: string): Observable<boolean> {
-    let queryParams = new HttpParams().append('email', email);
-    return this.http.get<boolean>(this.API_URL + '/checkEmail', {
-      params: queryParams,
-    });
-  }
-
   getUserByEmail(email: string | any): Observable<User> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + this.auth.getToken(),
-      }),
-    };
-    return this.http.get<User>(this.API_URL + '/' + email, httpOptions);
-  }
-
-  addUser(user: User) {
-    this.http.post(this.API_URL + '/register', user).subscribe({
-      error: (e: HttpErrorResponse) => console.log(e.status),
-      complete: () => console.log('saved'),
-    });
+    return this.http
+      .get<User>(this.API_URL + '/' + email);
   }
 
   updateUser(user: User) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + this.auth.getToken(),
-      }),
-    };
-
     this.http
-      .put(this.API_URL + '/update/' + user.id, user, httpOptions)
+      .put(this.API_URL + '/update/' + user.id, user)
       .subscribe({
         error: (e: HttpErrorResponse) => console.log(e.status),
         complete: () => console.log('saved'),

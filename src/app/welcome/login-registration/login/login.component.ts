@@ -1,5 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -9,10 +15,9 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent implements OnInit {
-
   loginForm: FormGroup | any;
 
   @Output()
@@ -49,25 +54,27 @@ export class LoginComponent implements OnInit {
         email: this.loginForm.value.email,
         password: this.loginForm.value.password,
       })
-      .then(() => {
-        this.eventBack.emit('submit');
-        this.router.navigate(['/home/courses']);
-      })
-      .catch((serverLoginError: any) => {
-        this.handleError(serverLoginError);
+      .subscribe({
+        next: () => {
+          this.eventBack.emit('submit');
+          this.router.navigate(['/home/courses']);
+        },
+        error: (e) => this.handleError(e),
+        complete: () => console.log('Logged in!'),
       });
   }
 
   private handleError(error: HttpErrorResponse) {
-    if (error.status === 403) {
+    if (error.status === 404) {
       return this.popUpFailMessage(true);
-    }else {
+    } else {
       return this.popUpFailMessage(false);
     }
-
   }
 
   public popUpFailMessage(isServerUp: boolean) {
-    return isServerUp ? this._failed.next(`Błędne dane logowania`) : this._failed.next(`Serwer nie odpowiada, prosimy spróbować później`);
+    return isServerUp
+      ? this._failed.next(`Błędne dane logowania`)
+      : this._failed.next(`Serwer nie odpowiada, prosimy spróbować później`);
   }
 }

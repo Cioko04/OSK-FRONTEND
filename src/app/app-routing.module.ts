@@ -1,4 +1,3 @@
-import { UserProfileComponent } from './home/user-profile/user-profile.component';
 import { HomeComponent } from './home/home.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { NgModule } from '@angular/core';
@@ -10,30 +9,30 @@ import { MyCoursesComponent } from './home/courses/my-courses/my-courses.compone
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'home',
+    component: HomeComponent,
     canActivate: [AuthenticationGuard],
     children: [
       {
-        path: 'home',
-        component: HomeComponent,
-        children: [
-          {
-            path: 'courses',
-            component: CoursesComponent,
-          },
-          {
-            path: 'my-courses',
-            component: MyCoursesComponent,
-          },
-          {
-            path: 'payments',
-            component: PaymentsComponent,
-          }
-        ],
+        path: 'courses',
+        component: CoursesComponent,
       },
-      { path: 'welcome', component: WelcomeComponent },
+      {
+        path: 'my-courses',
+        component: MyCoursesComponent,
+      },
+      {
+        path: 'payments',
+        component: PaymentsComponent,
+        // canActivate: [HasRoleGuard],
+        // data: {
+        //   role: 'ADMIN',
+        // }
+      },
     ],
   },
+  { path: 'welcome', component: WelcomeComponent },
+  {path: '', redirectTo: 'welcome', pathMatch: 'full'}
 ];
 
 @NgModule({
