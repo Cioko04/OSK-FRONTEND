@@ -1,3 +1,4 @@
+import { MyErrorHandlerServiceService } from '../shared/my-error-handler.service';
 import { Router } from '@angular/router';
 import {
   HttpClient,
@@ -22,7 +23,10 @@ export class AuthenticationService {
     return sessionStorage.getItem(this.TOKEN_NAME);
   }
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private errorHandler: MyErrorHandlerServiceService
+  ) {
     this._isLoggedIn$.next(!!this.token);
   }
 
@@ -59,7 +63,11 @@ export class AuthenticationService {
       .get<boolean>(this.API_URL + '/checkEmail', {
         params: queryParams,
       })
-      .pipe(catchError(this.handleError));
+      .pipe(
+        catchError((error) => {
+          return this.errorHandler.handleError(error);
+        })
+      );
   }
 
   checkTokenValidity(): Observable<boolean> {
@@ -67,7 +75,11 @@ export class AuthenticationService {
       .get<boolean>(this.API_URL + '/checkTokenValidity', {
         params: new HttpParams().append('email', this.getSessionUserEmail()),
       })
-      .pipe(catchError(this.handleError));
+      .pipe(
+        catchError((error) => {
+          return this.errorHandler.handleError(error);
+        })
+      );
   }
 
   logout() {
@@ -83,30 +95,19 @@ export class AuthenticationService {
     try {
       return JSON.parse(atob(this.token!.split('.')[1])).sub;
     } catch (e) {
-      this.handleError(e);
+      this.errorHandler.handleError(e);
     }
   }
 
-  getSessionUserRole(): string[] {
-    return JSON.parse(atob(this.token!.split('.')[1])).role;
+  getSessionUserRole() {
+    try {
+      return JSON.parse(atob(this.token!.split('.')[1])).role;
+    } catch (e) {
+      this.errorHandler.handleError(e);
+    }
   }
 
   private setToken(token: string) {
     sessionStorage.setItem(this.TOKEN_NAME, token);
-  }
-
-  private handleError(httpError: any) {
-    if (httpError.error instanceof ErrorEvent) {
-      console.error('An error occurred:', httpError.error.message);
-    } else {
-      console.error(
-        `Backend returned code ${httpError.status}, ` +
-          `body was: ${httpError.error}`
-      );
-      this.router.navigate(['welcome']);
-    }
-    return throwError(
-      () => new Error('Something bad happened; please try again later.')
-    );
   }
 }

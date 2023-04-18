@@ -13,6 +13,7 @@ import { AuthenticationService } from '../authentication/authentication.service'
 })
 export class HomeComponent implements OnInit {
   user$: Observable<User | any>;
+  role: string;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit {
     private userService: UserService
   ) {
     this.user$ = userService.getUserByEmail(authenticationService.getSessionUserEmail());
+    this.role = authenticationService.getSessionUserRole();
   }
 
   ngOnInit(): void {
@@ -32,7 +34,7 @@ export class HomeComponent implements OnInit {
   }
 
   open(content: any) {
-    const offcanvasRef = this.offcanvasService.open(content, {
+    this.offcanvasService.open(content, {
       position: 'end',
       scroll: true,
     });

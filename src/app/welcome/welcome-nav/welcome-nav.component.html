@@ -9,6 +9,6 @@
     <a class="btn text-color mb-1" (click)="openRegister(content)">Zarejestruj</a>
   </div>
 </nav>
-<ng-template class=""  #content let-offcanvas>
+<ng-template #content let-offcanvas>
   <app-login-registration [openPage]="openPage" (eventBack)="offcanvas.close($event)"></app-login-registration>
 </ng-template>

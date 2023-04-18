@@ -1,0 +1,65 @@
+<div class="container-fluid pt-4">
+  <div class="row justify-content-center">
+    <div class="col-sm-10 col-md-10">
+      <button type="button" class="btn btn-md btn-floating px-1">
+        <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
+        Dodaj nowy ośrodek
+      </button>
+      <button
+        type="button"
+        class="btn btn-md btn-floating px-1 ms-1 float-end"
+        (click)="editSchool(content)"
+        [disabled]="canEdit()"
+      >
+        <i class="fa fa-retweet fa-lg" aria-hidden="true"></i>
+        Edytuj {{ text }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-md btn-floating px-1 float-end"
+        (click)="deleteSchool()"
+        [disabled]="canEdit()"
+      >
+        <i class="fa fa-minus-circle fa-lg" aria-hidden="true"></i>
+        Usuń {{ text }}
+      </button>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-4">
+    <div class="col-10">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th style="width: 4%">#</th>
+              <th style="width: 23%">Nazwa</th>
+              <th style="width: 23%">Właściciel</th>
+              <th style="width: 23%">Miejscowość</th>
+              <th style="width: 23%">Data dodania</th>
+              <th style="width: 4%"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let school of schools" (click)="check(school)">
+              <th scope="row">{{ school.id }}</th>
+              <td>{{ school.name }}</td>
+              <td>{{ school.owner }}</td>
+              <td>{{ school.city }}</td>
+              <td>{{ school.date }}</td>
+              <td>
+                <i
+                  *ngIf="school.check"
+                  class="fa fa-check float-end"
+                  aria-hidden="true"
+                ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <app-edit-school [schoolsToEdit]="schoolsToEdit"></app-edit-school>
+</ng-template>

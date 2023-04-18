@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './user/user.service';
-import { PasswordIdentityDirective } from './user/password-identity.directive';
+import { PasswordIdentityDirective } from './shared/password-identity.directive';
 import { AppRoutingModule } from './app-routing.module';
 import { LogoComponent } from './logo/logo.component';
 import { MenuNavComponent } from './home/menu-nav/menu-nav.component';
@@ -22,7 +22,9 @@ import { CoursesComponent } from './home/courses/courses.component';
 import { MyCoursesComponent } from './home/courses/my-courses/my-courses.component';
 import { UserProfileComponent } from './home/user-profile/user-profile.component';
 import { AuthenticationService } from './authentication/authentication.service';
-
+import { AdminMenuComponent } from './home/admin-menu/admin-menu.component';
+import { SchoolListComponent } from './home/admin-menu/school-list/school-list.component';
+import { EditSchoolComponent } from './home/admin-menu/school-list/edit-school/edit-school.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +40,10 @@ import { AuthenticationService } from './authentication/authentication.service';
     PaymentsComponent,
     CoursesComponent,
     MyCoursesComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    AdminMenuComponent,
+    SchoolListComponent,
+    EditSchoolComponent
   ],
   imports: [
     BrowserModule,

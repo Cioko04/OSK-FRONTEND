@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: () => {
           this.eventBack.emit('submit');
-          this.router.navigate(['/home/courses']);
+          this.router.navigate(['/home']);
         },
         error: (e) => this.handleError(e),
         complete: () => console.log('Logged in!'),

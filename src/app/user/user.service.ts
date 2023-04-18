@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { MyErrorHandlerServiceService } from '../shared/my-error-handler.service';
+import { Injectable, ErrorHandler } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 import { User } from './user';
 import {
@@ -16,7 +17,7 @@ export class UserService {
   API_URL = '/api/users';
   private users = new BehaviorSubject<Array<User>>([]);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: MyErrorHandlerServiceService) {}
 
   getUsers() {
     return this.http.get<Array<User>>(this.API_URL).subscribe({
@@ -27,8 +28,10 @@ export class UserService {
   }
 
   getUserByEmail(email: string | any): Observable<User> {
-    return this.http
-      .get<User>(this.API_URL + '/' + email);
+    return this.http.get<User>(this.API_URL + '/' + email)
+    .pipe(catchError((error) => {
+      return this.errorHandler.handleError(error);
+    }));
   }
 
   updateUser(user: User) {

@@ -13,12 +13,12 @@ import {
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
-import { UniqueEmailValidator } from 'src/app/user/UniqueEmailValidator';
-import { PasswordIdentityDirective } from 'src/app/user/password-identity.directive';
+import { PasswordIdentityDirective } from 'src/app/shared/password-identity.directive';
 import { User } from '../../user/user';
 import { UserService } from '../../user/user.service';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import { UniqueEmailValidator } from 'src/app/shared/UniqueEmailValidator';
 
 @Component({
   selector: 'app-user-profile',
@@ -27,7 +27,7 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
 })
 export class UserProfileComponent implements OnInit {
   userForm: FormGroup | any;
-  user$: Observable<User>;
+  user$;
 
   @Output()
   eventBack = new EventEmitter<string>();

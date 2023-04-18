@@ -10,8 +10,8 @@ import {
 } from '@angular/forms';
 
 import { User } from 'src/app/user/user';
-import { UniqueEmailValidator } from '../../../user/UniqueEmailValidator';
-import { PasswordIdentityDirective } from '../../../user/password-identity.directive';
+import { UniqueEmailValidator } from '../../../shared/UniqueEmailValidator';
+import { PasswordIdentityDirective } from '../../../shared/password-identity.directive';
 
 @Component({
   selector: 'app-registration',

@@ -35,9 +35,6 @@
           <button
             class="btn btn-drop-down"
             type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasExample"
-            aria-controls="offcanvasExample"
             (click)="open(content)"
             ngbDropdownItem
           >
@@ -54,7 +51,8 @@
     </div>
   </div>
 </nav>
-<app-menu-nav></app-menu-nav>
+<app-menu-nav *ngIf="role == 'USER'"></app-menu-nav>
+<app-admin-menu *ngIf="role == 'ADMIN'"></app-admin-menu>
 <router-outlet></router-outlet>
 <ng-template #content let-offcanvas>
   <app-user-profile (eventBack)="offcanvas.close($event)"></app-user-profile>
