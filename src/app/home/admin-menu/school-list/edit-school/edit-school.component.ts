@@ -1,8 +1,10 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
@@ -15,64 +17,53 @@ import { School } from 'src/app/school/school';
   styleUrls: ['./edit-school.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class EditSchoolComponent implements OnChanges {
-  @Input() schoolsToEdit: School[] = [{}];
-  editedSchools: School[] = [{}];
+export class EditSchoolComponent implements OnInit {
+  @Input() schoolToEdit!: School;
+  @Output() schoolToEditChange = new EventEmitter<School>();
 
-  page = 1;
-  pageSize = 1;
-  collectionSize: any;
-  schools: School[] | any;
-  schoolForm = this.fb.group({
-    name: [''],
-    owner: [''],
-    city: [''],
-    zipCode: [''],
-    nip: [''],
-    date: [''],
-  });
-  school: School | any;
+  schoolForm: any;
 
-  constructor(private fb: FormBuilder) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.collectionSize = this.schoolsToEdit.length;
-    this.refreshSchools();
+  constructor(private fb: FormBuilder) {
+    this.schoolForm = this.fb.group({
+      name: [''],
+      owner: [''],
+      city: [''],
+      zipCode: [''],
+      nip: [''],
+      date: [''],
+    });
   }
 
-  refreshSchools() {
-    this.schools = this.schoolsToEdit
-      .map((school, i) => ({
-        id: i + 1,
-        ...school,
-      }))
-      .slice(
-        (this.page - 1) * this.pageSize,
-        (this.page - 1) * this.pageSize + this.pageSize
-      );
-      this.getSchoolForm(this.schools[0]);
-  }
-
-  getSchoolForm(school: School){
+  ngOnInit(): void {
     this.schoolForm.patchValue({
-      name: school.name,
-      owner: school.owner,
-      city: school.city,
-      zipCode: school.zipCode,
-      nip: school.nip,
-      date: school.date,
+      name: this.schoolToEdit.name,
+      owner: this.schoolToEdit.owner,
+      city: this.schoolToEdit.city,
+      zipCode: this.schoolToEdit.zipCode,
+      nip: this.schoolToEdit.nip,
+      date: this.schoolToEdit.date,
     });
   }
 
   onSubmit() {
-    let school: School = {
-      name: this.schoolForm.value.name,
-      owner: this.schoolForm.value.owner,
-      city: this.schoolForm.value.city,
-      zipCode: this.schoolForm.value.zipCode,
-      nip: this.schoolForm.value.nip,
-      date: this.schoolForm.value.date,
-    };
-    this.editedSchools.push(school);
+    this.schoolToEdit.name = this.schoolForm.value.name;
+    this.schoolToEdit.owner = this.schoolForm.value.owner;
+    this.schoolToEdit.city = this.schoolForm.value.city;
+    this.schoolToEdit.zipCode = this.schoolForm.value.zipCode;
+    this.schoolToEdit.nip = this.schoolForm.value.nip;
+    this.schoolToEdit.date = this.schoolForm.value.date;
+    this.schoolToEditChange.emit(this.schoolToEdit);
+  }
+
+
+  @Input()  size!: number | string;
+  @Output() sizeChange = new EventEmitter<number>();
+
+  dec() { this.resize(-1); }
+  inc() { this.resize(+1); }
+
+  resize(delta: number) {
+    this.size = Math.min(40, Math.max(8, +this.size + delta));
+    this.sizeChange.emit(this.size);
   }
 }

@@ -6,5 +6,4 @@ export interface School {
   zipCode?: string;
   nip?: string;
   date?: string;
-  check?: boolean
 }

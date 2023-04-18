@@ -1,11 +1,6 @@
-import {
-  NgbOffcanvasConfig,
-  NgbOffcanvas,
-  OffcanvasDismissReasons,
-  NgbModal,
-} from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { School } from './../../../school/school';
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-school-list',
@@ -13,9 +8,6 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./school-list.component.css'],
 })
 export class SchoolListComponent implements OnInit {
-  text: string = 'ośrodek';
-  closeResult = '';
-  schoolsToEdit: School[] | any;
   schools: School[] = [
     {
       id: 1,
@@ -25,7 +17,6 @@ export class SchoolListComponent implements OnInit {
       zipCode: '03-890',
       nip: '92180923809128',
       date: '2020-01-01',
-      check: false,
     },
     {
       id: 2,
@@ -35,7 +26,6 @@ export class SchoolListComponent implements OnInit {
       zipCode: '03-890',
       nip: '92180923809128',
       date: '2021-01-01',
-      check: false,
     },
     {
       id: 3,
@@ -45,47 +35,21 @@ export class SchoolListComponent implements OnInit {
       zipCode: '03-890',
       nip: '92180923809128',
       date: '2019-01-01',
-      check: false,
     },
   ];
+
+  school: School = {};
 
   constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {}
 
-  check(school: School) {
-    school.check = !school.check;
-    this.shouldDisplayPlural();
+  deleteSchool(school: School) {
+    this.schools = this.schools.filter((element) => element !== school);
   }
 
-  deleteSchool() {
-    this.schools = this.schools.filter((e) => !e.check);
-  }
-
-  private shouldDisplayPlural() {
-    this.text =
-      this.schools.filter((e) => e.check).length > 1 ? 'ośrodki' : 'ośrodek';
-  }
-
-  editSchool(content: any) {
-    this.schoolsToEdit = this.schools.filter((e) => e.check);
-    this.modalService.open(content).result.then(
-      (result) => {
-        this.uncheck();
-      },
-      (reason) => {
-        this.uncheck();
-      }
-    );
-  }
-
-  private uncheck() {
-    this.schools.forEach((element) => {
-      element.check = false;
-    });
-  }
-
-  canEdit(): boolean {
-    return this.schools.filter((e) => e.check).length > 0 ? false : true;
+  editSchool(content: any, school: School) {
+    this.school = school;
+    this.modalService.open(content);
   }
 }

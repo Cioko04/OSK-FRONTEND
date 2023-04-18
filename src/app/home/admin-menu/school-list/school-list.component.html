@@ -5,24 +5,6 @@
         <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
         Dodaj nowy ośrodek
       </button>
-      <button
-        type="button"
-        class="btn btn-md btn-floating px-1 ms-1 float-end"
-        (click)="editSchool(content)"
-        [disabled]="canEdit()"
-      >
-        <i class="fa fa-retweet fa-lg" aria-hidden="true"></i>
-        Edytuj {{ text }}
-      </button>
-      <button
-        type="button"
-        class="btn btn-md btn-floating px-1 float-end"
-        (click)="deleteSchool()"
-        [disabled]="canEdit()"
-      >
-        <i class="fa fa-minus-circle fa-lg" aria-hidden="true"></i>
-        Usuń {{ text }}
-      </button>
     </div>
   </div>
   <div class="row justify-content-center mt-4">
@@ -32,26 +14,40 @@
           <thead>
             <tr>
               <th style="width: 4%">#</th>
-              <th style="width: 23%">Nazwa</th>
+              <th style="width: 21%">Nazwa</th>
               <th style="width: 23%">Właściciel</th>
-              <th style="width: 23%">Miejscowość</th>
+              <th style="width: 21%">Miejscowość</th>
               <th style="width: 23%">Data dodania</th>
-              <th style="width: 4%"></th>
+              <th style="width: 2%"></th>
+              <th style="width: 2%"></th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let school of schools" (click)="check(school)">
+            <tr *ngFor="let school of schools">
               <th scope="row">{{ school.id }}</th>
               <td>{{ school.name }}</td>
               <td>{{ school.owner }}</td>
               <td>{{ school.city }}</td>
               <td>{{ school.date }}</td>
               <td>
-                <i
-                  *ngIf="school.check"
-                  class="fa fa-check float-end"
-                  aria-hidden="true"
-                ></i>
+                <button
+                  type="button"
+                  class="btn btn-td float-end p-0"
+                  (click)="editSchool(content, school)"
+                  title="Edytuj szkołę"
+                >
+                  <i class="fa fa-retweet fa-lg" aria-hidden="true"></i>
+                </button>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-td float-end p-0"
+                  (click)="deleteSchool(school)"
+                  title="Usuń szkołę"
+                >
+                  <i class="fa fa-minus-circle fa-lg" aria-hidden="true"></i>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -61,5 +57,5 @@
   </div>
 </div>
 <ng-template #content let-modal>
-  <app-edit-school [schoolsToEdit]="schoolsToEdit"></app-edit-school>
+  <app-edit-school [(schoolToEdit)]="school" (schoolToEditChange)="modal.close()"></app-edit-school>
 </ng-template>
