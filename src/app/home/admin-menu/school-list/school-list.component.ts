@@ -1,6 +1,6 @@
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { School } from './../../../school/school';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-school-list',
@@ -39,6 +39,7 @@ export class SchoolListComponent implements OnInit {
   ];
 
   school: School = {};
+  shouldAddSchool: boolean = true;
 
   constructor(private modalService: NgbModal) {}
 
@@ -48,8 +49,25 @@ export class SchoolListComponent implements OnInit {
     this.schools = this.schools.filter((element) => element !== school);
   }
 
-  editSchool(content: any, school: School) {
+  editAddSchool(content: any, school: School, shouldAddSchool: boolean) {
     this.school = school;
-    this.modalService.open(content);
+    this.shouldAddSchool = shouldAddSchool;
+    this.modalService.open(content).result.then(
+      (result) => {
+        if(this.shouldAddSchool) {
+          this.addSchool();
+        }
+        this.school = {};
+      },
+      (reason) => {
+        this.school = {};
+      }
+    );
+  }
+
+  private addSchool() {
+    if (Object.values(this.school).filter(value => typeof value === 'undefined').length == 0){
+      this.schools.push(this.school);
+    };
   }
 }

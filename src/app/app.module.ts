@@ -24,7 +24,7 @@ import { UserProfileComponent } from './home/user-profile/user-profile.component
 import { AuthenticationService } from './authentication/authentication.service';
 import { AdminMenuComponent } from './home/admin-menu/admin-menu.component';
 import { SchoolListComponent } from './home/admin-menu/school-list/school-list.component';
-import { EditSchoolComponent } from './home/admin-menu/school-list/edit-school/edit-school.component';
+import { SchoolFormComponent } from './home/admin-menu/school-list/school-form/school-form.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +43,7 @@ import { EditSchoolComponent } from './home/admin-menu/school-list/edit-school/e
     UserProfileComponent,
     AdminMenuComponent,
     SchoolListComponent,
-    EditSchoolComponent
+    SchoolFormComponent
   ],
   imports: [
     BrowserModule,

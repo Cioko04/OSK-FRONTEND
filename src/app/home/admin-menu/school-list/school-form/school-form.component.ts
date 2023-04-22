@@ -12,16 +12,17 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { School } from 'src/app/school/school';
 
 @Component({
-  selector: 'app-edit-school',
-  templateUrl: './edit-school.component.html',
-  styleUrls: ['./edit-school.component.css'],
+  selector: 'app-school-form',
+  templateUrl: './school-form.component.html',
+  styleUrls: ['./school-form.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class EditSchoolComponent implements OnInit {
+export class SchoolFormComponent implements OnInit {
   @Input() schoolToEdit!: School;
   @Output() schoolToEditChange = new EventEmitter<School>();
-
+  @Input() shouldAdd!: boolean;
   schoolForm: any;
+  buttonText: string | any;
 
   constructor(private fb: FormBuilder) {
     this.schoolForm = this.fb.group({
@@ -35,6 +36,7 @@ export class EditSchoolComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.buttonText = this.shouldAdd ? "Dodaj" : "Zmień";
     this.schoolForm.patchValue({
       name: this.schoolToEdit.name,
       owner: this.schoolToEdit.owner,
@@ -52,18 +54,18 @@ export class EditSchoolComponent implements OnInit {
     this.schoolToEdit.zipCode = this.schoolForm.value.zipCode;
     this.schoolToEdit.nip = this.schoolForm.value.nip;
     this.schoolToEdit.date = this.schoolForm.value.date;
+    if (this.shouldAdd) {
+      let date = new Date();
+      this.schoolToEdit.date = [
+        date.getFullYear(),
+        this.padTo2Digits(date.getMonth() + 1),
+        this.padTo2Digits(date.getDate()),
+      ].join('-');
+    }
     this.schoolToEditChange.emit(this.schoolToEdit);
   }
 
-
-  @Input()  size!: number | string;
-  @Output() sizeChange = new EventEmitter<number>();
-
-  dec() { this.resize(-1); }
-  inc() { this.resize(+1); }
-
-  resize(delta: number) {
-    this.size = Math.min(40, Math.max(8, +this.size + delta));
-    this.sizeChange.emit(this.size);
+  private padTo2Digits(num: number) {
+    return num.toString().padStart(2, '0');
   }
 }
