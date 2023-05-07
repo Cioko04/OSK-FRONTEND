@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './user/user.service';
-import { PasswordIdentityDirective } from './shared/password-identity.directive';
 import { AppRoutingModule } from './app-routing.module';
 import { LogoComponent } from './logo/logo.component';
 import { MenuNavComponent } from './home/menu-nav/menu-nav.component';
@@ -25,10 +24,12 @@ import { AuthenticationService } from './authentication/authentication.service';
 import { AdminMenuComponent } from './home/admin-menu/admin-menu.component';
 import { SchoolListComponent } from './home/admin-menu/school-list/school-list.component';
 import { SchoolFormComponent } from './home/admin-menu/school-list/school-form/school-form.component';
+import { SignUpFormComponent } from './forms/sign-up-form/sign-up-form.component';
+import { ProfileFormComponent } from './forms/profile-form/profile-form.component';
+import { PasswordFormComponent } from './forms/password-form/password-form.component';
 @NgModule({
   declarations: [
     AppComponent,
-    PasswordIdentityDirective,
     LogoComponent,
     MenuNavComponent,
     WelcomeComponent,
@@ -43,7 +44,10 @@ import { SchoolFormComponent } from './home/admin-menu/school-list/school-form/s
     UserProfileComponent,
     AdminMenuComponent,
     SchoolListComponent,
-    SchoolFormComponent
+    SchoolFormComponent,
+    SignUpFormComponent,
+    ProfileFormComponent,
+    PasswordFormComponent,
   ],
   imports: [
     BrowserModule,

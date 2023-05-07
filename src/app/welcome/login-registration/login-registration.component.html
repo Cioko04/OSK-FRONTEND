@@ -19,7 +19,7 @@
                 <app-login (eventBack)="back($event)"></app-login>
               </p>
               <p *ngIf="openPage == 'register'">
-                <app-registration (eventBack)="back($event)"></app-registration>
+                <app-sign-up-form (eventBack)="back($event)"></app-sign-up-form>
               </p>
               <div class="my-3">
                 <a (click)="back('back')" class="form-control btn btn-dark el-login-border btn-block fw-bold fs-6">

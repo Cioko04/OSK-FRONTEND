@@ -1,9 +1,11 @@
+import { User } from "../user/user";
+
 export interface School {
   id?: number;
-  name?: string;
-  owner?: string;
+  schoolName?: string;
   city?: string;
   zipCode?: string;
   nip?: string;
-  date?: string;
+  addDate?: string;
+  user?: User;
 }

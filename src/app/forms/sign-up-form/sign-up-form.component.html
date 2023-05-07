@@ -1,0 +1,14 @@
+<form [formGroup]="signupForm" (ngSubmit)="submit(signupForm.valid)">
+  <app-profile-form formControlName="profile" [submitted] = 'submitted'></app-profile-form>
+  <app-password-form formControlName="password" [submitted] = 'submitted'></app-password-form>
+  <div class="form-group my-3">
+    <div class="form-group my-3">
+      <button
+        type="submit"
+        class="form-control btn btn-primary el-login-border btn-block fw-bold fs-6"
+      >
+        <i class="fa fa-reply me-2" aria-hidden="true"></i>Zarejestruj
+      </button>
+    </div>
+  </div>
+</form>

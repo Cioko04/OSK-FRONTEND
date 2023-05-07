@@ -1,6 +1,9 @@
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { School } from './../../../school/school';
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { SchoolService } from 'src/app/school/school.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AuthenticationService } from 'src/app/authentication/authentication.service';
 
 @Component({
   selector: 'app-school-list',
@@ -8,42 +11,21 @@ import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
   styleUrls: ['./school-list.component.css'],
 })
 export class SchoolListComponent implements OnInit {
-  schools: School[] = [
-    {
-      id: 1,
-      name: 'Start',
-      owner: 'John Smith',
-      city: 'Los Angeles',
-      zipCode: '03-890',
-      nip: '92180923809128',
-      date: '2020-01-01',
-    },
-    {
-      id: 2,
-      name: 'LG',
-      owner: 'Angelina Kaj',
-      city: 'Warszawa',
-      zipCode: '03-890',
-      nip: '92180923809128',
-      date: '2021-01-01',
-    },
-    {
-      id: 3,
-      name: 'Drive',
-      owner: 'Elżbieta Sidenko',
-      city: 'Gdańsk',
-      zipCode: '03-890',
-      nip: '92180923809128',
-      date: '2019-01-01',
-    },
-  ];
+  schools: Array<School> = [];
 
   school: School = {};
   shouldAddSchool: boolean = true;
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal, private schoolService: SchoolService, private auth: AuthenticationService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.schoolService.getSchools().subscribe({
+      next: (schools) => this.schools.push(...schools),
+      error: (e: HttpErrorResponse) => console.log(e.status),
+      complete: () => console.log(this.schools),
+    });
+
+  }
 
   deleteSchool(school: School) {
     this.schools = this.schools.filter((element) => element !== school);
@@ -52,7 +34,7 @@ export class SchoolListComponent implements OnInit {
   editAddSchool(content: any, school: School, shouldAddSchool: boolean) {
     this.school = school;
     this.shouldAddSchool = shouldAddSchool;
-    this.modalService.open(content).result.then(
+    this.modalService.open(content, {size: 'lg'}).result.then(
       (result) => {
         if(this.shouldAddSchool) {
           this.addSchool();
@@ -68,6 +50,7 @@ export class SchoolListComponent implements OnInit {
   private addSchool() {
     if (Object.values(this.school).filter(value => typeof value === 'undefined').length == 0){
       this.schools.push(this.school);
+      // this.auth.register(this.school);
     };
   }
 }

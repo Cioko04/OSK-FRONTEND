@@ -26,37 +26,38 @@ export class SchoolFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.schoolForm = this.fb.group({
-      name: [''],
-      owner: [''],
+      schoolName: [''],
       city: [''],
       zipCode: [''],
       nip: [''],
       date: [''],
-    });
+      owner: this.fb.group({
+
+      })
+    }
+    );
   }
 
   ngOnInit(): void {
     this.buttonText = this.shouldAdd ? "Dodaj" : "Zmień";
     this.schoolForm.patchValue({
-      name: this.schoolToEdit.name,
-      owner: this.schoolToEdit.owner,
+      schoolName: this.schoolToEdit.schoolName,
       city: this.schoolToEdit.city,
       zipCode: this.schoolToEdit.zipCode,
       nip: this.schoolToEdit.nip,
-      date: this.schoolToEdit.date,
+      date: this.schoolToEdit.addDate,
     });
   }
 
   onSubmit() {
-    this.schoolToEdit.name = this.schoolForm.value.name;
-    this.schoolToEdit.owner = this.schoolForm.value.owner;
+    this.schoolToEdit.schoolName = this.schoolForm.value.schoolName;
     this.schoolToEdit.city = this.schoolForm.value.city;
     this.schoolToEdit.zipCode = this.schoolForm.value.zipCode;
     this.schoolToEdit.nip = this.schoolForm.value.nip;
-    this.schoolToEdit.date = this.schoolForm.value.date;
+    this.schoolToEdit.addDate = this.schoolForm.value.date;
     if (this.shouldAdd) {
       let date = new Date();
-      this.schoolToEdit.date = [
+      this.schoolToEdit.addDate = [
         date.getFullYear(),
         this.padTo2Digits(date.getMonth() + 1),
         this.padTo2Digits(date.getDate()),

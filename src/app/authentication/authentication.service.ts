@@ -70,18 +70,6 @@ export class AuthenticationService {
       );
   }
 
-  checkTokenValidity(): Observable<boolean> {
-    return this.http
-      .get<boolean>(this.API_URL + '/checkTokenValidity', {
-        params: new HttpParams().append('email', this.getSessionUserEmail()),
-      })
-      .pipe(
-        catchError((error) => {
-          return this.errorHandler.handleError(error);
-        })
-      );
-  }
-
   logout() {
     this.http.post(this.API_URL + '/logout', {}).subscribe({
       error: (e: HttpErrorResponse) => console.log(e.status),

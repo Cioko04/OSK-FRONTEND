@@ -25,10 +25,10 @@
           <tbody>
             <tr *ngFor="let school of schools; index as i">
               <th scope="row">{{ i + 1 }}</th>
-              <td>{{ school.name }}</td>
-              <td>{{ school.owner }}</td>
+              <td>{{ school.schoolName }}</td>
+              <td>{{ school.user?.name }}</td>
               <td>{{ school.city }}</td>
-              <td>{{ school.date }}</td>
+              <td>{{ school.addDate }}</td>
               <td>
                 <button
                   type="button"

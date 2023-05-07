@@ -3,27 +3,25 @@ import {
   Component,
   EventEmitter,
   OnInit,
-  Output
+  Output,
+  ViewEncapsulation
 } from '@angular/core';
 import {
   FormGroup,
   FormControl,
   Validators,
-  AbstractControl,
-  ValidationErrors,
-  ValidatorFn,
 } from '@angular/forms';
-import { PasswordIdentityDirective } from 'src/app/shared/password-identity.directive';
 import { User } from '../../user/user';
 import { UserService } from '../../user/user.service';
-import { Observable } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
-import { UniqueEmailValidator } from 'src/app/shared/UniqueEmailValidator';
+import { UniqueEmailValidator } from 'src/app/forms/validators/UniqueEmailValidator';
+import { matchPassword } from 'src/app/forms/validators/validators';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class UserProfileComponent implements OnInit {
   userForm: FormGroup | any;
@@ -34,7 +32,6 @@ export class UserProfileComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private passwordIdentity: PasswordIdentityDirective,
     private emailValidator: UniqueEmailValidator,
     private auth: AuthenticationService
   ) {
@@ -122,7 +119,7 @@ export class UserProfileComponent implements OnInit {
         password: new FormControl('', [Validators.minLength(6)]),
         secondPassword: new FormControl('', []),
       },
-      { validators: this.passwordIdentity.passwordIdentity }
+      { validators: matchPassword }
     );
   }
 

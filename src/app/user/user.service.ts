@@ -14,10 +14,13 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
   providedIn: 'root',
 })
 export class UserService {
-  API_URL = '/api/users';
+  API_URL = '/api/user';
   private users = new BehaviorSubject<Array<User>>([]);
 
-  constructor(private http: HttpClient, private errorHandler: MyErrorHandlerServiceService) {}
+  constructor(
+    private http: HttpClient,
+    private errorHandler: MyErrorHandlerServiceService
+  ) {}
 
   getUsers() {
     return this.http.get<Array<User>>(this.API_URL).subscribe({
@@ -28,19 +31,23 @@ export class UserService {
   }
 
   getUserByEmail(email: string | any): Observable<User> {
-    return this.http.get<User>(this.API_URL + '/' + email)
-    .pipe(catchError((error) => {
-      return this.errorHandler.handleError(error);
-    }));
+    let queryParams = new HttpParams().append('email', email);
+    return this.http
+      .get<User>(this.API_URL + '/getUserByEmail', {
+        params: queryParams,
+      })
+      .pipe(
+        catchError((error) => {
+          return this.errorHandler.handleError(error);
+        })
+      );
   }
 
   updateUser(user: User) {
-    this.http
-      .put(this.API_URL + '/update/' + user.id, user)
-      .subscribe({
-        error: (e: HttpErrorResponse) => console.log(e.status),
-        complete: () => console.log('saved'),
-      });
+    this.http.put(this.API_URL + '/update/' + user.id, user).subscribe({
+      error: (e: HttpErrorResponse) => console.log(e.status),
+      complete: () => console.log('saved'),
+    });
   }
 
   checkAge(control: AbstractControl) {

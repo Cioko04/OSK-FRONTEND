@@ -10,8 +10,8 @@ import {
 } from '@angular/forms';
 
 import { User } from 'src/app/user/user';
-import { UniqueEmailValidator } from '../../../shared/UniqueEmailValidator';
-import { PasswordIdentityDirective } from '../../../shared/password-identity.directive';
+import { UniqueEmailValidator } from '../../../forms/validators/UniqueEmailValidator';
+import { matchPassword } from 'src/app/forms/validators/validators';
 
 @Component({
   selector: 'app-registration',
@@ -27,7 +27,6 @@ export class RegistrationComponent implements OnInit {
 
   constructor(
     private auth: AuthenticationService,
-    private passwordIdentity: PasswordIdentityDirective,
     private emailValidator: UniqueEmailValidator
   ) {}
 
@@ -59,7 +58,7 @@ export class RegistrationComponent implements OnInit {
         ]),
         secondPassword: new FormControl('', [Validators.required]),
       },
-      { validators: this.passwordIdentity.passwordIdentity }
+      { validators: matchPassword }
     );
   }
 
