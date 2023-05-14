@@ -1,9 +1,8 @@
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { School } from './../../../school/school';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { SchoolService } from 'src/app/school/school.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import { UserService } from 'src/app/user/user.service';
+import { User } from 'src/app/user/user';
 
 @Component({
   selector: 'app-school-list',
@@ -11,46 +10,70 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
   styleUrls: ['./school-list.component.css'],
 })
 export class SchoolListComponent implements OnInit {
-  schools: Array<School> = [];
+  $users: Array<User> = [];
 
-  school: School = {};
+  page = 1;
+  pageSize = 4;
+  collectionSize: any;
+  users: User[] | any;
+
+  user: User | any;
   shouldAddSchool: boolean = true;
 
-  constructor(private modalService: NgbModal, private schoolService: SchoolService, private auth: AuthenticationService) {}
+  @Output()
+  eventBack = new EventEmitter<string>();
+
+  constructor(
+    private modalService: NgbModal,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
-    this.schoolService.getSchools().subscribe({
-      next: (schools) => this.schools.push(...schools),
-      error: (e: HttpErrorResponse) => console.log(e.status),
-      complete: () => console.log(this.schools),
-    });
-
-  }
-
-  deleteSchool(school: School) {
-    this.schools = this.schools.filter((element) => element !== school);
-  }
-
-  editAddSchool(content: any, school: School, shouldAddSchool: boolean) {
-    this.school = school;
-    this.shouldAddSchool = shouldAddSchool;
-    this.modalService.open(content, {size: 'lg'}).result.then(
-      (result) => {
-        if(this.shouldAddSchool) {
-          this.addSchool();
-        }
-        this.school = {};
+    this.userService.getUsersWithSchool().subscribe({
+      next: (users) => {
+        this.$users = [];
+        this.$users.push(...users);
       },
-      (reason) => {
-        this.school = {};
-      }
-    );
+      error: (e: HttpErrorResponse) => console.log(e.status),
+      complete: () => {
+        this.collectionSize = this.$users.length;
+        this.refreshUsers();
+      },
+    });
   }
 
-  private addSchool() {
-    if (Object.values(this.school).filter(value => typeof value === 'undefined').length == 0){
-      this.schools.push(this.school);
-      // this.auth.register(this.school);
-    };
+  refreshUsers() {
+    this.users = this.$users
+      .map((user, i) => ({ ids: i+ 1, ...user }))
+      .slice(
+        (this.page - 1) * this.pageSize,
+        (this.page - 1) * this.pageSize + this.pageSize
+      );
+  }
+
+  deleteSchool(user: User) {
+    this.userService.deleteUser(user.id);
+    this.$users = this.$users.filter((element) => element.id !== user.id);
+    this.refreshUsers();
+  }
+
+  edit(content: any, user: User) {
+    this.shouldAddSchool = false;
+    this.user = user;
+    this.openForm(content);
+  }
+
+  add(content: any) {
+    this.shouldAddSchool = true;
+    this.openForm(content);
+  }
+
+  private openForm(content: any) {
+    this.modalService.open(content).result.then(async () => {
+      console.log('start');
+      setTimeout(() => {
+        this.ngOnInit();
+      }, 1000);
+    });
   }
 }

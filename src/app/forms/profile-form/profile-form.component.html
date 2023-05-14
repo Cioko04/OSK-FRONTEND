@@ -27,17 +27,15 @@
         class="form-control form-control-user el-login-border"
         id="secondName"
         formControlName="secondName"
-        aria-describedby="nameHelp"
+        aria-describedby="secondNameHelp"
         placeholder="Wprowadź drugie imię"
       />
       <div
-        *ngIf="secondName.invalid && secondName.touched"
+        *ngIf="secondName.errors?.['minlength']"
         class="ms-3 mb-0 text-style"
       >
-        <div *ngIf="secondName.errors?.['minlength']">
-          Minimalna długość to 3
-          <i class="fa fa-exclamation" aria-hidden="true"></i>
-        </div>
+        Minimalna długość to 3
+        <i class="fa fa-exclamation" aria-hidden="true"></i>
       </div>
     </div>
   </div>
@@ -60,7 +58,7 @@
         <i class="fa fa-exclamation" aria-hidden="true"></i>
       </div>
       <div *ngIf="lastName.errors?.['minlength']">
-        Minimalna długość to 3
+        Minimalna długość to 2
         <i class="fa fa-exclamation" aria-hidden="true"></i>
       </div>
     </div>

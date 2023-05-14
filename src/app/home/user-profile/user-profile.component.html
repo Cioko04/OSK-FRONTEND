@@ -1,21 +1,15 @@
-  <div class="container-fluid">
-    <div class="row justify-content-center mt-4">
-      <div class="col-12">
-        <div class="offcanvas-header ps-0">
-          <h3 class="offcanvas-title">Twoje dane:</h3>
-          <button type="button" class="btn-close" (click)="back('close')" aria-label="Close"></button>
-        </div>
-        <app-sign-up-form></app-sign-up-form>
-        <div class="form-group my-3">
-          <div class="form-group my-3">
-            <button
-              type="submit"
-              class="form-control btn btn-primary el-login-border btn-block fw-bold fs-6"
-            >
-              Zmień
-            </button>
-          </div>
-        </div>
+<div class="container-fluid">
+  <div class="row justify-content-center mt-4">
+    <div class="col-12">
+      <div class="offcanvas-header ps-0">
+        <h3 class="offcanvas-title">Twoje dane:</h3>
+        <button type="button" class="btn-close" (click)="eventBack.emit('back')"aria-label="Close"></button>
       </div>
+      <app-sign-up-form
+        [shouldUpdateUser]="true"
+        [user]="user"
+        (eventBack)="eventBack.emit('submit')"
+      ></app-sign-up-form>
     </div>
   </div>
+</div>

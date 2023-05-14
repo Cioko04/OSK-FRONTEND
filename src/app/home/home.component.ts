@@ -12,7 +12,7 @@ import { AuthenticationService } from '../authentication/authentication.service'
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  user$: Observable<User | any>;
+  user: User | any;
   role: string;
 
   constructor(
@@ -21,8 +21,10 @@ export class HomeComponent implements OnInit {
     private offcanvasService: NgbOffcanvas,
     private userService: UserService
   ) {
-    this.user$ = userService.getUserByEmail(authenticationService.getSessionUserEmail());
-    this.role = authenticationService.getSessionUserRole();
+    this.userService.getUserByEmail(this.authenticationService.getSessionUserEmail()).subscribe((user: User) => {
+        this.user = user;
+    });
+    this.role = this.authenticationService.getSessionUserRole();
   }
 
   ngOnInit(): void {

@@ -4,6 +4,7 @@ import {
   Input,
   OnChanges,
   OnDestroy,
+  OnInit,
   SimpleChanges,
   ViewEncapsulation,
   forwardRef,
@@ -36,7 +37,7 @@ export interface ProfileFormValues {
   templateUrl: './profile-form.component.html',
   styleUrls: [
     './profile-form.component.css',
-    '../sign-up-form/sign-up-form.component.css',
+    '../form-style.css',
   ],
   providers: [
     {
@@ -52,12 +53,14 @@ export interface ProfileFormValues {
   ],
 })
 export class ProfileFormComponent
-  implements ControlValueAccessor, OnDestroy, OnChanges
+  implements ControlValueAccessor, OnDestroy, OnChanges, OnInit
 {
   profileForm: FormGroup | any;
   subscriptions: Subscription[] = [];
   @Input()
   submitted: boolean = false;
+  @Input()
+  emailToCompare: string = "";
 
   get value(): ProfileFormValues {
     return this.profileForm.value;
@@ -93,6 +96,18 @@ export class ProfileFormComponent
     private formBuilder: FormBuilder,
     private emailValidator: UniqueEmailValidator
   ) {
+  }
+  ngOnInit(): void {
+    this.createForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.submitted) {
+      this.profileForm.markAllAsTouched();
+    }
+  }
+
+  createForm() {
     this.profileForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       secondName: ['', [Validators.minLength(3)]],
@@ -104,23 +119,16 @@ export class ProfileFormComponent
           Validators.required,
           Validators.pattern(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/),
         ],
-        [this.emailValidator.validate.bind(this.emailValidator)],
+        [this.emailValidator.checkEmailValidity(this.emailToCompare)],
         ,
       ],
     });
-
     this.subscriptions.push(
       this.profileForm.valueChanges.subscribe((value: any) => {
         this.onChange(value);
         this.onTouched();
       })
     );
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.submitted) {
-      this.profileForm.markAllAsTouched();
-    }
   }
 
   ngOnDestroy(): void {
@@ -148,11 +156,5 @@ export class ProfileFormComponent
 
   validate(_: FormControl) {
     return this.profileForm.valid ? null : { profile: { valid: false } };
-  }
-
-  patchValues(){
-    this.profileForm.patchValues({
-      name: 'elo'
-    })
   }
 }

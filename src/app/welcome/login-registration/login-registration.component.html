@@ -16,7 +16,7 @@
                 <h1 class="h2 text-primary">OSK Zapraszamy!</h1>
               </div>
               <p *ngIf="openPage == 'login'">
-                <app-login (eventBack)="back($event)"></app-login>
+                <app-login-form (eventBack)="back($event)"></app-login-form>
               </p>
               <p *ngIf="openPage == 'register'">
                 <app-sign-up-form (eventBack)="back($event)"></app-sign-up-form>

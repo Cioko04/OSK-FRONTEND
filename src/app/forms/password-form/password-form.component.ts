@@ -20,7 +20,7 @@ export interface PasswordFormValues {
   templateUrl: './password-form.component.html',
   styleUrls: [
     './password-form.component.css',
-    '../sign-up-form/sign-up-form.component.css',
+    '../form-style.css',
   ],
   providers: [
     {
@@ -104,12 +104,15 @@ export class PasswordFormComponent implements ControlValueAccessor, OnDestroy, O
       this.passwordForm.reset();
     }
   }
+
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
+
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
+
   validate(_: FormControl) {
     return this.passwordForm.valid ? null : { passwords: { valid: false } };
   }
