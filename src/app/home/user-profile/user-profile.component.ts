@@ -1,7 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from 'src/app/user/user';
-import { UserService } from 'src/app/user/user.service';
 
 @Component({
   selector: 'app-user-profile',

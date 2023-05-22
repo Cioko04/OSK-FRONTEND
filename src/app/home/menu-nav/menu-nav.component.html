@@ -1,21 +1,49 @@
-<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-tabs justify-content-center bg-dark">
-  <li class="nav-item" [ngbNavItem]="'/home/courses'">
-    <a routerLink="courses" class="nav-link nav-menu-style" ngbNavLink>
-      <i class="fa fa-university" aria-hidden="true"></i>
-      <strong class="ms-1">Kursy</strong>
-    </a>
+<ul
+  ngbNav
+  #nav="ngbNav"
+  [(activeId)]="active"
+  class="nav nav-tabs justify-content-center bg-dark"
+>
+  <li *ngIf="role == 'ADMIN'">
+    <ul ngbNav>
+      <li class="nav-item" [ngbNavItem]="'/home/schools'">
+        <a routerLink="schools" class="nav-link nav-menu-style" ngbNavLink>
+          <i class="fa fa-university" aria-hidden="true"></i>
+          <strong class="ms-1">Szkoły</strong>
+        </a>
+      </li>
+    </ul>
   </li>
-  <li class="nav-item" [ngbNavItem]="'/home/my-courses'">
-    <a routerLink="my-courses" class="nav-link nav-menu-style" ngbNavLink>
-      <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-      <strong class="ms-1">Moje kursy</strong>
-    </a>
+  <li *ngIf="role == 'OSK_ADMIN'">
+    <ul ngbNav>
+      <li class="nav-item" [ngbNavItem]="'/home/instructors'">
+        <a routerLink="instructors" class="nav-link nav-menu-style" ngbNavLink>
+          <i class="fa fa-users" aria-hidden="true"></i>
+          <strong class="ms-1">Instruktorzy</strong>
+        </a>
+      </li>
+    </ul>
   </li>
-  <li class="nav-item" [ngbNavItem]="'/home/payments'">
-    <a routerLink="payments" class="nav-link nav-menu-style" ngbNavLink>
-      <i class="fa fa-credit-card" aria-hidden="true"></i>
-      <strong class="ms-1">Płatności</strong>
-    </a>
+  <li *ngIf="role == 'USER'">
+    <ul ngbNav>
+      <li class="nav-item" [ngbNavItem]="'/home/courses'">
+        <a routerLink="courses" class="nav-link nav-menu-style" ngbNavLink>
+          <i class="fa fa-university" aria-hidden="true"></i>
+          <strong class="ms-1">Kursy</strong>
+        </a>
+      </li>
+      <li class="nav-item" [ngbNavItem]="'/home/my-courses'">
+        <a routerLink="my-courses" class="nav-link nav-menu-style" ngbNavLink>
+          <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+          <strong class="ms-1">Moje kursy</strong>
+        </a>
+      </li>
+      <li class="nav-item" [ngbNavItem]="'/home/payments'">
+        <a routerLink="payments" class="nav-link nav-menu-style" ngbNavLink>
+          <i class="fa fa-credit-card" aria-hidden="true"></i>
+          <strong class="ms-1">Płatności</strong>
+        </a>
+      </li>
+    </ul>
   </li>
 </ul>
-

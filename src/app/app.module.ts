@@ -19,13 +19,14 @@ import { CoursesComponent } from './home/courses/courses.component';
 import { MyCoursesComponent } from './home/courses/my-courses/my-courses.component';
 import { UserProfileComponent } from './home/user-profile/user-profile.component';
 import { AuthenticationService } from './authentication/authentication.service';
-import { AdminMenuComponent } from './home/admin-menu/admin-menu.component';
-import { SchoolListComponent } from './home/admin-menu/school-list/school-list.component';
+import { SchoolListComponent } from './home/school-list/school-list.component';
 import { SignUpFormComponent } from './forms/sign-up-form/sign-up-form.component';
 import { ProfileFormComponent } from './forms/profile-form/profile-form.component';
 import { PasswordFormComponent } from './forms/password-form/password-form.component';
 import { LoginFormComponent } from './forms/login-form/login-form.component';
 import { SchoolFormComponent } from './forms/school-form/school-form.component';
+import { InstructorListComponent } from './home/instructor-list/instructor-list.component';
+import { TableComponent } from './tables/table/table.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,13 +40,14 @@ import { SchoolFormComponent } from './forms/school-form/school-form.component';
     CoursesComponent,
     MyCoursesComponent,
     UserProfileComponent,
-    AdminMenuComponent,
     SchoolListComponent,
     SignUpFormComponent,
     ProfileFormComponent,
     PasswordFormComponent,
     LoginFormComponent,
-    SchoolFormComponent
+    SchoolFormComponent,
+    InstructorListComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,

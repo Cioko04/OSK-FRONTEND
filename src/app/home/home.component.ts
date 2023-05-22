@@ -13,7 +13,6 @@ import { AuthenticationService } from '../authentication/authentication.service'
 })
 export class HomeComponent implements OnInit {
   user: User | any;
-  role: string;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -24,7 +23,6 @@ export class HomeComponent implements OnInit {
     this.userService.getUserByEmail(this.authenticationService.getSessionUserEmail()).subscribe((user: User) => {
         this.user = user;
     });
-    this.role = this.authenticationService.getSessionUserRole();
   }
 
   ngOnInit(): void {

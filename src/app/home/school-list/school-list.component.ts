@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from 'src/app/user/user.service';
 import { User } from 'src/app/user/user';
+import { SchoolService } from 'src/app/school/school.service';
 
 @Component({
   selector: 'app-school-list',
@@ -25,7 +26,8 @@ export class SchoolListComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private userService: UserService
+    private userService: UserService,
+    private schoolService: SchoolService
   ) {}
 
   ngOnInit(): void {
@@ -51,9 +53,9 @@ export class SchoolListComponent implements OnInit {
       );
   }
 
-  deleteSchool(user: User) {
-    this.userService.deleteUser(user.id);
-    this.$users = this.$users.filter((element) => element.id !== user.id);
+  deleteSchool(id: number) {
+    this.schoolService.deleteSchool(id);
+    this.$users = this.$users.filter((element) => element.schoolRequest.id !== id);
     this.refreshUsers();
   }
 

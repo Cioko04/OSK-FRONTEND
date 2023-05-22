@@ -59,7 +59,6 @@ export class UserService {
   }
 
   deleteUser(id: number) {
-    console.log(this.API_URL + '/delete/' + id);
     this.http.delete(this.API_URL + '/delete/' + id).subscribe({
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => console.log('deleted'),

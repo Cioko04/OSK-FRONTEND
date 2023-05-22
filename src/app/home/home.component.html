@@ -51,8 +51,7 @@
     </div>
   </div>
 </nav>
-<app-menu-nav *ngIf="role == 'USER'"></app-menu-nav>
-<app-admin-menu *ngIf="role == 'ADMIN'"></app-admin-menu>
+<app-menu-nav></app-menu-nav>
 <router-outlet></router-outlet>
 <ng-template #content let-offcanvas>
   <app-user-profile (eventBack)="offcanvas.close($event)" [user]="user"></app-user-profile>

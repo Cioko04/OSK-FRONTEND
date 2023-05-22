@@ -17,4 +17,11 @@ export class SchoolService {
       complete: () => console.log('saved'),
     });
   }
+
+  deleteSchool(id: number) {
+    this.http.delete(this.API_URL + '/delete/' + id).subscribe({
+      error: (e: HttpErrorResponse) => console.log(e.status),
+      complete: () => console.log('deleted'),
+    });
+  }
 }
