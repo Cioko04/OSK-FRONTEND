@@ -1,24 +1,12 @@
-import {
-  ProfileFormComponent,
-  ProfileFormValues,
-} from './../profile-form/profile-form.component';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { School } from 'src/app/school/school';
-import { SchoolService } from 'src/app/school/school.service';
 import { User } from 'src/app/user/user';
-import { UserService } from 'src/app/user/user.service';
 
 @Component({
   selector: 'app-sign-up-form',
   templateUrl: './sign-up-form.component.html',
-  styleUrls: ['./sign-up-form.component.css'],
+  styleUrls: ['./sign-up-form.component.css', '../form-style.css'],
 })
 export class SignUpFormComponent implements OnInit {
   signupForm: FormGroup;
@@ -36,15 +24,13 @@ export class SignUpFormComponent implements OnInit {
   @Input()
   shouldUpdateSchool: boolean = false;
 
-  @Output()
-  eventBack = new EventEmitter<string>();
+  @Input()
+  initProperForm: any;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private auth: AuthenticationService,
-    private userService: UserService,
-    private schoolService: SchoolService
-  ) {
+  @Output()
+  userBack = new EventEmitter<User>();
+
+  constructor(private formBuilder: FormBuilder) {
     this.signupForm = this.formBuilder.group({
       profile: [],
       password: [],
@@ -53,7 +39,7 @@ export class SignUpFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.shouldUpdateUser) {
+    if (this.initProperForm.update) {
       this.patchValues();
       this.school = this.user.schoolRequest;
     } else {
@@ -74,13 +60,7 @@ export class SignUpFormComponent implements OnInit {
 
   private register() {
     this.createUser();
-    this.shouldUpdateUser
-      ? this.userService.updateUser(this.user)
-      : this.auth.register(this.user);
-    if (this.shouldUpdateSchool) {
-      this.schoolService.updateSchool(this.school);
-    }
-    this.eventBack.emit('submit');
+    this.userBack.emit(this.user);
   }
 
   private createUser() {
@@ -90,7 +70,7 @@ export class SignUpFormComponent implements OnInit {
     this.user.email = this.signupForm.value.profile.email;
     this.user.password = this.signupForm.value.password.password;
     this.user.dob = this.signupForm.value.profile.dob;
-    if (this.shouldCreateSchool) {
+    if (this.initProperForm.isFromSchool) {
       this.createSchool();
       this.user.schoolRequest = this.school;
     }
@@ -125,7 +105,7 @@ export class SignUpFormComponent implements OnInit {
       password: this.user.password,
       confirmPassword: this.user.password,
     });
-    if (this.shouldUpdateSchool) {
+    if (this.initProperForm.isFromSchool) {
       this.signupForm.get('school')?.patchValue({
         schoolName: this.user.schoolRequest.schoolName,
         city: this.user.schoolRequest.city,

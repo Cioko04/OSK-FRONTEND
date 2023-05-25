@@ -12,9 +12,12 @@
       <tr *ngFor="let item of items; index as i">
         <td>{{ item.ids }}</td>
         <td *ngFor="let head of HeadArray">
-          <div>
-            {{ item[head.FieldName] }}
+          <div *ngIf="head.SecondField; else getPrimary">
+            {{ item[head.FieldName][head.SecondField] }}
           </div>
+          <ng-template #getPrimary>
+            {{ item[head.FieldName] }}
+          </ng-template>
         </td>
         <td *ngIf="isAction">
           <button
@@ -44,7 +47,7 @@
       [collectionSize]="collectionSize"
       [(page)]="page"
       [pageSize]="pageSize"
-      (pageChange)="refresh()"
+      (pageChange)="ngOnInit()"
     >
     </ngb-pagination>
     <div class="form-group">
@@ -53,7 +56,7 @@
         class="form-select form-select-md d-inline-block pt-1"
         style="width: auto"
         [(ngModel)]="pageSize"
-        (ngModelChange)="refresh()"
+        (ngModelChange)="ngOnInit()"
       >
         <option [ngValue]="2">2</option>
         <option [ngValue]="4">4</option>

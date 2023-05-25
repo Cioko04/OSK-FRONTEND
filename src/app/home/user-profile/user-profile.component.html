@@ -6,9 +6,9 @@
         <button type="button" class="btn-close" (click)="eventBack.emit('back')"aria-label="Close"></button>
       </div>
       <app-sign-up-form
-        [shouldUpdateUser]="true"
+        [initProperForm]="initProperForm"
         [user]="user"
-        (eventBack)="eventBack.emit('submit')"
+        (userBack)="update($event)"
       ></app-sign-up-form>
     </div>
   </div>

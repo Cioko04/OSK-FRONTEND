@@ -51,10 +51,11 @@ export class AuthenticationService {
   }
 
   register(user: User) {
-    this.http.post(this.API_URL + '/register', user).subscribe({
-      error: (e: HttpErrorResponse) => console.log(e.status),
-      complete: () => console.log('saved'),
-    });
+    return this.http.post(this.API_URL + '/register', user).pipe(
+      catchError((error) => {
+        return this.errorHandler.handleError(error);
+      })
+    );
   }
 
   existsByEmail(email: string): Observable<boolean> {

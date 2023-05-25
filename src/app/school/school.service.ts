@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { School } from './school';
+import { User } from '../user/user';
 
 @Injectable({
   providedIn: 'root',
@@ -11,17 +12,7 @@ export class SchoolService {
     private http: HttpClient
   ) {}
 
-  updateSchool(school: School) {
-    this.http.put(this.API_URL + '/update/' + school.id, school).subscribe({
-      error: (e: HttpErrorResponse) => console.log(e.status),
-      complete: () => console.log('saved'),
-    });
-  }
-
   deleteSchool(id: number) {
-    this.http.delete(this.API_URL + '/delete/' + id).subscribe({
-      error: (e: HttpErrorResponse) => console.log(e.status),
-      complete: () => console.log('deleted'),
-    });
+    return this.http.delete(this.API_URL + '/delete/' + id);
   }
 }

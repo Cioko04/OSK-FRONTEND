@@ -1,11 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnChanges {
   page = 1;
   pageSize = 4;
   collectionSize: any;
@@ -15,7 +24,7 @@ export class TableComponent implements OnInit {
   HeadArray: any[] = [];
 
   @Input()
-  GridArray: any[] = [];
+  GridArrayObs: Observable<any[]> = new Observable<any[]>();
 
   @Input()
   isAction: boolean = false;
@@ -28,9 +37,15 @@ export class TableComponent implements OnInit {
 
   constructor() {}
 
+  ngOnChanges(): void {
+    this.ngOnInit();
+  }
+
   ngOnInit(): void {
-    this.collectionSize = this.GridArray.length;
-    this.refresh();
+    this.GridArrayObs.subscribe((data) => {
+      this.collectionSize = data.length;
+      this.refresh(data);
+    });
   }
 
   edit(item: any) {
@@ -38,16 +53,18 @@ export class TableComponent implements OnInit {
   }
 
   delete(item: any) {
-    this.onEdit.emit(item);
+    this.onDelete.emit(item);
   }
 
-  refresh() {
-    this.items = this.GridArray
-      .map((item, i) => ({ ids: i+ 1, ...item }))
+  refresh(data: any[]) {
+    this.items = data
+      .map((item: any, i: number) => ({
+        ids: i + 1,
+        ...item,
+      }))
       .slice(
         (this.page - 1) * this.pageSize,
         (this.page - 1) * this.pageSize + this.pageSize
       );
-      console.log(this.items);
   }
 }

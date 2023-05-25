@@ -41,7 +41,7 @@ export class UserService {
       );
   }
 
-  getUsersWithSchool() {
+  getUsersWithSchool(): Observable<Array<User>> {
     return this.http
       .get<Array<User>>(this.API_URL + '/getUsersWithSchools')
       .pipe(
@@ -52,10 +52,11 @@ export class UserService {
   }
 
   updateUser(user: User) {
-    this.http.put(this.API_URL + '/update/' + user.id, user).subscribe({
-      error: (e: HttpErrorResponse) => console.log(e.status),
-      complete: () => console.log('saved'),
-    });
+    return this.http.put(this.API_URL + '/update/' + user.id, user).pipe(
+      catchError((error) => {
+        return this.errorHandler.handleError(error);
+      })
+    );
   }
 
   deleteUser(id: number) {

@@ -1,9 +1,16 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnChanges,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from 'src/app/user/user.service';
 import { User } from 'src/app/user/user';
 import { SchoolService } from 'src/app/school/school.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-school-list',
@@ -11,15 +18,22 @@ import { SchoolService } from 'src/app/school/school.service';
   styleUrls: ['./school-list.component.css'],
 })
 export class SchoolListComponent implements OnInit {
-  $users: Array<User> = [];
+  headArray = [
+    { Head: 'Nazwa', FieldName: 'schoolRequest', SecondField: 'schoolName' },
+    { Head: 'Właściciel', FieldName: 'name' },
+    { Head: 'Miejscowość', FieldName: 'schoolRequest', SecondField: 'city' },
+    {
+      Head: 'Data dodania',
+      FieldName: 'schoolRequest',
+      SecondField: 'addDate',
+    },
+  ];
 
-  page = 1;
-  pageSize = 4;
-  collectionSize: any;
-  users: User[] | any;
+  initProperForm = {isFromSchool: true, update: false};
 
+  shouldAddSchool: boolean = false;
   user: User | any;
-  shouldAddSchool: boolean = true;
+  usersObs: Observable<User[]> = new Observable<User[]>();
 
   @Output()
   eventBack = new EventEmitter<string>();
@@ -31,51 +45,40 @@ export class SchoolListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.getUsersWithSchool().subscribe({
-      next: (users) => {
-        this.$users = [];
-        this.$users.push(...users);
-      },
+    this.usersObs = this.userService.getUsersWithSchool();
+  }
+
+  deleteSchool(user: User) {
+    this.schoolService.deleteSchool(user.schoolRequest.id).subscribe({
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => {
-        this.collectionSize = this.$users.length;
-        this.refreshUsers();
+        console.log('Deleted!');
+        this.ngOnInit();
       },
     });
   }
 
-  refreshUsers() {
-    this.users = this.$users
-      .map((user, i) => ({ ids: i+ 1, ...user }))
-      .slice(
-        (this.page - 1) * this.pageSize,
-        (this.page - 1) * this.pageSize + this.pageSize
-      );
-  }
-
-  deleteSchool(id: number) {
-    this.schoolService.deleteSchool(id);
-    this.$users = this.$users.filter((element) => element.schoolRequest.id !== id);
-    this.refreshUsers();
-  }
-
-  edit(content: any, user: User) {
-    this.shouldAddSchool = false;
+  openEdit(content: any, user: User) {
+    this.initProperForm.update = true;
     this.user = user;
     this.openForm(content);
   }
 
+  onUserBack(user: User) {
+    this.userService.updateUser(user).subscribe({
+      error: (e: HttpErrorResponse) => {console.log(e.status), this.ngOnInit()},
+      complete: () => {
+        console.log('Updated!'), this.ngOnInit();
+      },
+    });
+  }
+
   add(content: any) {
-    this.shouldAddSchool = true;
-    this.openForm(content);
+    // this.shouldAddSchool = true;
+    // this.openForm(content);
   }
 
   private openForm(content: any) {
-    this.modalService.open(content).result.then(async () => {
-      console.log('start');
-      setTimeout(() => {
-        this.ngOnInit();
-      }, 1000);
-    });
+    this.modalService.open(content);
   }
 }

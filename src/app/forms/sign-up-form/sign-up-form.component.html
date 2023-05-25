@@ -1,8 +1,8 @@
 <form [formGroup]="signupForm" (ngSubmit)="submit()">
-  <h3 *ngIf="shouldCreateSchool">Dane właściciela</h3>
+  <h3 *ngIf="initProperForm.isFromSchool">Dane właściciela</h3>
   <app-profile-form formControlName="profile" [submitted]='submitted' [emailToCompare]="user.email"></app-profile-form>
   <app-password-form formControlName="password" [submitted]='submitted'></app-password-form>
-  <div *ngIf="shouldCreateSchool">
+  <div *ngIf="initProperForm.isFromSchool">
     <h3>Dane szkoły</h3>
     <app-school-form formControlName="school" [submitted]='submitted'></app-school-form>
   </div>

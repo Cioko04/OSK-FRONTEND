@@ -1,2 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+.el-login-border{
+  font-size: .8rem;
+  border-radius: 0.8rem;
+  padding: 0.76rem 1rem;
+}
