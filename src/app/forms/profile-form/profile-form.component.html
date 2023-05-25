@@ -1,0 +1,112 @@
+<div [formGroup]="profileForm">
+  <div class="row my-3">
+    <div class="col form-group">
+      <input
+        type="text"
+        id="name"
+        class="form-control form-control-user el-login-border"
+        required
+        formControlName="name"
+        aria-describedby="nameHelp"
+        placeholder="Wprowadź imię"
+      />
+      <div *ngIf="name.invalid && name.touched" class="ms-3 mb-0 text-style">
+        <div *ngIf="name.errors?.['required']">
+          Imię jest wymagane
+          <i class="fa fa-exclamation" aria-hidden="true"></i>
+        </div>
+        <div *ngIf="name.errors?.['minlength']">
+          Minimalna długość to 3
+          <i class="fa fa-exclamation" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col form-group">
+      <input
+        type="text"
+        class="form-control form-control-user el-login-border"
+        id="secondName"
+        formControlName="secondName"
+        aria-describedby="secondNameHelp"
+        placeholder="Wprowadź drugie imię"
+      />
+      <div
+        *ngIf="secondName.errors?.['minlength']"
+        class="ms-3 mb-0 text-style"
+      >
+        Minimalna długość to 3
+        <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-group my-3">
+    <input
+      type="text"
+      class="form-control form-control-user el-login-border"
+      id="lastName"
+      required
+      formControlName="lastName"
+      aria-describedby="lastNameHelp"
+      placeholder="Wprowadź swoje nazwisko"
+    />
+    <div
+      *ngIf="lastName.invalid && lastName.touched"
+      class="ms-3 mb-0 text-style"
+    >
+      <div *ngIf="lastName.errors?.['required']">
+        Nazwisko jest wymagane
+        <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+      <div *ngIf="lastName.errors?.['minlength']">
+        Minimalna długość to 2
+        <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-group my-3">
+    <input
+      class="form-control el-login-border"
+      id="dob"
+      type="date"
+      aria-describedby="ageHelp"
+      placeholder="Wprowadź datę urodzenia"
+      required
+      formControlName="dob"
+    />
+    <div *ngIf="dob.invalid && dob.touched" class="ms-3 mb-0 text-style">
+      <div *ngIf="dob.errors?.['required']">
+        Data jest wymagana <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+      <div *ngIf="dob.errors?.['valid']">
+        Błędna data <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+      <div *ngIf="dob.errors?.['age']">
+        Niewystarczający wiek (14-100)
+        <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-group my-3">
+    <input
+      type="email"
+      class="form-control form-control-user el-login-border"
+      id="email"
+      required
+      formControlName="email"
+      aria-describedby="emailHelp"
+      placeholder="Wprowadź swój email"
+    />
+    <div *ngIf="email.pending">Validating...</div>
+    <div *ngIf="email.invalid && email.touched" class="ms-3 mb-0 text-style">
+      <div *ngIf="email.errors?.['required']">
+        Email jest wymagany <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+      <div *ngIf="email.errors?.['pattern']">
+        Błędny email <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+      <div *ngIf="email.errors?.['uniqueEmail']">
+        Email jest zajęty <i class="fa fa-exclamation" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+</div>

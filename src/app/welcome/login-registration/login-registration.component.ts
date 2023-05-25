@@ -1,12 +1,23 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
+import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import { User } from 'src/app/user/user';
 
 @Component({
   selector: 'app-login-registration',
   templateUrl: './login-registration.component.html',
-  styleUrls: ['./login-registration.component.css','./semipolar.css'],
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./login-registration.component.css', './semipolar.css']
 })
-export class LoginRegistrationComponent implements OnInit {
+export class LoginRegistrationComponent {
+
+  initProperForm = {isFromSchool: false, update: false};
 
   @Input()
   openPage = '';
@@ -14,14 +25,22 @@ export class LoginRegistrationComponent implements OnInit {
   @Output()
   eventBack = new EventEmitter<string>();
 
+  constructor(private auth: AuthenticationService) {}
 
-  constructor() { }
-
-  ngOnInit(): void {
+  register(user: User) {
+    console.log(user);
+    this.auth.register(user).subscribe({
+      error: (e: HttpErrorResponse) => {
+        console.log(e.status);
+      },
+      complete: () => {
+        console.log('Registered!');
+        this.eventBack.emit('submited');
+      },
+    });
   }
 
-  back(backMsg: string){
+  back(backMsg: string) {
     this.eventBack.emit(backMsg);
   }
-
 }

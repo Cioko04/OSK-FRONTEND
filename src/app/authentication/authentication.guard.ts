@@ -24,12 +24,13 @@ export class AuthenticationGuard implements CanActivate {
     | boolean
     | UrlTree {
     return this.auth.isLoggedIn$.pipe(
-      tap((isLoggedIn) => {
-        this.auth.checkTokenValidity().subscribe((validity) => {
-          if (!isLoggedIn || !validity) {
+      tap({
+        next: (validity) => {
+          if (!validity) {
             this.router.navigate(['welcome']);
           }
-        });
+        },
+        error: (e) => this.router.navigate(['welcome']),
       })
     );
   }

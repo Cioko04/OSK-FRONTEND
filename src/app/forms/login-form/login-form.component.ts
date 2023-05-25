@@ -1,23 +1,17 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewEncapsulation,
-} from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  encapsulation: ViewEncapsulation.None,
+  selector: 'app-login-form',
+  templateUrl: './login-form.component.html',
+  styleUrls: ['./login-form.component.css', '../form-style.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginFormComponent implements OnInit {
+
   loginForm: FormGroup | any;
 
   @Output()
@@ -28,16 +22,16 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this._failed.subscribe((message) => (this.failMessage = message));
-
-    this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
-    });
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]]
+    })
   }
 
   get email() {
@@ -57,7 +51,7 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: () => {
           this.eventBack.emit('submit');
-          this.router.navigate(['/home/courses']);
+          this.router.navigate(['/home']);
         },
         error: (e) => this.handleError(e),
         complete: () => console.log('Logged in!'),
@@ -77,4 +71,5 @@ export class LoginComponent implements OnInit {
       ? this._failed.next(`Błędne dane logowania`)
       : this._failed.next(`Serwer nie odpowiada, prosimy spróbować później`);
   }
+
 }

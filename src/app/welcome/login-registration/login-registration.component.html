@@ -16,10 +16,10 @@
                 <h1 class="h2 text-primary">OSK Zapraszamy!</h1>
               </div>
               <p *ngIf="openPage == 'login'">
-                <app-login (eventBack)="back($event)"></app-login>
+                <app-login-form (eventBack)="back($event)"></app-login-form>
               </p>
               <p *ngIf="openPage == 'register'">
-                <app-registration (eventBack)="back($event)"></app-registration>
+                <app-sign-up-form [initProperForm]="initProperForm" (userBack)="register($event)"></app-sign-up-form>
               </p>
               <div class="my-3">
                 <a (click)="back('back')" class="form-control btn btn-dark el-login-border btn-block fw-bold fs-6">

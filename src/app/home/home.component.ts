@@ -12,7 +12,7 @@ import { AuthenticationService } from '../authentication/authentication.service'
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  user$: Observable<User | any>;
+  user: User | any;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -20,7 +20,9 @@ export class HomeComponent implements OnInit {
     private offcanvasService: NgbOffcanvas,
     private userService: UserService
   ) {
-    this.user$ = userService.getUserByEmail(authenticationService.getSessionUserEmail());
+    this.userService.getUserByEmail(this.authenticationService.getSessionUserEmail()).subscribe((user: User) => {
+        this.user = user;
+    });
   }
 
   ngOnInit(): void {
@@ -32,7 +34,7 @@ export class HomeComponent implements OnInit {
   }
 
   open(content: any) {
-    const offcanvasRef = this.offcanvasService.open(content, {
+    this.offcanvasService.open(content, {
       position: 'end',
       scroll: true,
     });

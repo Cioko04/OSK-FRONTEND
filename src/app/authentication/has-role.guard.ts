@@ -14,7 +14,7 @@ export class HasRoleGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.auth.user.role?.includes(route.data['role'])!;
+    return this.auth.getSessionUserRole()?.includes(route.data['role'])!;
   }
 
 }
