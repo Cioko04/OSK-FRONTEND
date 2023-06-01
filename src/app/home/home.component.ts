@@ -18,14 +18,15 @@ export class HomeComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private router: Router,
     private offcanvasService: NgbOffcanvas,
-    private userService: UserService
+    private userService: UserService,
   ) {
-    this.userService.getUserByEmail(this.authenticationService.getSessionUserEmail()).subscribe((user: User) => {
-        this.user = user;
-    });
+
   }
 
   ngOnInit(): void {
+    this.userService.getUserByEmail(this.authenticationService.getSessionUserEmail()).subscribe((user: User) => {
+      this.user = user;
+  });
 
   }
 

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { User } from 'src/app/user/user';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Role, User } from 'src/app/user/user';
 import { UserService } from 'src/app/user/user.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { UserService } from 'src/app/user/user.service';
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
 })
-export class UserProfileComponent {
+export class UserProfileComponent implements OnInit {
   initProperForm = { isFromSchool: false, update: true };
 
   @Input()
@@ -17,7 +17,11 @@ export class UserProfileComponent {
   @Output()
   eventBack = new EventEmitter<string>();
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) {
+  }
+  ngOnInit(): void {
+  }
+
 
   update(user: User) {
     this.userService.updateUser(user).subscribe({

@@ -1,16 +1,9 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  Component,
-  EventEmitter,
-  OnChanges,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserService } from 'src/app/user/user.service';
-import { User } from 'src/app/user/user';
 import { SchoolService } from 'src/app/school/school.service';
 import { Observable } from 'rxjs';
+import { School } from 'src/app/school/school';
 
 @Component({
   selector: 'app-school-list',
@@ -19,37 +12,27 @@ import { Observable } from 'rxjs';
 })
 export class SchoolListComponent implements OnInit {
   headArray = [
-    { Head: 'Nazwa', FieldName: 'schoolRequest', SecondField: 'schoolName' },
-    { Head: 'Właściciel', FieldName: 'name' },
-    { Head: 'Miejscowość', FieldName: 'schoolRequest', SecondField: 'city' },
-    {
-      Head: 'Data dodania',
-      FieldName: 'schoolRequest',
-      SecondField: 'addDate',
-    },
+    { Head: 'Nazwa', FieldName: 'schoolName' },
+    { Head: 'Właściciel', FieldName: 'userRequest', SecondField: 'name' },
+    { Head: 'Miejscowość', FieldName: 'city' },
+    { Head: 'Data dodania', FieldName: 'addDate' },
   ];
 
-  initProperForm = {isFromSchool: true, update: false};
-
-  shouldAddSchool: boolean = false;
-  user: User | any;
-  usersObs: Observable<User[]> = new Observable<User[]>();
-
-  @Output()
-  eventBack = new EventEmitter<string>();
+  initProperForm = { isFromSchool: true, update: false };
+  school: School | any;
+  schoolObs: Observable<School[]> = new Observable<School[]>();
 
   constructor(
     private modalService: NgbModal,
-    private userService: UserService,
     private schoolService: SchoolService
   ) {}
 
   ngOnInit(): void {
-    this.usersObs = this.userService.getUsersWithSchool();
+    this.schoolObs = this.schoolService.getSchools();
   }
 
-  deleteSchool(user: User) {
-    this.schoolService.deleteSchool(user.schoolRequest.id).subscribe({
+  onDelete(id: number) {
+    this.schoolService.deleteSchool(id).subscribe({
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => {
         console.log('Deleted!');
@@ -58,24 +41,45 @@ export class SchoolListComponent implements OnInit {
     });
   }
 
-  openEdit(content: any, user: User) {
-    this.initProperForm.update = true;
-    this.user = user;
+  onAdd(content: any) {
+    this.initProperForm.update = false;
+    this.school = {};
     this.openForm(content);
   }
 
-  onUserBack(user: User) {
-    this.userService.updateUser(user).subscribe({
-      error: (e: HttpErrorResponse) => {console.log(e.status), this.ngOnInit()},
+  onEdit(content: any, school: School) {
+    this.initProperForm.update = true;
+    this.school = school;
+    this.openForm(content);
+  }
+
+  onSubmit() {
+    this.initProperForm.update ? this.update() : this.add();
+  }
+
+  private update() {
+    this.schoolService.updateSchool(this.school).subscribe({
+      error: (e: HttpErrorResponse) => {
+        console.log(e);
+        this.ngOnInit();
+      },
       complete: () => {
-        console.log('Updated!'), this.ngOnInit();
+        console.log('Updated!');
+        this.ngOnInit();
       },
     });
   }
 
-  add(content: any) {
-    // this.shouldAddSchool = true;
-    // this.openForm(content);
+  private add() {
+    this.schoolService.register(this.school).subscribe({
+      error: (e: HttpErrorResponse) => {
+        console.log(e.status);
+      },
+      complete: () => {
+        console.log('Registered!');
+        this.ngOnInit();
+      },
+    });
   }
 
   private openForm(content: any) {

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import { User } from 'src/app/user/user';
 
 @Component({
   selector: 'app-menu-nav',
