@@ -1,4 +1,6 @@
-export declare interface List {
+export interface List {
+  headArray: HeadArray[];
+
   onDelete(id: number): void;
 
   onAdd(content: any): void;
@@ -13,3 +15,9 @@ export declare interface List {
 
   openForm(content: any): void;
 }
+
+export interface HeadArray {
+  Head: string;
+  FieldName: string;
+  SecondField?: string;
+};

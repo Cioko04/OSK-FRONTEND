@@ -6,7 +6,7 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
 import { Instructor } from 'src/app/instructor/instructor';
 import { InstructorService } from 'src/app/instructor/instructor.service';
 import { UserService } from 'src/app/user/user.service';
-import { List } from '../list';
+import { HeadArray, List } from '../interface/list';
 
 @Component({
   selector: 'app-instructor-list',
@@ -14,7 +14,7 @@ import { List } from '../list';
   styleUrls: ['./instructor-list.component.css'],
 })
 export class InstructorListComponent implements OnInit, List {
-  headArray = [
+  headArray: HeadArray[] = [
     { Head: 'Imię', FieldName: 'userRequest', SecondField: 'name' },
     { Head: 'Naziwsko', FieldName: 'userRequest', SecondField: 'lastName' },
     { Head: 'Wiek', FieldName: 'userRequest', SecondField: 'age' },
@@ -65,7 +65,7 @@ export class InstructorListComponent implements OnInit, List {
     this.openForm(content);
   }
 
-  onEdit(content: any, item: any) {
+  onEdit(content: any, item: Instructor) {
     console.log(item);
     // this.initProperForm.update = true;
     // this.openForm(content);

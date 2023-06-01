@@ -4,14 +4,15 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { SchoolService } from 'src/app/school/school.service';
 import { Observable } from 'rxjs';
 import { School } from 'src/app/school/school';
+import { HeadArray, List } from '../interface/list';
 
 @Component({
   selector: 'app-school-list',
   templateUrl: './school-list.component.html',
   styleUrls: ['./school-list.component.css'],
 })
-export class SchoolListComponent implements OnInit {
-  headArray = [
+export class SchoolListComponent implements OnInit, List {
+  headArray: HeadArray[] = [
     { Head: 'Nazwa', FieldName: 'schoolName' },
     { Head: 'Właściciel', FieldName: 'userRequest', SecondField: 'name' },
     { Head: 'Miejscowość', FieldName: 'city' },
@@ -47,9 +48,9 @@ export class SchoolListComponent implements OnInit {
     this.openForm(content);
   }
 
-  onEdit(content: any, school: School) {
+  onEdit(content: any, item: School) {
     this.initProperForm.update = true;
-    this.school = school;
+    this.school = item;
     this.openForm(content);
   }
 
@@ -57,7 +58,7 @@ export class SchoolListComponent implements OnInit {
     this.initProperForm.update ? this.update() : this.add();
   }
 
-  private update() {
+  update() {
     this.schoolService.updateSchool(this.school).subscribe({
       error: (e: HttpErrorResponse) => {
         console.log(e);
@@ -70,7 +71,7 @@ export class SchoolListComponent implements OnInit {
     });
   }
 
-  private add() {
+  add() {
     this.schoolService.register(this.school).subscribe({
       error: (e: HttpErrorResponse) => {
         console.log(e.status);
@@ -82,7 +83,7 @@ export class SchoolListComponent implements OnInit {
     });
   }
 
-  private openForm(content: any) {
+  openForm(content: any) {
     this.modalService.open(content);
   }
 }
