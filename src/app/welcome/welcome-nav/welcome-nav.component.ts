@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
+  NgbModal,
   NgbOffcanvas,
   NgbOffcanvasConfig,
   OffcanvasDismissReasons,
@@ -14,16 +15,12 @@ import {
 export class WelcomeNavComponent implements OnInit {
   closeResult = '';
   openPage = '';
-  constructor(
-    private offcanvasService: NgbOffcanvas
-  ) {
-  }
+  constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {}
+
   open(content: any) {
-    this.offcanvasService.open(content, {
-      position: 'top',
-    });
+    this.modalService.open(content, { size: 'lg' });
   }
   openLogin(content: any) {
     this.openPage = 'login';

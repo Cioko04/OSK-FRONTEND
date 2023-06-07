@@ -1,23 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
-import { User } from 'src/app/user/user';
+import { Role, User } from 'src/app/user/user';
 
 @Component({
   selector: 'app-login-registration',
   templateUrl: './login-registration.component.html',
-  styleUrls: ['./login-registration.component.css', './semipolar.css']
+  styleUrls: ['./login-registration.component.css', './semipolar.css'],
 })
 export class LoginRegistrationComponent {
-
-  initProperForm = {isFromSchool: false, update: false};
+  initProperForm = { isFromSchool: false, update: false };
 
   @Input()
   openPage = '';
@@ -28,7 +20,7 @@ export class LoginRegistrationComponent {
   constructor(private auth: AuthenticationService) {}
 
   register(user: User) {
-    console.log(user);
+    user.role = Role.USER;
     this.auth.register(user).subscribe({
       error: (e: HttpErrorResponse) => {
         console.log(e.status);

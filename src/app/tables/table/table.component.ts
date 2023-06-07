@@ -30,10 +30,13 @@ export class TableComponent implements OnInit, OnChanges {
   isAction: boolean = false;
 
   @Output()
+  onAdd = new EventEmitter<any>();
+
+  @Output()
   onEdit = new EventEmitter<any>();
 
   @Output()
-  onDelete = new EventEmitter<any>();
+  onDelete = new EventEmitter<number>();
 
   constructor() {}
 
@@ -48,12 +51,16 @@ export class TableComponent implements OnInit, OnChanges {
     });
   }
 
+  add() {
+    this.onAdd.emit();
+  }
+
   edit(item: any) {
     this.onEdit.emit(item);
   }
 
-  delete(item: any) {
-    this.onDelete.emit(item);
+  delete(id: number) {
+    this.onDelete.emit(id);
   }
 
   refresh(data: any[]) {

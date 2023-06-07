@@ -9,26 +9,35 @@ import { User } from 'src/app/user/user';
   styleUrls: ['./sign-up-form.component.css', '../form-style.css'],
 })
 export class SignUpFormComponent implements OnInit {
-  signupForm: FormGroup;
-
-  school: School | any;
-
-  submitted: boolean = false;
+  emailToCompare: string = '';
 
   @Input()
   user: User | any;
+  @Input()
+  school: School | any;
   @Input()
   shouldCreateSchool: boolean = false;
   @Input()
   shouldUpdateUser: boolean = false;
   @Input()
   shouldUpdateSchool: boolean = false;
-
   @Input()
   initProperForm: any;
 
   @Output()
   userBack = new EventEmitter<User>();
+  @Output()
+  userChange = new EventEmitter<User>();
+  @Output()
+  schoolBack = new EventEmitter<School>();
+  @Output()
+  schoolChange = new EventEmitter<School>();
+  @Output()
+  onSubmit = new EventEmitter<any>();
+
+  signupForm: FormGroup;
+  submitted: boolean = false;
+  buttonText: string = 'Zarejestruj';
 
   constructor(private formBuilder: FormBuilder) {
     this.signupForm = this.formBuilder.group({
@@ -40,8 +49,8 @@ export class SignUpFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.initProperForm.update) {
+      this.buttonText = 'Edytuj';
       this.patchValues();
-      this.school = this.user.schoolRequest;
     } else {
       this.user = {};
       this.school = {};
@@ -55,12 +64,17 @@ export class SignUpFormComponent implements OnInit {
     this.signupForm.get('school')?.updateValueAndValidity();
     if (this.signupForm.valid) {
       this.register();
+      this.onSubmit.emit();
     }
   }
 
   private register() {
     this.createUser();
-    this.userBack.emit(this.user);
+    if (this.initProperForm.isFromSchool) {
+      this.createSchool();
+      this.schoolChange.emit(this.school);
+    }
+    this.userChange.emit(this.user);
   }
 
   private createUser() {
@@ -70,27 +84,13 @@ export class SignUpFormComponent implements OnInit {
     this.user.email = this.signupForm.value.profile.email;
     this.user.password = this.signupForm.value.password.password;
     this.user.dob = this.signupForm.value.profile.dob;
-    if (this.initProperForm.isFromSchool) {
-      this.createSchool();
-      this.user.schoolRequest = this.school;
-    }
   }
 
   private createSchool() {
-    let date = new Date();
     this.school.schoolName = this.signupForm.value.school.schoolName;
     this.school.city = this.signupForm.value.school.city;
     this.school.zipCode = this.signupForm.value.school.zipCode;
     this.school.nip = this.signupForm.value.school.nip;
-    this.school.addDate = [
-      date.getFullYear(),
-      this.padTo2Digits(date.getMonth() + 1),
-      this.padTo2Digits(date.getDate()),
-    ].join('-');
-  }
-
-  private padTo2Digits(num: number) {
-    return num.toString().padStart(2, '0');
   }
 
   private patchValues() {
@@ -107,10 +107,10 @@ export class SignUpFormComponent implements OnInit {
     });
     if (this.initProperForm.isFromSchool) {
       this.signupForm.get('school')?.patchValue({
-        schoolName: this.user.schoolRequest.schoolName,
-        city: this.user.schoolRequest.city,
-        zipCode: this.user.schoolRequest.zipCode,
-        nip: this.user.schoolRequest.nip,
+        schoolName: this.school.schoolName,
+        city: this.school.city,
+        zipCode: this.school.zipCode,
+        nip: this.school.nip,
       });
     }
   }

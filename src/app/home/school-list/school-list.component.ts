@@ -48,9 +48,9 @@ export class SchoolListComponent implements OnInit, List {
     this.openForm(content);
   }
 
-  onEdit(content: any, item: School) {
+  onEdit(content: any, school: School) {
     this.initProperForm.update = true;
-    this.school = item;
+    this.school = school;
     this.openForm(content);
   }
 

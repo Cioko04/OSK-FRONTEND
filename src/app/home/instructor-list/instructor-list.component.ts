@@ -38,9 +38,11 @@ export class InstructorListComponent implements OnInit, List {
     this.userService.getUserByEmail(email).subscribe({
       next: (user) => {
         this.instructor = {};
+        this.instructor.userRequest = {};
         let schoolId = user.schoolRequest.id;
         this.instructor.schoolId = schoolId;
-        this.instructosObs = this.instructorService.getInstructorsBySchoolId(schoolId);
+        this.instructosObs =
+          this.instructorService.getInstructorsBySchoolId(schoolId);
       },
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => {
@@ -50,25 +52,25 @@ export class InstructorListComponent implements OnInit, List {
   }
 
   onDelete(id: number) {
-    console.log(id);
-    // this.instructorService.deleteInstructor(id).subscribe({
-    //   error: (e: HttpErrorResponse) => console.log(e.status),
-    //   complete: () => {
-    //     console.log('Deleted!');
-    //     this.ngOnInit();
-    //   },
-    // });
+    this.instructorService.deleteInstructor(id).subscribe({
+      error: (e: HttpErrorResponse) => console.log(e.status),
+      complete: () => {
+        console.log('Deleted!');
+        this.ngOnInit();
+      },
+    });
   }
 
   onAdd(content: any) {
     this.initProperForm.update = false;
+    this.instructor.userRequest = {};
     this.openForm(content);
   }
 
-  onEdit(content: any, item: Instructor) {
-    console.log(item);
-    // this.initProperForm.update = true;
-    // this.openForm(content);
+  onEdit(content: any, instructor: Instructor) {
+    this.initProperForm.update = true;
+    this.instructor = instructor;
+    this.openForm(content);
   }
 
   onSubmit() {
@@ -76,16 +78,16 @@ export class InstructorListComponent implements OnInit, List {
   }
 
   update() {
-    // this.schoolService.updateSchool(this.school).subscribe({
-    //   error: (e: HttpErrorResponse) => {
-    //     console.log(e);
-    //     this.ngOnInit();
-    //   },
-    //   complete: () => {
-    //     console.log('Updated!');
-    //     this.ngOnInit();
-    //   },
-    // });
+    this.userService.updateUser(this.instructor.userRequest).subscribe({
+      error: (e: HttpErrorResponse) => {
+        console.log(e);
+        this.ngOnInit();
+      },
+      complete: () => {
+        console.log('Updated!');
+        this.ngOnInit();
+      },
+    });
   }
 
   add() {

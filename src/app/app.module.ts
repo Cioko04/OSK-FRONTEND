@@ -27,6 +27,7 @@ import { LoginFormComponent } from './forms/login-form/login-form.component';
 import { SchoolFormComponent } from './forms/school-form/school-form.component';
 import { InstructorListComponent } from './home/instructor-list/instructor-list.component';
 import { TableComponent } from './tables/table/table.component';
+import { SchoolProfileComponent } from './home/school-profile/school-profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +48,8 @@ import { TableComponent } from './tables/table/table.component';
     LoginFormComponent,
     SchoolFormComponent,
     InstructorListComponent,
-    TableComponent
+    TableComponent,
+    SchoolProfileComponent
   ],
   imports: [
     BrowserModule,

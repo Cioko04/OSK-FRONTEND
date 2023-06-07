@@ -41,18 +41,8 @@ export class UserService {
       );
   }
 
-  getUsersWithSchool(): Observable<Array<User>> {
-    return this.http
-      .get<Array<User>>(this.API_URL + '/getUsersWithSchools')
-      .pipe(
-        catchError((error) => {
-          return this.errorHandler.handleError(error);
-        })
-      );
-  }
-
   updateUser(user: User) {
-    return this.http.put(this.API_URL + '/update/' + user.id, user).pipe(
+    return this.http.put(this.API_URL + '/updateUser', user).pipe(
       catchError((error) => {
         return this.errorHandler.handleError(error);
       })
@@ -60,9 +50,6 @@ export class UserService {
   }
 
   deleteUser(id: number) {
-    this.http.delete(this.API_URL + '/delete/' + id).subscribe({
-      error: (e: HttpErrorResponse) => console.log(e.status),
-      complete: () => console.log('deleted'),
-    });
+    return this.http.delete(this.API_URL + '/delete/' + id);
   }
 }

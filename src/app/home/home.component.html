@@ -17,16 +17,12 @@
       </div>
     </form>
     <div class="btn-group" ngbDropdown>
-      <button type="button" class="btn btn-dark ps-0" ngbDropdownToggle>
-        <img
-          src="https://github.com/mdo.png"
-          alt=""
-          width="32"
-          height="32"
-          class="rounded-circle me-2"
-        />
-        <strong style="color: #dddbdb">{{ user?.name }}</strong>
-      </button>
+      <div class="input-group input-group-lg">
+        <button type="button" class="btn btn-dark ps-0" ngbDropdownToggle>
+          <i class="fa fa-user-circle rounded-circle me-1 fa-lg"></i>
+          {{ user?.name }}
+        </button>
+      </div>
       <ul
         class="dropdown-menu dropdown-menu-dark dropdown-menu-end dropdown-min-width"
         ngbDropdownMenu
@@ -35,10 +31,19 @@
           <button
             class="btn btn-drop-down"
             type="button"
-            (click)="open(content)"
+            (click)="openProfile(content)"
             ngbDropdownItem
           >
             Profil
+          </button>
+          <button
+            *ngIf="user.role === 'OSK_ADMIN'"
+            class="btn btn-drop-down"
+            type="button"
+            (click)="openSchool(content)"
+            ngbDropdownItem
+          >
+            Zarządzaj szkołą
           </button>
         </li>
         <li><hr class="dropdown-divider mx-2" /></li>
@@ -54,5 +59,11 @@
 <app-menu-nav></app-menu-nav>
 <router-outlet></router-outlet>
 <ng-template #content let-offcanvas>
-  <app-user-profile (eventBack)="offcanvas.close($event)" [user]="user"></app-user-profile>
+  <app-user-profile *ngIf="shouldOpenProfile == true; else openSchool"
+    (eventBack)="offcanvas.close($event)"
+    [user]="user"
+  ></app-user-profile>
+  <ng-template #openSchool>
+    <app-school-profile></app-school-profile>
+  </ng-template>
 </ng-template>

@@ -12,7 +12,8 @@ import { AuthenticationService } from '../authentication/authentication.service'
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  user: User | any;
+  user: User | any = {};
+  shouldOpenProfile: boolean = true;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -34,7 +35,17 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/welcome']);
   }
 
-  open(content: any) {
+  openProfile(content: any) {
+    this.shouldOpenProfile = true;
+    this.open(content);
+  }
+
+  openSchool(content: any) {
+    this.shouldOpenProfile = false;
+    this.open(content);
+  }
+
+  private open(content: any) {
     this.offcanvasService.open(content, {
       position: 'end',
       scroll: true,
