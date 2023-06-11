@@ -16,12 +16,12 @@ import { HeadArray, List } from '../interface/list';
 export class InstructorListComponent implements OnInit, List {
   headArray: HeadArray[] = [
     { Head: 'Imię', FieldName: 'userRequest', SecondField: 'name' },
-    { Head: 'Naziwsko', FieldName: 'userRequest', SecondField: 'lastName' },
+    { Head: 'Nazwisko', FieldName: 'userRequest', SecondField: 'lastName' },
     { Head: 'Wiek', FieldName: 'userRequest', SecondField: 'age' },
     { Head: 'Email', FieldName: 'userRequest', SecondField: 'email' },
   ];
 
-  initProperForm = { isFromSchool: false, update: false };
+  initProperForm = { isFromSchool: false, update: false, showOnlySchool: false, showCategories: true };
 
   instructor: Instructor | any;
   instructosObs: Observable<Instructor[]> = new Observable<Instructor[]>();

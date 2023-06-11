@@ -5,12 +5,13 @@
         <div class="semipolar-spinner">
           <div class="ring"></div>
           <div class="ring"></div>
+
           <div class="ring">L</div>
         </div>
       </div>
       <div class="col-lg-6 py-2">
-        <div class="text-center mb-5">
-          <h1 class="h2 text-primary">OSK Zapraszamy!</h1>
+        <div class="text-center mb-3 mt-2">
+          <h1 class="fw-bold text-primary">OSK Zapraszamy!</h1>
         </div>
         <p *ngIf="openPage == 'login'">
           <app-login-form (eventBack)="back($event)"></app-login-form>

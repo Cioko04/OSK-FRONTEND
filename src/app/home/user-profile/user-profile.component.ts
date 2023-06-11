@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Role, User } from 'src/app/user/user';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { User } from 'src/app/user/user';
 import { UserService } from 'src/app/user/user.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { UserService } from 'src/app/user/user.service';
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
-  initProperForm = { isFromSchool: false, update: true };
+  initProperForm = { isFromSchool: false, update: true, showOnlySchool: false, showCategories: false };
 
   @Input()
   user: User | any;
@@ -20,6 +20,7 @@ export class UserProfileComponent implements OnInit {
   constructor(private userService: UserService) {
   }
   ngOnInit(): void {
+    console.log(this.user);
   }
 
 

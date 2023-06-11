@@ -9,7 +9,7 @@ import { Role, User } from 'src/app/user/user';
   styleUrls: ['./login-registration.component.css', './semipolar.css'],
 })
 export class LoginRegistrationComponent {
-  initProperForm = { isFromSchool: false, update: false };
+  initProperForm = { isFromSchool: false, update: false, showOnlySchool: false, showCategories: false };
 
   @Input()
   openPage = '';

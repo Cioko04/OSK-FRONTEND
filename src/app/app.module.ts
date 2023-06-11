@@ -28,6 +28,14 @@ import { SchoolFormComponent } from './forms/school-form/school-form.component';
 import { InstructorListComponent } from './home/instructor-list/instructor-list.component';
 import { TableComponent } from './tables/table/table.component';
 import { SchoolProfileComponent } from './home/school-profile/school-profile.component';
+import { CategoryFormComponent } from './forms/category-form/category-form.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDividerModule } from '@angular/material/divider';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,15 +57,23 @@ import { SchoolProfileComponent } from './home/school-profile/school-profile.com
     SchoolFormComponent,
     InstructorListComponent,
     TableComponent,
-    SchoolProfileComponent
+    SchoolProfileComponent,
+    CategoryFormComponent
   ],
   imports: [
     BrowserModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatDividerModule,
     NgbModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [UserService, AuthenticationService, AuthenticationInterceptorProvider],
   bootstrap: [AppComponent]

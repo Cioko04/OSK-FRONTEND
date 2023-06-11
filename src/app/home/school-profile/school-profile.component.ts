@@ -1,28 +1,29 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { School } from 'src/app/school/school';
 
+@UntilDestroy()
 @Component({
   selector: 'app-school-profile',
   templateUrl: './school-profile.component.html',
-  styleUrls: ['./school-profile.component.css']
+  styleUrls: ['./school-profile.component.css'],
 })
 export class SchoolProfileComponent implements OnInit {
-  schoolForm: FormGroup;
-  submitted: boolean = false;
+  initProperForm = { isFromSchool: true, update: true, showOnlySchool: true , showCategories: true};
+
+  @Input()
+  school: School | any;
 
   @Output()
   eventBack = new EventEmitter<string>();
 
-  constructor(private formBuilder: FormBuilder) {
-    this.schoolForm = this.formBuilder.group({
-      school: [],
-    });
+  ngOnInit() {
   }
 
-  ngOnInit(): void {
+  constructor() {
   }
 
-  submit() {
+  updateSchool(school: School) {
+    console.log(school);
   }
-
 }

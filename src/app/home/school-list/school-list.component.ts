@@ -19,7 +19,7 @@ export class SchoolListComponent implements OnInit, List {
     { Head: 'Data dodania', FieldName: 'addDate' },
   ];
 
-  initProperForm = { isFromSchool: true, update: false };
+  initProperForm = { isFromSchool: true, update: false, showOnlySchool: false, showCategories: true };
   school: School | any;
   schoolObs: Observable<School[]> = new Observable<School[]>();
 

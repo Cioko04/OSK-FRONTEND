@@ -35,10 +35,7 @@
       aria-describedby="cityNameHelp"
       placeholder="Miasto"
     />
-    <div
-      *ngIf="city.invalid && city.touched"
-      class="ms-3 mb-0 text-style"
-    >
+    <div *ngIf="city.invalid && city.touched" class="ms-3 mb-0 text-style">
       <div *ngIf="city.errors?.['required']">
         Miasto jest wymagane
         <i class="fa fa-exclamation" aria-hidden="true"></i>
@@ -68,7 +65,9 @@
         Kod pocztowy jest wymagany
         <i class="fa fa-exclamation" aria-hidden="true"></i>
       </div>
-      <div *ngIf="zipCode.errors?.['minlength'] || zipCode.errors?.['maxlength']">
+      <div
+        *ngIf="zipCode.errors?.['minlength'] || zipCode.errors?.['maxlength']"
+      >
         Długość musi wynosić 5
         <i class="fa fa-exclamation" aria-hidden="true"></i>
       </div>
@@ -85,10 +84,7 @@
       aria-describedby="nipHelp"
       placeholder="Nip"
     />
-    <div
-      *ngIf="nip.invalid && nip.touched"
-      class="ms-3 mb-0 text-style"
-    >
+    <div *ngIf="nip.invalid && nip.touched" class="ms-3 mb-0 text-style">
       <div *ngIf="nip.errors?.['required']">
         Nip jest wymagany
         <i class="fa fa-exclamation" aria-hidden="true"></i>

@@ -10,3 +10,11 @@
   width: 40px;
   height: 30px;
 }
+.example-button-row button,
+.example-button-row a {
+  margin-right: 8px;
+}
+
+.example-disabled {
+  display: inline-block;
+}

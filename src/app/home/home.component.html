@@ -18,7 +18,7 @@
     </form>
     <div class="btn-group" ngbDropdown>
       <div class="input-group input-group-lg">
-        <button type="button" class="btn btn-dark ps-0" ngbDropdownToggle>
+        <button type="button" class="btn btn-dark ps-0 pt-0" ngbDropdownToggle>
           <i class="fa fa-user-circle rounded-circle me-1 fa-lg"></i>
           {{ user?.name }}
         </button>
@@ -59,11 +59,15 @@
 <app-menu-nav></app-menu-nav>
 <router-outlet></router-outlet>
 <ng-template #content let-offcanvas>
-  <app-user-profile *ngIf="shouldOpenProfile == true; else openSchool"
+  <app-user-profile
+    *ngIf="shouldOpenProfile == true; else openSchool"
     (eventBack)="offcanvas.close($event)"
     [user]="user"
   ></app-user-profile>
   <ng-template #openSchool>
-    <app-school-profile></app-school-profile>
+    <app-school-profile
+      (eventBack)="offcanvas.close($event)"
+      [school]="user.schoolRequest"
+    ></app-school-profile>
   </ng-template>
 </ng-template>
