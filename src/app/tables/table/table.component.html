@@ -17,10 +17,14 @@
             *ngFor="let column of displayedColumns"
             [matColumnDef]="column"
           >
-            <ng-container [ngSwitch]="column">
-              <div *ngSwitchCase="'update'">
-                <th mat-header-cell *matHeaderCellDef [ngClass]="column"></th>
-                <td mat-cell *matCellDef="let element">
+            <th mat-header-cell *matHeaderCellDef [ngClass]="column">
+              <span *ngIf="column !== 'update' && column !== 'remove'">
+                <div mat-sort-header>{{ column }}</div>
+              </span>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <ng-container [ngSwitch]="column">
+                <div *ngSwitchCase="'update'">
                   <button
                     type="button"
                     class="btn btn-td float-end p-0 ms-2"
@@ -29,11 +33,8 @@
                   >
                     <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                   </button>
-                </td>
-              </div>
-              <div *ngSwitchCase="'remove'">
-                <th mat-header-cell *matHeaderCellDef [ngClass]="column"></th>
-                <td mat-cell *matCellDef="let element">
+                </div>
+                <div *ngSwitchCase="'remove'">
                   <button
                     type="button"
                     class="btn btn-td float-end p-0 ms-1"
@@ -42,29 +43,36 @@
                   >
                     <i class="fa fa-minus-circle fa-lg" aria-hidden="true"></i>
                   </button>
-                </td>
-              </div>
-              <div *ngSwitchDefault>
-                <th
-                  mat-header-cell
-                  *matHeaderCellDef
-                  mat-sort-header
-                  [ngClass]="column"
-                >
-                  {{ column }}
-                </th>
-                <td mat-cell *matCellDef="let element">
+                </div>
+                <div *ngSwitchDefault>
                   <div *ngIf="isArray(element[column]); else notArray">
                     {{ element[column].join(" | ") }}
                   </div>
                   <ng-template #notArray>
                     {{ element[column] }}
                   </ng-template>
-                </td>
-              </div>
-            </ng-container>
-
+                </div>
+              </ng-container>
+            </td>
           </ng-container>
+
+          <!-- <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+              <div class="example-element-detail"
+                   [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                <div class="example-element-diagram">
+                  <div class="example-element-position"> {{element.position}} </div>
+                  <div class="example-element-symbol"> {{element.symbol}} </div>
+                  <div class="example-element-name"> {{element.name}} </div>
+                  <div class="example-element-weight"> {{element.weight}} </div>
+                </div>
+                <div class="example-element-description">
+                  {{element.description}}
+                  <span class="example-element-description-attribution"> -- Wikipedia </span>
+                </div>
+              </div>
+            </td>
+          </ng-container> -->
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr

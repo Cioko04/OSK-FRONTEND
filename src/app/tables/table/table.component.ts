@@ -23,7 +23,7 @@ import { Observable, map } from 'rxjs';
 })
 export class TableComponent implements OnInit, OnChanges {
   dataSource: any = [];
-  displayedColumns: string[];
+  displayedColumns: string[] = [];
   windowWidth: number | any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
@@ -48,7 +48,6 @@ export class TableComponent implements OnInit, OnChanges {
   onDelete = new EventEmitter<number>();
 
   constructor() {
-    this.displayedColumns = [];
   }
 
   ngOnChanges(): void {
