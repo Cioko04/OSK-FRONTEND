@@ -7,8 +7,16 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { tap, BehaviorSubject, throwError, catchError, Observable } from 'rxjs';
+import {
+  tap,
+  BehaviorSubject,
+  throwError,
+  catchError,
+  Observable,
+  map,
+} from 'rxjs';
 import { User } from '../user/user';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root',
@@ -41,11 +49,15 @@ export class AuthenticationService {
 
   authenticate(userLoginData: { email: string; password: string }) {
     return this.http
-      .post<any>(this.API_URL + '/authenticate', userLoginData)
+      .post(this.API_URL + '/authenticate', userLoginData, { responseType: 'text' })
       .pipe(
-        tap((response: any) => {
+        catchError((error: any) => {
+          return this.errorHandler.handleError(error);
+        }),
+        map((response: any) => {
           this._isLoggedIn$.next(true);
-          this.setToken(response.token);
+          const token = response;
+          this.setToken(token);
         })
       );
   }

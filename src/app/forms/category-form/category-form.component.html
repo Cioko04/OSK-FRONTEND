@@ -1,16 +1,20 @@
 <div>
   <div class="form-group my-3">
     <label class="ms-3 mb-1"><b>Kategorie:</b></label>
+    <div class="d-flex justify-content-center mb-4">
+      <mat-chip class="me-2 bg-light" (click)="selectAll()">Zaznacz wszystkie</mat-chip>
+      <mat-chip class="bg-light" (click)="deselectAll()">Usuń wszystkie</mat-chip>
+    </div>
     <div class="ms-4">
       <mat-chip-list selectable multiple>
         <mat-chip
           #c="matChip"
-          *ngFor="let option of options"
-          [value]="option"
+          *ngFor="let category of categories"
+          [value]="category"
           (click)="toggleSelection(c)"
         >
           <mat-icon *ngIf="c.selected">check</mat-icon>
-          {{ option }}
+          {{ category }}
         </mat-chip>
       </mat-chip-list>
     </div>

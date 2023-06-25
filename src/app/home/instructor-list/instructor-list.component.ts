@@ -17,11 +17,12 @@ export class InstructorListComponent implements OnInit, List {
   headArray: HeadArray[] = [
     { Head: 'Imię', FieldName: 'userRequest', SecondField: 'name' },
     { Head: 'Nazwisko', FieldName: 'userRequest', SecondField: 'lastName' },
-    { Head: 'Wiek', FieldName: 'userRequest', SecondField: 'age' },
     { Head: 'Email', FieldName: 'userRequest', SecondField: 'email' },
+    { Head: 'Wiek', FieldName: 'userRequest', SecondField: 'age' },
+    { Head: 'Kategorie', FieldName: 'categories' },
   ];
 
-  initProperForm = { isFromSchool: false, update: false, showOnlySchool: false, showCategories: true };
+  initProperForm = { createInstructor: true, update: false };
 
   instructor: Instructor | any;
   instructosObs: Observable<Instructor[]> = new Observable<Instructor[]>();
@@ -63,7 +64,6 @@ export class InstructorListComponent implements OnInit, List {
 
   onAdd(content: any) {
     this.initProperForm.update = false;
-    this.instructor.userRequest = {};
     this.openForm(content);
   }
 
@@ -78,7 +78,7 @@ export class InstructorListComponent implements OnInit, List {
   }
 
   update() {
-    this.userService.updateUser(this.instructor.userRequest).subscribe({
+    this.instructorService.updateInstructor(this.instructor).subscribe({
       error: (e: HttpErrorResponse) => {
         console.log(e);
         this.ngOnInit();

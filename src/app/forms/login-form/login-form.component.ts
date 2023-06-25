@@ -53,23 +53,9 @@ export class LoginFormComponent implements OnInit {
           this.eventBack.emit('submit');
           this.router.navigate(['/home']);
         },
-        error: (e) => this.handleError(e),
+        error: (e) => this._failed.next(`Błąd logowania`),
         complete: () => console.log('Logged in!'),
       });
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    if (error.status === 404) {
-      return this.popUpFailMessage(true);
-    } else {
-      return this.popUpFailMessage(false);
-    }
-  }
-
-  public popUpFailMessage(isServerUp: boolean) {
-    return isServerUp
-      ? this._failed.next(`Błędne dane logowania`)
-      : this._failed.next(`Serwer nie odpowiada, prosimy spróbować później`);
   }
 
 }

@@ -36,6 +36,13 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
+import {
+  MatPaginatorIntl,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
+import { CustomPaginatorIntl } from './providers/CustomPaginatorIntl';
+import { MatSortModule } from '@angular/material/sort';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,7 +65,7 @@ import { MatDividerModule } from '@angular/material/divider';
     InstructorListComponent,
     TableComponent,
     SchoolProfileComponent,
-    CategoryFormComponent
+    CategoryFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,14 +75,22 @@ import { MatDividerModule } from '@angular/material/divider';
     MatIconModule,
     MatToolbarModule,
     MatDividerModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     NgbModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
-  providers: [UserService, AuthenticationService, AuthenticationInterceptorProvider],
-  bootstrap: [AppComponent]
+  providers: [
+    UserService,
+    AuthenticationService,
+    AuthenticationInterceptorProvider,
+    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

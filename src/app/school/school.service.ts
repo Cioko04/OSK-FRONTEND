@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
 import { School } from './school';
 import { User } from '../user/user';
 import { Observable } from 'rxjs/internal/Observable';
@@ -17,21 +21,21 @@ export class SchoolService {
   ) {}
 
   getInstructors(id: number): Observable<Array<User>> {
-    return this.http.get<Array<User>>(this.API_URL + '/getInstructors/' + id).pipe(
-      catchError((error) => {
-        return this.errorHandler.handleError(error);
-      })
-    );
-  }
-
-  getSchools(): Observable<Array<School>> {
     return this.http
-      .get<Array<School>>(this.API_URL + '/getSchools')
+      .get<Array<User>>(this.API_URL + '/getInstructors/' + id)
       .pipe(
         catchError((error) => {
           return this.errorHandler.handleError(error);
         })
       );
+  }
+
+  getSchools(): Observable<Array<School>> {
+    return this.http.get<Array<School>>(this.API_URL + '/getSchools').pipe(
+      catchError((error) => {
+        return this.errorHandler.handleError(error);
+      })
+    );
   }
 
   register(school: School) {

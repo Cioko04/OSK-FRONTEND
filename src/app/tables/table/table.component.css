@@ -4,17 +4,41 @@
 }
 .btn:hover {
   background-color: rgb(70, 69, 69);
-  color: #f3f1f1
-}
-.btn-td {
-  width: 40px;
-  height: 30px;
-}
-.example-button-row button,
-.example-button-row a {
-  margin-right: 8px;
+  color: #f3f1f1;
 }
 
-.example-disabled {
-  display: inline-block;
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+table {
+  max-width: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.226);
+}
+th {
+  font-weight: bold;
+  color: black;
+  font-size: 1rem;
+}
+td {
+  font-size: 0.9rem;
+  color: black;
+}
+.btn-td {
+  width: 35px;
+  height: 28px;
+}
+.paginator {
+  background: rgba(255, 255, 255, 0);
+  color: black;
+}
+.Kategorie {
+  width: 30%;
+}
+.update,
+.remove {
+  width: 2%;
+}
+.Id {
+  width: 5%;
 }

@@ -16,10 +16,11 @@ export class SchoolListComponent implements OnInit, List {
     { Head: 'Nazwa', FieldName: 'schoolName' },
     { Head: 'Właściciel', FieldName: 'userRequest', SecondField: 'name' },
     { Head: 'Miejscowość', FieldName: 'city' },
+    { Head: 'Kategorie', FieldName: 'categories' },
     { Head: 'Data dodania', FieldName: 'addDate' },
   ];
 
-  initProperForm = { isFromSchool: true, update: false, showOnlySchool: false, showCategories: true };
+  initProperForm = { createSchool: true, update: false, createOnlySchool: false };
   school: School | any;
   schoolObs: Observable<School[]> = new Observable<School[]>();
 
@@ -29,6 +30,7 @@ export class SchoolListComponent implements OnInit, List {
   ) {}
 
   ngOnInit(): void {
+    this.school = {};
     this.schoolObs = this.schoolService.getSchools();
   }
 
@@ -44,7 +46,6 @@ export class SchoolListComponent implements OnInit, List {
 
   onAdd(content: any) {
     this.initProperForm.update = false;
-    this.school = {};
     this.openForm(content);
   }
 

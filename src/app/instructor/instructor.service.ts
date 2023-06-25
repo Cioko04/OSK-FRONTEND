@@ -33,6 +33,14 @@ export class InstructorService {
       );
   }
 
+  updateInstructor(instructor: Instructor) {
+    return this.http.put(this.API_URL + '/updateInstructor', instructor).pipe(
+      catchError((error) => {
+        return this.errorHandler.handleError(error);
+      })
+    );
+  }
+
   deleteInstructor(id: number) {
     return this.http.delete(this.API_URL + '/deleteInstructorById/' + id);
   }

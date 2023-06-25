@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { UntilDestroy } from '@ngneat/until-destroy';
+import { Instructor } from 'src/app/instructor/instructor';
 import { School } from 'src/app/school/school';
 import { User } from 'src/app/user/user';
 
@@ -12,22 +13,19 @@ import { User } from 'src/app/user/user';
 })
 export class SignUpFormComponent implements OnInit {
   @Input()
-  user: User | any;
-  @Input()
-  school: School | any;
+  data: any;
   @Input()
   initProperForm: any;
 
   @Output()
-  userChange = new EventEmitter<User>();
-  @Output()
-  schoolChange = new EventEmitter<School>();
+  dataChange = new EventEmitter<any>();
   @Output()
   onSubmit = new EventEmitter<any>();
 
   signupForm: FormGroup;
   submitted: boolean = false;
   buttonText: string = 'Zarejestruj';
+  user: User | any;
 
   constructor(private formBuilder: FormBuilder) {
     this.signupForm = this.formBuilder.group({
@@ -44,7 +42,6 @@ export class SignUpFormComponent implements OnInit {
       this.patchValues();
     } else {
       this.user = {};
-      this.school = {};
     }
   }
 
@@ -55,21 +52,26 @@ export class SignUpFormComponent implements OnInit {
     this.signupForm.get('school')?.updateValueAndValidity();
     if (this.signupForm.valid) {
       this.register();
+      this.dataChange.emit(this.data);
       this.onSubmit.emit();
     }
   }
 
   private register() {
-    if (!this.initProperForm.showOnlySchool) {
-      this.createUser();
-      // this.userChange.emit(this.user);
-      console.log(this.user);
-    }
-    if (this.initProperForm.isFromSchool) {
+    if (this.initProperForm.createSchool) {
       this.createSchool();
-      // this.schoolChange.emit(this.school);
-      console.log(this.school);
+    } else if (this.initProperForm.createInstructor) {
+      this.createInstructor();
+    } else {
+      this.createUser();
+      this.data = this.user;
     }
+  }
+
+  private createInstructor() {
+    this.createUser();
+    this.data.userRequest = this.user;
+    this.data.categories = this.signupForm.value.categories;
   }
 
   private createUser() {
@@ -79,29 +81,33 @@ export class SignUpFormComponent implements OnInit {
     this.user.email = this.signupForm.value.profile.email;
     this.user.password = this.signupForm.value.password.password;
     this.user.dob = this.signupForm.value.profile.dob;
-    if(!this.initProperForm.isFromSchool) {
-      this.user.categories = this.signupForm.value.categories;
-    }
   }
 
   private createSchool() {
-    this.school.schoolName = this.signupForm.value.school.schoolName;
-    this.school.city = this.signupForm.value.school.city;
-    this.school.zipCode = this.signupForm.value.school.zipCode;
-    this.school.nip = this.signupForm.value.school.nip;
-    this.school.categories = this.signupForm.value.categories;
+    this.data.schoolName = this.signupForm.value.school.schoolName;
+    this.data.city = this.signupForm.value.school.city;
+    this.data.zipCode = this.signupForm.value.school.zipCode;
+    this.data.nip = this.signupForm.value.school.nip;
+    this.data.categories = this.signupForm.value.categories;
+    if (!this.initProperForm.createOnlySchool) {
+      this.createUser();
+      this.data.userRequest = this.user;
+    }
   }
 
   private patchValues() {
-    if (!this.initProperForm.showOnlySchool) {
-      this.patchUser();
-      if(!this.initProperForm.isFromSchool) {
-        this.patchCategories(this.user.categories);
+    if (!this.initProperForm.hideCategories) {
+      this.user = this.data.userRequest;
+      if (this.initProperForm.createSchool) {
+        this.patchSchool();
+        this.patchCategories(this.data.categories);
       }
+      this.patchCategories(this.data.categories);
+    } else {
+      this.user = this.data;
     }
-    if (this.initProperForm.isFromSchool) {
-      this.patchSchool();
-      this.patchCategories(this.school.categories);
+    if (!this.initProperForm.createOnlySchool) {
+      this.patchUser();
     }
   }
 
@@ -121,10 +127,10 @@ export class SignUpFormComponent implements OnInit {
 
   private patchSchool() {
     this.signupForm.get('school')?.patchValue({
-      schoolName: this.school.schoolName,
-      city: this.school.city,
-      zipCode: this.school.zipCode,
-      nip: this.school.nip,
+      schoolName: this.data.schoolName,
+      city: this.data.city,
+      zipCode: this.data.zipCode,
+      nip: this.data.nip,
     });
   }
 

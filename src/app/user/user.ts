@@ -10,7 +10,6 @@ export interface User {
     role: Role;
     dob: string;
     schoolRequest: School;
-    categories: string[];
   }
 
   export enum Role {

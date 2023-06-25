@@ -9,7 +9,7 @@ import { Role, User } from 'src/app/user/user';
   styleUrls: ['./login-registration.component.css', './semipolar.css'],
 })
 export class LoginRegistrationComponent {
-  initProperForm = { isFromSchool: false, update: false, showOnlySchool: false, showCategories: false };
+  initProperForm = { hideCategories: true };
 
   @Input()
   openPage = '';
@@ -20,7 +20,6 @@ export class LoginRegistrationComponent {
   constructor(private auth: AuthenticationService) {}
 
   register(user: User) {
-    user.role = Role.USER;
     this.auth.register(user).subscribe({
       error: (e: HttpErrorResponse) => {
         console.log(e.status);

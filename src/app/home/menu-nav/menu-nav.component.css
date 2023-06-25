@@ -17,3 +17,10 @@
   text-decoration: none;
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
 }
+strong {
+  font-size: 1.2rem;
+  font-weight: normal !important;
+}
+.fa {
+  font-size: 1.4rem;
+}
