@@ -1,3 +1,10 @@
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 import { HeadArray } from './../../home/interface/list';
 import {
   Component,
@@ -8,6 +15,8 @@ import {
   Output,
   ViewChild,
   HostListener,
+  Renderer2,
+  ElementRef,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -20,10 +29,22 @@ import { Observable, map } from 'rxjs';
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
 export class TableComponent implements OnInit, OnChanges {
   dataSource: any = [];
   displayedColumns: string[] = [];
+  displayedInfo: string[] = [];
+  expandedElement: any;
   windowWidth: number | any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
@@ -47,8 +68,7 @@ export class TableComponent implements OnInit, OnChanges {
   @Output()
   onDelete = new EventEmitter<number>();
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnChanges(): void {
     this.loadData();
@@ -67,11 +87,13 @@ export class TableComponent implements OnInit, OnChanges {
     }
   }
 
-  adjustDisplayedColumns(length: number) {
+  adjustDisplayedColumns(length: number, showExpand: boolean) {
     this.displayedColumns = [];
+    this.displayedInfo = [];
     this.displayedColumns.push('Id');
     this.HeadArray.forEach((head) => {
       this.displayedColumns.push(head.Head);
+      this.displayedInfo.push(head.Head);
     });
 
     if (length <= 2) {
@@ -81,9 +103,12 @@ export class TableComponent implements OnInit, OnChanges {
     if (countsOfColumnsToDelete > 0) {
       this.displayedColumns.splice(-countsOfColumnsToDelete);
     }
-
     if (this.isAction) {
       this.addActions();
+    }
+
+    if (showExpand) {
+      this.displayedColumns.push('expand');
     }
   }
 
@@ -141,15 +166,20 @@ export class TableComponent implements OnInit, OnChanges {
   onWindowResize(event: any) {
     this.windowWidth = window.innerWidth;
     if (this.windowWidth >= 769) {
-      this.adjustDisplayedColumns(this.HeadArray.length + 1);
+      this.adjustDisplayedColumns(this.HeadArray.length + 1, true);
     } else if (this.windowWidth <= 768 && this.windowWidth >= 635) {
-      this.adjustDisplayedColumns(5);
+      this.adjustDisplayedColumns(5, true);
     } else if (this.windowWidth <= 634 && this.windowWidth >= 577) {
-      this.adjustDisplayedColumns(4);
+      this.adjustDisplayedColumns(4, true);
     } else if (this.windowWidth <= 576 && this.windowWidth >= 481) {
-      this.adjustDisplayedColumns(3);
-    } else if (this.windowWidth <= 480 && this.displayedColumns.length > 4) {
-      this.adjustDisplayedColumns(2);
+      this.adjustDisplayedColumns(3, true);
+    } else if (this.windowWidth <= 480 && this.windowWidth >= 371) {
+      this.adjustDisplayedColumns(2, true);
+    } else if (this.windowWidth <= 370 && this.windowWidth >= 321) {
+      this.adjustDisplayedColumns(2, false);
+    }
+    else if (this.windowWidth <= 320) {
+      this.adjustDisplayedColumns(1, false);
     }
   }
 }
