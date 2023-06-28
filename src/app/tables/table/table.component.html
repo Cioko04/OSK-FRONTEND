@@ -13,6 +13,7 @@
       </div>
       <div class="mat-elevation-z12">
         <table
+        #myTable
           mat-table
           [dataSource]="dataSource"
           matSort
@@ -40,7 +41,7 @@
                     type="button"
                     class="btn btn-td float-end p-0 ms-3"
                     title="Edytuj"
-                    (click)="edit(element.sourceId)"
+                    (click)="edit(element.sourceId); $event.stopPropagation()"
                   >
                     <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                   </button>
@@ -50,7 +51,7 @@
                     type="button"
                     class="btn btn-td float-end p-0 ms-1"
                     title="Usuń"
-                    (click)="delete(element.sourceId)"
+                    (click)="delete(element.sourceId); $event.stopPropagation()"
                   >
                     <i class="fa fa-minus-circle fa-lg" aria-hidden="true"></i>
                   </button>
@@ -139,9 +140,8 @@
         </table>
         <mat-paginator
           class="paginator"
-          [pageSizeOptions]="[5, 10, 20]"
+          [pageSizeOptions]="calculateVisibleRows()"
           showFirstLastButtons
-          aria-label="Select page of users"
         >
         </mat-paginator>
       </div>

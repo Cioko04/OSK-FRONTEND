@@ -15,8 +15,6 @@ import {
   Output,
   ViewChild,
   HostListener,
-  Renderer2,
-  ElementRef,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -41,12 +39,6 @@ import { Observable, map } from 'rxjs';
   ],
 })
 export class TableComponent implements OnInit, OnChanges {
-  dataSource: any = [];
-  displayedColumns: string[] = [];
-  displayedInfo: string[] = [];
-  expandedElement: any;
-  windowWidth: number | any;
-
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
   @ViewChild(MatSort) sort: MatSort | any;
 
@@ -67,6 +59,12 @@ export class TableComponent implements OnInit, OnChanges {
 
   @Output()
   onDelete = new EventEmitter<number>();
+
+  dataSource: any = [];
+  displayedColumns: string[] = [];
+  displayedInfo: string[] = [];
+  expandedElement: any;
+  windowWidth: number | any;
 
   constructor() {}
 
@@ -112,11 +110,11 @@ export class TableComponent implements OnInit, OnChanges {
     }
   }
 
-  addActions() {
+  private addActions() {
     this.displayedColumns.push('update', 'remove');
   }
 
-  loadData() {
+  private loadData() {
     this.GridArrayObs.pipe(untilDestroyed(this)).subscribe((data) => {
       this.dataSource = this.transformData(data);
       this.dataSource.paginator = this.paginator;
@@ -127,20 +125,33 @@ export class TableComponent implements OnInit, OnChanges {
   private transformData(data: any): MatTableDataSource<any> {
     const transformedData = data.map((item: any) => {
       const transformedItem: any = {};
+      transformedItem['Id'] = data.indexOf(item) + 1;
       this.HeadArray.forEach((column) => {
-        transformedItem['Id'] = data.indexOf(item) + 1;
+        let data;
         if (column.SecondField) {
-          transformedItem[column.Head] =
-            item[column.FieldName][column.SecondField];
+          data = item[column.FieldName][column.SecondField];
         } else {
-          transformedItem[column.Head] = item[column.FieldName];
+          data = item[column.FieldName];
         }
-
-        transformedItem['sourceId'] = item.id;
+        if (this.isArray(data)) {
+          data.sort();
+        }
+        transformedItem[column.Head] = data;
       });
+      transformedItem['sourceId'] = item.id;
       return transformedItem;
     });
     return new MatTableDataSource(transformedData);
+  }
+
+  calculateVisibleRows():number [] {
+    const screenHeight = window.innerHeight * 0.65 - 152;
+    const rowHeight = 48;
+    let visibleRows = Math.floor(screenHeight / rowHeight);
+    if(visibleRows < 3) {
+      visibleRows = 3;
+    }
+    return [visibleRows, visibleRows*2, visibleRows*3, visibleRows*4, visibleRows*5];
   }
 
   add() {
@@ -177,8 +188,7 @@ export class TableComponent implements OnInit, OnChanges {
       this.adjustDisplayedColumns(2, true);
     } else if (this.windowWidth <= 370 && this.windowWidth >= 321) {
       this.adjustDisplayedColumns(2, false);
-    }
-    else if (this.windowWidth <= 320) {
+    } else if (this.windowWidth <= 320) {
       this.adjustDisplayedColumns(1, false);
     }
   }
