@@ -30,17 +30,17 @@ import { TableComponent } from './tables/table/table.component';
 import { SchoolProfileComponent } from './home/school-profile/school-profile.component';
 import { CategoryFormComponent } from './forms/category-form/category-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import {
-  MatPaginatorIntl,
-  MatPaginatorModule,
-} from '@angular/material/paginator';
+  MatLegacyPaginatorIntl as MatPaginatorIntl,
+  MatLegacyPaginatorModule as MatPaginatorModule,
+} from '@angular/material/legacy-paginator';
 import { CustomPaginatorIntl } from './providers/CustomPaginatorIntl';
 import { MatSortModule } from '@angular/material/sort';
 @NgModule({
