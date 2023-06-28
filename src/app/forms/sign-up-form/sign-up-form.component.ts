@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Instructor } from 'src/app/instructor/instructor';
 import { School } from 'src/app/school/school';
@@ -22,12 +22,12 @@ export class SignUpFormComponent implements OnInit {
   @Output()
   onSubmit = new EventEmitter<any>();
 
-  signupForm: FormGroup;
+  signupForm: UntypedFormGroup;
   submitted: boolean = false;
   buttonText: string = 'Zarejestruj';
   user: User | any;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: UntypedFormBuilder) {
     this.signupForm = this.formBuilder.group({
       profile: [],
       password: [],

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, FormControl, Validators, UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
@@ -12,7 +12,7 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
 })
 export class LoginFormComponent implements OnInit {
 
-  loginForm: FormGroup | any;
+  loginForm: UntypedFormGroup | any;
 
   @Output()
   eventBack = new EventEmitter<string>();
@@ -23,7 +23,7 @@ export class LoginFormComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {

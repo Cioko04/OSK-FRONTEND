@@ -11,13 +11,13 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
   NG_VALUE_ACCESSOR,
   NG_VALIDATORS,
   ControlValueAccessor,
-  FormControl,
+  UntypedFormControl,
   NgControl,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -55,7 +55,7 @@ export interface ProfileFormValues {
 export class ProfileFormComponent
   implements ControlValueAccessor, OnDestroy, OnChanges, OnInit
 {
-  profileForm: FormGroup | any;
+  profileForm: UntypedFormGroup | any;
   subscriptions: Subscription[] = [];
   @Input()
   submitted: boolean = false;
@@ -93,7 +93,7 @@ export class ProfileFormComponent
   }
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private emailValidator: UniqueEmailValidator
   ) {
   }
@@ -154,7 +154,7 @@ export class ProfileFormComponent
     this.onTouched = fn;
   }
 
-  validate(_: FormControl) {
+  validate(_: UntypedFormControl) {
     return this.profileForm.valid ? null : { profile: { valid: false } };
   }
 }

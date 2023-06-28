@@ -8,12 +8,12 @@ import {
 } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
-  FormGroup,
-  FormBuilder,
+  UntypedFormGroup,
+  UntypedFormBuilder,
   ControlValueAccessor,
   Validators,
   NG_VALIDATORS,
-  FormControl,
+  UntypedFormControl,
 } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
@@ -44,7 +44,7 @@ export interface SchoolFormValues {
 export class SchoolFormComponent
   implements ControlValueAccessor, OnDestroy, OnChanges
 {
-  schoolForm: FormGroup | any;
+  schoolForm: UntypedFormGroup | any;
   subscriptions: Subscription[] = [];
 
   @Input()
@@ -73,7 +73,7 @@ export class SchoolFormComponent
     return this.schoolForm.controls.nip;
   }
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: UntypedFormBuilder) {
     this.schoolForm = this.formBuilder.group({
       schoolName: ['', [Validators.required, Validators.minLength(2)]],
       city: ['', [Validators.required, Validators.minLength(2)]],
@@ -121,7 +121,7 @@ export class SchoolFormComponent
     this.onTouched = fn;
   }
 
-  validate(_: FormControl) {
+  validate(_: UntypedFormControl) {
     return this.schoolForm.valid ? null : { passwords: { valid: false } };
   }
 }
