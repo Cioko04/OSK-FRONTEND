@@ -12,18 +12,22 @@ import { AuthenticationService } from '../authentication/authentication.service'
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  user$: Observable<User | any>;
+  user: User | any = {};
+  shouldOpenProfile: boolean = true;
 
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
     private offcanvasService: NgbOffcanvas,
-    private userService: UserService
+    private userService: UserService,
   ) {
-    this.user$ = userService.getUserByEmail(authenticationService.getSessionUserEmail());
+
   }
 
   ngOnInit(): void {
+    this.userService.getUserByEmail(this.authenticationService.getSessionUserEmail()).subscribe((user: User) => {
+      this.user = user;
+  });
 
   }
 
@@ -31,8 +35,18 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/welcome']);
   }
 
-  open(content: any) {
-    const offcanvasRef = this.offcanvasService.open(content, {
+  openProfile(content: any) {
+    this.shouldOpenProfile = true;
+    this.open(content);
+  }
+
+  openSchool(content: any) {
+    this.shouldOpenProfile = false;
+    this.open(content);
+  }
+
+  private open(content: any) {
+    this.offcanvasService.open(content, {
       position: 'end',
       scroll: true,
     });

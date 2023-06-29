@@ -1,20 +1,20 @@
 
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HasRoleGuard implements CanActivate {
+export class HasRoleGuard  {
 
   constructor(private auth: AuthenticationService){}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.auth.user.role?.includes(route.data['role'])!;
+    return this.auth.getSessionUserRole()?.includes(route.data['role'])!;
   }
 
 }

@@ -1,0 +1,32 @@
+<form [formGroup]="signupForm" (ngSubmit)="submit()">
+  <div *ngIf="!initProperForm.createOnlySchool">
+    <h3 *ngIf="initProperForm.createSchool" class="fw-semibold fs-3 text pt-3">Dane właściciela:</h3>
+    <app-profile-form
+      formControlName="profile"
+      [submitted]="submitted"
+      [emailToCompare]="user.email"
+    ></app-profile-form>
+    <app-password-form
+      formControlName="password"
+      [submitted]="submitted"
+    ></app-password-form>
+    <hr>
+  </div>
+  <div *ngIf="initProperForm.createSchool" class="mt-3">
+    <h3 *ngIf="!initProperForm.createOnlySchool" class="fw-semibold fs-3 text pt-3">Dane szkoły:</h3>
+    <app-school-form
+      formControlName="school"
+      [submitted]="submitted"
+    ></app-school-form>
+    <hr>
+  </div>
+  <app-category-form *ngIf="!initProperForm.hideCategories" formControlName="categories"></app-category-form>
+  <div class="form-group my-3">
+      <button
+        type="submit"
+        class="form-control btn btn-primary el-login-border btn-block fw-semibold fs-6 p-2"
+      >
+        <i class="fa fa-reply me-2" aria-hidden="true"></i>{{ buttonText }}
+      </button>
+  </div>
+</form>

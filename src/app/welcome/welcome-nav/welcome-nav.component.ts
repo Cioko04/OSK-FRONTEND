@@ -1,9 +1,6 @@
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
-  Component,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
-import {
+  NgbModal,
   NgbOffcanvas,
   NgbOffcanvasConfig,
   OffcanvasDismissReasons,
@@ -16,26 +13,14 @@ import {
   encapsulation: ViewEncapsulation.None,
 })
 export class WelcomeNavComponent implements OnInit {
-
   closeResult = '';
   openPage = '';
-  constructor(
-    config: NgbOffcanvasConfig,
-    private offcanvasService: NgbOffcanvas
-  ) {
-    config.position = 'top';
-  }
+  constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {}
-  open(content: any){
-    this.offcanvasService.open(content).result.then(
-      (result) => {
-        this.closeResult = `Closed with: ${result}`
-      },
-      (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      }
-    );
+
+  open(content: any) {
+    this.modalService.open(content, { size: 'lg' });
   }
   openLogin(content: any) {
     this.openPage = 'login';
@@ -45,15 +30,4 @@ export class WelcomeNavComponent implements OnInit {
     this.openPage = 'register';
     this.open(content);
   }
-
-  private getDismissReason(reason: any): string {
-    if (reason === OffcanvasDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === OffcanvasDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on the backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
 }

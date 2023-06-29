@@ -1,2 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
+.el-login-border{
+  font-size: .8rem;
+  border-radius: 0.8rem;
+  padding: 0.76rem 1rem;
+}
+.modal-content {
+  background-color:  rgb(221, 219, 219, 0.95) !important;
+  padding: 0.5rem !important;
+  border-radius: 1.5rem !important;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

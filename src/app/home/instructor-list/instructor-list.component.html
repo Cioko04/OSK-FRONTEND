@@ -1,0 +1,20 @@
+<app-table
+  [isAction]="true"
+  [HeadArray]="headArray"
+  [GridArrayObs]="instructosObs"
+  (onAdd)="onAdd(content)"
+  (onEdit)="onEdit(content, $event)"
+  (onDelete)="onDelete($event)"
+>
+</app-table>
+<ng-template #content let-modal>
+  <div class="container-fluid">
+    <div class="row mx-1 mt-4">
+      <app-sign-up-form
+        [initProperForm]="initProperForm"
+        [(data)]="instructor"
+        (onSubmit)="onSubmit(); modal.close()"
+      ></app-sign-up-form>
+    </div>
+  </div>
+</ng-template>
