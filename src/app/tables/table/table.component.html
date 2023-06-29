@@ -23,7 +23,7 @@
             *ngFor="let column of displayedColumns"
             [matColumnDef]="column"
           >
-            <th mat-header-cell *matHeaderCellDef [ngClass]="column">
+            <th mat-header-cell *matHeaderCellDef [ngClass]="column" class="px-3">
               <span
                 *ngIf="
                   column !== 'update' &&
@@ -31,15 +31,15 @@
                   column !== 'expand'
                 "
               >
-                <div class="ms-3" mat-sort-header>{{ column }}</div>
+                <div mat-sort-header>{{ column }}</div>
               </span>
             </th>
-            <td mat-cell *matCellDef="let element">
+            <td mat-cell *matCellDef="let element" class="p-0">
               <ng-container [ngSwitch]="column">
-                <div *ngSwitchCase="'update'">
+                <div *ngSwitchCase="'update'" class="me-1 ms-2">
                   <button
                     type="button"
-                    class="btn btn-td float-end p-0 ms-3"
+                    class="btn btn-td float-end p-0"
                     title="Edytuj"
                     (click)="edit(element.sourceId); $event.stopPropagation()"
                   >
@@ -49,7 +49,7 @@
                 <div *ngSwitchCase="'remove'">
                   <button
                     type="button"
-                    class="btn btn-td float-end p-0 ms-1"
+                    class="btn btn-td float-end p-0"
                     title="Usuń"
                     (click)="delete(element.sourceId); $event.stopPropagation()"
                   >
@@ -74,7 +74,7 @@
                     >
                   </button>
                 </div>
-                <div *ngSwitchDefault class="ms-3">
+                <div *ngSwitchDefault class="mx-3 my-1">
                   <div *ngIf="isArray(element[column]); else notArray">
                     {{ element[column].join(" | ") }}
                   </div>

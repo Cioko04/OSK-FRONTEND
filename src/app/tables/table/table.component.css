@@ -32,13 +32,6 @@ td {
   background: rgba(255, 255, 255, 0);
   color: black;
 }
-.update,
-.remove {
-  width: 2%;
-}
-.Id {
-  width: 5%;
-}
 th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
   padding-left: 8px;
 }
@@ -66,9 +59,6 @@ tr.example-element-row:not(.example-expanded-row):hover {
   overflow: hidden;
   display: flex;
 }
-.expand {
-  width: 2%;
-}
 .avatar {
   vertical-align: middle;
   width: 50px;
@@ -92,5 +82,22 @@ tr.example-element-row:not(.example-expanded-row):hover {
 .container-with-image .text-container div {
   white-space: pre-wrap;
   word-break: break-word;
+}
+.update,
+.remove,
+.expand  {
+  width: 2%;
+}
+.Id,
+.Wiek {
+  width: 5%;
+}
+.Imię,
+.Nazwisko,
+.Email {
+  width: 15%;
+}
+.Kategorie {
+  width: 40%
 }
 

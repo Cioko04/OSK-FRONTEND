@@ -7,7 +7,7 @@ import {
   forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatLegacyChip as MatChip, MatLegacyChipList as MatChipList } from '@angular/material/legacy-chips';
+import { MatChipListbox, MatChipOption } from '@angular/material/chips';
 import { map } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -51,8 +51,8 @@ const CATEGORIES: string[] = [
 export class CategoryFormComponent
   implements OnInit, AfterViewInit, ControlValueAccessor
 {
-  @ViewChild(MatChipList)
-  chipList!: MatChipList;
+  @ViewChild(MatChipListbox)
+  chipList!: MatChipListbox;
 
   categories: string[] = CATEGORIES;
   options: string[] = ['Zaznacz wszystkie', 'Usuń wszystkie'];
@@ -109,24 +109,24 @@ export class CategoryFormComponent
   }
 
   selectChips(value: string[]) {
-    this.chipList.chips.forEach((chip) => chip.deselect());
+    this.chipList._chips.forEach((chip) => chip.deselect());
 
-    const chipsToSelect = this.chipList.chips.filter((c) =>
+    const chipsToSelect = this.chipList._chips.filter((c) =>
       value.includes(c.value)
     );
 
     chipsToSelect.forEach((chip) => chip.select());
   }
 
-  toggleSelection(chip: MatChip) {
+  toggleSelection(chip: MatChipOption) {
     chip.toggleSelected();
   }
 
   selectAll(){
-    this.chipList.chips.forEach((chip) => chip.select());
+    this.chipList._chips.forEach((chip) => chip.select());
   }
 
   deselectAll() {
-    this.chipList.chips.forEach((chip) => chip.deselect());
+    this.chipList._chips.forEach((chip) => chip.deselect());
   }
 }
