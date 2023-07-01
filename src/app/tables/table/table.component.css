@@ -6,8 +6,6 @@
   background-color: rgb(70, 69, 69);
   color: #f3f1f1;
 }
-
-
 table {
   max-width: 100%;
   width: 100%;
@@ -32,6 +30,9 @@ td {
   background: rgba(255, 255, 255, 0);
   color: black;
 }
+.header {
+  background: rgba(255, 255, 255, 0);
+}
 th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
   padding-left: 8px;
 }
@@ -50,7 +51,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   background: #efefef;
 }
 tr.example-element-row:not(.example-expanded-row):hover {
-  background: whitesmoke;
+  background: #3192e711;
 }
 .example-element-row td {
   border-bottom-width: 0;
@@ -100,4 +101,12 @@ tr.example-element-row:not(.example-expanded-row):hover {
 .Kategorie {
   width: 40%
 }
+.input-group-text{
+  background-color: #3192e7;
+}
+.form-control.search.active {
+  box-shadow: none;
+  border-color: #efefef00;
+}
+
 

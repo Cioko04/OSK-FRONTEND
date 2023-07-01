@@ -77,6 +77,11 @@ export class TableComponent implements OnInit, OnChanges {
     window.dispatchEvent(resizeEvent);
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   getHead(head: any): any {
     if (head.SecondField) {
       return head.SecondField;
@@ -191,5 +196,13 @@ export class TableComponent implements OnInit, OnChanges {
     } else if (this.windowWidth <= 320) {
       this.adjustDisplayedColumns(1, false);
     }
+  }
+
+  addActiveClass(input: HTMLInputElement) {
+    input.classList.add('active');
+  }
+
+  removeActiveClass(input: HTMLInputElement) {
+    input.classList.remove('active');
   }
 }

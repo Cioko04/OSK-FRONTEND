@@ -3,19 +3,6 @@
     <a class="navbar-brand">
       <app-logo></app-logo>
     </a>
-    <form class="d-flex me-4" role="search">
-      <div class="input-group mb-3 search-form">
-        <button type="button" class="btn-search btn-md btn btn-dark">
-          <i class="fa fa-search" aria-hidden="true"></i>
-        </button>
-        <input
-          class="form-control search"
-          type="search"
-          placeholder="Wyszukaj..."
-          aria-label="Search"
-        />
-      </div>
-    </form>
     <div class="btn-group" ngbDropdown>
       <div class="input-group input-group-lg">
         <button type="button" class="btn btn-dark ps-0 pt-0" ngbDropdownToggle>
@@ -63,15 +50,37 @@
 <app-menu-nav></app-menu-nav>
 <router-outlet></router-outlet>
 <ng-template #content let-offcanvas>
-  <app-user-profile
-    *ngIf="shouldOpenProfile == true; else openSchool"
-    (eventBack)="offcanvas.close($event)"
-    [user]="user"
-  ></app-user-profile>
-  <ng-template #openSchool>
-    <app-school-profile
-      (eventBack)="offcanvas.close($event)"
-      [school]="user.schoolRequest"
-    ></app-school-profile>
-  </ng-template>
+  <div class="container-fluid">
+    <div class="row justify-content-center mt-1">
+      <div class="col-12">
+        <div class="offcanvas-header ps-0">
+          <h3 class="fw-semibold fs-3 text pt-3">
+            <div *ngIf="shouldOpenProfile == true; else school">
+              Twoje dane:
+            </div>
+            <ng-template #school> Dane szkoły: </ng-template>
+          </h3>
+          <button
+            type="button"
+            class="btn-close"
+            (click)="offcanvas.close('back')"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-content p-2">
+          <app-user-profile
+            *ngIf="shouldOpenProfile == true; else openSchool"
+            (eventBack)="offcanvas.close($event)"
+            [user]="user"
+          ></app-user-profile>
+          <ng-template #openSchool>
+            <app-school-profile
+              (eventBack)="offcanvas.close($event)"
+              [school]="user.schoolRequest"
+            ></app-school-profile>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-template>
