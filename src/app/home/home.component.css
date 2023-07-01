@@ -37,3 +37,7 @@
   height: 35px;
   border-radius: 50%;
 }
+.offcanvas-content {
+  overflow-y: auto;
+  max-height: 75%;
+}

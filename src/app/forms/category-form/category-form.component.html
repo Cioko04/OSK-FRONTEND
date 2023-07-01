@@ -6,17 +6,15 @@
       <mat-chip class="bg-light" (click)="deselectAll()">Usuń wszystkie</mat-chip>
     </div>
     <div class="ms-4">
-      <mat-chip-list selectable multiple>
-        <mat-chip
-          #c="matChip"
+      <mat-chip-listbox selectable multiple>
+        <mat-chip-option
+          #chipOption
           *ngFor="let category of categories"
           [value]="category"
-          (click)="toggleSelection(c)"
         >
-          <mat-icon *ngIf="c.selected">check</mat-icon>
           {{ category }}
-        </mat-chip>
-      </mat-chip-list>
+        </mat-chip-option>
+      </mat-chip-listbox>
     </div>
   </div>
 </div>
