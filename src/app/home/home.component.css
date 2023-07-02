@@ -38,6 +38,7 @@
   border-radius: 50%;
 }
 .offcanvas-content {
+  max-height: 80vh;
   overflow-y: auto;
-  max-height: 75%;
+  overflow-x: hidden;
 }

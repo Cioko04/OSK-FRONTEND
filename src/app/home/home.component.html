@@ -67,7 +67,7 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="offcanvas-content p-2">
+        <div class="offcanvas-content px-3">
           <app-user-profile
             *ngIf="shouldOpenProfile == true; else openSchool"
             (eventBack)="offcanvas.close($event)"
