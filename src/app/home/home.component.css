@@ -42,3 +42,6 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+.offcanvas {
+  background-color: #dddbdb00 !important;
+}

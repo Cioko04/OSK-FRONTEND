@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MyErrorHandlerServiceService } from '../shared/my-error-handler.service';
+import { MyErrorHandlerServiceService } from '../shared/errorHandlers/my-error-handler.service';
 import { Observable, catchError } from 'rxjs';
 import { Instructor } from './instructor';
 

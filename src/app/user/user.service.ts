@@ -1,4 +1,4 @@
-import { MyErrorHandlerServiceService } from '../shared/my-error-handler.service';
+import { MyErrorHandlerServiceService } from '../shared/errorHandlers/my-error-handler.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError } from 'rxjs';
 import { User } from './user';

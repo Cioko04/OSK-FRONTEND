@@ -10,30 +10,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatChipListbox, MatChipOption } from '@angular/material/chips';
 import { map } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { CategoryEnum } from 'src/app/shared/enums/CategoryEnum';
 
 export interface CategoryFormValues {
   categories: string[];
 }
-
-const CATEGORIES: string[] = [
-  'AM',
-  'A1',
-  'A2',
-  'A',
-  'B2',
-  'B',
-  'B+E',
-  'C',
-  'C1',
-  'C1+E',
-  'C+E',
-  'D',
-  'D1',
-  'D1+E',
-  'D+E',
-  'T',
-  'Tramwaj',
-];
 
 @UntilDestroy()
 @Component({
@@ -54,7 +35,7 @@ export class CategoryFormComponent
   @ViewChild(MatChipListbox)
   chipList!: MatChipListbox;
 
-  categories: string[] = CATEGORIES;
+  categories: string[] = Object.values(CategoryEnum);
   options: string[] = ['Zaznacz wszystkie', 'Usuń wszystkie'];
 
   value: string[] = [];

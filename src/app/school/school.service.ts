@@ -8,7 +8,7 @@ import { School } from './school';
 import { User } from '../user/user';
 import { Observable } from 'rxjs/internal/Observable';
 import { catchError } from 'rxjs';
-import { MyErrorHandlerServiceService } from '../shared/my-error-handler.service';
+import { MyErrorHandlerServiceService } from '../shared/errorHandlers/my-error-handler.service';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +36,33 @@ export class SchoolService {
         return this.errorHandler.handleError(error);
       })
     );
+  }
+
+  getCities(): Observable<Array<string>> {
+    return this.http.get<Array<string>>(this.API_URL + '/getCities').pipe(
+      catchError((error) => {
+        return this.errorHandler.handleError(error);
+      })
+    );
+  }
+
+  getSchoolByCitiesAndCategories(
+    cities: string[],
+    categories: string[]
+  ): Observable<Array<School>> {
+    const params = {
+      cities: Array.from(cities).join(','),
+      categories: Array.from(categories).join(','),
+    };
+    return this.http
+      .get<Array<School>>(this.API_URL + '/getSchoolByCitiesAndCategories', {
+        params,
+      })
+      .pipe(
+        catchError((error) => {
+          return this.errorHandler.handleError(error);
+        })
+      );
   }
 
   register(school: School) {

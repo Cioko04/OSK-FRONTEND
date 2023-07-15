@@ -4,7 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { SchoolService } from 'src/app/school/school.service';
 import { Observable } from 'rxjs';
 import { School } from 'src/app/school/school';
-import { HeadArray, List } from '../interface/list';
+import { HeadArray, List } from '../../shared/interfaces/list';
 
 @Component({
   selector: 'app-school-list',

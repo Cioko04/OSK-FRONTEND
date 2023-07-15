@@ -1,49 +1,66 @@
-import { Component, OnInit } from '@angular/core';
-
-interface Country {
-	name: string;
-	flag: string;
-	area: number;
-	population: number;
-}
-
-const COUNTRIES: Country[] = [
-	{
-		name: 'Russia',
-		flag: 'f/f3/Flag_of_Russia.svg',
-		area: 17075200,
-		population: 146989754,
-	},
-	{
-		name: 'Canada',
-		flag: 'c/cf/Flag_of_Canada.svg',
-		area: 9976140,
-		population: 36624199,
-	},
-	{
-		name: 'United States',
-		flag: 'a/a4/Flag_of_the_United_States.svg',
-		area: 9629091,
-		population: 324459463,
-	},
-	{
-		name: 'China',
-		flag: 'f/fa/Flag_of_the_People%27s_Republic_of_China.svg',
-		area: 9596960,
-		population: 1409517397,
-	},
-];
-
+import {
+  Component,
+  ElementRef,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import { School } from 'src/app/school/school';
+import { SchoolService } from 'src/app/school/school.service';
+import { CategoryEnum } from 'src/app/shared/enums/CategoryEnum';
+import { HeadArray } from 'src/app/shared/interfaces/list';
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.css']
+  styleUrls: ['./courses.component.css'],
 })
 export class CoursesComponent implements OnInit {
-  countries = COUNTRIES;
-  constructor() { }
+  headArray: HeadArray[] = [
+    { Head: 'Nazwa', FieldName: 'schoolName' },
+    { Head: 'Miasto', FieldName: 'city' },
+    { Head: 'Kategorie', FieldName: 'categories' },
+  ];
 
-  ngOnInit(): void {
+  form: FormGroup | any;
+
+  schoolObs: Observable<School[]> = new Observable<School[]>();
+
+  cities: string[] = [];
+  citiesObs: Observable<string[]> | any;
+  categories: string[] = [];
+  categoriesObs: Observable<string[]> | any;
+
+
+  constructor(private schoolService: SchoolService, private formBuilder: FormBuilder) {
+    this.citiesObs = this.schoolService.getCities();
+    this.categoriesObs = of(Object.values(CategoryEnum));
   }
 
+  ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      cities: [],
+      categories: [],
+    });
+    this.search();
+  }
+
+  addCitesToSearch(event: string[]) {
+    this.cities = event;
+    this.search();
+  }
+
+  addCategoriesToSearch(event: string[]) {
+    this.categories = event;
+    this.search();
+  }
+
+  private search() {
+    this.schoolObs = this.schoolService.getSchoolByCitiesAndCategories(
+      this.cities,
+      this.categories
+    );
+  }
 }

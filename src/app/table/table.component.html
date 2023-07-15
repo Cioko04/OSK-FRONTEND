@@ -1,9 +1,9 @@
-<div class="container-fluid pt-4">
-  <div class="row justify-content-center mt-4">
+<div class="container-fluid">
+  <div class="row justify-content-center">
     <div class="col-10">
       <div class="row">
-        <div class="col-3">
-          <button
+        <div  class="col-3">
+          <button *ngIf="isAction"
             type="button"
             class="btn btn-md btn-floating px-1"
             (click)="add()"
@@ -12,19 +12,23 @@
             <span class="ms-1">Dodaj</span>
           </button>
         </div>
-        <div class="col-9 col-sm-9 col-md-6 col-lg-3 offset-sm-0 offset-md-3 offset-lg-6">
+        <div
+          class="col-9 col-sm-9 col-md-6 col-lg-3 offset-sm-0 offset-md-3 offset-lg-6"
+        >
           <div class="input-group mb-3">
             <input
-            #searchInput
+              #searchInput
               class="form-control search"
               type="search"
               placeholder="Wyszukaj..."
               aria-label="Search"
               (keyup)="applyFilter($event)"
               (focus)="addActiveClass(searchInput)"
-      (blur)="removeActiveClass(searchInput)"
+              (blur)="removeActiveClass(searchInput)"
             />
-            <span class="input-group-text"><i class="fa fa-search text-white" aria-hidden="true"></i></span>
+            <span class="input-group-text"
+              ><i class="fa fa-search text-white" aria-hidden="true"></i
+            ></span>
           </div>
         </div>
       </div>
@@ -146,7 +150,11 @@
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header"></tr>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns"
+            class="header"
+          ></tr>
           <tr
             mat-row
             *matRowDef="let element; columns: displayedColumns"

@@ -6,7 +6,7 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
 import { Instructor } from 'src/app/instructor/instructor';
 import { InstructorService } from 'src/app/instructor/instructor.service';
 import { UserService } from 'src/app/user/user.service';
-import { HeadArray, List } from '../interface/list';
+import { HeadArray, List } from '../../shared/interfaces/list';
 
 @Component({
   selector: 'app-instructor-list',

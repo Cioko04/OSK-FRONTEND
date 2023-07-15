@@ -5,7 +5,7 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { HeadArray } from './../../home/interface/list';
+import { HeadArray } from '../shared/interfaces/list';
 import {
   Component,
   EventEmitter,

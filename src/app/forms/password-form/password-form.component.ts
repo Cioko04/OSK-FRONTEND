@@ -1,12 +1,13 @@
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges, forwardRef } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
-  UntypedFormGroup,
-  UntypedFormBuilder,
   ControlValueAccessor,
   Validators,
   NG_VALIDATORS,
   UntypedFormControl,
+  FormGroup,
+  FormBuilder,
+  FormControl,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { matchPassword } from '../validators/validators';
@@ -36,7 +37,7 @@ export interface PasswordFormValues {
   ],
 })
 export class PasswordFormComponent implements ControlValueAccessor, OnDestroy, OnChanges {
-  passwordForm: UntypedFormGroup | any;
+  passwordForm: FormGroup | any;
   subscriptions: Subscription[] = [];
 
   @Input()
@@ -61,7 +62,7 @@ export class PasswordFormComponent implements ControlValueAccessor, OnDestroy, O
   }
 
   constructor(
-    private formBuilder: UntypedFormBuilder
+    private formBuilder: FormBuilder
   ) {
     this.passwordForm = this.formBuilder.group(
       {
@@ -113,7 +114,7 @@ export class PasswordFormComponent implements ControlValueAccessor, OnDestroy, O
     this.onTouched = fn;
   }
 
-  validate(_: UntypedFormControl) {
+  validate(_: FormControl) {
     return this.passwordForm.valid ? null : { passwords: { valid: false } };
   }
 }

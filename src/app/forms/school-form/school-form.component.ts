@@ -79,7 +79,6 @@ export class SchoolFormComponent
       city: ['', [Validators.required, Validators.minLength(2)]],
       zipCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
       nip: ['', [Validators.minLength(3)]],
-      // nip: ['', { validators: [Validators.required, Validators.minLength(10)]}],
     });
 
     this.subscriptions.push(

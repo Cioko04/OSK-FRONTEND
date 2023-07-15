@@ -1,4 +1,4 @@
-import { MyErrorHandlerServiceService } from '../shared/my-error-handler.service';
+import { MyErrorHandlerServiceService } from '../shared/errorHandlers/my-error-handler.service';
 import { Router } from '@angular/router';
 import {
   HttpClient,

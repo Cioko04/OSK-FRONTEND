@@ -16,7 +16,7 @@ import { LoginRegistrationComponent } from './welcome/login-registration/login-r
 import { HomeComponent } from './home/home.component';
 import { PaymentsComponent } from './home/payments/payments.component';
 import { CoursesComponent } from './home/courses/courses.component';
-import { MyCoursesComponent } from './home/courses/my-courses/my-courses.component';
+import { MyCoursesComponent } from './home/my-courses/my-courses.component';
 import { UserProfileComponent } from './home/user-profile/user-profile.component';
 import { AuthenticationService } from './authentication/authentication.service';
 import { SchoolListComponent } from './home/school-list/school-list.component';
@@ -26,7 +26,7 @@ import { PasswordFormComponent } from './forms/password-form/password-form.compo
 import { LoginFormComponent } from './forms/login-form/login-form.component';
 import { SchoolFormComponent } from './forms/school-form/school-form.component';
 import { InstructorListComponent } from './home/instructor-list/instructor-list.component';
-import { TableComponent } from './tables/table/table.component';
+import { TableComponent } from './table/table.component';
 import { SchoolProfileComponent } from './home/school-profile/school-profile.component';
 import { CategoryFormComponent } from './forms/category-form/category-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -43,6 +43,10 @@ import {
 } from '@angular/material/paginator';
 import { CustomPaginatorIntl } from './providers/CustomPaginatorIntl';
 import { MatSortModule } from '@angular/material/sort';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { SearchCourseFormComponent } from './forms/search-course-form/search-course-form.component';
+import { SearchSelectFormComponent } from './forms/search-select-form/search-select-form.component';
+import {MatDialogModule} from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,6 +70,8 @@ import { MatSortModule } from '@angular/material/sort';
     TableComponent,
     SchoolProfileComponent,
     CategoryFormComponent,
+    SearchCourseFormComponent,
+    SearchSelectFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +84,8 @@ import { MatSortModule } from '@angular/material/sort';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatAutocompleteModule,
+    MatDialogModule,
     NgbModule,
     FormsModule,
     HttpClientModule,

@@ -1,0 +1,32 @@
+<div [formGroup]="form">
+  <mat-form-field class="chip-list">
+    <mat-chip-grid #grid>
+      <mat-chip-row
+        *ngFor="let value of chosenValues"
+        (removed)="remove(value)"
+      >
+        {{ value }}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    </mat-chip-grid>
+    <input
+      placeholder="Wybierz..."
+      formControlName="values"
+      [matChipInputFor]="grid"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="select($event)"
+    >
+      <mat-option
+        *ngFor="let value of valuesObs | async"
+        [value]="value"
+      >
+        {{ value }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
