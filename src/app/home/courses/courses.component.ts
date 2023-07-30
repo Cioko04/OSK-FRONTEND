@@ -1,13 +1,6 @@
-import {
-  Component,
-  ElementRef,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { School } from 'src/app/school/school';
 import { SchoolService } from 'src/app/school/school.service';
 import { CategoryEnum } from 'src/app/shared/enums/CategoryEnum';
@@ -27,40 +20,53 @@ export class CoursesComponent implements OnInit {
   form: FormGroup | any;
 
   schoolObs: Observable<School[]> = new Observable<School[]>();
+  categoriesObs: Observable<string[]> = new Observable<string[]>();
+  citiesObs: Observable<string[]> = new Observable<string[]>();
 
-  cities: string[] = [];
-  citiesObs: Observable<string[]> | any;
-  categories: string[] = [];
-  categoriesObs: Observable<string[]> | any;
-
-
-  constructor(private schoolService: SchoolService, private formBuilder: FormBuilder) {
+  constructor(
+    private schoolService: SchoolService,
+    private formBuilder: FormBuilder
+  ) {
     this.citiesObs = this.schoolService.getCities();
     this.categoriesObs = of(Object.values(CategoryEnum));
+    this.form = this.formBuilder.group({
+      cities: [[]],
+      categories: [[]],
+    });
   }
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      cities: [],
-      categories: [],
+    this.schoolObs = this.schoolService.getSchoolsWithCategories();
+    this.form.valueChanges.subscribe(() => {
+      this.search();
     });
-    this.search();
-  }
-
-  addCitesToSearch(event: string[]) {
-    this.cities = event;
-    this.search();
-  }
-
-  addCategoriesToSearch(event: string[]) {
-    this.categories = event;
-    this.search();
   }
 
   private search() {
-    this.schoolObs = this.schoolService.getSchoolByCitiesAndCategories(
-      this.cities,
-      this.categories
+    this.schoolObs = this.schoolObs.pipe(
+      map((school) =>
+        school.filter(
+          (item) =>
+            this.containsCategories(item.categories) &&
+            this.containsCities(item.city)
+        )
+      )
+    );
+  }
+
+  private containsCities(city: string): boolean {
+    return (
+      this.form.value.cities.length === 0 ||
+      this.form.value.cities.includes(city)
+    );
+  }
+
+  private containsCategories(categories: string[]) {
+    return (
+      this.form.value.categories.length === 0 ||
+      this.form.value.categories.some((category: string) =>
+        categories.includes(category)
+      )
     );
   }
 }

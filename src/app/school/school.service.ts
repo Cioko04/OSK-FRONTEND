@@ -38,6 +38,14 @@ export class SchoolService {
     );
   }
 
+  getSchoolsWithCategories(): Observable<Array<School>> {
+    return this.http.get<Array<School>>(this.API_URL + '/getSchoolsWithCategories').pipe(
+      catchError((error) => {
+        return this.errorHandler.handleError(error);
+      })
+    );
+  }
+
   getCities(): Observable<Array<string>> {
     return this.http.get<Array<string>>(this.API_URL + '/getCities').pipe(
       catchError((error) => {

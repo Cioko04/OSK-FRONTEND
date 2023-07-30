@@ -28,7 +28,6 @@ import { SchoolFormComponent } from './forms/school-form/school-form.component';
 import { InstructorListComponent } from './home/instructor-list/instructor-list.component';
 import { TableComponent } from './table/table.component';
 import { SchoolProfileComponent } from './home/school-profile/school-profile.component';
-import { CategoryFormComponent } from './forms/category-form/category-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
@@ -44,7 +43,6 @@ import {
 import { CustomPaginatorIntl } from './providers/CustomPaginatorIntl';
 import { MatSortModule } from '@angular/material/sort';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { SearchCourseFormComponent } from './forms/search-course-form/search-course-form.component';
 import { SearchSelectFormComponent } from './forms/search-select-form/search-select-form.component';
 import {MatDialogModule} from '@angular/material/dialog';
 @NgModule({
@@ -69,8 +67,6 @@ import {MatDialogModule} from '@angular/material/dialog';
     InstructorListComponent,
     TableComponent,
     SchoolProfileComponent,
-    CategoryFormComponent,
-    SearchCourseFormComponent,
     SearchSelectFormComponent,
   ],
   imports: [

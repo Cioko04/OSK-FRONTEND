@@ -29,10 +29,12 @@
   </div>
   <div *ngIf="!initProperForm.hideCategories">
     <label class="ms-3 mb-1"><b>Kategorie:</b></label>
-    <app-search-select-form
-      [valuesObs]="x"
-      formControlName="categories"
-    ></app-search-select-form>
+    <div>
+      <app-search-select-form
+        [valuesObs]="categories"
+        formControlName="categories"
+      ></app-search-select-form>
+    </div>
   </div>
   <div class="form-group my-3">
     <button

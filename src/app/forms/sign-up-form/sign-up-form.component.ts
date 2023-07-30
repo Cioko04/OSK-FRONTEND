@@ -12,7 +12,7 @@ import { CategoryEnum } from 'src/app/shared/enums/CategoryEnum';
   styleUrls: ['./sign-up-form.component.css', '../form-style.css'],
 })
 export class SignUpFormComponent implements OnInit {
-  x: Observable<string[]> | any;
+  categories: Observable<string[]> | any;
   @Input()
   data: any;
   @Input()
@@ -38,7 +38,6 @@ export class SignUpFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.x = of(Object.values(CategoryEnum));
     if (this.initProperForm.update) {
       this.buttonText = 'Zapisz';
       this.patchValues();
@@ -136,6 +135,7 @@ export class SignUpFormComponent implements OnInit {
   }
 
   private patchCategories(categories: string[]) {
+    this.categories = of(Object.values(CategoryEnum));
     this.signupForm.get('categories')?.patchValue(categories);
   }
 }

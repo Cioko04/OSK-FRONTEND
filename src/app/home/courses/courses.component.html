@@ -8,7 +8,7 @@
           >
           <app-search-select-form
             [valuesObs]="citiesObs"
-            (valuesChange)="addCitesToSearch($event)"
+            formControlName="cities"
           ></app-search-select-form>
         </div>
       </div>
@@ -19,7 +19,7 @@
           >
           <app-search-select-form
             [valuesObs]="categoriesObs"
-            (valuesChange)="addCategoriesToSearch($event)"
+            formControlName="categories"
           ></app-search-select-form>
         </div>
       </div>

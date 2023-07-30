@@ -1,3 +1,5 @@
+<button type="button" class="btn btn-secondary me-1 btn-sm" (click)="addAll()">Wybierz wszystkie</button>
+<button type="button" class="btn btn-secondary btn-sm" (click)="removeAll()">Usuń wszystkie</button>
 <div [formGroup]="form">
   <mat-form-field class="chip-list">
     <mat-chip-grid #grid>
@@ -17,14 +19,8 @@
       [matChipInputFor]="grid"
       [matAutocomplete]="auto"
     />
-    <mat-autocomplete
-      #auto="matAutocomplete"
-      (optionSelected)="select($event)"
-    >
-      <mat-option
-        *ngFor="let value of valuesObs | async"
-        [value]="value"
-      >
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="select($event.option.viewValue)">
+      <mat-option *ngFor="let value of leftValues">
         {{ value }}
       </mat-option>
     </mat-autocomplete>
