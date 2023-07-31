@@ -10,7 +10,7 @@ import { SchoolService } from 'src/app/school/school.service';
   templateUrl: './school-profile.component.html',
   styleUrls: ['./school-profile.component.css'],
 })
-export class SchoolProfileComponent implements OnInit {
+export class SchoolProfileComponent {
   initProperForm = {
     createSchool: true,
     update: true,
@@ -22,8 +22,6 @@ export class SchoolProfileComponent implements OnInit {
 
   @Output()
   eventBack = new EventEmitter<string>();
-
-  ngOnInit() {}
 
   constructor(private schoolService: SchoolService) {}
 

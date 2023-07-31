@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
+import { Component, Input, OnInit, forwardRef, OnDestroy } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -37,9 +37,11 @@ export class SearchSelectFormComponent implements OnInit {
 
   @Input()
   valuesObs: Observable<string[]> = new Observable<string[]>();
+  @Input()
+  showButtons: boolean = false;
 
   set value(values: string[]) {
-    this.chosenValues = values;
+    this.chosenValues = values.slice();
     values.forEach((value) => this.removeValueFromList(value, this.leftValues));
   }
 
@@ -110,14 +112,14 @@ export class SearchSelectFormComponent implements OnInit {
   }
 
   private _filter(value: string, data: any): string[] {
-    const filterValue = value.toLowerCase();
+    let filterValue = value.toLowerCase();
     return data.filter((item: string) =>
       item.toLowerCase().includes(filterValue)
     );
   }
 
   private removeValueFromList(value: string, values: string[]): void {
-    const filteredValues = values.filter((item: any) => item !== value);
+    let filteredValues = values.filter((item: any) => item !== value);
     this.updateValuesInList(filteredValues, this.values.valueChanges);
   }
 
@@ -133,7 +135,8 @@ export class SearchSelectFormComponent implements OnInit {
         startWith(null),
         map((value: string | null) =>
           value ? this._filter(value, data) : data.slice()
-        )
+        ),
+        untilDestroyed(this)
       )
       .subscribe((result: string[]) => {
         this.leftValues = result;

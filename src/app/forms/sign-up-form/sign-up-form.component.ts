@@ -1,9 +1,9 @@
-import { Observable, of } from 'rxjs';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { User } from 'src/app/user/user';
+import { Observable, of } from 'rxjs';
 import { CategoryEnum } from 'src/app/shared/enums/CategoryEnum';
+import { User } from 'src/app/user/user';
 
 @UntilDestroy()
 @Component({
@@ -12,7 +12,7 @@ import { CategoryEnum } from 'src/app/shared/enums/CategoryEnum';
   styleUrls: ['./sign-up-form.component.css', '../form-style.css'],
 })
 export class SignUpFormComponent implements OnInit {
-  categories: Observable<string[]> | any;
+
   @Input()
   data: any;
   @Input()
@@ -27,6 +27,7 @@ export class SignUpFormComponent implements OnInit {
   submitted: boolean = false;
   buttonText: string = 'Zarejestruj';
   user: User | any;
+  categories: Observable<string[]> | any;
 
   constructor(private formBuilder: FormBuilder) {
     this.signupForm = this.formBuilder.group({
@@ -38,6 +39,7 @@ export class SignUpFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.categories = of(Object.values(CategoryEnum));
     if (this.initProperForm.update) {
       this.buttonText = 'Zapisz';
       this.patchValues();
@@ -97,6 +99,7 @@ export class SignUpFormComponent implements OnInit {
   }
 
   private patchValues() {
+
     if (!this.initProperForm.hideCategories) {
       this.user = this.data.userRequest;
       if (this.initProperForm.createSchool) {
@@ -135,7 +138,6 @@ export class SignUpFormComponent implements OnInit {
   }
 
   private patchCategories(categories: string[]) {
-    this.categories = of(Object.values(CategoryEnum));
     this.signupForm.get('categories')?.patchValue(categories);
   }
 }

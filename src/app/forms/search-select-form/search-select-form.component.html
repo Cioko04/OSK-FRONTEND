@@ -1,6 +1,8 @@
-<button type="button" class="btn btn-secondary me-1 btn-sm" (click)="addAll()">Wybierz wszystkie</button>
-<button type="button" class="btn btn-secondary btn-sm" (click)="removeAll()">Usuń wszystkie</button>
 <div [formGroup]="form">
+  <div *ngIf="showButtons">
+    <button type="button" class="btn btn-secondary me-1 btn-sm" (click)="addAll()">Wybierz wszystkie</button>
+    <button type="button" class="btn btn-secondary btn-sm" (click)="removeAll()">Usuń wszystkie</button>
+  </div>
   <mat-form-field class="chip-list">
     <mat-chip-grid #grid>
       <mat-chip-row
