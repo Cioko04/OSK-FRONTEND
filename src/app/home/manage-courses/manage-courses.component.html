@@ -1,0 +1,31 @@
+<div class="container-fluid mt-2">
+  <div class="row justify-content-center">
+    <div class="col-10">
+      <div class="row">
+        <div
+          *ngFor="let cardContent of cardsContentArray"
+          class="col-12 col-md-6 col-lg-3"
+        >
+          <app-info-card [cardContent]="cardContent"></app-info-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-table
+  [isAction]="true"
+  [HeadArray]="headArray"
+  [GridArrayObs]="coursesObs"
+  (onAdd)="onAdd(content)"
+></app-table>
+
+<ng-template #content let-modal>
+  <div class="container-fluid">
+    <div class="row mx-1 mt-4">
+      <app-course-form
+        (onSubmit)="saveCourse($event); modal.close()"
+      ></app-course-form>
+    </div>
+  </div>
+</ng-template>

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
-import { School } from 'src/app/school/school';
-import { SchoolService } from 'src/app/school/school.service';
-import { CategoryEnum } from 'src/app/shared/enums/CategoryEnum';
-import { HeadArray } from 'src/app/shared/interfaces/list';
+import { CategoryEnum } from 'src/app/shared/services/course/course';
+import { School } from 'src/app/shared/services/school/school';
+import { SchoolService } from 'src/app/shared/services/school/school.service';
+import { HeadArray } from 'src/app/shared/core/list';
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
@@ -14,10 +14,11 @@ export class CoursesComponent implements OnInit {
   headArray: HeadArray[] = [
     { Head: 'Nazwa', FieldName: 'schoolName' },
     { Head: 'Miasto', FieldName: 'city' },
-    { Head: 'Kategorie', FieldName: 'categories' },
+    { Head: 'Kategorie', FieldName: 'categories' }
   ];
 
   form: FormGroup | any;
+  chosenCategories: string[] = [];
 
   schoolObs: Observable<School[]> = new Observable<School[]>();
   categoriesObs: Observable<string[]> = new Observable<string[]>();
@@ -36,9 +37,10 @@ export class CoursesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.schoolObs = this.schoolService.getSchoolsWithCategories();
+    this.schoolObs = this.schoolService.getSchools();
     this.form.valueChanges.subscribe(() => {
       this.search();
+      this.chosenCategories = this.form.value.categories;
     });
   }
 
@@ -47,7 +49,7 @@ export class CoursesComponent implements OnInit {
       map((school) =>
         school.filter(
           (item) =>
-            this.containsCategories(item.categories) &&
+            // this.containsCategories(item.categories) &&
             this.containsCities(item.city)
         )
       )

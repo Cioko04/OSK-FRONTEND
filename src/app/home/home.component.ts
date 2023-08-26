@@ -1,8 +1,8 @@
-import { UserService } from 'src/app/user/user.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { User } from '../user/user';
+import { User } from '../shared/services/user/user';
 import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({

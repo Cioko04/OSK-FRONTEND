@@ -9,6 +9,7 @@ import { MyCoursesComponent } from './home/my-courses/my-courses.component';
 import { SchoolListComponent } from './home/school-list/school-list.component';
 import { HasRoleGuard } from './authentication/has-role.guard';
 import { InstructorListComponent } from './home/instructor-list/instructor-list.component';
+import { ManageCoursesComponent } from './home/manage-courses/manage-courses.component';
 
 const routes: Routes = [
   {
@@ -19,14 +20,26 @@ const routes: Routes = [
       {
         path: 'courses',
         component: CoursesComponent,
+        canActivate: [HasRoleGuard],
+        data: {
+          role: 'USER',
+        }
       },
       {
         path: 'my-courses',
         component: MyCoursesComponent,
+        canActivate: [HasRoleGuard],
+        data: {
+          role: 'USER',
+        }
       },
       {
         path: 'payments',
         component: PaymentsComponent,
+        canActivate: [HasRoleGuard],
+        data: {
+          role: 'USER',
+        }
 
       },
       {
@@ -40,6 +53,14 @@ const routes: Routes = [
       {
         path: 'instructors',
         component: InstructorListComponent,
+        canActivate: [HasRoleGuard],
+        data: {
+          role: 'OSK_ADMIN',
+        }
+      },
+      {
+        path: 'manage-courses',
+        component: ManageCoursesComponent,
         canActivate: [HasRoleGuard],
         data: {
           role: 'OSK_ADMIN',

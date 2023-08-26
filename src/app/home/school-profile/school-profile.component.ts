@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { School } from 'src/app/school/school';
-import { SchoolService } from 'src/app/school/school.service';
+import { School } from 'src/app/shared/services/school/school';
+import { SchoolService } from 'src/app/shared/services/school/school.service';
+import { InitForm } from 'src/app/shared/core/list';
 
 @UntilDestroy()
 @Component({
@@ -11,10 +12,11 @@ import { SchoolService } from 'src/app/school/school.service';
   styleUrls: ['./school-profile.component.css'],
 })
 export class SchoolProfileComponent {
-  initProperForm = {
-    createSchool: true,
+  initForm: InitForm = {
+    school: true,
+    instructor: false,
+    user: false,
     update: true,
-    createOnlySchool: true
   };
 
   @Input()

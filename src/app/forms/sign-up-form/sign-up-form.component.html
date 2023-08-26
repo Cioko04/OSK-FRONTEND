@@ -1,12 +1,12 @@
 <form [formGroup]="signupForm" (ngSubmit)="submit()">
-  <div *ngIf="!initProperForm.createOnlySchool">
-    <h3 *ngIf="initProperForm.createSchool" class="fw-semibold fs-3 text pt-3">
+  <div *ngIf="initProperForm.user">
+    <h3 *ngIf="initProperForm.school" class="fw-semibold fs-3 text pt-3">
       Dane właściciela:
     </h3>
     <app-profile-form
       formControlName="profile"
       [submitted]="submitted"
-      [emailToCompare]="user.email"
+      [emailToCompare]="email"
     ></app-profile-form>
     <app-password-form
       formControlName="password"
@@ -14,9 +14,9 @@
     ></app-password-form>
     <hr />
   </div>
-  <div *ngIf="initProperForm.createSchool" class="mt-3">
+  <div *ngIf="initProperForm.school" class="mt-3">
     <h3
-      *ngIf="!initProperForm.createOnlySchool"
+      *ngIf="initProperForm.user"
       class="fw-semibold fs-3 text pt-3"
     >
       Dane szkoły:
@@ -27,7 +27,7 @@
     ></app-school-form>
     <hr />
   </div>
-  <div *ngIf="!initProperForm.hideCategories">
+  <div *ngIf="initProperForm.instructor">
     <label class="ms-3 mb-1"><b>Kategorie:</b></label>
     <div>
       <app-search-select-form

@@ -6,14 +6,20 @@
   --bs-nav-tabs-link-active-color: #202020;
   --bs-nav-tabs-link-active-bg: #dddbdb;
   --bs-nav-tabs-link-active-border-color: #dddbdb;
-  border-bottom: var(--bs-nav-tabs-border-width) solid var(--bs-nav-tabs-border-color);
+  border-bottom: var(--bs-nav-tabs-border-width) solid
+    var(--bs-nav-tabs-border-color);
+}
+.nav {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 .nav-link {
-  display: block;
+  display: flex;
   padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
-  color:  #dddbdb;
+  color: #dddbdb;
   text-decoration: none;
-  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+  white-space: nowrap;
 }
 strong {
   font-size: 1.2rem;
