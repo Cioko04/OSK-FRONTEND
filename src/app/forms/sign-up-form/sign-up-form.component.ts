@@ -79,6 +79,7 @@ export class SignUpFormComponent implements OnInit {
   }
 
   private createUser(user: User) {
+    console.log(this.signupForm.value.profile);
     user.name = this.signupForm.value.profile.name;
     user.secondName = this.signupForm.value.profile.secondName;
     user.lastName = this.signupForm.value.profile.lastName;

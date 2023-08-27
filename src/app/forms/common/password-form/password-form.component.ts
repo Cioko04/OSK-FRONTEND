@@ -1,4 +1,12 @@
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges, forwardRef } from '@angular/core';
+import { matchPassword } from './../validators/validators';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+  forwardRef,
+} from '@angular/core';
 import {
   ControlValueAccessor,
   FormBuilder,
@@ -6,10 +14,10 @@ import {
   FormGroup,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { matchPassword } from '../validators/validators';
+import { ErrorMessageService } from '../validators/error-message.service';
 export interface PasswordFormValues {
   password: string;
   confirmPassword: string;
@@ -18,10 +26,7 @@ export interface PasswordFormValues {
 @Component({
   selector: 'app-password-form',
   templateUrl: './password-form.component.html',
-  styleUrls: [
-    './password-form.component.css',
-    '../../sign-up-form/sign-up-form.component.css',
-  ],
+  styleUrls: ['./password-form.component.css', '../../form-style.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -35,9 +40,13 @@ export interface PasswordFormValues {
     },
   ],
 })
-export class PasswordFormComponent implements ControlValueAccessor, OnDestroy, OnChanges {
+export class PasswordFormComponent
+  implements ControlValueAccessor, OnDestroy, OnChanges
+{
   passwordForm: FormGroup | any;
   subscriptions: Subscription[] = [];
+  hide = true;
+  hideConfirmation = true;
 
   @Input()
   submitted: boolean = false;
@@ -61,7 +70,8 @@ export class PasswordFormComponent implements ControlValueAccessor, OnDestroy, O
   }
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private errorMessageService: ErrorMessageService
   ) {
     this.passwordForm = this.formBuilder.group(
       {
@@ -83,7 +93,7 @@ export class PasswordFormComponent implements ControlValueAccessor, OnDestroy, O
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.submitted){
+    if (this.submitted) {
       this.passwordForm.markAllAsTouched();
     }
   }
@@ -115,5 +125,9 @@ export class PasswordFormComponent implements ControlValueAccessor, OnDestroy, O
 
   validate(_: FormControl) {
     return this.passwordForm.valid ? null : { passwords: { valid: false } };
+  }
+
+  getErrorMessage(formControl: FormControl) {
+    return this.errorMessageService.getErrorMessage(formControl);
   }
 }

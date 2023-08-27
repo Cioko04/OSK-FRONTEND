@@ -76,6 +76,7 @@ export class ManageCoursesComponent extends List implements OnInit {
 
   saveCourse(course: Course) {
     course.schoolId = this.schoolId;
+    console.log(course);
     this.courseService.saveCourse(course).subscribe({
       error: (e: HttpErrorResponse) => {
         console.log(e.status);

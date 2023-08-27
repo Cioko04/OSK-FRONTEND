@@ -1,98 +1,42 @@
 <div [formGroup]="schoolForm">
-  <div class="form-group my-3">
+  <div class="form-group">
     <label class="ms-3 mb-1"><b>Nazwa szkoły:</b></label>
-    <input
-      type="text"
-      class="form-control form-control-user el-login-border"
-      id="schoolName"
-      required
-      formControlName="schoolName"
-      aria-describedby="schoolNameHelp"
-      placeholder="Nazwa"
-    />
-    <div
-      *ngIf="schoolName.invalid && schoolName.touched"
-      class="ms-3 mb-0 text-style"
-    >
-      <div *ngIf="schoolName.errors?.['required']">
-        Nazwa jest wymagana
-        <i class="fa fa-exclamation" aria-hidden="true"></i>
-      </div>
-      <div *ngIf="schoolName.errors?.['minlength']">
-        Minimalna długość to 2
-        <i class="fa fa-exclamation" aria-hidden="true"></i>
-      </div>
-    </div>
+    <mat-form-field>
+      <mat-label>Wprowadź nazwę szkoły</mat-label>
+      <input matInput type="text" required formControlName="schoolName" />
+      <mat-error *ngIf="schoolName.invalid">{{
+        getErrorMessage(schoolName)
+      }}</mat-error>
+    </mat-form-field>
   </div>
-  <div class="form-group my-3">
+  <div class="form-group">
     <label class="ms-3 mb-1"><b>Miasto:</b></label>
-    <input
-      type="text"
-      class="form-control form-control-user el-login-border"
-      id="city"
-      required
-      formControlName="city"
-      aria-describedby="cityNameHelp"
-      placeholder="Miasto"
-    />
-    <div *ngIf="city.invalid && city.touched" class="ms-3 mb-0 text-style">
-      <div *ngIf="city.errors?.['required']">
-        Miasto jest wymagane
-        <i class="fa fa-exclamation" aria-hidden="true"></i>
-      </div>
-      <div *ngIf="city.errors?.['minlength']">
-        Minimalna długość to 2
-        <i class="fa fa-exclamation" aria-hidden="true"></i>
-      </div>
-    </div>
+    <mat-form-field>
+      <mat-label>Wprowadź miasto</mat-label>
+      <input matInput type="text" required formControlName="city" />
+      <mat-error *ngIf="city.invalid">{{
+        getErrorMessage(city)
+      }}</mat-error>
+    </mat-form-field>
   </div>
-  <div class="form-group my-3">
+  <div class="form-group">
     <label class="ms-3 mb-1"><b>Kod pocztowy:</b></label>
-    <input
-      type="text"
-      class="form-control form-control-user el-login-border"
-      id="zipCode"
-      required
-      formControlName="zipCode"
-      aria-describedby="zipCodeHelp"
-      placeholder="Kod pocztowy"
-    />
-    <div
-      *ngIf="zipCode.invalid && zipCode.touched"
-      class="ms-3 mb-0 text-style"
-    >
-      <div *ngIf="zipCode.errors?.['required']">
-        Kod pocztowy jest wymagany
-        <i class="fa fa-exclamation" aria-hidden="true"></i>
-      </div>
-      <div
-        *ngIf="zipCode.errors?.['minlength'] || zipCode.errors?.['maxlength']"
-      >
-        Długość musi wynosić 5
-        <i class="fa fa-exclamation" aria-hidden="true"></i>
-      </div>
-    </div>
+    <mat-form-field>
+      <mat-label>Wprowadź pocztowy</mat-label>
+      <input matInput type="text" required formControlName="zipCode" />
+      <mat-error *ngIf="zipCode.invalid">{{
+        getErrorMessage(zipCode)
+      }}</mat-error>
+    </mat-form-field>
   </div>
-  <div class="form-group my-3">
+  <div class="form-group">
     <label class="ms-3 mb-1"><b>NIP:</b></label>
-    <input
-      type="number"
-      class="form-control form-control-user el-login-border"
-      id="nip"
-      required
-      formControlName="nip"
-      aria-describedby="nipHelp"
-      placeholder="Nip"
-    />
-    <div *ngIf="nip.invalid && nip.touched" class="ms-3 mb-0 text-style">
-      <div *ngIf="nip.errors?.['required']">
-        Nip jest wymagany
-        <i class="fa fa-exclamation" aria-hidden="true"></i>
-      </div>
-      <div *ngIf="nip.errors?.['minlength'] || nip.errors?.['maxlength']">
-        Długość musi wynosić 10
-        <i class="fa fa-exclamation" aria-hidden="true"></i>
-      </div>
-    </div>
+    <mat-form-field>
+      <mat-label>Wprowadź NIP</mat-label>
+      <input matInput type="text" required formControlName="nip" />
+      <mat-error *ngIf="nip.invalid">{{
+        getErrorMessage(nip)
+      }}</mat-error>
+    </mat-form-field>
   </div>
 </div>

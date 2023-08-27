@@ -1,13 +1,8 @@
 import {
-  ValidatorFn,
   AbstractControl,
   ValidationErrors,
-  AsyncValidator,
-  AsyncValidatorFn,
+  ValidatorFn
 } from '@angular/forms';
-import { Observable, catchError, debounceTime, map, of } from 'rxjs';
-import { AuthenticationService } from '../../../authentication/authentication.service';
-import { Injector } from '@angular/core';
 
 
 export const matchPassword: ValidatorFn = (
@@ -22,8 +17,8 @@ export const matchPassword: ValidatorFn = (
       password?.setErrors(null);
       confirmPassword?.setErrors(null);
     } else {
-      password?.setErrors({ password: true });
-      confirmPassword?.setErrors({ confirmPassword: true });
+      password?.setErrors({ passwordMatch: true });
+      confirmPassword?.setErrors({ passwordMatch: true });
     }
   }
   return passwordMatch ? null : { passwordMatch: true };

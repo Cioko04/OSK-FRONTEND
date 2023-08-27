@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import {
   ControlValueAccessor,
+  FormControl,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   UntypedFormBuilder,
@@ -18,6 +19,7 @@ import {
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { UniqueEmailValidator } from '../validators/UniqueEmailValidator';
+import { ErrorMessageService } from '../validators/error-message.service';
 import { adultly } from '../validators/validators';
 
 export interface ProfileFormValues {
@@ -87,7 +89,8 @@ export class ProfileFormComponent
 
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private emailValidator: UniqueEmailValidator
+    private emailValidator: UniqueEmailValidator,
+    private errorMessageService: ErrorMessageService
   ) {}
 
   ngOnInit(): void {
@@ -148,31 +151,7 @@ export class ProfileFormComponent
     return this.profileForm.valid ? null : { profile: { valid: false } };
   }
 
-  getErrorMessageName() {
-    return this.name.hasError('minlength') ? 'Minimalna długość to 3!' : '';
-  }
-
-  getErrorMessageSecondName() {
-    return this.secondName.hasError('minlength')
-      ? 'Minimalna długość to 3!'
-      : '';
-  }
-
-  getErrorMessageLastName() {
-    return this.lastName.hasError('minlength') ? 'Minimalna długość to 2!' : '';
-  }
-
-  getErrorMessageDob() {
-    if (this.dob.hasError('valid')) {
-      return 'Błędna data';
-    }
-    return this.dob.hasError('age') ? 'Minimalny wiek 14 lat!' : '';
-  }
-
-  getErrorMessageEmail() {
-    if (this.email.hasError('valid')) {
-      return 'Błędny email!';
-    }
-    return this.email.hasError('uniqueEmail') ? 'Email jest zajęty!' : '';
+  getErrorMessage(formControl: FormControl) {
+    return this.errorMessageService.getErrorMessage(formControl);
   }
 }

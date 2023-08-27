@@ -19,6 +19,7 @@
         <p *ngIf="openPage == 'register'">
           <app-sign-up-form
             [initProperForm]="initProperForm"
+            [data]="user"
             (dataChange)="register($event)"
           ></app-sign-up-form>
         </p>

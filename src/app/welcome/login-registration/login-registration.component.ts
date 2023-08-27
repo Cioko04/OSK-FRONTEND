@@ -17,6 +17,8 @@ export class LoginRegistrationComponent {
     update: false,
   };
 
+  user: User | any = {};
+
   @Input()
   openPage = '';
 

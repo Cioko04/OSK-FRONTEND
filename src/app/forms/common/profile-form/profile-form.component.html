@@ -4,26 +4,17 @@
       <label class="ms-3 mb-1"><b>Imię:</b></label>
       <mat-form-field>
         <mat-label>Wprowadź imię</mat-label>
-        <input
-          matInput
-          type="text"
-          required
-          formControlName="name"
-        />
-        <mat-error *ngIf="name.invalid">{{ getErrorMessageName() }}</mat-error>
+        <input matInput type="text" required formControlName="name" />
+        <mat-error *ngIf="name.invalid">{{ getErrorMessage(name) }}</mat-error>
       </mat-form-field>
     </div>
     <div class="col-12 col-md-6 form-group">
       <label class="ms-3 mb-1"><b>Drugie imię:</b></label>
       <mat-form-field>
         <mat-label>Wprowadź drugie imię</mat-label>
-        <input
-          matInput
-          type="text"
-          formControlName="secondName"
-        />
+        <input matInput type="text" formControlName="secondName" />
         <mat-error *ngIf="secondName.invalid">{{
-          getErrorMessageSecondName()
+          getErrorMessage(secondName)
         }}</mat-error>
       </mat-form-field>
     </div>
@@ -31,15 +22,10 @@
   <div class="form-group">
     <label class="ms-3 mb-1"><b>Nazwisko:</b></label>
     <mat-form-field>
-      <mat-label>Wprowadź swoje nazwisko</mat-label>
-      <input
-        matInput
-        type="text"
-        required
-        formControlName="lastName"
-      />
+      <mat-label>Wprowadź nazwisko</mat-label>
+      <input matInput type="text" required formControlName="lastName" />
       <mat-error *ngIf="lastName.invalid && lastName.touched">{{
-        getErrorMessageLastName()
+        getErrorMessage(lastName)
       }}</mat-error>
     </mat-form-field>
   </div>
@@ -53,11 +39,13 @@
         formControlName="dob"
         [matDatepicker]="datepicker"
       />
-      <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-  <mat-datepicker #datepicker>
-  </mat-datepicker>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="datepicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #datepicker> </mat-datepicker>
       <mat-error *ngIf="dob.invalid && dob.touched">{{
-        getErrorMessageDob()
+        getErrorMessage(dob)
       }}</mat-error>
     </mat-form-field>
   </div>
@@ -65,8 +53,13 @@
     <label class="ms-3 mb-1"><b>Email:</b></label>
     <mat-form-field>
       <mat-label>Wprowadź email</mat-label>
-      <input matInput placeholder="pat@example.com" formControlName="email" required>
-      <mat-error *ngIf="email.invalid">{{getErrorMessageEmail()}}</mat-error>
+      <input
+        matInput
+        placeholder="pat@example.com"
+        formControlName="email"
+        required
+      />
+      <mat-error *ngIf="email.invalid">{{ getErrorMessage(email) }}</mat-error>
     </mat-form-field>
   </div>
 </div>

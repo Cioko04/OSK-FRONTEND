@@ -7,16 +7,17 @@ import {
   forwardRef,
 } from '@angular/core';
 import {
-  NG_VALUE_ACCESSOR,
-  UntypedFormGroup,
-  UntypedFormBuilder,
   ControlValueAccessor,
-  Validators,
   NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  UntypedFormBuilder,
   UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
 } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
+import { ErrorMessageService } from '../validators/error-message.service';
 export interface SchoolFormValues {
   schoolName: string;
   city: string;
@@ -27,7 +28,7 @@ export interface SchoolFormValues {
 @Component({
   selector: 'app-school-form',
   templateUrl: './school-form.component.html',
-  styleUrls: ['./school-form.component.css', '../../sign-up-form/sign-up-form.component.css'],
+  styleUrls: ['./school-form.component.css', '../../form-style.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -73,11 +74,17 @@ export class SchoolFormComponent
     return this.schoolForm.controls.nip;
   }
 
-  constructor(private formBuilder: UntypedFormBuilder) {
+  constructor(
+    private formBuilder: UntypedFormBuilder,
+    private errorMessageService: ErrorMessageService
+  ) {
     this.schoolForm = this.formBuilder.group({
       schoolName: ['', [Validators.required, Validators.minLength(2)]],
       city: ['', [Validators.required, Validators.minLength(2)]],
-      zipCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+      zipCode: [
+        '',
+        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
+      ],
       nip: ['', [Validators.minLength(3)]],
     });
 
@@ -90,7 +97,7 @@ export class SchoolFormComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.submitted){
+    if (this.submitted) {
       this.schoolForm.markAllAsTouched();
     }
   }
@@ -122,5 +129,9 @@ export class SchoolFormComponent
 
   validate(_: UntypedFormControl) {
     return this.schoolForm.valid ? null : { passwords: { valid: false } };
+  }
+
+  getErrorMessage(formControl: any) {
+    return this.errorMessageService.getErrorMessage(formControl);
   }
 }
