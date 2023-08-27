@@ -1,0 +1,9 @@
+.example-right-align {
+  text-align: right;
+  padding-right: 5px;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}

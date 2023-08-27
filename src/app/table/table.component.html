@@ -2,8 +2,9 @@
   <div class="row justify-content-center">
     <div class="col-10">
       <div class="row">
-        <div  class="col-3">
-          <button *ngIf="isAction"
+        <div class="col-3">
+          <button
+            *ngIf="isAction"
             type="button"
             class="btn btn-md btn-floating px-1"
             (click)="add()"
@@ -118,32 +119,37 @@
               *matCellDef="let element"
               [attr.colspan]="displayedColumns.length"
             >
-              <div
-                class="example-element-detail"
-                [@detailExpand]="
-                  element == expandedElement ? 'expanded' : 'collapsed'
-                "
-              >
-                <div
-                  class="container-fluid mx-4 mb-4 mt-1 container-with-image"
-                >
-                  <img
-                    src="../../../assets/img_avatar.png"
-                    alt="Avatar"
-                    class="avatar"
-                  />
-                  <div class="text-container">
-                    <div *ngFor="let info of displayedInfo">
-                      <strong>{{ info + ": " }} </strong>
-                      <ng-container
-                        *ngIf="isArray(element[info]); else notArray"
-                      >
-                        {{ element[info].join(" | ") }}
-                      </ng-container>
-                      <ng-template #notArray>
-                        {{ element[info] }}
-                      </ng-template>
+              <div class="container">
+                <div class="row justify-content-center">
+                  <div
+                    class="example-element-detail col-12 col-sm-10 col-md-7 col-lg-4"
+                    [@detailExpand]="
+                      element == expandedElement ? 'expanded' : 'collapsed'
+                    "
+                  >
+                    <!-- <div
+                    class="container-fluid mx-4 mb-4 mt-1 container-with-image"
+                  >
+                    <img
+                      src="../../../assets/img_avatar.png"
+                      alt="Avatar"
+                      class="avatar"
+                    />
+                    <div class="text-container">
+                      <div *ngFor="let info of displayedInfo">
+                        <strong>{{ info + ": " }} </strong>
+                        <ng-container
+                          *ngIf="isArray(element[info]); else notArray"
+                        >
+                          {{ element[info].join(" | ") }}
+                        </ng-container>
+                        <ng-template #notArray>
+                          {{ element[info] }}
+                        </ng-template>
+                      </div>
                     </div>
+                  </div> -->
+                    <app-category-carousel *ngIf="showCategoryCarousel" [categories]="categories.length === 0 ? element.Kategorie : categories"></app-category-carousel>
                   </div>
                 </div>
               </div>

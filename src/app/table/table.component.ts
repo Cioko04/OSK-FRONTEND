@@ -5,7 +5,7 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { HeadArray } from '../shared/interfaces/list';
+import { HeadArray } from '../shared/core/list';
 import {
   Component,
   EventEmitter,
@@ -50,6 +50,12 @@ export class TableComponent implements OnInit, OnChanges {
 
   @Input()
   isAction: boolean = false;
+
+  @Input()
+  categories: string[] = [];
+
+  @Input()
+  showCategoryCarousel: boolean = false;
 
   @Output()
   onAdd = new EventEmitter<any>();

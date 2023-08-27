@@ -1,54 +1,64 @@
-<nav class="navbar navbar-expand-lg bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand">
-      <app-logo></app-logo>
-    </a>
-    <div class="btn-group" ngbDropdown>
-      <div class="input-group input-group-lg">
-        <button type="button" class="btn btn-dark ps-0 pt-0" ngbDropdownToggle>
-          <img
-            src="../../../assets/img_avatar.png"
-            alt="Avatar"
-            class="avatar me-1"
-          />
-          {{ user?.name }}
-        </button>
+<div class="nav-content">
+  <nav class="navbar navbar-expand-lg bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand">
+        <app-logo></app-logo>
+      </a>
+      <div class="btn-group" ngbDropdown>
+        <div class="input-group input-group-lg">
+          <button
+            type="button"
+            class="btn btn-dark ps-0 pt-0"
+            ngbDropdownToggle
+          >
+            <img
+              src="../../../assets/img_avatar.png"
+              alt="Avatar"
+              class="avatar me-1"
+            />
+            {{ user?.name }}
+          </button>
+        </div>
+        <ul
+          class="dropdown-menu dropdown-menu-dark dropdown-menu-end dropdown-min-width"
+          ngbDropdownMenu
+        >
+          <li>
+            <button
+              class="btn btn-drop-down"
+              type="button"
+              (click)="openProfile(content)"
+              ngbDropdownItem
+            >
+              Profil
+            </button>
+            <button
+              *ngIf="user.role === 'OSK_ADMIN'"
+              class="btn btn-drop-down"
+              type="button"
+              (click)="openSchool(content)"
+              ngbDropdownItem
+            >
+              Dane szkoły
+            </button>
+          </li>
+          <li><hr class="dropdown-divider mx-2" /></li>
+          <li>
+            <button
+              class="btn btn-drop-down"
+              ngbDropdownItem
+              (click)="logout()"
+            >
+              Wyloguj
+            </button>
+          </li>
+        </ul>
       </div>
-      <ul
-        class="dropdown-menu dropdown-menu-dark dropdown-menu-end dropdown-min-width"
-        ngbDropdownMenu
-      >
-        <li>
-          <button
-            class="btn btn-drop-down"
-            type="button"
-            (click)="openProfile(content)"
-            ngbDropdownItem
-          >
-            Profil
-          </button>
-          <button
-            *ngIf="user.role === 'OSK_ADMIN'"
-            class="btn btn-drop-down"
-            type="button"
-            (click)="openSchool(content)"
-            ngbDropdownItem
-          >
-            Zarządzaj szkołą
-          </button>
-        </li>
-        <li><hr class="dropdown-divider mx-2" /></li>
-        <li>
-          <button class="btn btn-drop-down" ngbDropdownItem (click)="logout()">
-            Wyloguj
-          </button>
-        </li>
-      </ul>
     </div>
-  </div>
-</nav>
-<app-menu-nav></app-menu-nav>
-<div class="mt-4">
+  </nav>
+  <app-menu-nav></app-menu-nav>
+</div>
+<div class="main-content pb-3">
   <router-outlet></router-outlet>
 </div>
 <ng-template #content let-offcanvas>

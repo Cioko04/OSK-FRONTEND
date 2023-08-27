@@ -15,7 +15,7 @@ import {
   Observable,
   map,
 } from 'rxjs';
-import { User } from '../user/user';
+import { User } from '../shared/services/user/user';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
