@@ -3,35 +3,39 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
-import { Instructor } from 'src/app/instructor/instructor';
-import { InstructorService } from 'src/app/instructor/instructor.service';
-import { UserService } from 'src/app/user/user.service';
-import { HeadArray, List } from '../interface/list';
+import { Instructor } from 'src/app/shared/services/instructor/instructor';
+import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
+import { HeadArray, List } from '../../shared/core/list';
 
 @Component({
   selector: 'app-instructor-list',
   templateUrl: './instructor-list.component.html',
   styleUrls: ['./instructor-list.component.css'],
 })
-export class InstructorListComponent implements OnInit, List {
-  headArray: HeadArray[] = [
+export class InstructorListComponent extends List implements OnInit {
+  override headArray: HeadArray[] = [
     { Head: 'Imię', FieldName: 'userRequest', SecondField: 'name' },
     { Head: 'Nazwisko', FieldName: 'userRequest', SecondField: 'lastName' },
-    { Head: 'Wiek', FieldName: 'userRequest', SecondField: 'age' },
     { Head: 'Email', FieldName: 'userRequest', SecondField: 'email' },
+    { Head: 'Wiek', FieldName: 'userRequest', SecondField: 'age' },
+    { Head: 'Kategorie', FieldName: 'categories' },
   ];
 
-  initProperForm = { isFromSchool: false, update: false, showOnlySchool: false, showCategories: true };
-
   instructor: Instructor | any;
-  instructosObs: Observable<Instructor[]> = new Observable<Instructor[]>();
+  instructorsObs: Observable<Instructor[]> = new Observable<Instructor[]>();
 
   constructor(
-    private modalService: NgbModal,
+    modalService: NgbModal,
     private userService: UserService,
     private instructorService: InstructorService,
     private auth: AuthenticationService
-  ) {}
+  ) {
+    super(modalService);
+    this.initProperForm.instructor = true;
+    this.initProperForm.user = true;
+    this.initProperForm.update = true;
+  }
 
   ngOnInit(): void {
     let email = this.auth.getSessionUserEmail();
@@ -39,10 +43,10 @@ export class InstructorListComponent implements OnInit, List {
       next: (user) => {
         this.instructor = {};
         this.instructor.userRequest = {};
-        let schoolId = user.schoolRequest.id;
+        let schoolId = user.schoolRequest!.id;
         this.instructor.schoolId = schoolId;
-        this.instructosObs =
-          this.instructorService.getInstructorsBySchoolId(schoolId);
+        this.instructorsObs =
+          this.instructorService.getInstructorsBySchoolId(schoolId!);
       },
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => {
@@ -61,16 +65,15 @@ export class InstructorListComponent implements OnInit, List {
     });
   }
 
-  onAdd(content: any) {
+  override onAdd(content: any) {
     this.initProperForm.update = false;
-    this.instructor.userRequest = {};
-    this.openForm(content);
+    super.onAdd(content);
   }
 
-  onEdit(content: any, instructor: Instructor) {
+  override onEdit(content: any, instructor: Instructor) {
     this.initProperForm.update = true;
     this.instructor = instructor;
-    this.openForm(content);
+    super.onEdit(content, instructor);
   }
 
   onSubmit() {
@@ -78,7 +81,7 @@ export class InstructorListComponent implements OnInit, List {
   }
 
   update() {
-    this.userService.updateUser(this.instructor.userRequest).subscribe({
+    this.instructorService.updateInstructor(this.instructor).subscribe({
       error: (e: HttpErrorResponse) => {
         console.log(e);
         this.ngOnInit();
@@ -100,9 +103,5 @@ export class InstructorListComponent implements OnInit, List {
         this.ngOnInit();
       },
     });
-  }
-
-  openForm(content: any) {
-    this.modalService.open(content);
   }
 }

@@ -2,7 +2,7 @@
   <div class="card-body px-3">
     <div class="row">
       <div class="col-lg-6 d-none d-md-none d-lg-block">
-        <div class="semipolar-spinner">
+        <div class="semipolar-spinner mt-4">
           <div class="ring"></div>
           <div class="ring"></div>
 
@@ -19,7 +19,8 @@
         <p *ngIf="openPage == 'register'">
           <app-sign-up-form
             [initProperForm]="initProperForm"
-            (userChange)="register($event)"
+            [data]="user"
+            (dataChange)="register($event)"
           ></app-sign-up-form>
         </p>
         <div class="my-3">
@@ -27,7 +28,7 @@
             (click)="back('back')"
             class="form-control btn btn-dark el-login-border btn-block fw-bold fs-6 p-2"
           >
-            <i class="fa fa-share me-2" aria-hidden="true"></i>Cofnij
+            <i class="fa fa-reply me-2" aria-hidden="true"></i>Cofnij
           </a>
         </div>
       </div>

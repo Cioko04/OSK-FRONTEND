@@ -1,32 +1,44 @@
 <form [formGroup]="signupForm" (ngSubmit)="submit()">
-  <div *ngIf="!initProperForm.showOnlySchool">
-    <h3 *ngIf="initProperForm.isFromSchool" class="fw-semibold fs-3 text pt-3">Dane właściciela</h3>
+  <div *ngIf="initProperForm.user">
+    <h3 *ngIf="initProperForm.school" class="fw-semibold fs-3 text pt-3">
+      Dane właściciela:
+    </h3>
     <app-profile-form
       formControlName="profile"
       [submitted]="submitted"
-      [emailToCompare]="user.email"
+      [emailToCompare]="email"
     ></app-profile-form>
     <app-password-form
       formControlName="password"
       [submitted]="submitted"
     ></app-password-form>
-    <hr>
   </div>
-  <div *ngIf="initProperForm.isFromSchool" class="mt-3">
-    <h3 *ngIf="!initProperForm.showOnlySchool" class="fw-semibold fs-3 text pt-3">Dane szkoły:</h3>
+  <div *ngIf="initProperForm.school" class="mt-3">
+    <h3 *ngIf="initProperForm.user" class="fw-semibold fs-3 text pt-3">
+      Dane szkoły:
+    </h3>
     <app-school-form
       formControlName="school"
       [submitted]="submitted"
     ></app-school-form>
-    <hr>
   </div>
-  <app-category-form *ngIf="initProperForm.showCategories" formControlName="categories"> </app-category-form>
+  <div *ngIf="initProperForm.instructor">
+    <label class="ms-3 mb-1"><b>Kategorie:</b></label>
+    <div>
+      <app-search-select-form
+        [valuesObs]="categories"
+        [showButtons]="true"
+        formControlName="categories"
+      ></app-search-select-form>
+    </div>
+  </div>
+  <hr />
   <div class="form-group my-3">
-      <button
-        type="submit"
-        class="form-control btn btn-primary el-login-border btn-block fw-semibold fs-6 p-2"
-      >
-        <i class="fa fa-reply me-2" aria-hidden="true"></i>{{ buttonText }}
-      </button>
+    <button
+      type="submit"
+      class="form-control btn btn-primary el-login-border btn-block fw-semibold fs-6 p-2"
+    >
+      <i class="fa fa-reply me-2" aria-hidden="true"></i>{{ buttonText }}
+    </button>
   </div>
 </form>

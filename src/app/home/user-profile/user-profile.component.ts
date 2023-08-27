@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { User } from 'src/app/user/user';
-import { UserService } from 'src/app/user/user.service';
+import { InitForm } from 'src/app/shared/core/list';
+import { User } from 'src/app/shared/services/user/user';
+import { UserService } from 'src/app/shared/services/user/user.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -9,7 +10,12 @@ import { UserService } from 'src/app/user/user.service';
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
-  initProperForm = { isFromSchool: false, update: true, showOnlySchool: false, showCategories: false };
+  initProperForm: InitForm = {
+    school: false,
+    instructor: false,
+    user: true,
+    update: true,
+  };
 
   @Input()
   user: User | any;
@@ -17,12 +23,9 @@ export class UserProfileComponent implements OnInit {
   @Output()
   eventBack = new EventEmitter<string>();
 
-  constructor(private userService: UserService) {
-  }
-  ngOnInit(): void {
-    console.log(this.user);
-  }
+  constructor(private userService: UserService) {}
 
+  ngOnInit(): void {}
 
   update(user: User) {
     this.userService.updateUser(user).subscribe({

@@ -1,36 +1,7 @@
-<div class="container-fluid">
-  <div class="row justify-content-center mt-1">
-    <div class="col-12">
-      <div class="offcanvas-header ps-0">
-        <h3 class="fw-semibold fs-3 text pt-3">Dane szkoły:</h3>
-        <button
-          type="button"
-          class="btn-close"
-          (click)="eventBack.emit('back')"
-          aria-label="Close"
-        ></button>
-      </div>
-      <!-- <form [formGroup]="schoolForm" (ngSubmit)="submit()">
-        <app-school-form
-          formControlName="school"
-          [submitted]="submitted"
-        ></app-school-form>
-        <app-category-form formControlName="categories"> </app-category-form>
-        <hr />
-        <div class="form-group my-3">
-          <button
-            type="submit"
-            class="form-control btn btn-primary el-login-border fw-semibold btn-block fs-6 p-2"
-          >
-            <i class="fa fa-reply me-2" aria-hidden="true"></i> Zapisz
-          </button>
-        </div>
-      </form> -->
-      <app-sign-up-form
-        [initProperForm]="initProperForm"
-        [school]="school"
-        (schoolChange)="updateSchool($event)"
-      ></app-sign-up-form>
-    </div>
-  </div>
+<div class="offcanvas-content">
+  <app-sign-up-form
+    [initProperForm]="initForm"
+    [data]="school"
+    (dataChange)="updateSchool($event)"
+  ></app-sign-up-form>
 </div>

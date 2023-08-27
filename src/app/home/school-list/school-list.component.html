@@ -12,8 +12,7 @@
     <div class="row mx-1 mt-4">
       <app-sign-up-form
         [initProperForm]="initProperForm"
-        [(user)]="school.userRequest"
-        [(school)]="school"
+        [(data)]="school"
         (onSubmit)="onSubmit(); modal.close()"
       ></app-sign-up-form>
     </div>

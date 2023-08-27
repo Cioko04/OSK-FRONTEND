@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 .el-login-border{
   font-size: .8rem;
@@ -10,6 +10,12 @@
   padding: 0.5rem !important;
   border-radius: 1.5rem !important;
 }
-
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: .8rem;}
+
+.cdk-overlay-container { z-index: 9999; }
+
+.mdc-text-field {
+  font-size: .9rem;
+  border-radius: 0.8rem !important;
+}
