@@ -33,6 +33,16 @@ export class InstructorService {
       );
   }
 
+  countInstructorsBySchoolId(id: number): Observable<number> {
+    return this.http
+      .get<number>(this.API_URL + '/countInstructorBySchool/' + id)
+      .pipe(
+        catchError((error) => {
+          return this.errorHandler.handleError(error);
+        })
+      );
+  }
+
   updateInstructor(instructor: Instructor) {
     return this.http.put(this.API_URL + '/updateInstructor', instructor).pipe(
       catchError((error) => {

@@ -37,7 +37,7 @@ export class CoursesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.schoolObs = this.schoolService.getSchools();
+    this.schoolObs = this.schoolService.getSchoolsWithCategories();
     this.form.valueChanges.subscribe(() => {
       this.search();
       this.chosenCategories = this.form.value.categories;
@@ -49,7 +49,7 @@ export class CoursesComponent implements OnInit {
       map((school) =>
         school.filter(
           (item) =>
-            // this.containsCategories(item.categories) &&
+            this.containsCategories(item.categories!) &&
             this.containsCities(item.city)
         )
       )

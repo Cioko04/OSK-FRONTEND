@@ -1,3 +1,4 @@
+import { CardContent } from './../manage-courses.component';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -7,6 +8,6 @@ import { Component, Input } from '@angular/core';
 })
 export class InfoCardComponent {
   @Input()
-  cardContent: any | undefined;
+  cardContent!: CardContent;
 
 }

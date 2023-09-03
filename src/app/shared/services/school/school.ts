@@ -8,4 +8,5 @@ export interface School {
   nip: string;
   addDate: string;
   userRequest: User;
+  categories?: string[];
 }

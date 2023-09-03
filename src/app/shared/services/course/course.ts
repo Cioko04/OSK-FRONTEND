@@ -4,6 +4,8 @@ export interface Course {
   description: string;
   schoolId?: number;
   categoryType: string;
+  studentCount?: number;
+  instructorCount?: number;
 }
 
 export enum CategoryEnum {
