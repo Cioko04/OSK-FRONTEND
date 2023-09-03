@@ -1,18 +1,18 @@
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { SchoolService } from 'src/app/school/school.service';
+import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { School } from 'src/app/school/school';
-import { HeadArray, List } from '../interface/list';
+import { School } from 'src/app/shared/services/school/school';
+import { SchoolService } from 'src/app/shared/services/school/school.service';
+import { HeadArray, List } from '../../shared/core/list';
 
 @Component({
   selector: 'app-school-list',
   templateUrl: './school-list.component.html',
   styleUrls: ['./school-list.component.css'],
 })
-export class SchoolListComponent implements OnInit, List {
-  headArray: HeadArray[] = [
+export class SchoolListComponent extends List implements OnInit {
+  override headArray: HeadArray[] = [
     { Head: 'Nazwa', FieldName: 'schoolName' },
     { Head: 'Właściciel', FieldName: 'userRequest', SecondField: 'name' },
     { Head: 'Miejscowość', FieldName: 'city' },
@@ -20,14 +20,17 @@ export class SchoolListComponent implements OnInit, List {
     { Head: 'Data dodania', FieldName: 'addDate' },
   ];
 
-  initProperForm = { createSchool: true, update: false, createOnlySchool: false };
   school: School | any;
   schoolObs: Observable<School[]> = new Observable<School[]>();
 
   constructor(
-    private modalService: NgbModal,
+    modalService: NgbModal,
     private schoolService: SchoolService
-  ) {}
+  ) {
+    super(modalService);
+    this.initProperForm.school = true;
+    this.initProperForm.user = true;
+  }
 
   ngOnInit(): void {
     this.school = {};
@@ -44,15 +47,16 @@ export class SchoolListComponent implements OnInit, List {
     });
   }
 
-  onAdd(content: any) {
+  override onAdd(content: any) {
     this.initProperForm.update = false;
-    this.openForm(content);
+    this.school.userRequest = {};
+    super.onAdd(content);
   }
 
-  onEdit(content: any, school: School) {
+  override onEdit(content: any, school: School) {
     this.initProperForm.update = true;
     this.school = school;
-    this.openForm(content);
+    super.onEdit(content, school);
   }
 
   onSubmit() {
@@ -82,9 +86,5 @@ export class SchoolListComponent implements OnInit, List {
         this.ngOnInit();
       },
     });
-  }
-
-  openForm(content: any) {
-    this.modalService.open(content);
   }
 }

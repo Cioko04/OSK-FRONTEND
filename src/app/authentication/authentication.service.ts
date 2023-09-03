@@ -1,4 +1,4 @@
-import { MyErrorHandlerServiceService } from '../shared/my-error-handler.service';
+import { MyErrorHandlerServiceService } from '../shared/errorHandlers/my-error-handler.service';
 import { Router } from '@angular/router';
 import {
   HttpClient,
@@ -15,7 +15,7 @@ import {
   Observable,
   map,
 } from 'rxjs';
-import { User } from '../user/user';
+import { User } from '../shared/services/user/user';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({

@@ -1,0 +1,22 @@
+<ngb-carousel #carousel *ngIf="categories" class="custom-carousel m-3" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd($event)">
+  <ng-template ngbSlide *ngFor="let category of categories">
+    <div class="container">
+      <div class="wrapper">
+        <div class="banner-image">
+          <i class="fa fa-car fa-5x" aria-hidden="true"></i>
+        </div>
+        <h2>
+          <b>Kategoria</b>
+        </h2>
+        <h1>
+          <b>{{ category }}</b>
+        </h1>
+      </div>
+      <div class="button-wrapper">
+        <button class="btn outline">SZCZEGÓŁY</button>
+        <button class="btn fill">WYBIERZ</button>
+      </div>
+    </div>
+  </ng-template>
+</ngb-carousel>
+<pre> {{ startX | json }} </pre>

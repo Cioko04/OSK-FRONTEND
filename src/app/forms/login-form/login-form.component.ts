@@ -1,6 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { UntypedFormGroup, FormControl, Validators, UntypedFormBuilder } from '@angular/forms';
+import {  Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
@@ -12,7 +11,7 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
 })
 export class LoginFormComponent implements OnInit {
 
-  loginForm: UntypedFormGroup | any;
+  loginForm: FormGroup | any;
 
   @Output()
   eventBack = new EventEmitter<string>();
@@ -23,7 +22,7 @@ export class LoginFormComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
-    private formBuilder: UntypedFormBuilder
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -31,7 +30,7 @@ export class LoginFormComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]]
-    })
+    });
   }
 
   get email() {

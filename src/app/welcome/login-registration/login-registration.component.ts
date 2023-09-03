@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
-import { Role, User } from 'src/app/user/user';
+import { InitForm } from 'src/app/shared/core/list';
+import { Role, User } from 'src/app/shared/services/user/user';
 
 @Component({
   selector: 'app-login-registration',
@@ -9,7 +10,14 @@ import { Role, User } from 'src/app/user/user';
   styleUrls: ['./login-registration.component.css', './semipolar.css'],
 })
 export class LoginRegistrationComponent {
-  initProperForm = { hideCategories: true };
+  initProperForm: InitForm = {
+    school: false,
+    instructor: false,
+    user: true,
+    update: false,
+  };
+
+  user: User | any = {};
 
   @Input()
   openPage = '';

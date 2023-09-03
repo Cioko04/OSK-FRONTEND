@@ -1,38 +1,33 @@
-<div class="container-fluid pt-4">
-  <div class="row justify-content-center mt-4">
-    <div class="col-10">
-      <p>
-        Table is just a mapping of objects to table rows with <code>ngFor</code>
-      </p>
-
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Country</th>
-            <th scope="col">Area</th>
-            <th scope="col">Population</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let country of countries; index as i">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>
-              <img
-                [src]="
-                  'https://upload.wikimedia.org/wikipedia/commons/' +
-                  country.flag
-                "
-                class="me-2"
-                style="width: 20px"
-              />
-              {{ country.name }}
-            </td>
-            <td>{{ country.area | number }}</td>
-            <td>{{ country.population | number }}</td>
-          </tr>
-        </tbody>
-      </table>
+<form class="form" name="form" [formGroup]="form">
+  <div class="container-fluid pt-3">
+    <div class="row justify-content-center">
+      <div class="col-10 col-sm-10 col-md-5 col-lg-5">
+        <label
+          ><h3><b>Wybierz miasto: </b></h3></label
+        >
+        <app-search-select-form
+          [valuesObs]="citiesObs"
+          formControlName="cities"
+        ></app-search-select-form>
+      </div>
+      <div class="col-10 col-sm-10 col-md-5 col-lg-5">
+        <label
+          ><h3><b>Wybierz kategorię: </b></h3></label
+        >
+        <app-search-select-form
+          [valuesObs]="categoriesObs"
+          formControlName="categories"
+        ></app-search-select-form>
+      </div>
     </div>
   </div>
-</div>
+</form>
+
+<app-table
+  [isAction]="false"
+  [HeadArray]="headArray"
+  [GridArrayObs]="schoolObs"
+  [categories]="chosenCategories"
+  [showCategoryCarousel]="true"
+>
+</app-table>

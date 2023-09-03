@@ -1,49 +1,74 @@
 import { Component, OnInit } from '@angular/core';
-
-interface Country {
-	name: string;
-	flag: string;
-	area: number;
-	population: number;
-}
-
-const COUNTRIES: Country[] = [
-	{
-		name: 'Russia',
-		flag: 'f/f3/Flag_of_Russia.svg',
-		area: 17075200,
-		population: 146989754,
-	},
-	{
-		name: 'Canada',
-		flag: 'c/cf/Flag_of_Canada.svg',
-		area: 9976140,
-		population: 36624199,
-	},
-	{
-		name: 'United States',
-		flag: 'a/a4/Flag_of_the_United_States.svg',
-		area: 9629091,
-		population: 324459463,
-	},
-	{
-		name: 'China',
-		flag: 'f/fa/Flag_of_the_People%27s_Republic_of_China.svg',
-		area: 9596960,
-		population: 1409517397,
-	},
-];
-
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Observable, map, of } from 'rxjs';
+import { CategoryEnum } from 'src/app/shared/services/course/course';
+import { School } from 'src/app/shared/services/school/school';
+import { SchoolService } from 'src/app/shared/services/school/school.service';
+import { HeadArray } from 'src/app/shared/core/list';
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.css']
+  styleUrls: ['./courses.component.css'],
 })
 export class CoursesComponent implements OnInit {
-  countries = COUNTRIES;
-  constructor() { }
+  headArray: HeadArray[] = [
+    { Head: 'Nazwa', FieldName: 'schoolName' },
+    { Head: 'Miasto', FieldName: 'city' },
+    { Head: 'Kategorie', FieldName: 'categories' }
+  ];
 
-  ngOnInit(): void {
+  form: FormGroup | any;
+  chosenCategories: string[] = [];
+
+  schoolObs: Observable<School[]> = new Observable<School[]>();
+  categoriesObs: Observable<string[]> = new Observable<string[]>();
+  citiesObs: Observable<string[]> = new Observable<string[]>();
+
+  constructor(
+    private schoolService: SchoolService,
+    private formBuilder: FormBuilder
+  ) {
+    this.citiesObs = this.schoolService.getCities();
+    this.categoriesObs = of(Object.values(CategoryEnum));
+    this.form = this.formBuilder.group({
+      cities: [[]],
+      categories: [[]],
+    });
   }
 
+  ngOnInit(): void {
+    this.schoolObs = this.schoolService.getSchoolsWithCategories();
+    this.form.valueChanges.subscribe(() => {
+      this.search();
+      this.chosenCategories = this.form.value.categories;
+    });
+  }
+
+  private search() {
+    this.schoolObs = this.schoolObs.pipe(
+      map((school) =>
+        school.filter(
+          (item) =>
+            this.containsCategories(item.categories!) &&
+            this.containsCities(item.city)
+        )
+      )
+    );
+  }
+
+  private containsCities(city: string): boolean {
+    return (
+      this.form.value.cities.length === 0 ||
+      this.form.value.cities.includes(city)
+    );
+  }
+
+  private containsCategories(categories: string[]) {
+    return (
+      this.form.value.categories.length === 0 ||
+      this.form.value.categories.some((category: string) =>
+        categories.includes(category)
+      )
+    );
+  }
 }

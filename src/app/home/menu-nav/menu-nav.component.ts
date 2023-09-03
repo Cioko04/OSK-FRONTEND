@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
-import { User } from 'src/app/user/user';
 
 @Component({
   selector: 'app-menu-nav',
@@ -11,6 +10,7 @@ import { User } from 'src/app/user/user';
 export class MenuNavComponent implements OnInit {
   role: string;
   active: any;
+  menuItems: any[] = [];
 
   constructor(
     private router: Router,
@@ -21,6 +21,7 @@ export class MenuNavComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setMenuItems();
     this.router.navigate([this.active]);
   }
 
@@ -39,6 +40,49 @@ export class MenuNavComponent implements OnInit {
       case 'USER':
         this.active = '/home/courses';
         break;
+    }
+  }
+
+  private setMenuItems() {
+    if (this.role == 'ADMIN') {
+      this.menuItems = [
+        {
+          label: 'Szkoły',
+          icon: 'fa-university',
+          link: '/home/schools',
+        },
+      ];
+    } else if (this.role == 'OSK_ADMIN') {
+      this.menuItems = [
+        {
+          label: 'Instruktorzy',
+          icon: 'fa-users',
+          link: '/home/instructors',
+        },
+        {
+          label: 'Zarządzaj kursami',
+          icon: 'fa-pencil-square-o',
+          link: '/home/manage-courses',
+        },
+      ];
+    } else if (this.role == 'USER') {
+      this.menuItems = [
+        {
+          label: 'Zarezerwuj',
+          icon: 'fa-calendar-plus-o',
+          link: '/home/courses',
+        },
+        {
+          label: 'Moje kursy',
+          icon: 'fa-graduation-cap',
+          link: '/home/my-courses',
+        },
+        {
+          label: 'Płatności',
+          icon: 'fa-credit-card',
+          link: '/home/payments',
+        },
+      ];
     }
   }
 }
