@@ -31,4 +31,16 @@ export class CourseService {
       })
     );
   }
+
+  updateCourse(course: Course) {
+    return this.http.put(this.API_URL + '/updateCourse', course).pipe(
+      catchError((error) => {
+        return this.errorHandler.handleError(error);
+      })
+    );
+  }
+
+  deleteCourse(id: number) {
+    return this.http.delete(this.API_URL + '/deleteCourseById/' + id);
+  }
 }

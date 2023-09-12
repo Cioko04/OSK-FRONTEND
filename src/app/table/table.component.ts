@@ -5,7 +5,7 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { HeadArray } from '../shared/core/list';
+import { HeadArray, InitForm } from '../shared/core/list';
 import {
   Component,
   EventEmitter,
@@ -21,6 +21,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, map } from 'rxjs';
+import { User } from '../shared/services/user/user';
 
 @UntilDestroy()
 @Component({

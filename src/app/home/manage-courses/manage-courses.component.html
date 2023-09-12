@@ -18,13 +18,18 @@
   [HeadArray]="headArray"
   [GridArrayObs]="coursesObs"
   (onAdd)="onAdd(content)"
+  (onEdit)="onEdit(content, $event)"
+  (onDelete)="onDelete($event)"
 ></app-table>
 
 <ng-template #content let-modal>
   <div class="container-fluid">
     <div class="row mx-1 mt-4">
       <app-course-form
-        (onSubmit)="saveCourse($event); modal.close()"
+        [(course)]="course"
+        [updateCourse]="updateCourse"
+        [categoriesFromSchool]="categoriesFromSchool"
+        (onSubmit)="onSubmit(); modal.close()"
       ></app-course-form>
     </div>
   </div>

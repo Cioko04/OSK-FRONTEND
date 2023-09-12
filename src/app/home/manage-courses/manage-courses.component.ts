@@ -24,6 +24,9 @@ export interface CardContent {
 export class ManageCoursesComponent extends List implements OnInit {
   schoolId?: number;
   coursesObs: Observable<Course[]> = new Observable<Course[]>();
+  updateCourse: boolean = true;
+  course: Course | any;
+  categoriesFromSchool: string[] = [];
 
   override headArray: HeadArray[] = [
     { Head: 'Kategoria', FieldName: 'categoryType' },
@@ -58,21 +61,9 @@ export class ManageCoursesComponent extends List implements OnInit {
   ) {
     super(modalService);
   }
+
   ngOnInit(): void {
     this.setSchoolId();
-  }
-
-  override onDelete(id: number): void {
-    throw new Error('Method not implemented.');
-  }
-  override onSubmit(): void {
-    throw new Error('Method not implemented.');
-  }
-  override update(): void {
-    throw new Error('Method not implemented.');
-  }
-  override add(): void {
-    throw new Error('Method not implemented.');
   }
 
   setSchoolId() {
@@ -84,6 +75,7 @@ export class ManageCoursesComponent extends List implements OnInit {
         this.coursesObs = this.courseService.getCoursesBySchoolId(
           this.schoolId!
         );
+        this.setCategoriesFromSchool();
       },
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => {},
@@ -91,17 +83,67 @@ export class ManageCoursesComponent extends List implements OnInit {
   }
 
   private setInstructorCount() {
-    this.instructorService.countInstructorsBySchoolId(this.schoolId!).subscribe({
-      next: (count) => this.cardsContentArray[1].count = count,
-      error: (e: HttpErrorResponse) => console.log(e.status),
-      complete: () => {}
-    })
+    this.instructorService
+      .countInstructorsBySchoolId(this.schoolId!)
+      .subscribe({
+        next: (count) => (this.cardsContentArray[1].count = count),
+        error: (e: HttpErrorResponse) => console.log(e.status),
+        complete: () => {},
+      });
   }
 
-  saveCourse(course: Course) {
-    course.schoolId = this.schoolId;
-    console.log(course);
-    this.courseService.saveCourse(course).subscribe({
+  private setCategoriesFromSchool() {
+    this.coursesObs.subscribe({
+      next: (categories) => {
+        this.categoriesFromSchool = categories.map((cat) => cat.categoryType);
+      },
+      error: (e: HttpErrorResponse) => console.log(e.status),
+      complete: () => {},
+    });
+  }
+
+  override onAdd(content: any) {
+    this.updateCourse = false;
+    this.course = {};
+    super.onAdd(content);
+  }
+
+  override onEdit(content: any, course: Course) {
+    this.updateCourse = true;
+    this.course = course;
+    super.onEdit(content, course);
+  }
+
+  override onDelete(id: number): void {
+    this.courseService.deleteCourse(id).subscribe({
+      error: (e: HttpErrorResponse) => console.log(e.status),
+      complete: () => {
+        console.log('Deleted!');
+        this.ngOnInit();
+      },
+    });
+  }
+
+  override onSubmit(): void {
+    this.updateCourse ? this.update() : this.add();
+  }
+
+  override update(): void {
+    this.courseService.updateCourse(this.course).subscribe({
+      error: (e: HttpErrorResponse) => {
+        console.log(e);
+        this.ngOnInit();
+      },
+      complete: () => {
+        console.log('Updated!');
+        this.ngOnInit();
+      },
+    });
+  }
+
+  override add(): void {
+    this.course.schoolId = this.schoolId;
+    this.courseService.saveCourse(this.course).subscribe({
       error: (e: HttpErrorResponse) => {
         console.log(e.status);
       },

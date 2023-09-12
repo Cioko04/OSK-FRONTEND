@@ -55,7 +55,7 @@ export class InstructorListComponent extends List implements OnInit {
     });
   }
 
-  onDelete(id: number) {
+  override onDelete(id: number) {
     this.instructorService.deleteInstructor(id).subscribe({
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryEnum, Course } from 'src/app/shared/services/course/course';
 
@@ -11,6 +11,15 @@ export class CourseFormComponent implements OnInit {
   form: FormGroup | any;
   categories: string[] = Object.values(CategoryEnum);
 
+  @Input()
+  categoriesFromSchool: string[] = [];
+  @Input()
+  course: Course | any;
+  @Input()
+  updateCourse: boolean = false;
+
+  @Output()
+  courseChange = new EventEmitter<Course>();
   @Output()
   onSubmit = new EventEmitter<any>();
 
@@ -22,7 +31,18 @@ export class CourseFormComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.setCategories();
+    if (this.updateCourse) {
+      this.patchValues();
+    }
+  }
+
+  private setCategories() {
+    this.categories = this.categories.filter(
+      (category) => !this.categoriesFromSchool.includes(category)
+    );
+  }
 
   get category() {
     return this.form.controls.category;
@@ -36,15 +56,24 @@ export class CourseFormComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      this.onSubmit.emit(this.createCourse());
+      this.setCourseValues();
+      this.onSubmit.emit();
     }
   }
 
-  createCourse(): Course {
-    return {
-      price: this.price.value,
-      description: this.description.value,
-      categoryType: this.category.value,
-    };
+  setCourseValues() {
+    this.course.price = this.price.value;
+    this.course.description = this.description.value;
+    this.course.categoryType = this.category.value;
+  }
+
+  private patchValues() {
+    this.form.patchValue({
+      price: this.course.price,
+      category: this.course.categoryType,
+      description: this.course.description,
+    });
+    this.categories.push(this.course.categoryType);
+    this.categories.sort();
   }
 }
