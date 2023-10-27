@@ -5,6 +5,7 @@ import { CategoryEnum } from 'src/app/shared/services/course/course';
 import { School } from 'src/app/shared/services/school/school';
 import { SchoolService } from 'src/app/shared/services/school/school.service';
 import { HeadArray } from 'src/app/shared/core/list';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
@@ -26,7 +27,8 @@ export class CoursesComponent implements OnInit {
 
   constructor(
     private schoolService: SchoolService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal
   ) {
     this.citiesObs = this.schoolService.getCities();
     this.categoriesObs = of(Object.values(CategoryEnum));
@@ -42,6 +44,14 @@ export class CoursesComponent implements OnInit {
       this.search();
       this.chosenCategories = this.form.value.categories;
     });
+  }
+
+  book(content: any) {
+    this.openForm(content);
+  }
+
+  openForm(content: any): void {
+    this.modalService.open(content);
   }
 
   private search() {

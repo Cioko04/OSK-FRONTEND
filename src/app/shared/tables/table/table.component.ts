@@ -1,27 +1,26 @@
 import {
-  trigger,
+  animate,
   state,
   style,
   transition,
-  animate,
+  trigger,
 } from '@angular/animations';
-import { HeadArray, InitForm } from '../shared/core/list';
 import {
   Component,
   EventEmitter,
+  HostListener,
   Input,
   OnChanges,
   OnInit,
   Output,
   ViewChild,
-  HostListener,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, map } from 'rxjs';
-import { User } from '../shared/services/user/user';
+import { HeadArray } from '../../core/list';
 
 @UntilDestroy()
 @Component({
@@ -66,6 +65,9 @@ export class TableComponent implements OnInit, OnChanges {
 
   @Output()
   onDelete = new EventEmitter<number>();
+
+  @Output()
+  onBook = new EventEmitter<number>();
 
   dataSource: any = [];
   displayedColumns: string[] = [];
@@ -179,6 +181,10 @@ export class TableComponent implements OnInit, OnChanges {
 
   delete(id: number) {
     this.onDelete.emit(id);
+  }
+
+  book() {
+    this.onBook.emit();
   }
 
   isArray(element: any) {

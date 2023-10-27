@@ -43,8 +43,9 @@ import { SchoolProfileComponent } from './home/school-profile/school-profile.com
 import { UserProfileComponent } from './home/user-profile/user-profile.component';
 import { LogoComponent } from './logo/logo.component';
 import { CustomPaginatorIntl } from './providers/CustomPaginatorIntl';
-import { CategoryCarouselComponent } from './table/category-carousel/category-carousel.component';
-import { TableComponent } from './table/table.component';
+import { CategoryCarouselComponent } from './shared/tables/table/category-carousel/category-carousel.component';
+// import { TableComponent } from './table/table.component';
+import { TableComponent } from './shared/tables/table/table.component';
 import { UserService } from './shared/services/user/user.service';
 import { LoginRegistrationComponent } from './welcome/login-registration/login-registration.component';
 import { WelcomeNavComponent } from './welcome/welcome-nav/welcome-nav.component';
@@ -56,6 +57,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { BookCourseComponent } from './forms/book-course/book-course.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -96,6 +98,7 @@ export const MY_FORMATS = {
     ManageCoursesComponent,
     InfoCardComponent,
     CourseFormComponent,
+    BookCourseComponent,
   ],
   imports: [
     BrowserModule,

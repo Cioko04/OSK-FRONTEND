@@ -29,5 +29,14 @@
   [GridArrayObs]="schoolObs"
   [categories]="chosenCategories"
   [showCategoryCarousel]="true"
+  (onBook)="book(content)"
 >
 </app-table>
+
+<ng-template #content let-modal>
+  <div class="container-fluid">
+    <div class="row mx-1 mt-4">
+      <app-book-course></app-book-course>
+    </div>
+  </div>
+</ng-template>

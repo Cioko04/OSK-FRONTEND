@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { NgbCarousel, NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -7,11 +7,14 @@ import { NgbCarousel, NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./category-carousel.component.css'],
 })
 export class CategoryCarouselComponent {
+  startX: number | undefined;
+  isMoved = false;
+
   @Input()
   categories: string[] = [];
 
-  startX: number | undefined;
-  isMoved = false;
+  @Output()
+  onBook = new EventEmitter<number>();
 
   @ViewChild('carousel') carousel: NgbCarousel | any;
 
@@ -46,5 +49,9 @@ export class CategoryCarouselComponent {
     setTimeout(() => {
       this.carousel.cycle();
     }, 5000);
+  }
+
+  book() {
+    this.onBook.emit();
   }
 }

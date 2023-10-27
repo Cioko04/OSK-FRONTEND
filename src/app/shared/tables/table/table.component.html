@@ -149,7 +149,13 @@
                       </div>
                     </div>
                   </div> -->
-                    <app-category-carousel *ngIf="showCategoryCarousel" [categories]="categories.length === 0 ? element.Kategorie : categories"></app-category-carousel>
+                    <app-category-carousel
+                      *ngIf="showCategoryCarousel"
+                      [categories]="
+                        categories.length === 0 ? element.Kategorie : categories
+                      "
+                      (onBook)="book()"
+                    ></app-category-carousel>
                   </div>
                 </div>
               </div>
