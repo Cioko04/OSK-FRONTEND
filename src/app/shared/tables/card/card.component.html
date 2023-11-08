@@ -1,0 +1,24 @@
+<div class="row">
+  <div *ngFor="let category of categoriesContent" class="col-3 mb-3">
+    <div class="container">
+      <div class="wrapper">
+        <div class="banner-image">
+          <img
+            src="../../../../assets/category-icons/{{ category.img }}"
+            alt="{{ category.title }} Icon"
+          />
+        </div>
+        <h2>
+          <b>Kategoria</b>
+        </h2>
+        <h1>
+          <b>{{ category["title"] }}</b>
+        </h1>
+      </div>
+      <div class="button-wrapper">
+        <button class="btn outline">SZCZEGÓŁY</button>
+        <button class="btn fill">WYBIERZ</button>
+      </div>
+    </div>
+  </div>
+</div>

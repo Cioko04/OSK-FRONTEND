@@ -58,6 +58,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { BookCourseComponent } from './forms/book-course/book-course.component';
+import { TableCardsComponent } from './shared/tables/table-cards/table-cards.component';
+import { CardComponent } from './shared/tables/card/card.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -99,6 +101,8 @@ export const MY_FORMATS = {
     InfoCardComponent,
     CourseFormComponent,
     BookCourseComponent,
+    TableCardsComponent,
+    CardComponent,
   ],
   imports: [
     BrowserModule,

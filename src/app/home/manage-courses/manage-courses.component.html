@@ -13,14 +13,26 @@
   </div>
 </div>
 
-<app-table
+<!-- <app-table
   [isAction]="true"
   [HeadArray]="headArray"
   [GridArrayObs]="coursesObs"
   (onAdd)="onAdd(content)"
   (onEdit)="onEdit(content, $event)"
   (onDelete)="onDelete($event)"
-></app-table>
+></app-table> -->
+<div class="container-fluid mt-2">
+  <div class="row justify-content-center">
+    <div class="col-10">
+      <div class="row">
+        <app-table-cards>
+
+        </app-table-cards>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <ng-template #content let-modal>
   <div class="container-fluid">
