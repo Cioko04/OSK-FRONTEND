@@ -13,7 +13,7 @@ export enum CategoryEnum {
   A1 = 'A1',
   A2 = 'A2',
   A = 'A',
-  B2 = 'B2',
+  B1 = 'B1',
   B = 'B',
   BE = 'B+E',
   C = 'C',
