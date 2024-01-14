@@ -13,36 +13,8 @@
   </div>
 </div>
 
-<!-- <app-table
-  [isAction]="true"
-  [HeadArray]="headArray"
-  [GridArrayObs]="coursesObs"
-  (onAdd)="onAdd(content)"
-  (onEdit)="onEdit(content, $event)"
-  (onDelete)="onDelete($event)"
-></app-table> -->
 <div class="container-fluid mt-2">
   <div class="row justify-content-center">
-    <div class="col-10">
-      <div class="row">
-        <app-table-cards>
-
-        </app-table-cards>
-      </div>
-    </div>
+    <router-outlet></router-outlet>
   </div>
 </div>
-
-
-<ng-template #content let-modal>
-  <div class="container-fluid">
-    <div class="row mx-1 mt-4">
-      <app-course-form
-        [(course)]="course"
-        [updateCourse]="updateCourse"
-        [categoriesFromSchool]="categoriesFromSchool"
-        (onSubmit)="onSubmit(); modal.close()"
-      ></app-course-form>
-    </div>
-  </div>
-</ng-template>

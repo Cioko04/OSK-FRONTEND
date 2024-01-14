@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
-import { CategoryEnum } from 'src/app/shared/services/course/course';
 import { School } from 'src/app/shared/services/school/school';
 import { SchoolService } from 'src/app/shared/services/school/school.service';
 import { HeadArray } from 'src/app/shared/core/list';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CategoryEnum } from 'src/app/shared/services/category/category';
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
@@ -16,6 +16,12 @@ export class CoursesComponent implements OnInit {
     { Head: 'Nazwa', FieldName: 'schoolName' },
     { Head: 'Miasto', FieldName: 'city' },
     { Head: 'Kategorie', FieldName: 'categories' }
+  ];
+
+  headCard: HeadArray[] = [
+    { Head: 'Kategoria', FieldName: 'category' },
+    { Head: 'Cena', FieldName: 'price' },
+    { Head: 'Opis', FieldName: 'description' }
   ];
 
   form: FormGroup | any;

@@ -21,6 +21,9 @@
   text-decoration: none;
   white-space: nowrap;
 }
+.nav-link:focus {
+  border-color: transparent;
+}
 strong {
   font-size: 1.2rem;
   font-weight: normal;

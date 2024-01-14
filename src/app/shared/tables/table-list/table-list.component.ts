@@ -24,9 +24,9 @@ import { HeadArray } from '../../core/list';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css'],
+  selector: 'app-table-list',
+  templateUrl: './table-list.component.html',
+  styleUrls: ['./table-list.component.css'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -38,12 +38,15 @@ import { HeadArray } from '../../core/list';
     ]),
   ],
 })
-export class TableComponent implements OnInit, OnChanges {
+export class TableListComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
   @ViewChild(MatSort) sort: MatSort | any;
 
   @Input()
   HeadArray: HeadArray[] = [];
+
+  @Input()
+  HeadCard: HeadArray[] = [];
 
   @Input()
   GridArrayObs: Observable<any[]> = new Observable<any[]>();
@@ -56,6 +59,9 @@ export class TableComponent implements OnInit, OnChanges {
 
   @Input()
   showCategoryCarousel: boolean = false;
+
+  @Input()
+  filter: string = '';
 
   @Output()
   onAdd = new EventEmitter<any>();
@@ -84,11 +90,6 @@ export class TableComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     const resizeEvent = new Event('resize');
     window.dispatchEvent(resizeEvent);
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   getHead(head: any): any {
@@ -131,9 +132,14 @@ export class TableComponent implements OnInit, OnChanges {
   private loadData() {
     this.GridArrayObs.pipe(untilDestroyed(this)).subscribe((data) => {
       this.dataSource = this.transformData(data);
+      this.applyFilter();
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
+  }
+
+  private applyFilter() {
+    this.dataSource.filter = this.filter.trim().toLowerCase();
   }
 
   private transformData(data: any): MatTableDataSource<any> {
@@ -158,14 +164,20 @@ export class TableComponent implements OnInit, OnChanges {
     return new MatTableDataSource(transformedData);
   }
 
-  calculateVisibleRows():number [] {
+  calculateVisibleRows(): number[] {
     const screenHeight = window.innerHeight * 0.65 - 152;
     const rowHeight = 48;
     let visibleRows = Math.floor(screenHeight / rowHeight);
-    if(visibleRows < 3) {
+    if (visibleRows < 3) {
       visibleRows = 3;
     }
-    return [visibleRows, visibleRows*2, visibleRows*3, visibleRows*4, visibleRows*5];
+    return [
+      visibleRows,
+      visibleRows * 2,
+      visibleRows * 3,
+      visibleRows * 4,
+      visibleRows * 5,
+    ];
   }
 
   add() {
@@ -209,13 +221,5 @@ export class TableComponent implements OnInit, OnChanges {
     } else if (this.windowWidth <= 320) {
       this.adjustDisplayedColumns(1, false);
     }
-  }
-
-  addActiveClass(input: HTMLInputElement) {
-    input.classList.add('active');
-  }
-
-  removeActiveClass(input: HTMLInputElement) {
-    input.classList.remove('active');
   }
 }

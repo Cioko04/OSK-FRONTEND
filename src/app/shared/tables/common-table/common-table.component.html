@@ -1,0 +1,58 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-10">
+      <div class="row">
+        <div class="col-3">
+          <button
+            *ngIf="isAction"
+            type="button"
+            class="btn btn-md btn-floating px-1"
+            (click)="add()"
+          >
+            <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
+            <span class="ms-1">Dodaj</span>
+          </button>
+        </div>
+        <div
+          class="col-9 col-sm-9 col-md-6 col-lg-3 offset-sm-0 offset-md-3 offset-lg-6"
+        >
+          <div class="input-group mb-3">
+            <input
+              #searchInput
+              class="form-control search"
+              type="search"
+              placeholder="Wyszukaj..."
+              aria-label="Search"
+              (focus)="addActiveClass(searchInput)"
+              (blur)="removeActiveClass(searchInput)"
+              [(ngModel)]="filter"
+            />
+            <span class="input-group-text"
+              ><i class="fa fa-search text-white" aria-hidden="true"></i
+            ></span>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="useTableCards; else useTableList">
+        <app-table-cards
+          [filter]="filter"
+          [isAction]="isAction"
+          [HeadArray]="HeadArray"
+          [gridArray]="gridArray"
+          (onEdit)="edit($event)"
+          (onChoose)="choose($event)"
+        ></app-table-cards>
+      </div>
+      <ng-template #useTableList>
+        <app-table-list
+          [filter]="filter"
+          [isAction]="isAction"
+          [HeadArray]="HeadArray"
+          [GridArrayObs]="GridArrayObs"
+          (onEdit)="edit($event)"
+          (onDelete)="delete($event)"
+        ></app-table-list>
+      </ng-template>
+    </div>
+  </div>
+</div>

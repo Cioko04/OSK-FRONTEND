@@ -26,7 +26,12 @@ export class MenuNavComponent implements OnInit {
   }
 
   ngDoCheck(): void {
-    this.active = this.router.url;
+    this.active = this.formantActiveRoute();
+  }
+
+  private formantActiveRoute(): string {
+    const segments = this.router.url.split('/');
+    return segments.slice(0, 3).join('/');
   }
 
   private setActive() {

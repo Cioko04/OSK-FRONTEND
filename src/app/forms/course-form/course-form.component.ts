@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CategoryEnum, Course } from 'src/app/shared/services/course/course';
+import { CategoryEnum } from 'src/app/shared/services/category/category';
+import { Course } from 'src/app/shared/services/course/course';
 
 @Component({
   selector: 'app-course-form',
@@ -42,6 +43,10 @@ export class CourseFormComponent implements OnInit {
     this.categories = this.categories.filter(
       (category) => !this.categoriesFromSchool.includes(category)
     );
+    if (this.course.categoryType) {
+      this.categories.push(this.course.categoryType);
+    }
+    this.categories.sort();
   }
 
   get category() {
@@ -73,7 +78,5 @@ export class CourseFormComponent implements OnInit {
       category: this.course.categoryType,
       description: this.course.description,
     });
-    this.categories.push(this.course.categoryType);
-    this.categories.sort();
   }
 }

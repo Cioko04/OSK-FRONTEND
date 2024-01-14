@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { HeadArray, List } from 'src/app/shared/core/list';
+import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { Course } from 'src/app/shared/services/course/course';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
@@ -21,19 +22,8 @@ export interface CardContent {
   templateUrl: './manage-courses.component.html',
   styleUrls: ['./manage-courses.component.css'],
 })
-export class ManageCoursesComponent extends List implements OnInit {
+export class ManageCoursesComponent implements OnInit {
   schoolId?: number;
-  coursesObs: Observable<Course[]> = new Observable<Course[]>();
-  updateCourse: boolean = true;
-  course: Course | any;
-  categoriesFromSchool: string[] = [];
-
-  override headArray: HeadArray[] = [
-    { Head: 'Kategoria', FieldName: 'categoryType' },
-    { Head: 'Cena', FieldName: 'price' },
-    { Head: 'Ilość kursantów', FieldName: '' },
-    { Head: 'Ilość instruktorów', FieldName: 'instructorCount' },
-  ];
 
   cardsContentArray: CardContent[] = [
     { title: 'Kursanci', class: 'students', icon: 'fa-users', count: 1 },
@@ -53,18 +43,12 @@ export class ManageCoursesComponent extends List implements OnInit {
   ];
 
   constructor(
-    modalService: NgbModal,
-    private courseService: CourseService,
     private auth: AuthenticationService,
     private userService: UserService,
     private instructorService: InstructorService
-  ) {
-    super(modalService);
-  }
+  ) {}
 
-  ngOnInit(): void {
-    this.setSchoolId();
-  }
+  ngOnInit(): void {}
 
   setSchoolId() {
     let email = this.auth.getSessionUserEmail();
@@ -72,13 +56,8 @@ export class ManageCoursesComponent extends List implements OnInit {
       next: (user) => {
         this.schoolId = user.schoolRequest!.id;
         this.setInstructorCount();
-        this.coursesObs = this.courseService.getCoursesBySchoolId(
-          this.schoolId!
-        );
-        this.setCategoriesFromSchool();
       },
       error: (e: HttpErrorResponse) => console.log(e.status),
-      complete: () => {},
     });
   }
 
@@ -90,67 +69,5 @@ export class ManageCoursesComponent extends List implements OnInit {
         error: (e: HttpErrorResponse) => console.log(e.status),
         complete: () => {},
       });
-  }
-
-  private setCategoriesFromSchool() {
-    this.coursesObs.subscribe({
-      next: (categories) => {
-        this.categoriesFromSchool = categories.map((cat) => cat.categoryType);
-      },
-      error: (e: HttpErrorResponse) => console.log(e.status),
-      complete: () => {},
-    });
-  }
-
-  override onAdd(content: any) {
-    this.updateCourse = false;
-    this.course = {};
-    super.onAdd(content);
-  }
-
-  override onEdit(content: any, course: Course) {
-    this.updateCourse = true;
-    this.course = course;
-    super.onEdit(content, course);
-  }
-
-  override onDelete(id: number): void {
-    this.courseService.deleteCourse(id).subscribe({
-      error: (e: HttpErrorResponse) => console.log(e.status),
-      complete: () => {
-        console.log('Deleted!');
-        this.ngOnInit();
-      },
-    });
-  }
-
-  override onSubmit(): void {
-    this.updateCourse ? this.update() : this.add();
-  }
-
-  override update(): void {
-    this.courseService.updateCourse(this.course).subscribe({
-      error: (e: HttpErrorResponse) => {
-        console.log(e);
-        this.ngOnInit();
-      },
-      complete: () => {
-        console.log('Updated!');
-        this.ngOnInit();
-      },
-    });
-  }
-
-  override add(): void {
-    this.course.schoolId = this.schoolId;
-    this.courseService.saveCourse(this.course).subscribe({
-      error: (e: HttpErrorResponse) => {
-        console.log(e.status);
-      },
-      complete: () => {
-        console.log('Course has been added!');
-        this.ngOnInit();
-      },
-    });
   }
 }

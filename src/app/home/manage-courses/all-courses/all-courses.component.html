@@ -1,0 +1,21 @@
+<app-common-table
+  [isAction]="true"
+  [HeadArray]="headArray"
+  [gridArray]="courses"
+  [useTableCards]="true"
+  (onAdd)="onAdd(content)"
+  (onEdit)="onEdit(content, $event)"
+  (onChoose)="onChoose($event)"
+></app-common-table>
+<ng-template #content let-modal>
+  <div class="container-fluid">
+    <div class="row mx-1 mt-4">
+      <app-course-form
+        [(course)]="course"
+        [updateCourse]="updateCourse"
+        [categoriesFromSchool]="categoriesFromSchool"
+        (onSubmit)="onSubmit(); modal.close()"
+      ></app-course-form>
+    </div>
+  </div>
+</ng-template>

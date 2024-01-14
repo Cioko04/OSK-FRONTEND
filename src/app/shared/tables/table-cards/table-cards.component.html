@@ -1,1 +1,5 @@
-<app-card></app-card>
+<div class="row">
+  <div *ngFor="let item of gridArray" class="col-sm-12 col-md-6 col-lg-4 mb-3">
+    <app-card [edit]="isAction" [category]="item" [HeadArray]="HeadArray" (onEdit)="edit($event)" (onChoose)="choose($event)"></app-card>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 <div class="mt-2">
-  <app-table
+  <app-common-table
+    [useTableCards]="false"
     [isAction]="true"
     [HeadArray]="headArray"
     [GridArrayObs]="instructorsObs"
@@ -7,16 +8,16 @@
     (onEdit)="onEdit(content, $event)"
     (onDelete)="onDelete($event)"
   >
-  </app-table>
-</div>
-<ng-template #content let-modal>
-  <div class="container-fluid">
-    <div class="row mx-1 mt-4">
-      <app-sign-up-form
-        [initProperForm]="initProperForm"
-        [(data)]="instructor"
-        (onSubmit)="onSubmit(); modal.close()"
-      ></app-sign-up-form>
+  </app-common-table>
+  <ng-template #content let-modal>
+    <div class="container-fluid">
+      <div class="row mx-1 mt-4">
+        <app-sign-up-form
+          [initProperForm]="initProperForm"
+          [(data)]="instructor"
+          (onSubmit)="onSubmit(); modal.close()"
+        ></app-sign-up-form>
+      </div>
     </div>
-  </div>
-</ng-template>
+  </ng-template>
+</div>

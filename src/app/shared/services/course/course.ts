@@ -1,29 +1,11 @@
+import { CategoryEnum } from "../category/category";
+
 export interface Course {
   id?: number;
   price: number;
   description: string;
   schoolId?: number;
-  categoryType: string;
+  categoryType: CategoryEnum;
   studentCount?: number;
   instructorCount?: number;
-}
-
-export enum CategoryEnum {
-  AM = 'AM',
-  A1 = 'A1',
-  A2 = 'A2',
-  A = 'A',
-  B1 = 'B1',
-  B = 'B',
-  BE = 'B+E',
-  C = 'C',
-  C1 = 'C1',
-  C1E = 'C1+E',
-  CE = 'C+E',
-  D = 'D',
-  D1 = 'D1',
-  D1E = 'D1+E',
-  DE = 'D+E',
-  T = 'T',
-  Tramwaj = 'Tramwaj'
 }

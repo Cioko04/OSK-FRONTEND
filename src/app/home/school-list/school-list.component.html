@@ -1,4 +1,4 @@
-<app-table
+<!-- <app-table-list
   [isAction]="true"
   [HeadArray]="headArray"
   [GridArrayObs]="schoolObs"
@@ -6,7 +6,17 @@
   (onEdit)="onEdit(content, $event)"
   (onDelete)="onDelete($event)"
 >
-</app-table>
+</app-table-list> -->
+
+<app-common-table
+  [isAction]="true"
+  [HeadArray]="headArray"
+  [GridArrayObs]="schoolObs"
+  (onAdd)="onAdd(content)"
+  (onEdit)="onEdit(content, $event)"
+  (onDelete)="onDelete($event)"
+>
+</app-common-table>
 <ng-template #content let-modal>
   <div class="container-fluid">
     <div class="row mx-1 mt-4">

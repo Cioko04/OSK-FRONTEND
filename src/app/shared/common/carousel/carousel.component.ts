@@ -2,11 +2,11 @@ import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core
 import { NgbCarousel, NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-category-carousel',
-  templateUrl: './category-carousel.component.html',
-  styleUrls: ['./category-carousel.component.css'],
+  selector: 'app-carousel',
+  templateUrl: './carousel.component.html',
+  styleUrls: ['./carousel.component.css'],
 })
-export class CategoryCarouselComponent {
+export class CarouselComponent {
   startX: number | undefined;
   isMoved = false;
 

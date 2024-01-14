@@ -43,9 +43,6 @@ import { SchoolProfileComponent } from './home/school-profile/school-profile.com
 import { UserProfileComponent } from './home/user-profile/user-profile.component';
 import { LogoComponent } from './logo/logo.component';
 import { CustomPaginatorIntl } from './providers/CustomPaginatorIntl';
-import { CategoryCarouselComponent } from './shared/tables/table/category-carousel/category-carousel.component';
-// import { TableComponent } from './table/table.component';
-import { TableComponent } from './shared/tables/table/table.component';
 import { UserService } from './shared/services/user/user.service';
 import { LoginRegistrationComponent } from './welcome/login-registration/login-registration.component';
 import { WelcomeNavComponent } from './welcome/welcome-nav/welcome-nav.component';
@@ -59,7 +56,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { BookCourseComponent } from './forms/book-course/book-course.component';
 import { TableCardsComponent } from './shared/tables/table-cards/table-cards.component';
-import { CardComponent } from './shared/tables/card/card.component';
+import { CardComponent } from './shared/common/card/card.component';
+import { CommonTableComponent } from './shared/tables/common-table/common-table.component';
+import { FilterPipe } from './shared/pipe/filter.pipe';
+import { TableListComponent } from './shared/tables/table-list/table-list.component';
+import { CarouselComponent } from './shared/common/carousel/carousel.component';
+import { AllCoursesComponent } from './home/manage-courses/all-courses/all-courses.component';
+import { ManageCourseComponent } from './home/manage-courses/manage-course/manage-course.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -93,16 +96,20 @@ export const MY_FORMATS = {
     LoginFormComponent,
     SchoolFormComponent,
     InstructorListComponent,
-    TableComponent,
     SchoolProfileComponent,
     SearchSelectFormComponent,
-    CategoryCarouselComponent,
+    CarouselComponent,
     ManageCoursesComponent,
     InfoCardComponent,
     CourseFormComponent,
     BookCourseComponent,
     TableCardsComponent,
     CardComponent,
+    CommonTableComponent,
+    FilterPipe,
+    TableListComponent,
+    AllCoursesComponent,
+    ManageCourseComponent,
   ],
   imports: [
     BrowserModule,

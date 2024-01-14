@@ -2,11 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Observable, of } from 'rxjs';
-import { CategoryEnum } from 'src/app/shared/services/course/course';
 import { Instructor } from 'src/app/shared/services/instructor/instructor';
 import { School } from 'src/app/shared/services/school/school';
 import { InitForm } from 'src/app/shared/core/list';
 import { User } from 'src/app/shared/services/user/user';
+import { CategoryEnum } from 'src/app/shared/services/category/category';
 
 @UntilDestroy()
 @Component({
