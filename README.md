@@ -1,27 +1,32 @@
-# OskWeb
+**This is front-end part of OSK aplication**
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.0.
+**Description: **
 
-## Development server
+This Angular-based frontend project aims to provide a user-friendly interface for driving schools, students, and instructors to efficiently manage driving lessons, payments, and progress tracking. The responsive and intuitive design ensures a seamless experience across devices.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+**Key Features:**
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+**User Authentication**: Secure login and registration functionality for driving schools, students, and instructors.
+**School Dashboard:** An interactive dashboard for driving schools to manage lessons, monitor payments, and access statistical insights.
+**Student Portal:** A personalized space for students to enroll in courses, track payments, and monitor their learning progress.
+**Instructor Management:** Dedicated pages for instructors to view and manage their schedules, track student progress, and access relevant statistics.
+**Payment Integration:** Seamless integration with payment gateways for efficient handling of course fees.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+**Technologies Used:**
 
-## Running unit tests
+Angular 10+
+TypeScript
+HTML5/CSS3
+Angular Material for UI components
+RxJS for asynchronous programming
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+**Installation and Setup:**
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Clone the repository.
+Navigate to the project directory.
+Run npm install to install dependencies.
+Execute ng serve to start the development server.
+Access the application at http://localhost:4200.
