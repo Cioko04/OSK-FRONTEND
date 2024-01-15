@@ -18,7 +18,7 @@ This Angular-based frontend project aims to provide a user-friendly interface fo
 
 **Technologies Used:**
 
-- Angular 10+
+- Angular 15+
 - TypeScript
 - HTML5/CSS3
 - Angular Material for UI components
