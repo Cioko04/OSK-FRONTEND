@@ -1,5 +1,3 @@
-import { MyErrorHandlerServiceService } from '../shared/errorHandlers/my-error-handler.service';
-import { Router } from '@angular/router';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -8,15 +6,13 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  tap,
   BehaviorSubject,
-  throwError,
-  catchError,
   Observable,
-  map,
+  catchError,
+  map
 } from 'rxjs';
+import { MyErrorHandlerServiceService } from '../shared/errorHandlers/my-error-handler.service';
 import { User } from '../shared/services/user/user';
-import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root',
@@ -49,7 +45,9 @@ export class AuthenticationService {
 
   authenticate(userLoginData: { email: string; password: string }) {
     return this.http
-      .post(this.API_URL + '/authenticate', userLoginData, { responseType: 'text' })
+      .post(this.API_URL + '/authenticate', userLoginData, {
+        responseType: 'text',
+      })
       .pipe(
         catchError((error: any) => {
           return this.errorHandler.handleError(error);
