@@ -2,7 +2,7 @@
 
 Link to back-end: https://github.com/Cioko04/OSK-BACKEND
 
-**Description: **
+**Description:**
 
 This Angular-based frontend project aims to provide a user-friendly interface for driving schools, students, and instructors to efficiently manage driving lessons, payments, and progress tracking. The responsive and intuitive design ensures a seamless experience across devices.
 
