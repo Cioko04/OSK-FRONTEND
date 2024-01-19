@@ -43,31 +43,7 @@ export class ManageCoursesComponent implements OnInit {
   ];
 
   constructor(
-    private auth: AuthenticationService,
-    private userService: UserService,
-    private instructorService: InstructorService
   ) {}
 
   ngOnInit(): void {}
-
-  setSchoolId() {
-    let email = this.auth.getSessionUserEmail();
-    this.userService.getUserByEmail(email).subscribe({
-      next: (user) => {
-        this.schoolId = user.schoolRequest!.id;
-        this.setInstructorCount();
-      },
-      error: (e: HttpErrorResponse) => console.log(e.status),
-    });
-  }
-
-  private setInstructorCount() {
-    this.instructorService
-      .countInstructorsBySchoolId(this.schoolId!)
-      .subscribe({
-        next: (count) => (this.cardsContentArray[1].count = count),
-        error: (e: HttpErrorResponse) => console.log(e.status),
-        complete: () => {},
-      });
-  }
 }

@@ -73,16 +73,16 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "osk-web:build",
+            "buildTarget": "osk-web:build",
             "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "osk-web:build:production",
+              "buildTarget": "osk-web:build:production",
               "proxyConfig": "src/proxy.conf.json"
             },
             "development": {
-              "browserTarget": "osk-web:build:development",
+              "buildTarget": "osk-web:build:development",
               "proxyConfig": "src/proxy.conf.json"
             }
           },
@@ -91,7 +91,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "osk-web:build"
+            "buildTarget": "osk-web:build"
           }
         },
         "test": {

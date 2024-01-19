@@ -55,14 +55,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { BookCourseComponent } from './forms/book-course/book-course.component';
-import { TableCardsComponent } from './shared/tables/table-cards/table-cards.component';
+import { TableCardsComponent } from './shared/utils/tables/table-cards/table-cards.component';
 import { CardComponent } from './shared/common/card/card.component';
-import { CommonTableComponent } from './shared/tables/common-table/common-table.component';
+import { CommonTableComponent } from './shared/utils/tables/common-table/common-table.component';
 import { FilterPipe } from './shared/pipe/filter.pipe';
-import { TableListComponent } from './shared/tables/table-list/table-list.component';
+import { TableListComponent } from './shared/utils/tables/table-list/table-list.component';
 import { CarouselComponent } from './shared/common/carousel/carousel.component';
 import { AllCoursesComponent } from './home/manage-courses/all-courses/all-courses.component';
 import { ManageCourseComponent } from './home/manage-courses/manage-course/manage-course.component';
+import { SchedulerComponent } from './shared/utils/scheduler/scheduler.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -110,6 +111,7 @@ export const MY_FORMATS = {
     TableListComponent,
     AllCoursesComponent,
     ManageCourseComponent,
+    SchedulerComponent
   ],
   imports: [
     BrowserModule,

@@ -1,12 +1,17 @@
-<app-common-table
-  [isAction]="true"
-  [HeadArray]="headArray"
-  [gridArray]="courses"
-  [useTableCards]="true"
-  (onAdd)="onAdd(content)"
-  (onEdit)="onEdit(content, $event)"
-  (onChoose)="onChoose($event)"
-></app-common-table>
+<div class="row justify-content-center">
+  <div class="col-10">
+    <app-common-table
+      [isAction]="true"
+      [HeadArray]="headArray"
+      [gridArray]="courses"
+      [useTableCards]="true"
+      (onAdd)="onAdd(content)"
+      (onEdit)="onEdit(content, $event)"
+      (onChoose)="onChoose($event)"
+    ></app-common-table>
+  </div>
+</div>
+
 <ng-template #content let-modal>
   <div class="container-fluid">
     <div class="row mx-1 mt-4">

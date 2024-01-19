@@ -1,1 +1,13 @@
-
+<div class="container-fluid">
+  <div class="row mx-5">
+    <div class="col-8 p-0">
+      <app-common-table [useTableCards]="false"></app-common-table>
+    </div>
+    <div class="col-4">
+      <mat-card class="demo-inline-calendar-card">
+        <mat-calendar [(selected)]="selected"></mat-calendar>
+      </mat-card>
+      <p>Selected date: {{ selected }}</p>
+    </div>
+  </div>
+</div>

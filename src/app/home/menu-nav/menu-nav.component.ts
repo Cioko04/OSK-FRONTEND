@@ -40,7 +40,7 @@ export class MenuNavComponent implements OnInit {
         this.active = '/home/schools';
         break;
       case 'OSK_ADMIN':
-        this.active = '/home/instructors';
+        this.active = '/home/manage-courses';
         break;
       case 'USER':
         this.active = '/home/courses';
@@ -60,14 +60,14 @@ export class MenuNavComponent implements OnInit {
     } else if (this.role == 'OSK_ADMIN') {
       this.menuItems = [
         {
+          label: 'Kursy',
+          icon: 'fa-pencil-square-o',
+          link: '/home/manage-courses',
+        },
+        {
           label: 'Instruktorzy',
           icon: 'fa-users',
           link: '/home/instructors',
-        },
-        {
-          label: 'Zarządzaj kursami',
-          icon: 'fa-pencil-square-o',
-          link: '/home/manage-courses',
         },
       ];
     } else if (this.role == 'USER') {

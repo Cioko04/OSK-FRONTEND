@@ -42,17 +42,23 @@ export class TableCardsComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     this.gridArray.sort((a, b) => {
-      const kategoriaA = a[this.HeadArray[0].FieldName].toUpperCase();
-      const kategoriaB = b[this.HeadArray[0].FieldName].toUpperCase();
+      const firstItem = a[this.HeadArray[0].FieldName].toUpperCase();
+      const secondItem = b[this.HeadArray[0].FieldName].toUpperCase();
 
-      if (kategoriaA < kategoriaB) {
+      if (firstItem < secondItem) {
         return -1;
       }
-      if (kategoriaA > kategoriaB) {
+      if (firstItem > secondItem) {
         return 1;
       }
       return 0;
     });
+  }
+
+  getFilteredValues(): any[] {
+    return this.gridArray.filter((item) =>
+      item[this.HeadArray[0].FieldName].toLowerCase().includes(this.filter.toLowerCase())
+    );
   }
 
   edit(item: any) {
