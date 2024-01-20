@@ -20,7 +20,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, map } from 'rxjs';
-import { HeadArray } from '../../core/list';
+import { HeadArray } from '../../../core/list';
 
 @UntilDestroy()
 @Component({

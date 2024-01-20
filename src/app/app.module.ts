@@ -64,6 +64,7 @@ import { CarouselComponent } from './shared/common/carousel/carousel.component';
 import { AllCoursesComponent } from './home/manage-courses/all-courses/all-courses.component';
 import { ManageCourseComponent } from './home/manage-courses/manage-course/manage-course.component';
 import { SchedulerComponent } from './shared/utils/scheduler/scheduler.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 export const MY_FORMATS = {
   parse: {
@@ -138,6 +139,7 @@ export const MY_FORMATS = {
     ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatButtonToggleModule
   ],
   providers: [
     UserService,

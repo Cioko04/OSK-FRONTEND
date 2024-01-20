@@ -1,3 +1,61 @@
-<p>
-  scheduler works!
-</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-6">
+      <h1 class="mt-2">Kategoria B</h1>
+    </div>
+    <div class="col-6">
+      <div class="d-flex justify-content-end">
+        <mat-form-field>
+          <mat-label>Miesiąc</mat-label>
+          <mat-select [(value)]="currentMonth" (valueChange)="onMonthChange()">
+            <mat-option *ngFor="let month of months" [value]="month">{{
+              month
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="year-select ms-1">
+          <mat-label>Rok</mat-label>
+          <mat-select [(value)]="currentYear" (valueChange)="onYearChange()">
+            <mat-option *ngFor="let year of years" [value]="year">{{
+              year
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="d-flex justify-content-center">
+        <mat-button-toggle-group
+          aria-label="Font Style"
+          class="days-section"
+          [(ngModel)]="currentDayWithDayIndex"
+        >
+          <button
+            mat-stroked-button
+            class="arrow-button left-button"
+            (click)="moveLeft()"
+          >
+            <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
+          </button>
+          <mat-button-toggle
+            *ngFor="let day of daysWithDates"
+            [value]="day"
+            class="week-day-button"
+            >{{ day.dayOfWeek }}
+            <mat-divider></mat-divider>
+            <div>{{ day.dayOfMonth }}</div>
+          </mat-button-toggle>
+          <button
+            mat-stroked-button
+            class="arrow-button right-button"
+            (click)="moveRight()"
+          >
+            <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
+          </button>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+.year-select {
+  width: 7rem;
+}
+.week-day-button {
+  width: 100%;
+  min-width: 7rem;
+}
+.days-section {
+  width: 100%;
+}
+.arrow-button {
+  height: 100%;
+  background: white;
+}
+.right-button {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.left-button {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
