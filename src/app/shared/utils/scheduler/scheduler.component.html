@@ -1,9 +1,9 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-6">
+    <div class="col-6 m-0 p-0">
       <h1 class="mt-2">Kategoria B</h1>
     </div>
-    <div class="col-6">
+    <div class="col-6 m-0 p-0">
       <div class="d-flex justify-content-end">
         <mat-form-field>
           <mat-label>Miesiąc</mat-label>
@@ -25,13 +25,9 @@
     </div>
   </div>
   <div class="row">
-    <div class="col">
-      <div class="d-flex justify-content-center">
-        <mat-button-toggle-group
-          aria-label="Font Style"
-          class="days-section"
-          [(ngModel)]="currentDayWithDayIndex"
-        >
+    <table mat-table class="mat-elevation-z8" style="width: 100%">
+      <ng-container matColumnDef="left">
+        <th mat-header-cell *matHeaderCellDef class="left m-0 p-0">
           <button
             mat-stroked-button
             class="arrow-button left-button"
@@ -39,14 +35,24 @@
           >
             <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
           </button>
-          <mat-button-toggle
-            *ngFor="let day of daysWithDates"
-            [value]="day"
-            class="week-day-button"
-            >{{ day.dayOfWeek }}
+        </th>
+      </ng-container>
+
+      <ng-container
+        *ngFor="let column of daysWithDates"
+        [matColumnDef]="column.dayOfWeek + column.dayOfMonth"
+      >
+        <th mat-header-cell *matHeaderCellDef class="week-day-column m-0 p-0">
+          <div class="week-day" [ngClass]="{ today: isToday(column) }">
+            {{ column.dayOfWeek }}
             <mat-divider></mat-divider>
-            <div>{{ day.dayOfMonth }}</div>
-          </mat-button-toggle>
+            <div>{{ column.dayOfMonth }}</div>
+          </div>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="right">
+        <th mat-header-cell *matHeaderCellDef class="right m-0 p-0">
           <button
             mat-stroked-button
             class="arrow-button right-button"
@@ -54,8 +60,14 @@
           >
             <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
           </button>
-        </mat-button-toggle-group>
-      </div>
-    </div>
+        </th>
+      </ng-container>
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="getColumnDefinition()"
+        class="header"
+      ></tr>
+    </table>
   </div>
 </div>

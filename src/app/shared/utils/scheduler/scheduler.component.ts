@@ -25,6 +25,11 @@ const WEEK_DAYS: string[] = [
   'Niedziela',
 ];
 
+interface DayWithDate {
+  dayOfWeek: string;
+  dayOfMonth: number;
+}
+
 @Component({
   selector: 'app-scheduler',
   templateUrl: './scheduler.component.html',
@@ -33,7 +38,7 @@ const WEEK_DAYS: string[] = [
 export class SchedulerComponent implements OnInit {
   months: string[] = MONTHS;
   years: number[] = [];
-  daysWithDates!: { dayOfWeek: string; dayOfMonth: number }[];
+  daysWithDates!: DayWithDate[];
   startYear!: number;
   endYear!: number;
   currentDate!: Date;
@@ -41,9 +46,8 @@ export class SchedulerComponent implements OnInit {
   currentMonth!: string;
   currentDayOfWeek!: string;
   currentDayOfMonth!: number;
-  currentDayWithDayIndex!: { dayOfWeek: string; dayOfMonth: number };
   todayYear!: number;
-  todayMonth!: string;
+  todayMonth!: string | null;
   todayDayOfWeek!: string;
   todayDayOfMonth!: number;
 
@@ -96,17 +100,6 @@ export class SchedulerComponent implements OnInit {
         dayOfMonth: dayInWeek.getDate(),
       };
     });
-    this.setCurrentDayWithDayIndex();
-  }
-
-  private setCurrentDayWithDayIndex() {
-    this.currentDayWithDayIndex = this.daysWithDates.filter(
-      (dayWithDate) =>
-        dayWithDate.dayOfWeek === this.todayDayOfWeek &&
-        dayWithDate.dayOfMonth === this.todayDayOfMonth &&
-        this.currentMonth === this.todayMonth &&
-        this.currentYear === this.todayYear
-    )[0];
   }
 
   onYearChange() {
@@ -115,7 +108,7 @@ export class SchedulerComponent implements OnInit {
   }
 
   onMonthChange() {
-    this.currentDate.setMonth(MONTHS.indexOf(this.currentMonth))
+    this.currentDate.setMonth(MONTHS.indexOf(this.currentMonth));
     this.setCurrentValues();
   }
 
@@ -131,5 +124,22 @@ export class SchedulerComponent implements OnInit {
     date.setDate(date.getDate() + 7);
     this.currentDate = date;
     this.setCurrentValues();
+  }
+
+  getColumnDefinition(): string[] {
+    return [
+      'left',
+      ...this.daysWithDates.map((day) => day.dayOfWeek + day.dayOfMonth),
+      'right',
+    ];
+  }
+
+  isToday(dayWithDate: DayWithDate): boolean {
+    return (
+      dayWithDate.dayOfWeek === this.todayDayOfWeek &&
+      dayWithDate.dayOfMonth === this.todayDayOfMonth &&
+      this.currentMonth === this.todayMonth &&
+      this.currentYear === this.todayYear
+    );
   }
 }
