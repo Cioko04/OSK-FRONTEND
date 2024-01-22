@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { Moment } from 'moment';
 
 const MONTHS: string[] = [
   'Styczeń',
@@ -51,6 +54,15 @@ export class SchedulerComponent implements OnInit {
   todayDayOfWeek!: string;
   todayDayOfMonth!: number;
 
+  dataSource = [
+    {
+      left: '10:00',
+    },
+    {
+      left: '11:00',
+    },
+  ];
+
   constructor() {}
 
   ngOnInit() {
@@ -102,27 +114,23 @@ export class SchedulerComponent implements OnInit {
     });
   }
 
-  onYearChange() {
-    this.currentDate.setFullYear(this.currentYear);
+  onDateChange(date: Moment) {
+    this.currentDate = date.toDate();
     this.setCurrentValues();
-  }
-
-  onMonthChange() {
-    this.currentDate.setMonth(MONTHS.indexOf(this.currentMonth));
-    this.setCurrentValues();
+    console.log(this.currentDate);
   }
 
   moveLeft() {
-    let date = this.currentDate;
-    date.setDate(date.getDate() - 7);
-    this.currentDate = date;
+    let newDate = new Date(this.currentDate);
+    newDate.setDate(newDate.getDate() - 7);
+    this.currentDate = newDate;
     this.setCurrentValues();
   }
 
   moveRight() {
-    let date = this.currentDate;
-    date.setDate(date.getDate() + 7);
-    this.currentDate = date;
+    let newDate = new Date(this.currentDate);
+    newDate.setDate(newDate.getDate() + 7);
+    this.currentDate = newDate;
     this.setCurrentValues();
   }
 
@@ -141,5 +149,11 @@ export class SchedulerComponent implements OnInit {
       this.currentMonth === this.todayMonth &&
       this.currentYear === this.todayYear
     );
+  }
+
+  reset() {
+    let newDate = new Date();
+    this.currentDate = newDate;
+    this.setCurrentValues();
   }
 }

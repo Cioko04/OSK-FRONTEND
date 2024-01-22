@@ -76,10 +76,10 @@ import { WelcomeComponent } from './welcome/welcome.component';
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'DD/MM/YYYY',
+    dateInput: 'LLL',
   },
   display: {
-    dateInput: 'DD/MM/YYYY',
+    dateInput: 'MMMM YYYY',
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',

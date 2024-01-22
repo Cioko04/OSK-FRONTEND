@@ -5,69 +5,66 @@
     </div>
     <div class="col-6 m-0 p-0">
       <div class="d-flex justify-content-end">
+        <button mat-raised-button class="reset-button me-2" (click)="reset()">
+          resetuj <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+        </button>
         <mat-form-field>
-          <mat-label>Miesiąc</mat-label>
-          <mat-select [(value)]="currentMonth" (valueChange)="onMonthChange()">
-            <mat-option *ngFor="let month of months" [value]="month">{{
-              month
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="year-select ms-1">
-          <mat-label>Rok</mat-label>
-          <mat-select [(value)]="currentYear" (valueChange)="onYearChange()">
-            <mat-option *ngFor="let year of years" [value]="year">{{
-              year
-            }}</mat-option>
-          </mat-select>
+          <input
+            class="date-picker"
+            matInput
+            [matDatepicker]="dp"
+            [(ngModel)]="currentDate"
+            (ngModelChange)="onDateChange($event)"
+          />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="dp"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #dp></mat-datepicker>
         </mat-form-field>
       </div>
     </div>
   </div>
   <div class="row">
-    <table mat-table class="mat-elevation-z8" style="width: 100%">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="left">
-        <th mat-header-cell *matHeaderCellDef class="left m-0 p-0">
-          <button
-            mat-stroked-button
-            class="arrow-button left-button"
-            (click)="moveLeft()"
-          >
-            <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
-          </button>
+        <th mat-header-cell *matHeaderCellDef class="left" (click)="moveLeft()">
+          <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
         </th>
+        <td mat-cell *matCellDef="let element">{{ element.left }}</td>
       </ng-container>
 
       <ng-container
         *ngFor="let column of daysWithDates"
         [matColumnDef]="column.dayOfWeek + column.dayOfMonth"
       >
-        <th mat-header-cell *matHeaderCellDef class="week-day-column m-0 p-0">
-          <div class="week-day" [ngClass]="{ today: isToday(column) }">
-            {{ column.dayOfWeek }}
-            <mat-divider></mat-divider>
-            <div>{{ column.dayOfMonth }}</div>
-          </div>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="week-day-column"
+          [ngClass]="{ today: isToday(column) }"
+        >
+          {{ column.dayOfWeek }}
+          <mat-divider></mat-divider>
+          <div>{{ column.dayOfMonth }}</div>
         </th>
+        <td mat-cell *matCellDef="let element"></td>
       </ng-container>
 
       <ng-container matColumnDef="right">
-        <th mat-header-cell *matHeaderCellDef class="right m-0 p-0">
-          <button
-            mat-stroked-button
-            class="arrow-button right-button"
-            (click)="moveRight()"
-          >
-            <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-          </button>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="right"
+          (click)="moveRight()"
+        >
+          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
         </th>
+        <td mat-cell *matCellDef="let element">{{ element.right }}</td>
       </ng-container>
 
-      <tr
-        mat-header-row
-        *matHeaderRowDef="getColumnDefinition()"
-        class="header"
-      ></tr>
+      <tr mat-header-row *matHeaderRowDef="getColumnDefinition()"></tr>
+      <tr mat-row *matRowDef="let row; columns: getColumnDefinition()"></tr>
     </table>
   </div>
 </div>

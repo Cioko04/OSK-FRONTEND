@@ -1,33 +1,75 @@
-.year-select {
-  width: 7rem;
+table {
+  width: 100%;
+  background-color: var(--mdc-filled-text-field-container-color);
+  z-index: 1000;
 }
 
-.arrow-button {
-  height: 4.1em;
-  background: transparent;
+.reset-button {
+  background-color: var(--mdc-filled-text-field-container-color) !important;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1px;
+}
+
+.mat-mdc-header-cell {
+  background-color: rgba(0, 132, 255, 0.253) !important;
+  border-bottom: 2px solid midnightblue;
 }
 
 .week-day-column {
-  width: 14%;
+  width: 13%;
   text-align: center;
-}
-
-.week-day {
-  padding: 6px 0;
 }
 
 .left,
 .right {
-  width: 1%;
+  width: 4%;
+  cursor: pointer;
+  
 }
 
-.today {
-  background-color: rgb(0, 119, 255);
+td.mat-column-left {
+  border-radius: 0 8px 8px 0;
+  text-align: center;
+  background-color: rgba(0, 132, 255, 0.253);
+  font-size: large !important;
 }
 
+td:not(.mat-column-left) {
+  cursor: pointer;
+  border-right: 1px solid rgba(0, 0, 0, 0.055);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.055);
+  border-top: 1px solid rgba(0, 0, 0, 0.055);
+  text-align: center;
+}
+
+td:not(.mat-column-left):hover {
+  background-color: rgba(0, 0, 0, 0.144);
+}
+th.left:hover,
+th.right:hover {
+  background: rgba(0, 119, 255, 0.9) !important;
+}
+th {
+  text-align: center;
+  font-size: large !important;
+}
+mat-divider {
+  width: 90%;
+  margin: 0 auto;
+}
+
+th.today {
+  background: rgba(0, 119, 255, 0.5) !important;
+}
 mat-form-field {
   margin-bottom: -1.3em;
+  z-index: 999;
 }
-table {
-  background-color: var(--mdc-filled-text-field-container-color);
+
+.date-picker, button, mat-datepicker-toggle {
+  text-align: center;
+  font-size: larger !important;
+  color: rgb(0, 0, 0) !important;
+  font-weight: 500 !important;
 }
