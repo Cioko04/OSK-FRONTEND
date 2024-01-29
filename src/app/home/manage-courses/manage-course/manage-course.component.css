@@ -1,3 +1,8 @@
-.demo-inline-calendar-card {
-    width: 100%;
-  }
+.scheduler {
+  position: sticky !important;
+  top: 500px !important;
+  left: 0;
+  width: 100%;
+  background-color: transparent;
+  z-index: 1500;
+}

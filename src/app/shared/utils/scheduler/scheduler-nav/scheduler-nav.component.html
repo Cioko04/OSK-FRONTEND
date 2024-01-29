@@ -1,0 +1,41 @@
+<div class="d-flex justify-content-start m-0 p-0">
+  <mat-form-field>
+    <mat-label class="day-select">Dni na kalendarzu</mat-label>
+    <mat-select>
+      @for (value of viewSelect; track value) {
+      <mat-option [value]="value.value">{{ value.viewValue }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <button
+    class="arrow-button"
+    mat-raised-button
+    class="reset-button me-1"
+    (click)="moveLeft()"
+  >
+    <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
+  </button>
+  <button
+    class="arrow-button"
+    mat-raised-button
+    class="reset-button"
+    (click)="moveRight()"
+  >
+    <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
+  </button>
+  <button mat-raised-button class="reset-button mx-1" (click)="reset()">
+    dzisiaj
+    <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+  </button>
+  <mat-form-field>
+    <input
+      class="date-picker"
+      matInput
+      [matDatepicker]="dp"
+      [(ngModel)]="currentDate"
+      (ngModelChange)="onDateChange($event)"
+    />
+    <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp></mat-datepicker>
+  </mat-form-field>
+</div>

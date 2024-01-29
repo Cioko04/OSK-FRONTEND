@@ -1,41 +1,39 @@
 table {
-  width: 100%;
   background-color: var(--mdc-filled-text-field-container-color);
   z-index: 1000;
 }
 
-.reset-button {
-  background-color: var(--mdc-filled-text-field-container-color) !important;
-  height: auto;
+.table-container {
   border-radius: 8px;
-  margin-bottom: 1px;
-}
-
-.mat-mdc-header-cell {
-  background-color: rgba(0, 132, 255, 0.253) !important;
+  border-left: 2px solid midnightblue;
+  border-right: 2px solid midnightblue;
   border-bottom: 2px solid midnightblue;
 }
 
+.mat-mdc-header-cell {
+  background-color: rgb(183 217 248) !important;
+  position: sticky;
+  top: 188px;
+  z-index: 1000;
+}
+
+.time {
+  width: 5.5% !important;
+}
+
 .week-day-column {
-  width: 13%;
+  width: 13.5% !important;
   text-align: center;
 }
 
-.left,
-.right {
-  width: 4%;
-  cursor: pointer;
-  
-}
-
-td.mat-column-left {
+td.mat-column-time {
   border-radius: 0 8px 8px 0;
   text-align: center;
-  background-color: rgba(0, 132, 255, 0.253);
+  background-color: rgb(183 217 248);
   font-size: large !important;
 }
 
-td:not(.mat-column-left) {
+td:not(.mat-column-time) {
   cursor: pointer;
   border-right: 1px solid rgba(0, 0, 0, 0.055);
   border-bottom: 1px solid rgba(0, 0, 0, 0.055);
@@ -43,33 +41,27 @@ td:not(.mat-column-left) {
   text-align: center;
 }
 
-td:not(.mat-column-left):hover {
+td:not(.mat-column-time):hover {
   background-color: rgba(0, 0, 0, 0.144);
 }
-th.left:hover,
-th.right:hover {
-  background: rgba(0, 119, 255, 0.9) !important;
+
+.today {
+  background: rgb(122 182 250) !important;
 }
+
+.mat-column-time,
 th {
-  text-align: center;
-  font-size: large !important;
-}
-mat-divider {
-  width: 90%;
-  margin: 0 auto;
-}
-
-th.today {
-  background: rgba(0, 119, 255, 0.5) !important;
-}
-mat-form-field {
-  margin-bottom: -1.3em;
-  z-index: 999;
-}
-
-.date-picker, button, mat-datepicker-toggle {
   text-align: center;
   font-size: larger !important;
   color: rgb(0, 0, 0) !important;
   font-weight: 500 !important;
+}
+
+.nav {
+  position: sticky;
+  top: 130px;
+  z-index: 1100;
+  height: 60px;
+  padding-top: 5px;
+  background-color: #dddbdb;
 }

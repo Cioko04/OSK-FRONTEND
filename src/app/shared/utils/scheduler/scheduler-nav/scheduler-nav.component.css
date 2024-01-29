@@ -1,0 +1,22 @@
+.reset-button,
+.arrow-button {
+  background-color: var(--mdc-filled-text-field-container-color) !important;
+  height: 56px;
+  border-radius: 8px;
+  margin-bottom: 1px;
+}
+
+.d-flex {
+  height: 100%;
+}
+
+.date-picker,
+mat-datepicker-toggle,
+mat-select,
+.day-select,
+button {
+  text-align: center;
+  font-size: larger !important;
+  color: rgb(0, 0, 0) !important;
+  font-weight: 500 !important;
+}

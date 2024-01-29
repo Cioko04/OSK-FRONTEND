@@ -73,6 +73,7 @@ import { TableListComponent } from './shared/utils/tables/table-list/table-list.
 import { LoginRegistrationComponent } from './welcome/login-registration/login-registration.component';
 import { WelcomeNavComponent } from './welcome/welcome-nav/welcome-nav.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { SchedulerNavComponent } from './shared/utils/scheduler/scheduler-nav/scheduler-nav.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -120,6 +121,7 @@ export const MY_FORMATS = {
     AllCoursesComponent,
     ManageCourseComponent,
     SchedulerComponent,
+    SchedulerNavComponent
   ],
   imports: [
     BrowserModule,
