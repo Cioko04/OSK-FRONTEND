@@ -4,6 +4,7 @@ table {
 }
 
 .table-container {
+  position: sticky;
   border-radius: 8px;
   border-left: 2px solid midnightblue;
   border-right: 2px solid midnightblue;
@@ -13,8 +14,8 @@ table {
 .mat-mdc-header-cell {
   background-color: rgb(183 217 248) !important;
   position: sticky;
-  top: 188px;
   z-index: 1000;
+  top: 190px;
 }
 
 .time {
@@ -55,12 +56,15 @@ th {
   font-size: larger !important;
   color: rgb(0, 0, 0) !important;
   font-weight: 500 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.nav {
+.scheduler-nav {
   position: sticky;
-  top: 130px;
   z-index: 1100;
+  top: 130px;
   height: 60px;
   padding-top: 5px;
   background-color: #dddbdb;

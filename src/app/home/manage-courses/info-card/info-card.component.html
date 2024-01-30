@@ -1,21 +1,15 @@
-<div class="card {{ cardContent['class'] }}">
-  <div class="card-statistic-3 p-3">
-    <div class="card-icon">
-      <i class="fa {{ cardContent['icon'] }} fa-5x pe-3"></i>
-    </div>
-    <div class="mb-4">
-      <h1 class="card-title mb-0">{{ cardContent["title"] }}</h1>
-    </div>
-    <div class="row align-items-center pt-4 d-flex">
-      <div class="col-8">
+<mat-card class="card {{ cardContent['class'] }}">
+  <mat-card-header>
+    <mat-card-title-group class="card-statistic-3 p-3">
+      <mat-card-title>{{ cardContent["title"] }}</mat-card-title>
+      <mat-card-subtitle class="sub-title">
         <h2 class="d-flex align-items-center mb-0">
           {{ cardContent["count"] }}
         </h2>
+      </mat-card-subtitle>
+      <div class="card-icon">
+        <i class="fa {{ cardContent['icon'] }} fa-5x pe-3"></i>
       </div>
-      <div class="col-4 text-right">
-        <span>9.23% <i class="fa fa-arrow-up"></i></span>
-      </div>
-    </div>
-    <hr />
-  </div>
-</div>
+    </mat-card-title-group>
+  </mat-card-header>
+</mat-card>

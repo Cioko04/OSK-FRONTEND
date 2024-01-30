@@ -1,8 +1,0 @@
-.scheduler {
-  position: sticky !important;
-  top: 500px !important;
-  left: 0;
-  width: 100%;
-  background-color: transparent;
-  z-index: 1500;
-}

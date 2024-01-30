@@ -31,7 +31,7 @@ strong {
 .fa {
   font-size: 1.4rem;
 }
-@media (max-width: 767px) {
+@media (max-width: 780px) {
   .nav-link {
     display: flex;
     flex-direction: column;

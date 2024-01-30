@@ -1,13 +1,12 @@
 <div class="container-fluid">
-  <div class="row nav">
+  <div class="row scheduler-nav" #schedulerNav>
     <app-scheduler-nav></app-scheduler-nav>
   </div>
   <div class="row">
     <section class="table-container m-0 p-0" tabindex="0">
       <table mat-table [dataSource]="dataSource">
-
         <ng-container matColumnDef="time">
-          <th mat-header-cell *matHeaderCellDef class="time"></th>
+          <th #weekDayCell mat-header-cell *matHeaderCellDef class="time"></th>
           <td
             #hourCell
             [ngClass]="{ today: isRightNow(element.time) }"

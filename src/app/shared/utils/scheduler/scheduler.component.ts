@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -18,11 +19,13 @@ import { DayWithDate, SchedulerService } from './scheduler.service';
 export class SchedulerComponent implements OnInit, OnDestroy, AfterViewInit {
   daysWithDates!: DayWithDate[];
   dataSource: any = [];
+  navContentHeight: number = 0;
 
   private dataSubscription: Subscription = new Subscription();
 
   @ViewChildren('hourCell') hourCells: QueryList<ElementRef> | undefined;
   @ViewChildren('weekDayCell') weekDayCells: QueryList<ElementRef> | undefined;
+  @ViewChild('schedulerNav') schedulerNav: ElementRef | undefined;
 
   constructor(private schedulerService: SchedulerService) {}
 
@@ -44,10 +47,8 @@ export class SchedulerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.scrollViewToCurrentDate();
-    this.weekDayCells?.changes.subscribe(() => {
-      this.scrollViewToCurrentDate();
-    });
+    this.scrollToCurrentHour();
+    this.weekDayCells?.changes.subscribe(() => this.scrollToCurrentHour());
   }
 
   getColumnDefinition(): string[] {
@@ -72,13 +73,14 @@ export class SchedulerComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private scrollViewToCurrentDate() {
-    const left = this.getCurrentWeekLeftPosition();
-    const top = this.getCurrentHourTopPosition();
-    console.log(left);
-    window.scrollTo({
-      top: top,
-      behavior: 'smooth',
+  private scrollToCurrentHour() {
+    this.hourCells?.forEach((hourCell: ElementRef) => {
+      const hour = hourCell.nativeElement.innerText.trim();
+      if (this.isRightNow(hour)) {
+        hourCell.nativeElement.scrollIntoView({
+          behavior: "auto", block: "start"
+        });
+      }
     });
   }
 
@@ -91,23 +93,22 @@ export class SchedulerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private getCurrentWeekLeftPosition(): number {
-    this.weekDayCells?.forEach((weekDayCell: ElementRef) => {
-      const weekDayCellData = weekDayCell.nativeElement.innerText
-        .trim()
-        .split(/\r?\n/);
-      if (
-        weekDayCellData[0] === 'Niedziela'
-        // this.isToday({
-        //   dayOfWeek: weekDayCellData[0],
-        //   dayOfMonth: parseInt(weekDayCellData[1]),
-        // })
-      ) {
-        weekDayCell.nativeElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      }
-    });
+    // this.weekDayCells?.forEach((weekDayCell: ElementRef) => {
+    //   const weekDayCellData = weekDayCell.nativeElement.innerText
+    //     .trim()
+    //     .split(/\r?\n/);
+    //   if (
+    //     this.isToday({
+    //       dayOfWeek: weekDayCellData[0],
+    //       dayOfMonth: parseInt(weekDayCellData[1]),
+    //     })
+    //   ) {
+    //     weekDayCell.nativeElement.scrollIntoView({
+    //       behavior: 'smooth',
+    //       block: 'start',
+    //     });
+    //   }
+    // });
     // const weekDayCell = this.weekDayCells?.filter((weekDayCell: ElementRef) => {
     //   const weekDayCellData = weekDayCell.nativeElement.innerText
     //     .trim()

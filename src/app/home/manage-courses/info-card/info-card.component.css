@@ -9,25 +9,6 @@
     0 0.25rem 0.53125rem rgba(90, 97, 105, 0.12),
     0 0.125rem 0.1875rem rgba(90, 97, 105, 0.1);
 }
-.completed-courses {
-  background: linear-gradient(to right, #493240, #f09) !important;
-  color: #fff;
-}
-
-.l-bg-blue-dark {
-  background: linear-gradient(to right, #373b44, #4286f4) !important;
-  color: #fff;
-}
-
-.l-bg-green-dark {
-  background: linear-gradient(to right, #0a504a, #38ef7d) !important;
-  color: #fff;
-}
-
-.l-bg-orange-dark {
-  background: linear-gradient(to right, #a86008, #ffba56) !important;
-  color: #fff;
-}
 
 .card .card-statistic-3 .card-icon {
   text-align: center;
@@ -40,17 +21,26 @@
   opacity: 0.1;
 }
 
+.sub-title {
+  color: #fff;
+}
+
+.completed-courses {
+  background: linear-gradient(to right, #493240, #f09) !important;
+  color: #fff;
+}
+
 .students {
-  background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
+  background: linear-gradient(135deg, #289cf5, #84c0ec);
   color: #fff;
 }
 
 .instructors {
-  background: linear-gradient(135deg, #23bdb8 0%, #43e794 100%) !important;
+  background: linear-gradient(135deg, #23bdb8 0%, #43e794 100%);
   color: #fff;
 }
 
 .ongoing-courses {
-  background: linear-gradient(to right, #f9900e, #ffba56) !important;
+  background: linear-gradient(to right, #f9900e, #ffba56);
   color: #fff;
 }

@@ -1,12 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Moment } from 'moment';
-import { SchedulerService } from '../scheduler.service';
 import { Subscription } from 'rxjs';
-
-interface WeekSelect {
-  value: string;
-  viewValue: string;
-}
+import { SchedulerService } from '../scheduler.service';
 
 @Component({
   selector: 'app-scheduler-nav',
@@ -15,11 +10,6 @@ interface WeekSelect {
 })
 export class SchedulerNavComponent implements OnInit, OnDestroy {
   currentDate!: Date;
-  viewSelect: WeekSelect[] = [
-    { value: 'day', viewValue: 'Dzień' },
-    { value: 'week', viewValue: 'Dni robocze' },
-    { value: 'weekedn', viewValue: 'Weekend' },
-  ];
 
   private dataSubscription: Subscription = new Subscription();
 

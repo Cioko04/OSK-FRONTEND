@@ -1,18 +1,26 @@
-import { UserService } from 'src/app/shared/services/user/user.service';
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { User } from '../shared/services/user/user';
+import { UserService } from 'src/app/shared/services/user/user.service';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { User } from '../shared/services/user/user';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
   user: User | any = {};
   shouldOpenProfile: boolean = true;
+
+  @ViewChild('navContent') navContent: ElementRef | undefined;
 
   constructor(
     private authenticationService: AuthenticationService,
