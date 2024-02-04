@@ -5,11 +5,19 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
-  ViewChild,
+  Renderer2,
   ViewChildren,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { SchedulPositionService } from './schedul-position.service';
 import { DayWithDate, SchedulerService } from './scheduler.service';
+
+export interface ScheduledTime {
+  id: number;
+  instruktor: string;
+  startTime: Date;
+  endTime: Date;
+}
 
 @Component({
   selector: 'app-scheduler',
@@ -19,19 +27,43 @@ import { DayWithDate, SchedulerService } from './scheduler.service';
 export class SchedulerComponent implements OnInit, OnDestroy, AfterViewInit {
   daysWithDates!: DayWithDate[];
   dataSource: any = [];
-  navContentHeight: number = 0;
+
+  scheduledTimes: ScheduledTime[] = [
+    {
+      id: 1,
+      instruktor: 'Jacek',
+      startTime: new Date(2024, 1, 3, 12, 30),
+      endTime: new Date(2024, 1, 3, 15, 0),
+    },
+    {
+      id: 2,
+      instruktor: 'Andrzej',
+      startTime: new Date(2024, 1, 2, 9, 0),
+      endTime: new Date(2024, 1, 2, 11, 30),
+    },
+  ];
 
   private dataSubscription: Subscription = new Subscription();
 
-  @ViewChildren('hourCell') hourCells: QueryList<ElementRef> | undefined;
+  @ViewChildren('timeCell') timeCells: QueryList<ElementRef> | undefined;
   @ViewChildren('weekDayCell') weekDayCells: QueryList<ElementRef> | undefined;
-  @ViewChild('schedulerNav') schedulerNav: ElementRef | undefined;
+  @ViewChildren('schedul') scheduls: QueryList<ElementRef> | undefined;
 
-  constructor(private schedulerService: SchedulerService) {}
+  constructor(
+    private schedulerService: SchedulerService,
+    private schedulPositionService: SchedulPositionService,
+    private renderer: Renderer2
+  ) {}
 
   ngOnInit() {
     this.initSubscription();
     this.setHours();
+  }
+
+  ngAfterViewInit() {
+    this.scrollToCurrentHour();
+    this.setSchedulPosition();
+    this.weekDayCells?.changes.subscribe(() => this.scrollToCurrentHour());
   }
 
   private initSubscription() {
@@ -44,11 +76,6 @@ export class SchedulerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy() {
     this.dataSubscription.unsubscribe();
-  }
-
-  ngAfterViewInit() {
-    this.scrollToCurrentHour();
-    this.weekDayCells?.changes.subscribe(() => this.scrollToCurrentHour());
   }
 
   getColumnDefinition(): string[] {
@@ -74,66 +101,28 @@ export class SchedulerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private scrollToCurrentHour() {
-    this.hourCells?.forEach((hourCell: ElementRef) => {
+    this.timeCells?.forEach((hourCell: ElementRef) => {
       const hour = hourCell.nativeElement.innerText.trim();
       if (this.isRightNow(hour)) {
         hourCell.nativeElement.scrollIntoView({
-          behavior: "auto", block: "start"
+          behavior: 'auto',
+          block: 'start',
         });
       }
     });
   }
 
-  private getCurrentHourTopPosition(): number {
-    const hourCell = this.hourCells?.filter((hourCell: ElementRef) => {
-      const hour = hourCell.nativeElement.innerText.trim();
-      return this.isRightNow(hour);
-    })[0];
-    return hourCell ? this.getPosition(hourCell.nativeElement).top : 0;
-  }
-
-  private getCurrentWeekLeftPosition(): number {
-    // this.weekDayCells?.forEach((weekDayCell: ElementRef) => {
-    //   const weekDayCellData = weekDayCell.nativeElement.innerText
-    //     .trim()
-    //     .split(/\r?\n/);
-    //   if (
-    //     this.isToday({
-    //       dayOfWeek: weekDayCellData[0],
-    //       dayOfMonth: parseInt(weekDayCellData[1]),
-    //     })
-    //   ) {
-    //     weekDayCell.nativeElement.scrollIntoView({
-    //       behavior: 'smooth',
-    //       block: 'start',
-    //     });
-    //   }
-    // });
-    // const weekDayCell = this.weekDayCells?.filter((weekDayCell: ElementRef) => {
-    //   const weekDayCellData = weekDayCell.nativeElement.innerText
-    //     .trim()
-    //     .split(/\r?\n/);
-    //   return this.isToday({
-    //     dayOfWeek: weekDayCellData[0],
-    //     dayOfMonth: parseInt(weekDayCellData[1]),
-    //   });
-    // })[0];
-    // return weekDayCell ? this.getPosition(weekDayCell.nativeElement).left : 0;
-    return 0;
-  }
-
-  private getPosition(element: HTMLElement): {
-    left: number;
-    right: number;
-    top: number;
-    bottom: number;
-  } {
-    const rect = element.getBoundingClientRect();
-    return {
-      left: rect.left + window.scrollX,
-      right: rect.right + window.scrollX,
-      top: rect.top + window.scrollY,
-      bottom: rect.bottom + window.scrollY,
-    };
+  private setSchedulPosition() {
+      this.scheduls!.forEach((schedul: ElementRef) => {
+        if (schedul && this.weekDayCells && this.timeCells) {
+          const schedulPosition = this.schedulPositionService.calculateSchedulPosition(schedul, this.weekDayCells, this.timeCells)
+          this.renderer.setStyle(schedul.nativeElement, 'left', schedulPosition.left + 'px');
+          this.renderer.setStyle(schedul.nativeElement, 'width', schedulPosition.width - 30 + 'px');
+          this.renderer.setStyle(schedul.nativeElement, 'margin-left', 15 + 'px');
+          this.renderer.setStyle(schedul.nativeElement, 'top', schedulPosition.top + 'px');
+          this.renderer.setStyle(schedul.nativeElement, 'height', schedulPosition.height + 'px');
+        }
+      });
+    
   }
 }

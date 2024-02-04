@@ -66,6 +66,7 @@ import { CardComponent } from './shared/common/card/card.component';
 import { CarouselComponent } from './shared/common/carousel/carousel.component';
 import { FilterPipe } from './shared/pipe/filter.pipe';
 import { UserService } from './shared/services/user/user.service';
+import { SchedulerNavComponent } from './shared/utils/scheduler/scheduler-nav/scheduler-nav.component';
 import { SchedulerComponent } from './shared/utils/scheduler/scheduler.component';
 import { CommonTableComponent } from './shared/utils/tables/common-table/common-table.component';
 import { TableCardsComponent } from './shared/utils/tables/table-cards/table-cards.component';
@@ -73,7 +74,6 @@ import { TableListComponent } from './shared/utils/tables/table-list/table-list.
 import { LoginRegistrationComponent } from './welcome/login-registration/login-registration.component';
 import { WelcomeNavComponent } from './welcome/welcome-nav/welcome-nav.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { SchedulerNavComponent } from './shared/utils/scheduler/scheduler-nav/scheduler-nav.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -121,7 +121,7 @@ export const MY_FORMATS = {
     AllCoursesComponent,
     ManageCourseComponent,
     SchedulerComponent,
-    SchedulerNavComponent
+    SchedulerNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -148,7 +148,7 @@ export const MY_FORMATS = {
     ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
   ],
   providers: [
     UserService,

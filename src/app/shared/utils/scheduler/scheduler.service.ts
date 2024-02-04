@@ -89,7 +89,7 @@ export class SchedulerService {
     );
   }
 
-  private getWeekDayName(today: Date): string {
+  getWeekDayName(today: Date): string {
     return WEEK_DAYS[today.getDay() === 0 ? 6 : today.getDay() - 1];
   }
 }

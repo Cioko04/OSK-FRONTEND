@@ -1,11 +1,12 @@
 table {
   background-color: var(--mdc-filled-text-field-container-color);
-  z-index: 1000;
+  
 }
 
 .table-container {
   position: sticky;
   border-radius: 8px;
+  z-index: 1000;
   border-left: 2px solid midnightblue;
   border-right: 2px solid midnightblue;
   border-bottom: 2px solid midnightblue;
@@ -14,8 +15,8 @@ table {
 .mat-mdc-header-cell {
   background-color: rgb(183 217 248) !important;
   position: sticky;
-  z-index: 1000;
-  top: 190px;
+  z-index: 1100;
+  top: 204px;
 }
 
 .time {
@@ -65,7 +66,19 @@ th {
   position: sticky;
   z-index: 1100;
   top: 130px;
-  height: 60px;
-  padding-top: 5px;
   background-color: #dddbdb;
+}
+
+
+.scheduled-time {
+  position: absolute;
+  z-index: 1050;
+  background-color: rgba(0, 128, 0, 0.4);
+  border: 1px solid currentColor;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.scheduled-time:hover  {
+  background-color: rgba(0, 128, 0, 0.6);
 }
