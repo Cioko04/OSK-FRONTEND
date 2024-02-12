@@ -1,47 +1,33 @@
 import {
+  AfterViewChecked,
   AfterViewInit,
   Component,
   ElementRef,
+  HostListener,
   OnDestroy,
   OnInit,
   QueryList,
   Renderer2,
   ViewChildren,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { SchedulPositionService } from './schedul-position.service';
-import { DayWithDate, SchedulerService } from './scheduler.service';
-
-export interface ScheduledTime {
-  id: number;
-  instruktor: string;
-  startTime: Date;
-  endTime: Date;
-}
+import { Subscription, debounceTime, fromEvent } from 'rxjs';
+import { ScheduledSession } from '../../services/scheduled-session/scheduled-session';
+import { ScheduledSessionService } from '../../services/scheduled-session/scheduled-session.service';
+import { SchedulerPositionService } from './scheduler-position.service';
+import { SchedulerService } from './scheduler.service';
 
 @Component({
   selector: 'app-scheduler',
   templateUrl: './scheduler.component.html',
   styleUrls: ['./scheduler.component.css'],
 })
-export class SchedulerComponent implements OnInit, OnDestroy, AfterViewInit {
-  daysWithDates!: DayWithDate[];
+export class SchedulerComponent implements OnInit, OnDestroy, AfterViewChecked {
+  week!: Date[];
   dataSource: any = [];
+  setOnlyOneDay: boolean = false;
+  isSmallScreen: boolean = false;
 
-  scheduledTimes: ScheduledTime[] = [
-    {
-      id: 1,
-      instruktor: 'Jacek',
-      startTime: new Date(2024, 1, 3, 12, 30),
-      endTime: new Date(2024, 1, 3, 15, 0),
-    },
-    {
-      id: 2,
-      instruktor: 'Andrzej',
-      startTime: new Date(2024, 1, 2, 9, 0),
-      endTime: new Date(2024, 1, 2, 11, 30),
-    },
-  ];
+  scheduledSessions: ScheduledSession[] = [];
 
   private dataSubscription: Subscription = new Subscription();
 
@@ -51,26 +37,56 @@ export class SchedulerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private schedulerService: SchedulerService,
-    private schedulPositionService: SchedulPositionService,
+    private schedulerPositionService: SchedulerPositionService,
+    private scheduledSessionService: ScheduledSessionService,
     private renderer: Renderer2
   ) {}
 
   ngOnInit() {
+    this.adjustBooleansToScreenSize(window.innerWidth);
+    this.isSmallScreen = this.setOnlyOneDay;
+    this.schedulerService.reset();
     this.initSubscription();
     this.setHours();
   }
 
-  ngAfterViewInit() {
+  ngAfterViewChecked() {
     this.scrollToCurrentHour();
     this.setSchedulPosition();
-    this.weekDayCells?.changes.subscribe(() => this.scrollToCurrentHour());
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.adjustBooleansToScreenSize(event.target.innerWidth);
+    if (this.setOnlyOneDay !== this.isSmallScreen) {
+      this.isSmallScreen = this.setOnlyOneDay;
+      this.schedulerService.setWeek();
+    }
+  }
+
+  private adjustBooleansToScreenSize(windowSize: number) {
+    this.setOnlyOneDay = windowSize <= 856;
+    this.schedulerService.setOnlyOneDay = this.setOnlyOneDay;
+    this.scheduledSessionService.setOnlyOneDay = this.setOnlyOneDay;
   }
 
   private initSubscription() {
     this.dataSubscription.add(
-      this.schedulerService.daysWithDates$.subscribe((daysWithDates) => {
-        this.daysWithDates = daysWithDates;
+      this.schedulerService.week$.subscribe((week) => {
+        if (this.week !== week) {
+          this.week = week;
+        }
       })
+    );
+
+    this.dataSubscription.add(
+      this.scheduledSessionService.scheduledSessionSubject$.subscribe(
+        (scheduledSessions) => {
+          if (this.scheduledSessions !== scheduledSessions) {
+            this.scheduledSessions = scheduledSessions;
+          }
+        }
+      )
     );
   }
 
@@ -81,16 +97,24 @@ export class SchedulerComponent implements OnInit, OnDestroy, AfterViewInit {
   getColumnDefinition(): string[] {
     return [
       'time',
-      ...this.daysWithDates.map((day) => day.dayOfWeek + day.dayOfMonth),
+      ...this.week.map((day) => this.getWeekDayName(day) + day.getDate()),
     ];
   }
 
-  isToday(dayWithDate: DayWithDate): boolean {
-    return this.schedulerService.isToday(dayWithDate);
+  getWeekDayName(day: Date) {
+    return this.schedulerService.getWeekDayName(day);
+  }
+
+  isToday(day: Date): boolean {
+    return this.schedulerService.isToday(day);
   }
 
   isRightNow(hour: string): boolean {
     return this.schedulerService.isRightNow(hour);
+  }
+
+  isInCurrentWeek(date: Date) {
+    return date >= new Date(2024, 1, 5) && date <= new Date(2024, 1, 11);
   }
 
   private setHours() {
@@ -101,7 +125,7 @@ export class SchedulerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private scrollToCurrentHour() {
-    this.timeCells?.forEach((hourCell: ElementRef) => {
+    this.timeCells!.forEach((hourCell: ElementRef) => {
       const hour = hourCell.nativeElement.innerText.trim();
       if (this.isRightNow(hour)) {
         hourCell.nativeElement.scrollIntoView({
@@ -113,16 +137,43 @@ export class SchedulerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private setSchedulPosition() {
-      this.scheduls!.forEach((schedul: ElementRef) => {
+    if (this.scheduls && this.scheduledSessions.length > 0) {
+      this.scheduls.forEach((schedul: ElementRef) => {
         if (schedul && this.weekDayCells && this.timeCells) {
-          const schedulPosition = this.schedulPositionService.calculateSchedulPosition(schedul, this.weekDayCells, this.timeCells)
-          this.renderer.setStyle(schedul.nativeElement, 'left', schedulPosition.left + 'px');
-          this.renderer.setStyle(schedul.nativeElement, 'width', schedulPosition.width - 30 + 'px');
-          this.renderer.setStyle(schedul.nativeElement, 'margin-left', 15 + 'px');
-          this.renderer.setStyle(schedul.nativeElement, 'top', schedulPosition.top + 'px');
-          this.renderer.setStyle(schedul.nativeElement, 'height', schedulPosition.height + 'px');
+          const schedulPosition =
+            this.schedulerPositionService.calculateSchedulPosition(
+              schedul,
+              this.scheduledSessions,
+              this.weekDayCells,
+              this.timeCells
+            );
+          this.renderer.setStyle(
+            schedul.nativeElement,
+            'left',
+            schedulPosition.left + 'px'
+          );
+          this.renderer.setStyle(
+            schedul.nativeElement,
+            'width',
+            schedulPosition.width - 30 + 'px'
+          );
+          this.renderer.setStyle(
+            schedul.nativeElement,
+            'margin-left',
+            15 + 'px'
+          );
+          this.renderer.setStyle(
+            schedul.nativeElement,
+            'top',
+            schedulPosition.top + 'px'
+          );
+          this.renderer.setStyle(
+            schedul.nativeElement,
+            'height',
+            schedulPosition.height + 'px'
+          );
         }
       });
-    
+    }
   }
 }

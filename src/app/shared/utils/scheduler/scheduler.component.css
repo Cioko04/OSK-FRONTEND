@@ -28,6 +28,16 @@ table {
   text-align: center;
 }
 
+@media (max-width: 856px) {
+  .time {
+    width: 10% !important;
+  }
+  
+  .week-day-column {
+    width: 90% !important;
+  }
+}
+
 td.mat-column-time {
   border-radius: 0 8px 8px 0;
   text-align: center;
@@ -57,9 +67,6 @@ th {
   font-size: larger !important;
   color: rgb(0, 0, 0) !important;
   font-weight: 500 !important;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .scheduler-nav {
@@ -81,4 +88,9 @@ th {
 
 .scheduled-time:hover  {
   background-color: rgba(0, 128, 0, 0.6);
+}
+
+.scheduled-time p {
+  max-width: 100%;
+  overflow-wrap: break-word;
 }

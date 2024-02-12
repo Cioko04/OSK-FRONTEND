@@ -121,7 +121,7 @@ export const MY_FORMATS = {
     AllCoursesComponent,
     ManageCourseComponent,
     SchedulerComponent,
-    SchedulerNavComponent,
+    SchedulerNavComponent
   ],
   imports: [
     BrowserModule,

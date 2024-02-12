@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { eachDayOfInterval, endOfWeek, format, startOfWeek } from 'date-fns';
 import { Moment } from 'moment';
 import { BehaviorSubject } from 'rxjs';
 
@@ -18,51 +19,59 @@ export interface DayWithDate {
 }
 
 @Injectable({
-    providedIn: 'root',
-  })
+  providedIn: 'root',
+})
 export class SchedulerService {
-  private daysWithDatesSubject = new BehaviorSubject<DayWithDate[]>([]);
-  daysWithDates$ = this.daysWithDatesSubject.asObservable();
+  setOnlyOneDay = false;
+
+  private weekSubject = new BehaviorSubject<Date[]>([]);
+  week$ = this.weekSubject.asObservable();
 
   private currentDateSubject = new BehaviorSubject<Date>(new Date());
   currentDate$ = this.currentDateSubject.asObservable();
 
   constructor() {
-    this.setDaysWithDates();
+    this.setWeek();
   }
 
   onDateChange(date: Moment) {
-    this.currentDateSubject.next(date.toDate());
-    this.setDaysWithDates();
-  }
-
-  moveLeft() {
-    let newDate = new Date(this.currentDateSubject.getValue());
-    newDate.setDate(newDate.getDate() - 7);
-    this.currentDateSubject.next(newDate);
-    this.setDaysWithDates();
-  }
-
-  moveRight() {
-    let newDate = new Date(this.currentDateSubject.getValue());
-    newDate.setDate(newDate.getDate() + 7);
-    this.currentDateSubject.next(newDate);
-    this.setDaysWithDates();
+    if (this.isDifferentDay(date.toDate())) {
+      this.currentDateSubject.next(date.toDate());
+      this.setWeek();
+    }
   }
 
   reset() {
-    this.currentDateSubject.next(new Date());
-    this.setDaysWithDates();
+    if (this.isDifferentDay(new Date())) {
+      this.currentDateSubject.next(new Date());
+      this.setWeek();
+    }
   }
 
-  isToday(dayWithDate: DayWithDate): boolean {
-    const today: Date = new Date();
-    return (
-      dayWithDate.dayOfWeek === this.getWeekDayName(today) &&
-      dayWithDate.dayOfMonth === today.getDate() &&
-      this.currentDateSubject.getValue().getMonth() === today.getMonth() &&
-      this.currentDateSubject.getValue().getFullYear() === today.getFullYear()
-    );
+  private isDifferentDay(dateToSearch: Date): boolean {
+    return !this.weekSubject.getValue().some((date) => format(date, 'yyyy-MM-dd') === format(dateToSearch, 'yyyy-MM-dd'));
+  }
+
+  moveLeft() {
+    const newDate = new Date(this.weekSubject.getValue()[0]);
+    newDate.setDate(newDate.getDate() - this.getDaysToMove());
+    this.currentDateSubject.next(newDate);
+    this.setWeek();
+  }
+
+  moveRight() {
+    const newDate = new Date(this.weekSubject.getValue()[0]);
+    newDate.setDate(newDate.getDate() + this.getDaysToMove());
+    this.currentDateSubject.next(newDate);
+    this.setWeek();
+  }
+
+  private getDaysToMove(): number {
+    return this.setOnlyOneDay ? 1 : 7;
+  }
+
+  isToday(day: Date): boolean {
+    return format(day, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
   }
 
   isRightNow(hour: string): boolean {
@@ -73,20 +82,29 @@ export class SchedulerService {
     );
   }
 
-  private setDaysWithDates() {
-    this.daysWithDatesSubject.next(
-      WEEK_DAYS.map((day) => {
-        let daysToAdd =
-          WEEK_DAYS.indexOf(day) -
-          WEEK_DAYS.indexOf(this.getWeekDayName(this.currentDateSubject.getValue()));
-        let dayInWeek = new Date(this.currentDateSubject.getValue());
-        dayInWeek.setDate(this.currentDateSubject.getValue().getDate() + daysToAdd);
-        return {
-          dayOfWeek: day,
-          dayOfMonth: dayInWeek.getDate(),
-        };
-      })
+  setWeek() {
+    const formattedCurrentWeek = this.setOnlyOneDay
+      ? [this.currentDateSubject.getValue()]
+      : this.setWholeWeek(this.currentDateSubject.getValue());
+
+    this.weekSubject.next(formattedCurrentWeek);
+  }
+
+  private setWholeWeek(date: Date): Date[] {
+    const startOfCurrentWeek = startOfWeek(date, {
+      weekStartsOn: 1,
+    });
+    const endOfCurrentWeek = endOfWeek(date, {
+      weekStartsOn: 1,
+    });
+    const currentWeek = eachDayOfInterval({
+      start: startOfCurrentWeek,
+      end: endOfCurrentWeek,
+    });
+    const formattedCurrentWeek = currentWeek.map(
+      (date) => new Date(format(date, 'yyyy-MM-dd'))
     );
+    return formattedCurrentWeek;
   }
 
   getWeekDayName(today: Date): string {
