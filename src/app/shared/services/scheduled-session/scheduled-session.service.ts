@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { endOfWeek, format, startOfWeek } from 'date-fns';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { format } from 'date-fns';
+import { BehaviorSubject } from 'rxjs';
 import { ScheduledSession } from './scheduled-session';
-import { SchedulerService } from '../../utils/scheduler/scheduler.service';
 
 const SCHEDULED_SESSIONS: ScheduledSession[] = [
   {
@@ -60,20 +59,13 @@ const SCHEDULED_SESSIONS: ScheduledSession[] = [
 })
 export class ScheduledSessionService {
   setOnlyOneDay: boolean = false;
-  private dataSubscription: Subscription = new Subscription();
 
   private scheduledSessionSubject = new BehaviorSubject<ScheduledSession[]>([]);
   scheduledSessionSubject$ = this.scheduledSessionSubject.asObservable();
 
-  constructor(private schedulerService: SchedulerService) {
-    this.dataSubscription.add(
-      this.schedulerService.week$.subscribe((week) =>
-        this.updateScheduledSessionSubjectForDate(week)
-      )
-    );
-  }
+  constructor() {}
 
-  private updateScheduledSessionSubjectForDate(dates: Date[]) {
+  updateScheduledSessionSubjectForDate(dates: Date[]) {
     const startOfCurrentWeek = dates[0];
     const endOfCurrentWeek = this.setOnlyOneDay ? dates[0] : dates[6];
 

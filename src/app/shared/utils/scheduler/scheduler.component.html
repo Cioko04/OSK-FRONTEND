@@ -32,14 +32,14 @@
             <mat-divider></mat-divider>
             <div>{{ day.getDate() }}</div>
           </th>
-          <td mat-cell *matCellDef="let element"></td>
+          <td mat-cell *matCellDef="let element" (click)="addSession(day, element.time)"></td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="getColumnDefinition()"></tr>
         <tr mat-row *matRowDef="let row; columns: getColumnDefinition()"></tr>
       </table>
       <ng-container *ngFor="let scheduledSession of scheduledSessions">
-        <div [id]="scheduledSession.id" class="scheduled-time" #schedul>
+        <div [id]="scheduledSession.id" class="scheduled-time" #schedul (click)="editSession(scheduledSession)">
           <p class="m-3">{{ scheduledSession.instructor }}</p>
         </div>
       </ng-container>

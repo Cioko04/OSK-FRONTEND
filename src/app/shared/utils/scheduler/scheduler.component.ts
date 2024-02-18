@@ -1,6 +1,5 @@
 import {
   AfterViewChecked,
-  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -8,9 +7,9 @@ import {
   OnInit,
   QueryList,
   Renderer2,
-  ViewChildren,
+  ViewChildren
 } from '@angular/core';
-import { Subscription, debounceTime, fromEvent } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ScheduledSession } from '../../services/scheduled-session/scheduled-session';
 import { ScheduledSessionService } from '../../services/scheduled-session/scheduled-session.service';
 import { SchedulerPositionService } from './scheduler-position.service';
@@ -43,16 +42,12 @@ export class SchedulerComponent implements OnInit, OnDestroy, AfterViewChecked {
   ) {}
 
   ngOnInit() {
+    this.schedulerService.reset();
     this.adjustBooleansToScreenSize(window.innerWidth);
     this.isSmallScreen = this.setOnlyOneDay;
-    this.schedulerService.reset();
+    this.schedulerService.setWeek();
     this.initSubscription();
     this.setHours();
-  }
-
-  ngAfterViewChecked() {
-    this.scrollToCurrentHour();
-    this.setSchedulPosition();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -62,6 +57,13 @@ export class SchedulerComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.isSmallScreen = this.setOnlyOneDay;
       this.schedulerService.setWeek();
     }
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToCurrentHour();
+    setTimeout(() => {
+      this.setSchedulPosition();
+    });
   }
 
   private adjustBooleansToScreenSize(windowSize: number) {
@@ -75,6 +77,9 @@ export class SchedulerComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.schedulerService.week$.subscribe((week) => {
         if (this.week !== week) {
           this.week = week;
+          this.scheduledSessionService.updateScheduledSessionSubjectForDate(
+            week
+          );
         }
       })
     );
@@ -175,5 +180,16 @@ export class SchedulerComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
       });
     }
+  }
+
+  editSession(day: ScheduledSession) {
+    console.log('Session edit button.');
+    console.log(day);
+  }
+
+  addSession(scheduledSession: Date, time: any) {
+    console.log('Session add button.');
+    scheduledSession.setHours(time.split(':')[0]);
+    console.log(scheduledSession);
   }
 }

@@ -31,7 +31,6 @@ export class SchedulerService {
   currentDate$ = this.currentDateSubject.asObservable();
 
   constructor() {
-    this.setWeek();
   }
 
   onDateChange(date: Moment) {

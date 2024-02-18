@@ -1,6 +1,5 @@
 table {
   background-color: var(--mdc-filled-text-field-container-color);
-  
 }
 
 .table-container {
@@ -30,11 +29,11 @@ table {
 
 @media (max-width: 856px) {
   .time {
-    width: 10% !important;
+    width: 5% !important;
   }
-  
+
   .week-day-column {
-    width: 90% !important;
+    width: 95% !important;
   }
 }
 
@@ -42,7 +41,6 @@ td.mat-column-time {
   border-radius: 0 8px 8px 0;
   text-align: center;
   background-color: rgb(183 217 248);
-  font-size: large !important;
 }
 
 td:not(.mat-column-time) {
@@ -76,7 +74,6 @@ th {
   background-color: #dddbdb;
 }
 
-
 .scheduled-time {
   position: absolute;
   z-index: 1050;
@@ -86,7 +83,7 @@ th {
   border-radius: 8px;
 }
 
-.scheduled-time:hover  {
+.scheduled-time:hover {
   background-color: rgba(0, 128, 0, 0.6);
 }
 
