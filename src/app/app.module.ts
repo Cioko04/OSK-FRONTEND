@@ -39,7 +39,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthenticationService } from './authentication/authentication.service';
-import { BookCourseComponent } from './forms/book-course/book-course.component';
 import { PasswordFormComponent } from './forms/common/password-form/password-form.component';
 import { ProfileFormComponent } from './forms/common/profile-form/profile-form.component';
 import { SchoolFormComponent } from './forms/common/school-form/school-form.component';
@@ -67,6 +66,7 @@ import { CarouselComponent } from './shared/common/carousel/carousel.component';
 import { FilterPipe } from './shared/pipe/filter.pipe';
 import { UserService } from './shared/services/user/user.service';
 import { SchedulerNavComponent } from './shared/utils/scheduler/scheduler-nav/scheduler-nav.component';
+import { SchedulerTableComponent } from './shared/utils/scheduler/scheduler-table/scheduler-table.component';
 import { SchedulerComponent } from './shared/utils/scheduler/scheduler.component';
 import { CommonTableComponent } from './shared/utils/tables/common-table/common-table.component';
 import { TableCardsComponent } from './shared/utils/tables/table-cards/table-cards.component';
@@ -74,6 +74,8 @@ import { TableListComponent } from './shared/utils/tables/table-list/table-list.
 import { LoginRegistrationComponent } from './welcome/login-registration/login-registration.component';
 import { WelcomeNavComponent } from './welcome/welcome-nav/welcome-nav.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { ScheduleFormComponent } from './forms/schedule-form/schedule-form.component';
+import { ScheduleComponent } from './shared/utils/scheduler/schedule/schedule.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -112,7 +114,6 @@ export const MY_FORMATS = {
     ManageCoursesComponent,
     InfoCardComponent,
     CourseFormComponent,
-    BookCourseComponent,
     TableCardsComponent,
     CardComponent,
     CommonTableComponent,
@@ -121,7 +122,10 @@ export const MY_FORMATS = {
     AllCoursesComponent,
     ManageCourseComponent,
     SchedulerComponent,
-    SchedulerNavComponent
+    SchedulerNavComponent,
+    SchedulerTableComponent,
+    ScheduleComponent,
+    ScheduleFormComponent
   ],
   imports: [
     BrowserModule,

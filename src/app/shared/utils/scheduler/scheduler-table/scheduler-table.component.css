@@ -1,0 +1,59 @@
+table {
+  background-color: var(--mdc-filled-text-field-container-color);
+}
+
+.mat-mdc-header-cell {
+  background-color: rgb(183 217 248) !important;
+  position: sticky;
+  z-index: 1100;
+  top: 204px;
+}
+
+.time {
+  width: 5.5% !important;
+}
+
+.week-day-column {
+  width: 13.5% !important;
+  text-align: center;
+}
+
+@media (max-width: 856px) {
+  .time {
+    width: 5% !important;
+  }
+
+  .week-day-column {
+    width: 95% !important;
+  }
+}
+
+td.mat-column-time {
+  border-radius: 0 8px 8px 0;
+  text-align: center;
+  background-color: rgb(183 217 248);
+}
+
+td:not(.mat-column-time) {
+  cursor: pointer;
+  border-right: 1px solid rgba(0, 0, 0, 0.055);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.055);
+  border-top: 1px solid rgba(0, 0, 0, 0.055);
+  text-align: center;
+}
+
+td:not(.mat-column-time):hover {
+  background-color: rgba(0, 0, 0, 0.144);
+}
+
+.today {
+  background: rgb(122 182 250) !important;
+}
+
+.mat-column-time,
+th {
+  text-align: center;
+  font-size: larger !important;
+  color: rgb(0, 0, 0) !important;
+  font-weight: 500 !important;
+}

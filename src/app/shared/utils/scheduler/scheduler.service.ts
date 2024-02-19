@@ -22,7 +22,8 @@ export interface DayWithDate {
   providedIn: 'root',
 })
 export class SchedulerService {
-  setOnlyOneDay = false;
+  private setOnlyOneDay = new BehaviorSubject<boolean>(false);
+  setOnlyOneDay$ = this.setOnlyOneDay.asObservable();
 
   private weekSubject = new BehaviorSubject<Date[]>([]);
   week$ = this.weekSubject.asObservable();
@@ -31,6 +32,11 @@ export class SchedulerService {
   currentDate$ = this.currentDateSubject.asObservable();
 
   constructor() {
+    this.setOnlyOneDay$.subscribe(() => this.setWeek());
+  }
+
+  updateOnlyOneDay(setOnlyOneDay: boolean) {
+    this.setOnlyOneDay.next(setOnlyOneDay);
   }
 
   onDateChange(date: Moment) {
@@ -48,7 +54,12 @@ export class SchedulerService {
   }
 
   private isDifferentDay(dateToSearch: Date): boolean {
-    return !this.weekSubject.getValue().some((date) => format(date, 'yyyy-MM-dd') === format(dateToSearch, 'yyyy-MM-dd'));
+    return !this.weekSubject
+      .getValue()
+      .some(
+        (date) =>
+          format(date, 'yyyy-MM-dd') === format(dateToSearch, 'yyyy-MM-dd')
+      );
   }
 
   moveLeft() {
@@ -66,7 +77,7 @@ export class SchedulerService {
   }
 
   private getDaysToMove(): number {
-    return this.setOnlyOneDay ? 1 : 7;
+    return this.setOnlyOneDay.getValue() ? 1 : 7;
   }
 
   isToday(day: Date): boolean {
@@ -82,7 +93,7 @@ export class SchedulerService {
   }
 
   setWeek() {
-    const formattedCurrentWeek = this.setOnlyOneDay
+    const formattedCurrentWeek = this.setOnlyOneDay.getValue()
       ? [this.currentDateSubject.getValue()]
       : this.setWholeWeek(this.currentDateSubject.getValue());
 
