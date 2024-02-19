@@ -2,7 +2,7 @@ import { ElementRef, Injectable, QueryList } from '@angular/core';
 import { Schedule } from '../../../services/schedule/schedule';
 import { DayWithDate, SchedulerService } from '../scheduler.service';
 
-export interface SchedulePosition {
+export interface SchedulePlaceholderPosition {
   left: number;
   width: number;
   top: number;
@@ -12,16 +12,16 @@ export interface SchedulePosition {
 @Injectable({
   providedIn: 'root',
 })
-export class SchedulePositionService {
+export class SchedulePlaceholderPositionService {
   weekDayCells: QueryList<ElementRef> | undefined;
   hourCells: QueryList<ElementRef> | undefined;
 
   constructor(private schedulerService: SchedulerService) {}
 
-  calculateSchedulePosition(
+  calculateSchedulePlaceholderPosition(
     schedulePlaceholder: ElementRef,
     schedule: Schedule
-  ): SchedulePosition {
+  ): SchedulePlaceholderPosition {
     if (!schedulePlaceholder || !this.weekDayCells || !this.hourCells) {
       throw new Error('Invalid input or missing data.');
     }

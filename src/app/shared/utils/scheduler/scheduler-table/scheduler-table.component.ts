@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
-import { SchedulePositionService } from '../schedule/schedule-position.service';
+import { SchedulePlaceholderPositionService } from '../schedule-placeholder/schedule-placeholder-position.service';
 import { SchedulerService } from '../scheduler.service';
 
 @Component({
@@ -24,7 +24,7 @@ export class SchedulerTableComponent implements OnInit {
 
   constructor(private schedulerService: SchedulerService,
     private scheduleService: ScheduleService,
-    private schedulePositionService: SchedulePositionService) { }
+    private schedulePlaceholderPositionService: SchedulePlaceholderPositionService) { }
 
   ngOnInit() {
     this.schedulerService.reset();
@@ -45,8 +45,8 @@ export class SchedulerTableComponent implements OnInit {
 
   ngAfterViewInit() {
     this.scrollToCurrentHour();
-    this.schedulePositionService.weekDayCells = this.weekDayCells;
-    this.schedulePositionService.hourCells = this.timeCells;
+    this.schedulePlaceholderPositionService.weekDayCells = this.weekDayCells;
+    this.schedulePlaceholderPositionService.hourCells = this.timeCells;
   }
 
   private adjustBooleansToScreenSize() {

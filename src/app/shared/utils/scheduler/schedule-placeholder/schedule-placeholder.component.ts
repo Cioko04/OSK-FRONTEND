@@ -10,14 +10,14 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Schedule } from 'src/app/shared/services/schedule/schedule';
-import { SchedulePositionService } from './schedule-position.service';
+import { SchedulePlaceholderPositionService } from './schedule-placeholder-position.service';
 
 @Component({
   selector: 'app-schedule',
-  templateUrl: './schedule.component.html',
-  styleUrl: './schedule.component.css',
+  templateUrl: './schedule-placeholder.component.html',
+  styleUrl: './schedule-placeholder.component.css',
 })
-export class ScheduleComponent implements AfterViewInit {
+export class SchedulePlaceholderComponent implements AfterViewInit {
   @ViewChild('schedulePlaceholder') schedulePlaceholder!: ElementRef;
 
   @Input()
@@ -27,7 +27,7 @@ export class ScheduleComponent implements AfterViewInit {
   onEdit = new EventEmitter<any>();
 
   constructor(
-    private sessionPositionService: SchedulePositionService,
+    private schedulePlaceholderPositionService: SchedulePlaceholderPositionService,
     private renderer: Renderer2
   ) {}
 
@@ -45,7 +45,7 @@ export class ScheduleComponent implements AfterViewInit {
   private setPosition() {
     if (this.shouldCalculatePosition()) {
       const schedulPosition =
-        this.sessionPositionService.calculateSchedulePosition(
+        this.schedulePlaceholderPositionService.calculateSchedulePlaceholderPosition(
           this.schedulePlaceholder,
           this.schedule
         );
@@ -80,10 +80,10 @@ export class ScheduleComponent implements AfterViewInit {
   private shouldCalculatePosition(): boolean {
     return (
       !!this.schedulePlaceholder &&
-      !!this.sessionPositionService.hourCells &&
-      this.sessionPositionService.hourCells.length > 0 &&
-      !!this.sessionPositionService.weekDayCells &&
-      this.sessionPositionService.weekDayCells.length > 0
+      !!this.schedulePlaceholderPositionService.hourCells &&
+      this.schedulePlaceholderPositionService.hourCells.length > 0 &&
+      !!this.schedulePlaceholderPositionService.weekDayCells &&
+      this.schedulePlaceholderPositionService.weekDayCells.length > 0
     );
   }
 

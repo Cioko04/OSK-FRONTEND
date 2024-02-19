@@ -75,7 +75,7 @@ import { LoginRegistrationComponent } from './welcome/login-registration/login-r
 import { WelcomeNavComponent } from './welcome/welcome-nav/welcome-nav.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ScheduleFormComponent } from './forms/schedule-form/schedule-form.component';
-import { ScheduleComponent } from './shared/utils/scheduler/schedule/schedule.component';
+import { SchedulePlaceholderComponent } from './shared/utils/scheduler/schedule-placeholder/schedule-placeholder.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -124,7 +124,7 @@ export const MY_FORMATS = {
     SchedulerComponent,
     SchedulerNavComponent,
     SchedulerTableComponent,
-    ScheduleComponent,
+    SchedulePlaceholderComponent,
     ScheduleFormComponent
   ],
   imports: [
