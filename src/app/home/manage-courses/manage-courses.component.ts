@@ -1,14 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
-import { HeadArray, List } from 'src/app/shared/core/list';
-import { CategoryEnum } from 'src/app/shared/services/category/category';
-import { Course } from 'src/app/shared/services/course/course';
-import { CourseService } from 'src/app/shared/services/course/course.service';
-import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
-import { UserService } from 'src/app/shared/services/user/user.service';
 
 export interface CardContent {
   title: string;
@@ -42,8 +32,7 @@ export class ManageCoursesComponent implements OnInit {
     },
   ];
 
-  constructor(
-  ) {}
+  constructor() {}
 
   ngOnInit(): void {}
 }

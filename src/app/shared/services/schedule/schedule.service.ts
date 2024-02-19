@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { format } from 'date-fns';
 import { BehaviorSubject } from 'rxjs';
-import { ScheduledSession } from './scheduled-session';
+import { Schedule } from './schedule';
 
-const SCHEDULED_SESSIONS: ScheduledSession[] = [
+const SCHEDULS: Schedule[] = [
   {
     id: 1,
     instructor: '1',
@@ -57,28 +57,27 @@ const SCHEDULED_SESSIONS: ScheduledSession[] = [
 @Injectable({
   providedIn: 'root',
 })
-export class ScheduledSessionService {
-  setOnlyOneDay: boolean = false;
+export class ScheduleService {
 
-  private scheduledSessionSubject = new BehaviorSubject<ScheduledSession[]>([]);
-  scheduledSessionSubject$ = this.scheduledSessionSubject.asObservable();
+  private scheduleSubject = new BehaviorSubject<Schedule[]>([]);
+  scheduleSubject$ = this.scheduleSubject.asObservable();
 
   constructor() {}
 
-  updateScheduledSessionSubjectForDate(dates: Date[]) {
+  updateScheduleSubjectForDate(dates: Date[]) {
     const startOfCurrentWeek = dates[0];
-    const endOfCurrentWeek = this.setOnlyOneDay ? dates[0] : dates[6];
+    const endOfCurrentWeek = dates[dates.length - 1];
 
-    const relevantScheduledSessions: ScheduledSession[] =
-      SCHEDULED_SESSIONS.filter((scheduledSession) =>
+    const relevantScheduledSchedules: Schedule[] =
+    SCHEDULS.filter((scheduledSchedule) =>
         this.isDateBetween(
-          scheduledSession.startDate,
+          scheduledSchedule.startDate,
           startOfCurrentWeek,
           endOfCurrentWeek
         )
       );
 
-    this.scheduledSessionSubject.next(relevantScheduledSessions);
+    this.scheduleSubject.next(relevantScheduledSchedules);
   }
 
   private isDateBetween(

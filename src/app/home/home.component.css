@@ -28,9 +28,11 @@
   max-height: 80vh;
   overflow-y: auto;
   overflow-x: hidden;
+  z-index: 1600;
 }
 .offcanvas {
   background-color: #dddbdb00 !important;
+  z-index: 1600 !important;
 }
 .nav-content {
   position: fixed;
@@ -38,7 +40,7 @@
   left: 0;
   height: 140px;
   width: 100%;
-  z-index: 1500;
+  z-index: 1020;
 }
 .main-content {
   padding-top: 140px;

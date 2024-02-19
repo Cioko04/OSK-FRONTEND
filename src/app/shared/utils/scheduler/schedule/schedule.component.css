@@ -1,0 +1,17 @@
+.schedulePlaceholder {
+    position: absolute;
+    z-index: 1050;
+    background-color: rgba(0, 128, 0, 0.4);
+    border: 1px solid currentColor;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  
+  .schedulePlaceholder:hover {
+    background-color: rgba(0, 128, 0, 0.6);
+  }
+  
+  .schedulePlaceholder p {
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }

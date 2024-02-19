@@ -1,8 +1,8 @@
 import { ElementRef, Injectable, QueryList } from '@angular/core';
-import { ScheduledSession } from '../../services/scheduled-session/scheduled-session';
-import { DayWithDate, SchedulerService } from './scheduler.service';
+import { Schedule } from '../../../services/schedule/schedule';
+import { DayWithDate, SchedulerService } from '../scheduler.service';
 
-export interface SchedulPosition {
+export interface SchedulePosition {
   left: number;
   width: number;
   top: number;
@@ -12,32 +12,27 @@ export interface SchedulPosition {
 @Injectable({
   providedIn: 'root',
 })
-export class SchedulerPositionService {
-  constructor(
-    private schedulerService: SchedulerService
-  ) {}
+export class SchedulePositionService {
+  weekDayCells: QueryList<ElementRef> | undefined;
+  hourCells: QueryList<ElementRef> | undefined;
 
-  calculateSchedulPosition(
-    schedul: ElementRef,
-    scheduledSessions: ScheduledSession[],
-    weekDayCells: QueryList<ElementRef>,
-    hourCells: QueryList<ElementRef>
-  ): SchedulPosition {
-    if (!schedul || !weekDayCells || !hourCells) {
+  constructor(private schedulerService: SchedulerService) {}
+
+  calculateSchedulePosition(
+    schedulePlaceholder: ElementRef,
+    schedule: Schedule
+  ): SchedulePosition {
+    if (!schedulePlaceholder || !this.weekDayCells || !this.hourCells) {
       throw new Error('Invalid input or missing data.');
     }
-    
-    const scheduledSession = scheduledSessions.find(
-      (scheduledSession) =>
-        scheduledSession.id === parseInt(schedul.nativeElement.id)
-    )!;
 
-    const { startDate, endDate } = scheduledSession;
-    const relevantWeekDayCell = weekDayCells.find((weekDayCell: ElementRef) =>
-      this.isWeekDatCellRelevant(weekDayCell, scheduledSession)
+    const { startDate, endDate } = schedule;
+    const relevantWeekDayCell = this.weekDayCells.find(
+      (weekDayCell: ElementRef) =>
+        this.isWeekDatCellRelevant(weekDayCell, schedule)
     );
-    const relevantHourCell = hourCells.find((hourCell: ElementRef) =>
-      this.isHourDatCellRelevant(hourCell, scheduledSession)
+    const relevantHourCell = this.hourCells.find((hourCell: ElementRef) =>
+      this.isHourDatCellRelevant(hourCell, schedule)
     );
 
     if (!relevantWeekDayCell || !relevantHourCell) {
@@ -83,14 +78,14 @@ export class SchedulerPositionService {
 
   private isHourDatCellRelevant(
     timeCell: ElementRef,
-    scheduledSession: ScheduledSession
+    schedule: Schedule
   ) {
-    const timeCellData = this.getHursCellData(timeCell);
-    const hour = scheduledSession.startDate.getHours();
+    const timeCellData = this.getHoursCellData(timeCell);
+    const hour = schedule.startDate.getHours();
     return timeCellData.hour === hour;
   }
 
-  private getHursCellData(timeCell: ElementRef): {
+  private getHoursCellData(timeCell: ElementRef): {
     hour: number;
     minutes: number;
   } {
@@ -103,13 +98,14 @@ export class SchedulerPositionService {
 
   private isWeekDatCellRelevant(
     weekDayCell: ElementRef,
-    scheduledSession: ScheduledSession
+    schedule: Schedule
   ) {
     const weekDayCellData = this.getWeekDayCellData(weekDayCell);
-    const dayOfMonth = scheduledSession.startDate.getDate();
+    const dayOfMonth = schedule.startDate.getDate();
     const dayOfWeek = this.schedulerService.getWeekDayName(
-      scheduledSession.startDate
+      schedule.startDate
     );
+
     return (
       weekDayCellData.dayOfWeek === dayOfWeek &&
       weekDayCellData.dayOfMonth === dayOfMonth
@@ -119,7 +115,7 @@ export class SchedulerPositionService {
   private getWeekDayCellData(weekDayCell: ElementRef): DayWithDate {
     const weekDayCellData = weekDayCell.nativeElement.innerText
       .trim()
-      .split(/\r?\n/);
+      .split(/\s+/);
     return {
       dayOfWeek: weekDayCellData[0],
       dayOfMonth: parseInt(weekDayCellData[1]),
