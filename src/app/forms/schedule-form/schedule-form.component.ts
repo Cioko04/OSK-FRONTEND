@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./schedule-form.component.css']
 })
 export class ScheduleFormComponent implements OnInit {
+  selectedTime: {hour: number, minute: number} = {hour: 12, minute: 0};
 
   constructor() { }
 
