@@ -1,0 +1,30 @@
+<mat-form-field #myDrop="ngbDropdown" ngbDropdown class="time-picker">
+  <mat-label>{{ label }}</mat-label>
+  <input
+    class="time-picker-input"
+    type="time"
+    [(ngModel)]="timeValue"
+    (input)="formatTime()"
+    matInput
+  />
+  <div class="d-flex align-items-center" matSuffix>
+    <mat-icon
+      *ngIf="timeValue"
+      aria-label="Clear"
+      (click)="timeValue = ''"
+      class="time-picker-button"
+      >close</mat-icon
+    >
+    <mat-icon
+      mat-icon-button
+      class="time-picker-button"
+      [ngxTimepicker]="fullTime"
+      [format]="24"
+      [(ngModel)]="timeValue"
+      >access_time
+    </mat-icon>
+    <ngx-material-timepicker #fullTime [theme]="darkTheme"></ngx-material-timepicker>
+  </div>
+</mat-form-field>
+  
+

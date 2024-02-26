@@ -77,8 +77,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { ScheduleFormComponent } from './forms/schedule-form/schedule-form.component';
 import { SchedulePlaceholderComponent } from './shared/utils/scheduler/schedule-placeholder/schedule-placeholder.component';
 import { TimePickerComponent } from './forms/common/time-picker/time-picker.component';
-import { MatMenuModule } from '@angular/material/menu';
-
+import { MatListModule } from '@angular/material/list';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 export const MY_FORMATS = {
   parse: {
@@ -129,7 +129,7 @@ export const MY_FORMATS = {
     SchedulerTableComponent,
     SchedulePlaceholderComponent,
     ScheduleFormComponent,
-    TimePickerComponent
+    TimePickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -157,7 +157,8 @@ export const MY_FORMATS = {
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonToggleModule,
-    MatMenuModule
+    MatListModule,
+    NgxMaterialTimepickerModule
   ],
   providers: [
     UserService,
@@ -170,7 +171,7 @@ export const MY_FORMATS = {
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }, 
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
     { provide: LOCALE_ID, useValue: 'pl-PL' },
   ],

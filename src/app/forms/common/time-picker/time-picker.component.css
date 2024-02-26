@@ -1,0 +1,30 @@
+.time-picker {
+  width: 10rem;
+}
+
+.time-picker-button {
+  border-radius: 50%;
+  color: rgb(113 113 113);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  width: 48px;
+}
+
+.time-picker-button:hover {
+  cursor: pointer;
+  background-color: rgb(113, 113, 113, 0.1);
+}
+
+.time-picker-input:hover {
+  cursor: text;
+}
+
+.confirm-button-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+

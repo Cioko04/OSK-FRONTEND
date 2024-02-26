@@ -2,7 +2,7 @@
   <div class="form-group">
     <mat-form-field class="date-picker-form-field">
       <mat-label class="date-picker">Data</mat-label>
-      <input class="date-picker" matInput [matDatepicker]="picker" />
+      <input class="date-picker" [(ngModel)]="date" matInput [matDatepicker]="picker" />
       <mat-datepicker-toggle
         matIconSuffix
         [for]="picker"
@@ -11,10 +11,10 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
   </div>
-  <div class="row">
+  <div class="form-group">
     <div class="col-6 form-group">
-      <app-time-picker [label]="'Start'"></app-time-picker>
-      <mat-icon class="mx-1">arrow_forward</mat-icon>
+      <app-time-picker [label]="'Początek'"></app-time-picker>
+      <mat-icon class="mx-1 mt-3">arrow_forward</mat-icon>
       <app-time-picker [label]="'Koniec'"></app-time-picker>
     </div>
   </div>
