@@ -23,3 +23,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 
   width: 100%;
   height: 100%;
 }
+
+ngx-material-timepicker-container {
+  position: relative;
+  z-index: 2000;
+}

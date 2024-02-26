@@ -1,7 +1,7 @@
 export interface Schedule {
-  id: number;
+  id?: number;
   // TODO: change it after implement end-point for this in API
-  instructor: string;
-  startDate: Date;
-  endDate: Date;
+  instructor?: string;
+  startDate?: Date;
+  endDate?: Date;
 }

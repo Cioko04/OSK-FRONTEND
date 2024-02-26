@@ -96,7 +96,7 @@ export class SchoolFormComponent
     );
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.submitted) {
       this.schoolForm.markAllAsTouched();
     }

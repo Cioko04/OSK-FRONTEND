@@ -97,7 +97,7 @@ export class ProfileFormComponent
     this.createForm();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.submitted) {
       this.profileForm.markAllAsTouched();
     }

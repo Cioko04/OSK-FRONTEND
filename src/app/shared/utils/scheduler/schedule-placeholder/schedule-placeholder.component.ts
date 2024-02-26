@@ -13,7 +13,7 @@ import { Schedule } from 'src/app/shared/services/schedule/schedule';
 import { SchedulePlaceholderPositionService } from './schedule-placeholder-position.service';
 
 @Component({
-  selector: 'app-schedule',
+  selector: 'app-schedule-placeholder',
   templateUrl: './schedule-placeholder.component.html',
   styleUrl: './schedule-placeholder.component.css',
 })

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
 @Component({
@@ -7,8 +7,6 @@ import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
   styleUrls: ['./time-picker.component.css'],
 })
 export class TimePickerComponent implements OnInit {
-  hours: string[] = [];
-  minutes: string[] = [];
   darkTheme: NgxMaterialTimepickerTheme = {
     container: {
       bodyBackgroundColor: '#424242',
@@ -24,31 +22,26 @@ export class TimePickerComponent implements OnInit {
     },
   };
 
+  time: string = '';
+
   @Input()
   label: string = '';
+
   @Input()
-  timeValue: string = '';
+  date!: Date;
 
-  constructor() {
-    this.hours = this.generateTimeArray(24);
-    this.minutes = this.generateTimeArray(60);
+  @Output()
+  dateChange = new EventEmitter<Date>();
+
+  constructor() {}
+
+  ngOnInit() {
+    this.setTime();
   }
 
-  ngOnInit() {}
-
-  private generateTimeArray(limit: number): string[] {
-    return Array.from({ length: limit }, (_, i) => (i < 10 ? `0${i}` : `${i}`));
-  }
-
-  formatTime() {
-    let inputTime: string = this.timeValue;
-
-    if (inputTime.length === 2 && inputTime.indexOf(':') === -1) {
-      this.timeValue = inputTime + ':';
-    } else if (inputTime.length === 5) {
-      return;
-    } else {
-      this.timeValue = '';
-    }
+  setTime() {
+    const hours = this.date.getHours().toString().padStart(2, '0');
+    const minutes = this.date.getMinutes().toString().padStart(2, '0');
+    this.time = `${hours}:${minutes}`;
   }
 }

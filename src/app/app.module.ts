@@ -85,7 +85,7 @@ export const MY_FORMATS = {
     dateInput: 'LLL',
   },
   display: {
-    dateInput: 'MMMM YYYY',
+    dateInput: 'DD MMMM YYYY',
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',

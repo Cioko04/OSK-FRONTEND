@@ -4,12 +4,12 @@
   </div>
   <div class="row">
     <section class="table-container m-0 p-0" tabindex="0">
-      <app-scheduler-table (onAdd)="onAdd(content)"></app-scheduler-table>
+      <app-scheduler-table (onAdd)="addSchedule(content, $event)"></app-scheduler-table>
       <ng-container *ngFor="let schedule of schedules">
-        <app-schedule
+        <app-schedule-placeholder
           [schedule]="schedule"
           (onEdit)="onEdit(content, $event)"
-        ></app-schedule>
+        ></app-schedule-placeholder>
       </ng-container>
     </section>
   </div>
@@ -17,7 +17,7 @@
 <ng-template #content let-modal>
   <div class="container-fluid">
     <div class="row mx-1 mt-4">
-      <app-schedule-form></app-schedule-form>
+      <app-schedule-form [schedule]="schedule"></app-schedule-form>
     </div>
   </div>
 </ng-template>

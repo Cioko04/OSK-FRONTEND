@@ -12,9 +12,13 @@ import { ScheduleService } from '../../services/schedule/schedule.service';
 })
 export class SchedulerComponent extends List implements OnInit, OnDestroy {
   schedules: Schedule[] = [];
+  schedule!: Schedule;
   private dataSubscription: Subscription = new Subscription();
 
-  constructor(modalService: NgbModal, private scheduleService: ScheduleService) {
+  constructor(
+    modalService: NgbModal,
+    private scheduleService: ScheduleService
+  ) {
     super(modalService);
   }
 
@@ -36,6 +40,11 @@ export class SchedulerComponent extends List implements OnInit, OnDestroy {
     this.dataSubscription.unsubscribe();
   }
 
+  override onEdit(content: any, schedule: Schedule) {
+    this.schedule = schedule;
+    super.onEdit(content, schedule);
+  }
+
   override onDelete(id: number): void {
     throw new Error('Method not implemented.');
   }
@@ -50,5 +59,12 @@ export class SchedulerComponent extends List implements OnInit, OnDestroy {
 
   override add(): void {
     throw new Error('Method not implemented.');
+  }
+
+  addSchedule(content: any, date: Date) {
+    this.schedule = {
+      startDate: date
+    }
+    super.onAdd(content);
   }
 }

@@ -41,8 +41,8 @@ export class SchedulePlaceholderPositionService {
 
     const left = this.calculateLeftPosition(relevantWeekDayCell);
     const width = this.calculateWidth(relevantWeekDayCell);
-    const top = this.calculateTopPosition(relevantHourCell, startDate);
-    const height = this.calculateHeight(relevantHourCell, startDate, endDate);
+    const top = this.calculateTopPosition(relevantHourCell, startDate!);
+    const height = this.calculateHeight(relevantHourCell, startDate!, endDate!);
 
     return { left, width, top, height };
   }
@@ -81,7 +81,7 @@ export class SchedulePlaceholderPositionService {
     schedule: Schedule
   ) {
     const timeCellData = this.getHoursCellData(timeCell);
-    const hour = schedule.startDate.getHours();
+    const hour = schedule.startDate!.getHours();
     return timeCellData.hour === hour;
   }
 
@@ -101,9 +101,9 @@ export class SchedulePlaceholderPositionService {
     schedule: Schedule
   ) {
     const weekDayCellData = this.getWeekDayCellData(weekDayCell);
-    const dayOfMonth = schedule.startDate.getDate();
+    const dayOfMonth = schedule.startDate!.getDate();
     const dayOfWeek = this.schedulerService.getWeekDayName(
-      schedule.startDate
+      schedule.startDate!
     );
 
     return (

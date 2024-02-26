@@ -27,4 +27,7 @@
   align-items: center;
 }
 
-
+.xyz {
+  z-index: 2000 !important;
+  position: relative !important;
+}

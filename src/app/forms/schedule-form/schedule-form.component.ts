@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Schedule } from 'src/app/shared/services/schedule/schedule';
 
 @Component({
   selector: 'app-schedule-form',
@@ -6,10 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./schedule-form.component.css'],
 })
 export class ScheduleFormComponent implements OnInit {
-  date: Date = new Date();
+  @Input()
+  schedule!: Schedule;
 
-  constructor() {
+  constructor() {}
+
+  ngOnInit() {
+    this.setEndDate();
   }
 
-  ngOnInit() {}
+  setEndDate() {
+    if (!this.schedule.endDate) {
+      let date = new Date(this.schedule.startDate!);
+      date.setHours(date.getHours() + 1);
+      this.schedule.endDate = date;
+    } 
+  }
 }

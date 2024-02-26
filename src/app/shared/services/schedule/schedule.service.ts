@@ -71,7 +71,7 @@ export class ScheduleService {
     const relevantScheduledSchedules: Schedule[] =
     SCHEDULS.filter((scheduledSchedule) =>
         this.isDateBetween(
-          scheduledSchedule.startDate,
+          scheduledSchedule.startDate!,
           startOfCurrentWeek,
           endOfCurrentWeek
         )
