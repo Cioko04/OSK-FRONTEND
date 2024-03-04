@@ -31,10 +31,19 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/minireset.css/minireset.css",
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/hammerjs/hammer.min.js"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            }
           },
           "configurations": {
             "production": {
@@ -72,16 +81,16 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "osk-web:build",
+            "buildTarget": "osk-web:build",
             "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "osk-web:build:production",
+              "buildTarget": "osk-web:build:production",
               "proxyConfig": "src/proxy.conf.json"
             },
             "development": {
-              "browserTarget": "osk-web:build:development",
+              "buildTarget": "osk-web:build:development",
               "proxyConfig": "src/proxy.conf.json"
             }
           },
@@ -90,7 +99,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "osk-web:build"
+            "buildTarget": "osk-web:build"
           }
         },
         "test": {
@@ -105,13 +114,20 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/hammerjs/hammer.min.js"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            }
           }
         }
       }
     }
-  },
-  "defaultProject": "osk-web"
+  }
 }

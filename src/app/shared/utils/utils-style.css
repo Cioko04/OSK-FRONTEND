@@ -1,0 +1,48 @@
+.table-button {
+  background-color: var(--mdc-filled-text-field-container-color) !important;
+  height: 56px;
+  border-radius: 8px;
+}
+.table-button-text,
+mat-datepicker-toggle,
+mat-select {
+  text-align: center;
+  font-size: larger !important;
+  color: rgb(0, 0, 0) !important;
+  font-weight: 500 !important;
+}
+mat-form-field {
+  margin-bottom: -1.3rem;
+}
+.mat-mdc-header-cell {
+  background-color: rgb(183 217 248) !important;
+}
+table {
+  background-color: var(--mdc-filled-text-field-container-color);
+}
+th {
+  text-align: center;
+  font-size: larger;
+  color: rgb(0, 0, 0);
+  font-weight: 600;
+  max-width: 80px;
+}
+td {
+  font-size: 0.9rem;
+  color: black;
+  max-width: 80px;
+}
+.mat-cell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.table-container {
+  position: sticky;
+  border-radius: 8px;
+  border-left: 2px solid midnightblue;
+  border-right: 2px solid midnightblue;
+  border-bottom: 2px solid midnightblue;
+  max-height: 60vh;
+  overflow: auto;
+}

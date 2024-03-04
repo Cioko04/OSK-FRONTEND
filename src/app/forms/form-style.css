@@ -1,0 +1,18 @@
+.text-style {
+  color: red;
+}
+.form-label {
+  background-color: #F5F5F5;
+  font-size: 1rem;
+  border-radius: 0.8rem 0.8rem 0rem 0rem;
+}
+.btn:hover {
+  color: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity));
+}
+
+mat-form-field {
+  width: 100%;
+}
+mat-label {
+  font-size: .8rem;
+}

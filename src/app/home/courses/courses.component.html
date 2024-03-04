@@ -1,0 +1,41 @@
+<form class="form" name="form" [formGroup]="form">
+  <div class="container-fluid pt-3">
+    <div class="row justify-content-center">
+      <div class="col-10 col-sm-10 col-md-5 col-lg-5">
+        <label
+          ><h3><b>Wybierz miasto: </b></h3></label
+        >
+        <app-search-select-form
+          [valuesObs]="citiesObs"
+          formControlName="cities"
+        ></app-search-select-form>
+      </div>
+      <div class="col-10 col-sm-10 col-md-5 col-lg-5">
+        <label
+          ><h3><b>Wybierz kategorię: </b></h3></label
+        >
+        <app-search-select-form
+          [valuesObs]="categoriesObs"
+          formControlName="categories"
+        ></app-search-select-form>
+      </div>
+    </div>
+  </div>
+</form>
+
+<app-table-list
+  [isAction]="false"
+  [HeadArray]="headArray"
+  [GridArrayObs]="schoolObs"
+  [categories]="chosenCategories"
+  [showCategoryCarousel]="true"
+  (onBook)="book(content)"
+>
+</app-table-list>
+
+<ng-template #content let-modal>
+  <div class="container-fluid">
+    <div class="row mx-1 mt-4">
+    </div>
+  </div>
+</ng-template>

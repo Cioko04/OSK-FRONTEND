@@ -1,0 +1,16 @@
+<nav class="navbar pb-0 bg-dark">
+  <div class="container-fluid justify-content-center">
+    <app-logo class="mt-1 ms-4"></app-logo>
+  </div>
+  <div class="container-fluid pb-1 border-bottom justify-content-end">
+    <i class="fa fa-2x fa-sign-in text-color" aria-hidden="true"></i>
+    <a class="btn text-color ps-2 pe-1" (click)="openLogin(content)">Zaloguj</a>
+    <i class="text-color mx-0">/</i>
+    <a class="btn text-color ps-1" (click)="openRegister(content)">Zarejestruj</a>
+  </div>
+</nav>
+<ng-template #content let-modal>
+
+  <app-login-registration [openPage]="openPage" (eventBack)="modal.close($event)"></app-login-registration>
+
+</ng-template>

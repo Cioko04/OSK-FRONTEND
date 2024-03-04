@@ -1,0 +1,14 @@
+.table-container {
+  position: sticky;
+  border-radius: 8px;
+  border-left: 2px solid midnightblue;
+  border-right: 2px solid midnightblue;
+  border-bottom: 2px solid midnightblue;
+  max-height: 60vh;
+  overflow: auto;
+}
+
+.scheduler-nav {
+  z-index: 1010;
+  background-color: #dddbdb;
+}

@@ -1,0 +1,48 @@
+.btn-drop-down {
+  font-size: small;
+}
+.dropdown-min-width {
+  min-width: 7rem;
+}
+.btn {
+  border: none;
+}
+.nav-button {
+  border: 1px solid;
+  border-color: rgb(70, 69, 69);
+  padding: 0rem;
+  width: 70px;
+  height: 50px;
+}
+::placeholder {
+  color: #dddbdb;
+  opacity: 1;
+}
+.avatar {
+  vertical-align: middle;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+.offcanvas-content {
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1600;
+}
+.offcanvas {
+  background-color: #dddbdb00 !important;
+  z-index: 1600 !important;
+}
+.nav-content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 140px;
+  width: 100%;
+  z-index: 1020;
+}
+.main-content {
+  padding-top: 140px;
+}
+

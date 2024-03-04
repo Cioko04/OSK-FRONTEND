@@ -1,0 +1,31 @@
+<div class="d-flex justify-content-end m-0 p-0">
+  <button
+    class="table-button table-button-text me-1"
+    mat-raised-button
+    (click)="moveLeft()"
+  >
+    <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
+  </button>
+  <button
+    class="table-button table-button-text"
+    mat-raised-button
+    (click)="moveRight()"
+  >
+    <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
+  </button>
+  <button mat-raised-button class="table-button table-button-text mx-1" (click)="reset()">
+    dzisiaj
+    <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+  </button>
+  <mat-form-field>
+    <input
+      class="table-button-text"
+      matInput
+      [matDatepicker]="dp"
+      [(ngModel)]="currentDate"
+      (ngModelChange)="onDateChange($event)"
+    />
+    <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp></mat-datepicker>
+  </mat-form-field>
+</div>

@@ -1,0 +1,15 @@
+<mat-card class="card {{ cardContent['class'] }}">
+  <mat-card-header>
+    <mat-card-title-group class="card-statistic-3 p-3">
+      <mat-card-title>{{ cardContent["title"] }}</mat-card-title>
+      <mat-card-subtitle class="sub-title">
+        <h2 class="d-flex align-items-center mb-0">
+          {{ cardContent["count"] }}
+        </h2>
+      </mat-card-subtitle>
+      <div class="card-icon">
+        <i class="fa {{ cardContent['icon'] }} fa-5x pe-3"></i>
+      </div>
+    </mat-card-title-group>
+  </mat-card-header>
+</mat-card>

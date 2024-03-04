@@ -1,0 +1,46 @@
+.time {
+  width: 5.5%;
+}
+
+.week-day-column {
+  width: 13.5%;
+}
+
+@media (max-width: 856px) {
+  .time {
+    width: 5%;
+  }
+
+  .week-day-column {
+    width: 95%;
+  }
+}
+
+td.mat-column-time {
+  border-radius: 0 8px 8px 0;
+  text-align: center;
+  background-color: rgb(183 217 248);
+}
+
+td:not(.mat-column-time) {
+  cursor: pointer;
+  border-right: 1px solid rgba(0, 0, 0, 0.055);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.055);
+  border-top: 1px solid rgba(0, 0, 0, 0.055);
+  text-align: center;
+}
+
+td:not(.mat-column-time):hover {
+  background-color: rgba(0, 0, 0, 0.144);
+}
+
+.today {
+  background: rgb(122 182 250) !important;
+}
+
+.mat-column-time {
+  text-align: center;
+  font-size: larger;
+  color: rgb(0, 0, 0);
+  font-weight: 500;
+}

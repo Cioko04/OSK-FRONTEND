@@ -1,0 +1,43 @@
+<form class="user" name="form" [formGroup]="loginForm" (ngSubmit)="login()">
+  <div class="form-group">
+    <label class="ms-3 mb-1"><b>Email:</b></label>
+    <mat-form-field>
+      <mat-label>Wprowadź email</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="email"
+        required
+        aria-describedby="emailHelp"
+      />
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <label class="ms-3 mb-1"><b>Hasło:</b></label>
+    <mat-form-field>
+      <mat-label>Wprowadź hasło</mat-label>
+      <input
+        matInput
+        type="password"
+        formControlName="password"
+        required
+        aria-describedby="passwordHelp"
+      />
+    </mat-form-field>
+  </div>
+  <div
+    class="ms-3 mb-0 text-style"
+    *ngIf="failMessage"
+    type="danger"
+    (closed)="failMessage = ''"
+  >
+    {{ failMessage }} <i class="fa fa-exclamation" aria-hidden="true"></i>
+  </div>
+  <div class="form-group my-3">
+    <button
+      class="form-control btn btn-primary el-login-border btn-block fw-bold fs-6 p-2"
+    >
+      <i class="fa fa-share me-2" aria-hidden="true"></i>Zaloguj
+    </button>
+  </div>
+</form>

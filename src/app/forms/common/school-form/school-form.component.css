@@ -1,0 +1,11 @@
+.form-check-inline {
+  width: 4rem;
+}
+.check-box {
+  font-size: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.7rem 0.7rem;
+}
+.form-check {
+  padding-left: 0.3rem;
+}
