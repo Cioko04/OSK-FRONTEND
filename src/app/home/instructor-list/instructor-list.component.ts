@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { Instructor } from 'src/app/shared/services/instructor/instructor';
 import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';

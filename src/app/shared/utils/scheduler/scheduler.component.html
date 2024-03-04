@@ -4,11 +4,11 @@
   </div>
   <div class="row">
     <section class="table-container m-0 p-0 mat-elevation-z12 rounded">
-      <app-scheduler-table (onAdd)="addSchedule(content, $event)"></app-scheduler-table>
+      <app-scheduler-table (onAdd)="addSchedule($event)"></app-scheduler-table>
       <ng-container *ngFor="let schedule of schedules">
         <app-schedule-placeholder
           [schedule]="schedule"
-          (onEdit)="onEdit(content, $event)"
+          (onEdit)="editSchedule($event)"
         ></app-schedule-placeholder>
       </ng-container>
     </section>

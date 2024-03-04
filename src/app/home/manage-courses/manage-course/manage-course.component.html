@@ -2,14 +2,28 @@
   <div class="row mx-2">
     <div class="col-12 col-xl-5">
       <app-common-table
-      [useTableCards]="false"
-      [isAction]="true"
-      [HeadArray]="headArray"
-    >
-    </app-common-table>
+        [useTableCards]="false"
+        [isAction]="true"
+        [HeadArray]="headArray"
+        (onAdd)="addEmptySchedule(content)"
+      >
+      </app-common-table>
     </div>
     <div class="col-12 col-xl-7">
-      <app-scheduler></app-scheduler>
+      <app-scheduler
+        (onAdd)="addScheduleWithStartDate(content, $event)"
+        (onEdit)="editSchedule(content, $event)"
+      ></app-scheduler>
     </div>
   </div>
 </div>
+<ng-template #content let-modal style="width: 250px">
+  <div class="container-fluid">
+    <div class="row mx-1 mt-4">
+      <app-schedule-form
+        [schedule]="schedule"
+        [edit]="edit"
+      ></app-schedule-form>
+    </div>
+  </div>
+</ng-template>

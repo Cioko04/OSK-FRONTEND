@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
 import { SchedulePlaceholderPositionService } from '../schedule-placeholder/schedule-placeholder-position.service';
@@ -9,7 +9,7 @@ import { SchedulerService } from '../scheduler.service';
   templateUrl: './scheduler-table.component.html',
   styleUrls: ['./scheduler-table.component.css', '../../utils-style.css']
 })
-export class SchedulerTableComponent implements OnInit {
+export class SchedulerTableComponent implements OnInit, OnDestroy {
   week!: Date[];
   dataSource: any = [];
   setOnlyOneDay: boolean = false;

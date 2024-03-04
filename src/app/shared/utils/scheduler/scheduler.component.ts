@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { List } from '../../core/list';
@@ -10,17 +10,19 @@ import { ScheduleService } from '../../services/schedule/schedule.service';
   templateUrl: './scheduler.component.html',
   styleUrls: ['./scheduler.component.css'],
 })
-export class SchedulerComponent extends List implements OnInit, OnDestroy {
+export class SchedulerComponent implements OnInit, OnDestroy {
   schedules: Schedule[] = [];
   schedule!: Schedule;
   edit: boolean = false;
   private dataSubscription: Subscription = new Subscription();
 
-  constructor(
-    modalService: NgbModal,
-    private scheduleService: ScheduleService
-  ) {
-    super(modalService);
+  @Output()
+  onAdd = new EventEmitter<any>();
+
+  @Output()
+  onEdit = new EventEmitter<any>();
+
+  constructor(private scheduleService: ScheduleService) {
   }
 
   ngOnInit() {
@@ -41,33 +43,11 @@ export class SchedulerComponent extends List implements OnInit, OnDestroy {
     this.dataSubscription.unsubscribe();
   }
 
-  override onEdit(content: any, schedule: Schedule) {
-    this.schedule = schedule;
-    this.edit = true;
-    super.onEdit(content, schedule);
+  editSchedule(schedule: Schedule) {
+    this.onEdit.emit(schedule);
   }
 
-  override onDelete(id: number): void {
-    throw new Error('Method not implemented.');
-  }
-
-  override onSubmit(item: any): void {
-    throw new Error('Method not implemented.');
-  }
-
-  override update(): void {
-    throw new Error('Method not implemented.');
-  }
-
-  override add(): void {
-    throw new Error('Method not implemented.');
-  }
-
-  addSchedule(content: any, date: Date) {
-    this.schedule = {
-      startDate: date
-    }
-    this.edit = false;
-    super.onAdd(content);
+  addSchedule(date: Date) {
+    this.onAdd.emit(date);
   }
 }

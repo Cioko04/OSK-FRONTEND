@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { eachDayOfInterval, endOfWeek, format, startOfWeek } from 'date-fns';
 import { Moment } from 'moment';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 const WEEK_DAYS: string[] = [
   'Poniedziałek',
@@ -21,7 +21,7 @@ export interface DayWithDate {
 @Injectable({
   providedIn: 'root',
 })
-export class SchedulerService {
+export class SchedulerService implements OnDestroy {
   private setOnlyOneDay = new BehaviorSubject<boolean>(false);
   setOnlyOneDay$ = this.setOnlyOneDay.asObservable();
 
@@ -31,8 +31,16 @@ export class SchedulerService {
   private currentDateSubject = new BehaviorSubject<Date>(new Date());
   currentDate$ = this.currentDateSubject.asObservable();
 
+  private dataSubscription: Subscription = new Subscription();
+
   constructor() {
-    this.setOnlyOneDay$.subscribe(() => this.setWeek());
+    this.dataSubscription.add(
+      this.setOnlyOneDay$.subscribe(() => this.setWeek())
+    );
+  }
+
+  ngOnDestroy() {
+    this.dataSubscription.unsubscribe();
   }
 
   updateOnlyOneDay(setOnlyOneDay: boolean) {
@@ -87,7 +95,8 @@ export class SchedulerService {
   isRightNow(hour: string): boolean {
     const today: Date = new Date();
     return (
-      hour.split(':')[0] === today.getHours().toString() && !this.isDifferentDay(today)
+      hour.split(':')[0] === today.getHours().toString() &&
+      !this.isDifferentDay(today)
     );
   }
 
