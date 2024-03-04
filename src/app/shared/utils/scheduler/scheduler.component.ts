@@ -13,6 +13,7 @@ import { ScheduleService } from '../../services/schedule/schedule.service';
 export class SchedulerComponent extends List implements OnInit, OnDestroy {
   schedules: Schedule[] = [];
   schedule!: Schedule;
+  edit: boolean = false;
   private dataSubscription: Subscription = new Subscription();
 
   constructor(
@@ -42,6 +43,7 @@ export class SchedulerComponent extends List implements OnInit, OnDestroy {
 
   override onEdit(content: any, schedule: Schedule) {
     this.schedule = schedule;
+    this.edit = true;
     super.onEdit(content, schedule);
   }
 
@@ -65,6 +67,7 @@ export class SchedulerComponent extends List implements OnInit, OnDestroy {
     this.schedule = {
       startDate: date
     }
+    this.edit = false;
     super.onAdd(content);
   }
 }

@@ -1,13 +1,17 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MyErrorHandlerServiceService } from '../../errorHandlers/my-error-handler.service';
-import { Observable, catchError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError } from 'rxjs';
 import { Instructor } from './instructor';
+import { Schedule } from '../schedule/schedule';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InstructorService {
+  private instructorSubject = new BehaviorSubject<Instructor[]>([]);
+  instructorSubject$ = this.instructorSubject.asObservable();
+
   private API_URL = '/api/instructor';
 
   constructor(
@@ -31,6 +35,10 @@ export class InstructorService {
           return this.errorHandler.handleError(error);
         })
       );
+  }
+
+  updateInstructorSubject(schoolId: number) {
+    this.instructorSubject$ = this.getInstructorsBySchoolId(schoolId);
   }
 
   countInstructorsBySchoolId(id: number): Observable<number> {

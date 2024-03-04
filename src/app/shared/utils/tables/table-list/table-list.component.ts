@@ -26,7 +26,7 @@ import { HeadArray } from '../../../core/list';
 @Component({
   selector: 'app-table-list',
   templateUrl: './table-list.component.html',
-  styleUrls: ['./table-list.component.css'],
+  styleUrls: ['./table-list.component.css' , '../../utils-style.css'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),

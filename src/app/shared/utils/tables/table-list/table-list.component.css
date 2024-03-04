@@ -6,22 +6,7 @@
   background-color: rgb(70, 69, 69);
   color: #f3f1f1;
 }
-table {
-  max-width: 100%;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.226);
-}
-th {
-  font-weight: bold;
-  color: black;
-  font-size: 1rem;
-  max-width: 80px;
-}
-td {
-  font-size: 0.9rem;
-  color: black;
-  max-width: 80px;
-}
+
 .btn-td {
   width: 35px;
   height: 28px;

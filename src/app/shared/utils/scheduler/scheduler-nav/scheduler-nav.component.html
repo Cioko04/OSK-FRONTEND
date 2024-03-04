@@ -1,27 +1,25 @@
-<div class="d-flex justify-content-start m-0 p-0">
+<div class="d-flex justify-content-end m-0 p-0">
   <button
-    class="arrow-button"
+    class="table-button table-button-text me-1"
     mat-raised-button
-    class="reset-button me-1"
     (click)="moveLeft()"
   >
     <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
   </button>
   <button
-    class="arrow-button"
+    class="table-button table-button-text"
     mat-raised-button
-    class="reset-button"
     (click)="moveRight()"
   >
     <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
   </button>
-  <button mat-raised-button class="reset-button mx-1" (click)="reset()">
+  <button mat-raised-button class="table-button table-button-text mx-1" (click)="reset()">
     dzisiaj
     <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
   </button>
-  <mat-form-field style="margin-bottom: -1.3rem">
+  <mat-form-field>
     <input
-      class="date-picker"
+      class="table-button-text"
       matInput
       [matDatepicker]="dp"
       [(ngModel)]="currentDate"

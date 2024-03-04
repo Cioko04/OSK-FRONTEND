@@ -1,6 +1,5 @@
 .schedulePlaceholder {
     position: absolute;
-    z-index: 1050;
     background-color: rgba(0, 128, 0, 0.4);
     border: 1px solid currentColor;
     cursor: pointer;

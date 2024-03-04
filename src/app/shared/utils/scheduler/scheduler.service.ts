@@ -87,8 +87,7 @@ export class SchedulerService {
   isRightNow(hour: string): boolean {
     const today: Date = new Date();
     return (
-      hour.split(':')[0] === today.getHours().toString() &&
-      this.currentDateSubject.getValue().toDateString() === today.toDateString()
+      hour.split(':')[0] === today.getHours().toString() && !this.isDifferentDay(today)
     );
   }
 

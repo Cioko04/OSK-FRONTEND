@@ -13,7 +13,7 @@ import { HeadArray } from '../../../core/list';
 @Component({
   selector: 'app-common-table',
   templateUrl: './common-table.component.html',
-  styleUrls: ['./common-table.component.css'],
+  styleUrls: ['./common-table.component.css', '../../utils-style.css'],
 })
 export class CommonTableComponent implements OnChanges {
   filter: string = '';

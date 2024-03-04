@@ -11,7 +11,7 @@ import { Course } from './course';
 })
 export class CourseService {
   private API_URL = '/api/course';
-  private coursesSubject = new BehaviorSubject<any[]>([]);
+  private coursesSubject = new BehaviorSubject<Course[]>([]);
   courses$ = this.coursesSubject.asObservable();
 
   constructor(

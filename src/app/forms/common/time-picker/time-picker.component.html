@@ -8,13 +8,6 @@
   />
   <div class="d-flex align-items-center" matSuffix>
     <mat-icon
-      *ngIf="time"
-      aria-label="Clear"
-      (click)="time = ''"
-      class="time-picker-button"
-      >close</mat-icon
-    >
-    <mat-icon
       mat-icon-button
       class="time-picker-button"
       [ngxTimepicker]="fullTime"

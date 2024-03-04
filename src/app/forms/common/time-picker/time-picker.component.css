@@ -1,5 +1,5 @@
 .time-picker {
-  width: 10rem;
+  width: 100%;
 }
 
 .time-picker-button {
@@ -19,15 +19,4 @@
 
 .time-picker-input:hover {
   cursor: text;
-}
-
-.confirm-button-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.xyz {
-  z-index: 2000 !important;
-  position: relative !important;
 }

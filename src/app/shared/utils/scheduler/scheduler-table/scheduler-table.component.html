@@ -24,11 +24,15 @@
     >
       {{ this.getWeekDayName(day) }}
       <mat-divider></mat-divider>
-      <div>{{ day.getDate() }}</div>
+      <p class="p-0 m-0">{{ day.getDate() }}</p>
     </th>
-    <td mat-cell *matCellDef="let element" (click)="addSession(day, element.time)"></td>
+    <td
+      mat-cell
+      *matCellDef="let element"
+      (click)="addSession(day, element.time)"
+    ></td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="getColumnDefinition()"></tr>
+  <tr mat-header-row *matHeaderRowDef="getColumnDefinition(); sticky: true"></tr>
   <tr mat-row *matRowDef="let row; columns: getColumnDefinition()"></tr>
 </table>

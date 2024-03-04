@@ -1,8 +1,5 @@
-.date-picker-form-field {
-  width: 15rem;
-}
-
-.form-group {
-  display: flex;
-  justify-content: center;
+.date-picker-form-field,
+app-time-picker,
+.instructor-select {
+  width: 100%;
 }

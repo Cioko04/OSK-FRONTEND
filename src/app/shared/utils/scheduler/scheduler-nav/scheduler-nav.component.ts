@@ -6,7 +6,7 @@ import { SchedulerService } from '../scheduler.service';
 @Component({
   selector: 'app-scheduler-nav',
   templateUrl: './scheduler-nav.component.html',
-  styleUrls: ['./scheduler-nav.component.css'],
+  styleUrls: ['./scheduler-nav.component.css', '../../utils-style.css'],
 })
 export class SchedulerNavComponent implements OnInit, OnDestroy {
   currentDate!: Date;

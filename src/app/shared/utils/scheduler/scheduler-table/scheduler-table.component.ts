@@ -7,7 +7,7 @@ import { SchedulerService } from '../scheduler.service';
 @Component({
   selector: 'app-scheduler-table',
   templateUrl: './scheduler-table.component.html',
-  styleUrls: ['./scheduler-table.component.css']
+  styleUrls: ['./scheduler-table.component.css', '../../utils-style.css']
 })
 export class SchedulerTableComponent implements OnInit {
   week!: Date[];

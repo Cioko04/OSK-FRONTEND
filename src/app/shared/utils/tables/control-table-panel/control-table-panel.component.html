@@ -1,0 +1,25 @@
+<div class="d-flex justify-content-between m-0 p-0">
+  <button
+    *ngIf="isAction"
+    class="table-button table-button-text"
+    mat-raised-button
+    (click)="add()"
+  >
+    <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
+    Dodaj
+  </button>
+  <mat-form-field>
+    <mat-label>Wyszukaj...</mat-label>
+    <input
+      #searchInput
+      type="search"
+      matInput
+      aria-label="Search"
+      (focus)="addActiveClass(searchInput)"
+      (blur)="removeActiveClass(searchInput)"
+      [(ngModel)]="filter"
+      (ngModelChange)="onFilterChange()"
+    />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</div>

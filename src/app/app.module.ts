@@ -79,6 +79,7 @@ import { SchedulePlaceholderComponent } from './shared/utils/scheduler/schedule-
 import { TimePickerComponent } from './forms/common/time-picker/time-picker.component';
 import { MatListModule } from '@angular/material/list';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { ControlTablePanelComponent } from './shared/utils/tables/control-table-panel/control-table-panel.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -130,6 +131,7 @@ export const MY_FORMATS = {
     SchedulePlaceholderComponent,
     ScheduleFormComponent,
     TimePickerComponent,
+    ControlTablePanelComponent
   ],
   imports: [
     BrowserModule,
