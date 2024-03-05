@@ -17,10 +17,10 @@ import {
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, map } from 'rxjs';
 import { HeadArray } from '../../../core/list';
+import { TransformItemService } from './transform-item.service';
 
 @UntilDestroy()
 @Component({
@@ -43,13 +43,10 @@ export class TableListComponent implements OnInit, OnChanges {
   @ViewChild(MatSort) sort: MatSort | any;
 
   @Input()
-  HeadArray: HeadArray[] = [];
+  headArray: HeadArray[] = [];
 
   @Input()
-  HeadCard: HeadArray[] = [];
-
-  @Input()
-  GridArrayObs: Observable<any[]> = new Observable<any[]>();
+  gridArrayObs: Observable<any[]> = new Observable<any[]>();
 
   @Input()
   isAction: boolean = false;
@@ -81,7 +78,7 @@ export class TableListComponent implements OnInit, OnChanges {
   expandedElement: any;
   windowWidth: number | any;
 
-  constructor() {}
+  constructor(private transformItemService: TransformItemService) {}
 
   ngOnChanges(): void {
     this.loadData();
@@ -103,8 +100,7 @@ export class TableListComponent implements OnInit, OnChanges {
   adjustDisplayedColumns(length: number, showExpand: boolean) {
     this.displayedColumns = [];
     this.displayedInfo = [];
-    this.displayedColumns.push('Id');
-    this.HeadArray.forEach((head) => {
+    this.headArray.forEach((head) => {
       this.displayedColumns.push(head.Head);
       this.displayedInfo.push(head.Head);
     });
@@ -130,8 +126,8 @@ export class TableListComponent implements OnInit, OnChanges {
   }
 
   private loadData() {
-    this.GridArrayObs.pipe(untilDestroyed(this)).subscribe((data) => {
-      this.dataSource = this.transformData(data);
+    this.gridArrayObs.pipe(untilDestroyed(this)).subscribe((data) => {
+      this.dataSource = this.transformItemService.transformData(data, this.headArray);
       this.applyFilter();
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -140,28 +136,6 @@ export class TableListComponent implements OnInit, OnChanges {
 
   private applyFilter() {
     this.dataSource.filter = this.filter.trim().toLowerCase();
-  }
-
-  private transformData(data: any): MatTableDataSource<any> {
-    const transformedData = data.map((item: any) => {
-      const transformedItem: any = {};
-      transformedItem['Id'] = data.indexOf(item) + 1;
-      this.HeadArray.forEach((column) => {
-        let data;
-        if (column.SecondField) {
-          data = item[column.FieldName][column.SecondField];
-        } else {
-          data = item[column.FieldName];
-        }
-        if (this.isArray(data)) {
-          data.sort();
-        }
-        transformedItem[column.Head] = data;
-      });
-      transformedItem['sourceId'] = item.id;
-      return transformedItem;
-    });
-    return new MatTableDataSource(transformedData);
   }
 
   calculateVisibleRows(): number[] {
@@ -185,7 +159,7 @@ export class TableListComponent implements OnInit, OnChanges {
   }
 
   edit(id: number) {
-    this.GridArrayObs.pipe(
+    this.gridArrayObs.pipe(
       untilDestroyed(this),
       map((data: any[]) => data.find((item) => item.id === id))
     ).subscribe((data) => this.onEdit.emit(data));
@@ -204,10 +178,10 @@ export class TableListComponent implements OnInit, OnChanges {
   }
 
   @HostListener('window:resize', ['$event'])
-  onWindowResize(event: any) {
+  onWindowResize() {
     this.windowWidth = window.innerWidth;
     if (this.windowWidth >= 769) {
-      this.adjustDisplayedColumns(this.HeadArray.length + 1, true);
+      this.adjustDisplayedColumns(this.headArray.length + 1, true);
     } else if (this.windowWidth <= 768 && this.windowWidth >= 635) {
       this.adjustDisplayedColumns(5, true);
     } else if (this.windowWidth <= 634 && this.windowWidth >= 577) {

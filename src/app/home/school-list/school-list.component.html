@@ -8,15 +8,15 @@
 >
 </app-table-list> -->
 
-<app-common-table
+<app-table
   [isAction]="true"
-  [HeadArray]="headArray"
-  [GridArrayObs]="schoolObs"
+  [headArray]="headArray"
+  [gridArrayObs]="schoolObs"
   (onAdd)="onAdd(content)"
   (onEdit)="onEdit(content, $event)"
   (onDelete)="onDelete($event)"
 >
-</app-common-table>
+</app-table>
 <ng-template #content let-modal>
   <div class="container-fluid">
     <div class="row mx-1 mt-4">

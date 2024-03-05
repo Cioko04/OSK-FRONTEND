@@ -1,7 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { List } from '../../core/list';
 import { Schedule } from '../../services/schedule/schedule';
 import { ScheduleService } from '../../services/schedule/schedule.service';
 

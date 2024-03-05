@@ -11,7 +11,7 @@
       <app-table-cards
         [filter]="filter"
         [isAction]="isAction"
-        [HeadArray]="HeadArray"
+        [headArray]="headArray"
         [gridArray]="gridArray"
         (onEdit)="edit($event)"
         (onChoose)="choose($event)"
@@ -22,8 +22,8 @@
         <app-table-list
           [filter]="filter"
           [isAction]="isAction"
-          [HeadArray]="HeadArray"
-          [GridArrayObs]="GridArrayObs"
+          [headArray]="headArray"
+          [gridArrayObs]="gridArrayObs"
           (onEdit)="edit($event)"
           (onDelete)="delete($event)"
         ></app-table-list>
