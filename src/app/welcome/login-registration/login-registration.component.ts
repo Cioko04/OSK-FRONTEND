@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
-import { InitForm } from 'src/app/shared/core/list';
+import { InitForm } from 'src/app/shared/core/BaseEntityComponent';
 import { Role, User } from 'src/app/shared/services/user/user';
 
 @Component({

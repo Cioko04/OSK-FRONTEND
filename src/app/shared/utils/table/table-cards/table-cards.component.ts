@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { HeadArray } from 'src/app/shared/core/list';
+import { HeadArray } from 'src/app/shared/core/BaseEntityComponent';
 
 @Component({
   selector: 'app-table-cards',

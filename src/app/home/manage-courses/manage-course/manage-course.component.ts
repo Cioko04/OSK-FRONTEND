@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
-import { HeadArray, List } from 'src/app/shared/core/list';
+import { HeadArray, BaseEntityComponent } from 'src/app/shared/core/BaseEntityComponent';
 import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
 import { Schedule } from 'src/app/shared/services/schedule/schedule';
 import { UserService } from 'src/app/shared/services/user/user.service';
@@ -12,7 +12,7 @@ import { UserService } from 'src/app/shared/services/user/user.service';
   templateUrl: './manage-course.component.html',
   styleUrls: ['./manage-course.component.css'],
 })
-export class ManageCourseComponent extends List implements OnInit {
+export class ManageCourseComponent extends BaseEntityComponent implements OnInit {
   override headArray: HeadArray[] = [
     { Head: 'Intruktor', FieldName: 'userRequest' },
     { Head: 'Data rozpoczęcia', FieldName: 'userRequest' },

@@ -6,14 +6,14 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
 import { Instructor } from 'src/app/shared/services/instructor/instructor';
 import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
-import { HeadArray, List } from '../../shared/core/list';
+import { HeadArray, BaseEntityComponent } from '../../shared/core/BaseEntityComponent';
 
 @Component({
   selector: 'app-instructor-list',
   templateUrl: './instructor-list.component.html',
   styleUrls: ['./instructor-list.component.css'],
 })
-export class InstructorListComponent extends List implements OnInit {
+export class InstructorListComponent extends BaseEntityComponent implements OnInit {
   override headArray: HeadArray[] = [
     { Head: 'Imię', FieldName: 'userRequest', SecondField: 'name' },
     { Head: 'Nazwisko', FieldName: 'userRequest', SecondField: 'lastName' },

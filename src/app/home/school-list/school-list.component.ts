@@ -4,14 +4,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { School } from 'src/app/shared/services/school/school';
 import { SchoolService } from 'src/app/shared/services/school/school.service';
-import { HeadArray, List } from '../../shared/core/list';
+import { HeadArray, BaseEntityComponent } from '../../shared/core/BaseEntityComponent';
 
 @Component({
   selector: 'app-school-list',
   templateUrl: './school-list.component.html',
   styleUrls: ['./school-list.component.css'],
 })
-export class SchoolListComponent extends List implements OnInit {
+export class SchoolListComponent extends BaseEntityComponent  implements OnInit {
   override headArray: HeadArray[] = [
     { Head: 'Nazwa', FieldName: 'schoolName' },
     { Head: 'Właściciel', FieldName: 'userRequest', SecondField: 'name' },

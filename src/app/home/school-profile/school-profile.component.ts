@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { School } from 'src/app/shared/services/school/school';
 import { SchoolService } from 'src/app/shared/services/school/school.service';
-import { InitForm } from 'src/app/shared/core/list';
+import { InitForm } from 'src/app/shared/core/BaseEntityComponent';
 
 @UntilDestroy()
 @Component({

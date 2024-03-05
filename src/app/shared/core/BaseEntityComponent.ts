@@ -1,6 +1,6 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-export abstract class List {
+export abstract class BaseEntityComponent {
   headArray: HeadArray[] | any;
 
   initProperForm: InitForm = {

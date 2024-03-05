@@ -4,7 +4,7 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { Observable, of } from 'rxjs';
 import { Instructor } from 'src/app/shared/services/instructor/instructor';
 import { School } from 'src/app/shared/services/school/school';
-import { InitForm } from 'src/app/shared/core/list';
+import { InitForm } from 'src/app/shared/core/BaseEntityComponent';
 import { User } from 'src/app/shared/services/user/user';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 

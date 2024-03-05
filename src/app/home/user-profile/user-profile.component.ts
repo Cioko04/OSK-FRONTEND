@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { InitForm } from 'src/app/shared/core/list';
+import { InitForm } from 'src/app/shared/core/BaseEntityComponent';
 import { User } from 'src/app/shared/services/user/user';
 import { UserService } from 'src/app/shared/services/user/user.service';
 

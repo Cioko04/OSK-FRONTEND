@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
 import { School } from 'src/app/shared/services/school/school';
 import { SchoolService } from 'src/app/shared/services/school/school.service';
-import { HeadArray } from 'src/app/shared/core/list';
+import { HeadArray } from 'src/app/shared/core/BaseEntityComponent';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 @Component({

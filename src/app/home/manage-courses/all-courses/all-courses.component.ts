@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
-import { HeadArray, List } from 'src/app/shared/core/list';
+import { HeadArray, BaseEntityComponent } from 'src/app/shared/core/BaseEntityComponent';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { Course } from 'src/app/shared/services/course/course';
 import { CourseService } from 'src/app/shared/services/course/course.service';
@@ -14,7 +14,7 @@ import { UserService } from 'src/app/shared/services/user/user.service';
   templateUrl: './all-courses.component.html',
   styleUrls: ['./all-courses.component.css'],
 })
-export class AllCoursesComponent extends List implements OnInit {
+export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
   schoolId?: number;
   courses: Course[] = [];
   updateCourse: boolean = true;
