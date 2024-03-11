@@ -80,6 +80,7 @@ import { TableCardsComponent } from './shared/utils/table/table-cards/table-card
 import { TableComponent } from './shared/utils/table/table.component';
 import { TableListComponent } from './shared/utils/table/table-list/table-list.component';
 import { ControlTablePanelComponent } from './shared/utils/table/control-table-panel/control-table-panel.component';
+import { FormComponent } from './forms/form.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -131,7 +132,8 @@ export const MY_FORMATS = {
     SchedulePlaceholderComponent,
     ScheduleFormComponent,
     TimePickerComponent,
-    ControlTablePanelComponent
+    ControlTablePanelComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,

@@ -15,12 +15,13 @@
 <ng-template #content let-modal>
   <div class="container-fluid">
     <div class="row mx-1 mt-4">
-      <app-course-form
-        [(course)]="course"
-        [updateCourse]="updateCourse"
+      <app-form
+        [signInFormSettings]="signInFormSettings"
+        [formSettings]="formSettings"
         [categoriesFromSchool]="categoriesFromSchool"
-        (onSubmit)="onSubmit(); modal.close()"
-      ></app-course-form>
+        [(entity)]="course"
+        (entityChange)="onSubmit(); modal.close()"
+      ></app-form>
     </div>
   </div>
 </ng-template>

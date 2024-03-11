@@ -33,7 +33,7 @@ export interface ProfileFormValues {
 @Component({
   selector: 'app-profile-form',
   templateUrl: './profile-form.component.html',
-  styleUrls: ['./profile-form.component.css', '../../form-style.css'],
+  styleUrls: ['./profile-form.component.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
+import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
 import { HeadArray, BaseEntityComponent } from 'src/app/shared/core/BaseEntityComponent';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { Course } from 'src/app/shared/services/course/course';
@@ -17,9 +20,20 @@ import { UserService } from 'src/app/shared/services/user/user.service';
 export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
   schoolId?: number;
   courses: Course[] = [];
-  updateCourse: boolean = true;
   course: Course | any;
   categoriesFromSchool: CategoryEnum[] = [];
+
+  signInFormSettings: SignInFormSettings = {
+    user: false,
+    instructor: false,
+    school: false,
+  };
+
+  formSettings: FormSettings = {
+    formType: FormType.COURSE,
+    buttonText: 'Dodaj',
+    titile: 'Dodaj kurs!',
+  };
 
   override headArray: HeadArray[] = [
     { Head: 'Kategoria', FieldName: 'categoryType' },
@@ -34,7 +48,6 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
     private router: Router
   ) {
     super(modalService);
-
   }
 
   ngOnInit(): void {
@@ -73,13 +86,13 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
   }
 
   override onAdd(content: any) {
-    this.updateCourse = false;
+    this.formSettings.edit = false;
     this.course = {};
     super.onAdd(content);
   }
 
   override onEdit(content: any, course: Course) {
-    this.updateCourse = true;
+    this.formSettings.edit = true;
     this.course = course;
     super.onEdit(content, course);
   }
@@ -95,7 +108,7 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
   }
 
   override onSubmit(): void {
-    this.updateCourse ? this.update() : this.add();
+    this.formSettings.edit ? this.update() : this.add();
   }
 
   override update(): void {

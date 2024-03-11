@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { CourseService } from 'src/app/shared/services/course/course.service';
@@ -37,6 +37,8 @@ export class ScheduleFormComponent implements OnInit {
 
   @Input()
   edit!: boolean;
+
+  @ViewChild('scheduleFormTemplate') scheduleFormTemplate!: TemplateRef<any>;
 
   constructor(
     private instructorService: InstructorService,

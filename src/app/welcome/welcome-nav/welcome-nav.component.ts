@@ -1,10 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {
-  NgbModal,
-  NgbOffcanvas,
-  NgbOffcanvasConfig,
-  OffcanvasDismissReasons,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
 
 @Component({
   selector: 'app-welcome-nav',
@@ -13,8 +9,7 @@ import {
   encapsulation: ViewEncapsulation.None,
 })
 export class WelcomeNavComponent implements OnInit {
-  closeResult = '';
-  openPage = '';
+  formType!: FormType;
   constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {}
@@ -23,11 +18,11 @@ export class WelcomeNavComponent implements OnInit {
     this.modalService.open(content, { size: 'lg' });
   }
   openLogin(content: any) {
-    this.openPage = 'login';
+    this.formType = FormType.LOGIN;
     this.open(content);
   }
   openRegister(content: any) {
-    this.openPage = 'register';
+    this.formType = FormType.SIGNUP;
     this.open(content);
   }
 }

@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { School } from 'src/app/shared/services/school/school';
 import { SchoolService } from 'src/app/shared/services/school/school.service';
 import { HeadArray, BaseEntityComponent } from '../../shared/core/BaseEntityComponent';
+import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
+import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
 
 @Component({
   selector: 'app-school-list',
@@ -20,6 +23,18 @@ export class SchoolListComponent extends BaseEntityComponent  implements OnInit 
     { Head: 'Data dodania', FieldName: 'addDate' },
   ];
 
+  signInFormSettings: SignInFormSettings = {
+    school: false,
+    instructor: false,
+    user: false
+  };
+
+  fromSettings: FormSettings = {
+    formType: FormType.SIGNUP,
+    buttonText: "Zapisz",
+    edit: false
+  }
+
   school: School | any;
   schoolObs: Observable<School[]> = new Observable<School[]>();
 
@@ -28,8 +43,8 @@ export class SchoolListComponent extends BaseEntityComponent  implements OnInit 
     private schoolService: SchoolService
   ) {
     super(modalService);
-    this.initProperForm.school = true;
-    this.initProperForm.user = true;
+    this.signInFormSettings.school = true;
+    this.signInFormSettings.user = true;
   }
 
   ngOnInit(): void {
@@ -48,19 +63,19 @@ export class SchoolListComponent extends BaseEntityComponent  implements OnInit 
   }
 
   override onAdd(content: any) {
-    this.initProperForm.update = false;
+    this.fromSettings.edit = false;
     this.school.userRequest = {};
     super.onAdd(content);
   }
 
   override onEdit(content: any, school: School) {
-    this.initProperForm.update = true;
+    this.fromSettings.edit = true;
     this.school = school;
     super.onEdit(content, school);
   }
 
   onSubmit() {
-    this.initProperForm.update ? this.update() : this.add();
+    this.fromSettings.edit ? this.update() : this.add();
   }
 
   update() {

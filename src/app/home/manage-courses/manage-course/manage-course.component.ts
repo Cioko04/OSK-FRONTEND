@@ -2,6 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
 import { HeadArray, BaseEntityComponent } from 'src/app/shared/core/BaseEntityComponent';
 import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
 import { Schedule } from 'src/app/shared/services/schedule/schedule';
@@ -21,8 +23,13 @@ export class ManageCourseComponent extends BaseEntityComponent implements OnInit
     { Head: 'Status', FieldName: 'categories' },
   ];
 
+  formSettings: FormSettings = {
+    formType: FormType.SCHEDULE,
+    buttonText: "Zapisz",
+    edit: false
+  }
+
   schedule!: Schedule;
-  edit: boolean = false;
 
   constructor(
     modalService: NgbModal,
@@ -64,20 +71,20 @@ export class ManageCourseComponent extends BaseEntityComponent implements OnInit
     this.schedule = {
       startDate: date
     }
-    this.edit = false;
+    this.formSettings.edit = false;
     super.onAdd(content);
   }
 
   addEmptySchedule(content: any) {
     this.schedule = {
     }
-    this.edit = false;
+    this.formSettings.edit = false;
     super.onAdd(content);
   }
 
   editSchedule(content: any, schedule: Schedule) {
     this.schedule = schedule;
-    this.edit = true;
+    this.formSettings.edit = true;
     super.onEdit(content, schedule);
   }
 }

@@ -12,11 +12,12 @@
   <ng-template #content let-modal>
     <div class="container-fluid">
       <div class="row mx-1 mt-4">
-        <app-sign-up-form
-          [initProperForm]="initProperForm"
-          [(data)]="instructor"
-          (onSubmit)="onSubmit(); modal.close()"
-        ></app-sign-up-form>
+        <app-form
+          [signInFormSettings]="signInFormSettings"
+          [formSettings]="formSettings"
+          [(entity)]="instructor"
+          (entityChange)="onSubmit(); modal.close()"
+        ></app-form>
       </div>
     </div>
   </ng-template>

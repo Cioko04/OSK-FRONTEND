@@ -1,75 +1,63 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Observable, of } from 'rxjs';
+import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { Instructor } from 'src/app/shared/services/instructor/instructor';
 import { School } from 'src/app/shared/services/school/school';
-import { InitForm } from 'src/app/shared/core/BaseEntityComponent';
 import { User } from 'src/app/shared/services/user/user';
-import { CategoryEnum } from 'src/app/shared/services/category/category';
+import { BaseFormComponent } from '../core/base-form/BaseFormComponent';
 
 @UntilDestroy()
 @Component({
   selector: 'app-sign-up-form',
   templateUrl: './sign-up-form.component.html',
-  styleUrls: ['./sign-up-form.component.css', '../form-style.css'],
+  styleUrls: ['./sign-up-form.component.css'],
 })
-export class SignUpFormComponent implements OnInit {
-  @Input()
-  data: any;
-  @Input()
-  initProperForm: InitForm | any;
-
-  @Output()
-  dataChange = new EventEmitter<any>();
-  @Output()
-  onSubmit = new EventEmitter<any>();
-
+export class SignUpFormComponent extends BaseFormComponent {
   email: string = '';
-  signupForm: FormGroup;
-  submitted: boolean = false;
-  buttonText: string = 'Zarejestruj';
+  signupForm!: FormGroup;
   categories: Observable<string[]> = of(Object.values(CategoryEnum));
+  submitForm: boolean = false;
 
   constructor(private formBuilder: FormBuilder) {
+    super();
+  }
+
+  override ngOnInit(): void {
     this.signupForm = this.formBuilder.group({
       profile: [],
       password: [],
       school: [],
       categories: [],
     });
-  }
-
-  ngOnInit(): void {
-    if (this.initProperForm.update) {
-      this.buttonText = 'Zapisz';
+    if (this.formSettings.edit) {
       this.patchValues();
     }
   }
 
-  submit() {
+  override submit(): void {
     this.updateValueAndValidity();
     if (this.signupForm.valid) {
-      this.register();
-      this.dataChange.emit(this.data);
-      this.onSubmit.emit();
+      this.createEntity();
+      this.entityChange.emit(this.entity);
     }
   }
 
-  updateValueAndValidity(){
-    this.submitted = true;
+  updateValueAndValidity() {
+    this.submitForm = true;
     this.signupForm.get('profile')?.updateValueAndValidity();
     this.signupForm.get('password')?.updateValueAndValidity();
     this.signupForm.get('school')?.updateValueAndValidity();
   }
 
-  private register() {
-    if (this.initProperForm.school) {
-      this.createSchool(this.data);
-    } else if (this.initProperForm.instructor) {
-      this.createInstructor(this.data);
-    } else if (this.initProperForm.user) {
-      this.createUser(this.data);
+  private createEntity() {
+    if (this.signInFormSettings.school) {
+      this.createSchool(this.entity);
+    } else if (this.signInFormSettings.instructor) {
+      this.createInstructor(this.entity);
+    } else if (this.signInFormSettings.user) {
+      this.createUser(this.entity);
     }
   }
 
@@ -92,22 +80,22 @@ export class SignUpFormComponent implements OnInit {
     school.city = this.signupForm.value.school.city;
     school.zipCode = this.signupForm.value.school.zipCode;
     school.nip = this.signupForm.value.school.nip;
-    if (this.initProperForm.user) {
-       this.createUser(school.userRequest);
+    if (this.signInFormSettings.user) {
+      this.createUser(school.userRequest);
     }
   }
 
   private patchValues() {
-    if (this.initProperForm.school) {
-      this.patchSchool(this.data);
-      if (this.initProperForm.user) {
-        this.patchUser(this.data.userRequest);
+    if (this.signInFormSettings.school) {
+      this.patchSchool(this.entity);
+      if (this.signInFormSettings.user) {
+        this.patchUser(this.entity.userRequest);
       }
-    } else if (this.initProperForm.instructor) {
-      this.patchUser(this.data.userRequest);
-      this.patchCategories(this.data.categories);
-    } else if (this.initProperForm.user) {
-      this.patchUser(this.data);
+    } else if (this.signInFormSettings.instructor) {
+      this.patchUser(this.entity.userRequest);
+      this.patchCategories(this.entity.categories);
+    } else if (this.signInFormSettings.user) {
+      this.patchUser(this.entity);
     }
   }
 

@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { InitForm } from 'src/app/shared/core/BaseEntityComponent';
+import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
+import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
 import { User } from 'src/app/shared/services/user/user';
 import { UserService } from 'src/app/shared/services/user/user.service';
 
@@ -10,12 +12,17 @@ import { UserService } from 'src/app/shared/services/user/user.service';
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
-  initProperForm: InitForm = {
+  signInFormSettings: SignInFormSettings = {
     school: false,
     instructor: false,
-    user: true,
-    update: true,
+    user: true
   };
+
+  fromSettings: FormSettings = {
+    formType: FormType.SIGNUP,
+    buttonText: "Zapisz",
+    edit: true
+  }
 
   @Input()
   user: User | any;

@@ -1,14 +1,7 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 export abstract class BaseEntityComponent {
-  headArray: HeadArray[] | any;
-
-  initProperForm: InitForm = {
-    school: false,
-    instructor: false,
-    user: false,
-    update: false,
-  };
+  headArray: HeadArray[] = [];
 
   constructor(public modalService: NgbModal) {}
 
@@ -38,12 +31,3 @@ export interface HeadArray {
   FieldName: string;
   SecondField?: string;
 }
-
-export interface InitForm {
-  school: boolean;
-  instructor: boolean;
-  user: boolean;
-  update: boolean;
-}
-
-
