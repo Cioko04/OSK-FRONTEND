@@ -2,16 +2,21 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
 import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
-import { HeadArray, BaseEntityComponent } from 'src/app/shared/core/BaseEntityComponent';
+import {
+  BaseEntityComponent,
+  HeadArray,
+} from 'src/app/shared/core/BaseEntityComponent';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { Course } from 'src/app/shared/services/course/course';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-all-courses',
   templateUrl: './all-courses.component.html',
@@ -37,7 +42,7 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
 
   override headArray: HeadArray[] = [
     { Head: 'Kategoria', FieldName: 'categoryType' },
-    { Head: 'Cena', FieldName: 'price' }
+    { Head: 'Cena', FieldName: 'price' },
   ];
 
   constructor(
@@ -52,17 +57,20 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
 
   ngOnInit(): void {
     let email = this.auth.getSessionUserEmail();
-    this.userService.getUserByEmail(email).subscribe({
-      next: (user) => {
-        this.setSchoolId(user.schoolRequest!.id);
-        this.courseService.loadCourses(this.schoolId!);
-        this.loadCourses();
-      },
-      error: (e: HttpErrorResponse) => console.log(e.status),
-      complete: () => {
-        console.log('Courses loaded!');
-      },
-    });
+    this.userService
+      .getUserByEmail(email)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (user) => {
+          this.setSchoolId(user.schoolRequest!.id);
+          this.courseService.loadCourses(this.schoolId!);
+          this.loadCourses();
+        },
+        error: (e: HttpErrorResponse) => console.log(e.status),
+        complete: () => {
+          console.log('Courses loaded!');
+        },
+      });
   }
 
   onChoose(id: number) {
@@ -74,13 +82,8 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
   }
 
   private loadCourses() {
-    this.courseService.courses$.subscribe({
-      next: (courses: Course[]) => {
-        this.courses = courses;
-        this.categoriesFromSchool = courses.map(
-          (course) => course.categoryType
-        );
-      },
+    this.courseService.courses$.pipe(untilDestroyed(this)).subscribe({
+      next: (courses: Course[]) => (this.courses = courses),
       error: (error) => console.error('Error during fetching courses:' + error),
     });
   }

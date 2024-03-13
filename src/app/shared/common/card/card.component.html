@@ -1,72 +1,33 @@
-<!-- <div class="container">
-  <div class="wrapper" [ngClass]="{'details-open': isDetailsVisible}">
-    <div class="banner">
-      <div class="banner-image" id="banner-image">
-        <img
-          src="{{
-            categoryService.getCategoryImagePath(
-              category[HeadArray[0].FieldName]
-            )
-          }}"
-          alt="{{ category[HeadArray[0].FieldName] }} Icon"
-        />
-      </div>
-      <h2>
-        <b>{{ HeadArray[0].Head }}</b>
-      </h2>
-      <h1>
-        <b>{{ category[HeadArray[0].FieldName] }}</b>
-      </h1>
-    </div>
-    <div *ngFor="let head of HeadArray" class="info mt-4">
-      <h2>
-        <b>{{ head.Head }}</b>: <b>{{ category[head.FieldName] }}</b>
-      </h2>
-    </div>
-  </div>
-  <div class="button-wrapper">
-    <button class="btn outline me-1" (click)="showDetails()">SZCZEGÓŁY</button>
-    <button class="btn fill">WYBIERZ</button>
-  </div>
-</div> -->
-
 <div class="container">
-    <div class="wrap animate pop" [ngClass]="{'details-open': isDetailsVisible}">
-      <div class="overlay">
-        <div class="banner">
-          <div class="banner-image" id="banner-image">
-            <img
-              src="{{
-                categoryService.getCategoryImagePath(
-                  category[HeadArray[0].FieldName]
-                )
-              }}"
-              alt="{{ category[HeadArray[0].FieldName] }} Icon"
-            />
-          </div>
-          <h2>
-            <b>{{ HeadArray[0].Head }}</b>
-          </h2>
-          <h1>
-            <b>{{ category[HeadArray[0].FieldName] }}</b>
-          </h1>
+  <div
+    class="wrap animate pop"
+    [ngClass]="{ 'details-open': isDetailsVisible }"
+  >
+    <div class="overlay">
+      <div class="banner">
+        <div class="banner-image" id="banner-image">
+          <img
+            src="{{
+              categoryService.getCategoryImagePath(
+                category[HeadArray[0].FieldName]
+              )
+            }}"
+            alt="{{ category[HeadArray[0].FieldName] }} Icon"
+          />
         </div>
-      </div>
-      <div class="details pt-2 pb-0">
-        <!-- <h2 *ngFor="let head as HeadArray.slice(1)">
-          <h2>
-            <b>{{ head.Head }}</b>
-          </h2>
-          <h1>
-            <b>{{ category[head.FieldName] }}</b>
-          </h1>
-        </h2> -->
+        <h2>
+          <b>{{ HeadArray[0].Head }}</b>
+        </h2>
+        <h1>
+          <b>{{ category[HeadArray[0].FieldName] }}</b>
+        </h1>
       </div>
     </div>
-  <div class="button-wrapper">
-    <button class="btn outline me-4" (click)="showDetails()">SZCZEGÓŁY</button>
-    <button class="btn fill" (click)="choose(category.id)">WYBIERZ</button>
+  </div>
+  <div class="row justify-content-between pb-3 px-3">
+    <div class="col-12 d-flex justify-content-end">
+      <button class="btn outline me-1" (click)="showDetails()">SZCZEGÓŁY</button>
+      <button class="btn fill ms-1" (click)="choose(category.id)">WYBIERZ</button>
+    </div>
   </div>
 </div>
-
-

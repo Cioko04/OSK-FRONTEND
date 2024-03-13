@@ -13,8 +13,6 @@ export abstract class BaseFormComponent implements OnInit {
   signInFormSettings!: SignInFormSettings;
   @Input()
   formSettings!: FormSettings;
-  @Input()
-  categoriesFromSchool: string[] = [];
 
   @Output()
   entityChange = new EventEmitter<any>();

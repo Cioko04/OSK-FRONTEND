@@ -77,6 +77,7 @@ export class ManageCourseComponent extends BaseEntityComponent implements OnInit
 
   addEmptySchedule(content: any) {
     this.schedule = {
+      startDate: new Date()
     }
     this.formSettings.edit = false;
     super.onAdd(content);

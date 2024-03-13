@@ -4,8 +4,7 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  SimpleChanges,
-  forwardRef,
+  forwardRef
 } from '@angular/core';
 import {
   ControlValueAccessor,

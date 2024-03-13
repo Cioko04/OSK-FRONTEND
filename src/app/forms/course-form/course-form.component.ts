@@ -1,9 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
+import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { Course } from 'src/app/shared/services/course/course';
 import { BaseFormComponent } from '../core/base-form/BaseFormComponent';
 
+@UntilDestroy()
 @Component({
   selector: 'app-course-form',
   templateUrl: './course-form.component.html',
@@ -18,7 +21,10 @@ export class CourseFormComponent extends BaseFormComponent {
   @Output()
   onSubmit = new EventEmitter<any>();
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private categoryService: CategoryService
+  ) {
     super();
     this.form = this.formBuilder.group({
       category: ['', [Validators.required]],
@@ -35,13 +41,17 @@ export class CourseFormComponent extends BaseFormComponent {
   }
 
   private setCategories() {
-    this.categories = this.categories.filter(
-      (category) => !this.categoriesFromSchool.includes(category)
-    );
-    if (this.entity.categoryType) {
-      this.categories.push(this.entity.categoryType);
-    }
-    this.categories.sort();
+    this.categoryService.categories$
+      .pipe(untilDestroyed(this))
+      .subscribe((categories) => {
+        this.categories = this.categories.filter(
+          (category) => !categories.includes(category)
+        );
+        if (this.entity.categoryType) {
+          this.categories.push(this.entity.categoryType);
+        }
+        this.categories.sort();
+      });
   }
 
   get category() {

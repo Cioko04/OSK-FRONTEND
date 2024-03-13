@@ -1,11 +1,12 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, Observable, catchError, map, tap } from 'rxjs';
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { MyErrorHandlerServiceService } from '../../errorHandlers/my-error-handler.service';
-import { UserService } from '../user/user.service';
+import { CategoryService } from '../category/category.service';
 import { Course } from './course';
 
+@UntilDestroy()
 @Injectable({
   providedIn: 'root',
 })
@@ -16,14 +17,19 @@ export class CourseService {
 
   constructor(
     private http: HttpClient,
-    private errorHandler: MyErrorHandlerServiceService
-  ) {
-  }
+    private errorHandler: MyErrorHandlerServiceService,
+    private categoryService: CategoryService
+  ) {}
 
   loadCourses(schoolId: number) {
-    this.getCoursesBySchoolId(schoolId).subscribe((courses) => {
-      this.coursesSubject.next(courses);
-    });
+    this.getCoursesBySchoolId(schoolId)
+      .pipe(untilDestroyed(this))
+      .subscribe((courses) => {
+        this.coursesSubject.next(courses);
+        this.categoryService.loadCategories(
+          courses.map((course) => course.categoryType)
+        );
+      });
   }
 
   getCoursesBySchoolId(id: number): Observable<Course[]> {
