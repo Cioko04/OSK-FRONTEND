@@ -1,5 +1,6 @@
-<app-sign-up-form
-  [initProperForm]="initProperForm"
-  [data]="user"
-  (dataChange)="update($event)"
-></app-sign-up-form>
+<app-form
+  [signInFormSettings]="signInFormSettings"
+  [formSettings]="fromSettings"
+  [entity]="user"
+  (entityChange)="update($event)"
+></app-form>

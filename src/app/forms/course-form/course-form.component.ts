@@ -1,30 +1,31 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
+import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { Course } from 'src/app/shared/services/course/course';
+import { BaseFormComponent } from '../core/base-form/BaseFormComponent';
 
+@UntilDestroy()
 @Component({
   selector: 'app-course-form',
   templateUrl: './course-form.component.html',
-  styleUrls: ['./course-form.component.css', '../form-style.css'],
+  styleUrls: ['./course-form.component.css'],
 })
-export class CourseFormComponent implements OnInit {
+export class CourseFormComponent extends BaseFormComponent {
   form: FormGroup | any;
   categories: string[] = Object.values(CategoryEnum);
-
-  @Input()
-  categoriesFromSchool: string[] = [];
-  @Input()
-  course: Course | any;
-  @Input()
-  updateCourse: boolean = false;
 
   @Output()
   courseChange = new EventEmitter<Course>();
   @Output()
   onSubmit = new EventEmitter<any>();
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private categoryService: CategoryService
+  ) {
+    super();
     this.form = this.formBuilder.group({
       category: ['', [Validators.required]],
       price: ['', [Validators.required]],
@@ -34,19 +35,23 @@ export class CourseFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.setCategories();
-    if (this.updateCourse) {
+    if (this.formSettings.edit) {
       this.patchValues();
     }
   }
 
   private setCategories() {
-    this.categories = this.categories.filter(
-      (category) => !this.categoriesFromSchool.includes(category)
-    );
-    if (this.course.categoryType) {
-      this.categories.push(this.course.categoryType);
-    }
-    this.categories.sort();
+    this.categoryService.categories$
+      .pipe(untilDestroyed(this))
+      .subscribe((categories) => {
+        this.categories = this.categories.filter(
+          (category) => !categories.includes(category)
+        );
+        if (this.entity.categoryType) {
+          this.categories.push(this.entity.categoryType);
+        }
+        this.categories.sort();
+      });
   }
 
   get category() {
@@ -67,16 +72,16 @@ export class CourseFormComponent implements OnInit {
   }
 
   setCourseValues() {
-    this.course.price = this.price.value;
-    this.course.description = this.description.value;
-    this.course.categoryType = this.category.value;
+    this.entity.price = this.price.value;
+    this.entity.description = this.description.value;
+    this.entity.categoryType = this.category.value;
   }
 
   private patchValues() {
     this.form.patchValue({
-      price: this.course.price,
-      category: this.course.categoryType,
-      description: this.course.description,
+      price: this.entity.price,
+      category: this.entity.categoryType,
+      description: this.entity.description,
     });
   }
 }

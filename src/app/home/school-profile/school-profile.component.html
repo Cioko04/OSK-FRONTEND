@@ -1,7 +1,8 @@
 <div class="offcanvas-content">
-  <app-sign-up-form
-    [initProperForm]="initForm"
-    [data]="school"
-    (dataChange)="updateSchool($event)"
-  ></app-sign-up-form>
+  <app-form
+    [signInFormSettings]="signInFormSettings"
+    [formSettings]="fromSettings"
+    [entity]="school"
+    (entityChange)="updateSchool($event)"
+  ></app-form>
 </div>

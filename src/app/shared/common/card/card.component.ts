@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { HeadArray } from '../../core/list';
+import { HeadArray } from '../../core/BaseEntityComponent';
 import { CategoryService } from '../../services/category/category.service';
 import { CourseService } from '../../services/course/course.service';
 

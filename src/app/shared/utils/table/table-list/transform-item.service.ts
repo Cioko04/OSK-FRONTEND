@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HeadArray } from '../../../core/list';
+import { HeadArray } from '../../../core/BaseEntityComponent';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Injectable({

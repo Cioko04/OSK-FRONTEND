@@ -19,7 +19,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, map } from 'rxjs';
-import { HeadArray } from '../../../core/list';
+import { HeadArray } from '../../../core/BaseEntityComponent';
 import { TransformItemService } from './transform-item.service';
 
 @UntilDestroy()

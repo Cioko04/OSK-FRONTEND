@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Observable } from 'rxjs';
-import { HeadArray } from '../../core/list';
+import { HeadArray } from '../../core/BaseEntityComponent';
 
 @UntilDestroy()
 @Component({

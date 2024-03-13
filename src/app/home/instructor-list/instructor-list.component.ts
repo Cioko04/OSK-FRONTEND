@@ -6,14 +6,23 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
 import { Instructor } from 'src/app/shared/services/instructor/instructor';
 import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
-import { HeadArray, List } from '../../shared/core/list';
+import {
+  HeadArray,
+  BaseEntityComponent,
+} from '../../shared/core/BaseEntityComponent';
+import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
+import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
 
 @Component({
   selector: 'app-instructor-list',
   templateUrl: './instructor-list.component.html',
   styleUrls: ['./instructor-list.component.css'],
 })
-export class InstructorListComponent extends List implements OnInit {
+export class InstructorListComponent
+  extends BaseEntityComponent
+  implements OnInit
+{
   override headArray: HeadArray[] = [
     { Head: 'Imię', FieldName: 'userRequest', SecondField: 'name' },
     { Head: 'Nazwisko', FieldName: 'userRequest', SecondField: 'lastName' },
@@ -24,6 +33,17 @@ export class InstructorListComponent extends List implements OnInit {
 
   instructor: Instructor | any;
   instructorsObs: Observable<Instructor[]> = new Observable<Instructor[]>();
+  signInFormSettings: SignInFormSettings = {
+    user: false,
+    instructor: false,
+    school: false,
+  };
+
+  formSettings: FormSettings = {
+    formType: FormType.SIGNUP,
+    buttonText: 'Zapisz',
+    titile: 'Dodaj instruktora!',
+  };
 
   constructor(
     modalService: NgbModal,
@@ -32,9 +52,8 @@ export class InstructorListComponent extends List implements OnInit {
     private auth: AuthenticationService
   ) {
     super(modalService);
-    this.initProperForm.instructor = true;
-    this.initProperForm.user = true;
-    this.initProperForm.update = true;
+    this.signInFormSettings.instructor = true;
+    this.signInFormSettings.user = true;
   }
 
   ngOnInit(): void {
@@ -45,8 +64,9 @@ export class InstructorListComponent extends List implements OnInit {
         this.instructor.userRequest = {};
         let schoolId = user.schoolRequest!.id;
         this.instructor.schoolId = schoolId;
-        this.instructorsObs =
-          this.instructorService.getInstructorsBySchoolId(schoolId!);
+        this.instructorsObs = this.instructorService.getInstructorsBySchoolId(
+          schoolId!
+        );
       },
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => {
@@ -66,18 +86,20 @@ export class InstructorListComponent extends List implements OnInit {
   }
 
   override onAdd(content: any) {
-    this.initProperForm.update = false;
+    this.formSettings.edit = false;
+    this.formSettings.titile = 'Dodaj instruktora!'
     super.onAdd(content);
   }
 
   override onEdit(content: any, instructor: Instructor) {
-    this.initProperForm.update = true;
+    this.formSettings.edit = true;
+    this.formSettings.titile = 'Edytuj instruktora!'
     this.instructor = instructor;
     super.onEdit(content, instructor);
   }
 
   onSubmit() {
-    this.initProperForm.update ? this.update() : this.add();
+    this.formSettings.edit ? this.update() : this.add();
   }
 
   update() {

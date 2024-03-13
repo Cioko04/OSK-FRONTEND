@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { CourseService } from 'src/app/shared/services/course/course.service';
@@ -6,18 +6,28 @@ import { Instructor } from 'src/app/shared/services/instructor/instructor';
 import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
 import { Schedule } from 'src/app/shared/services/schedule/schedule';
 
+enum CourseType {
+  PRACTICE = 'Praktyka',
+  THEORY = 'Teoria',
+}
+
+enum Occurrence {
+  ONCE = 'Tylko raz',
+  WHEEK = 'Poniedziałek-Piątek',
+  WEEKLY = 'Co tydzień',
+  DAILY = 'Codziennie',
+  CUSTOM = 'Niestandardowe',
+}
+
 @Component({
   selector: 'app-schedule-form',
   templateUrl: './schedule-form.component.html',
   styleUrls: ['./schedule-form.component.css'],
 })
 export class ScheduleFormComponent implements OnInit {
-  occurrences: string[] = [
-    'Poniedziałek-Piątek',
-    'Co tydzień',
-    'Codziennie',
-    'Niestandardowe',
-  ];
+  occurrences: string[] = Object.values(Occurrence);
+
+  courseTypes: string[] = Object.values(CourseType);
 
   instructors: Instructor[] = [];
   categoryType!: CategoryEnum;
@@ -27,6 +37,8 @@ export class ScheduleFormComponent implements OnInit {
 
   @Input()
   edit!: boolean;
+
+  @ViewChild('scheduleFormTemplate') scheduleFormTemplate!: TemplateRef<any>;
 
   constructor(
     private instructorService: InstructorService,

@@ -1,29 +1,28 @@
-<form [formGroup]="signupForm" (ngSubmit)="submit()">
-  <div *ngIf="initProperForm.user">
-    <h3 *ngIf="initProperForm.school" class="fw-semibold fs-3 text pt-3">
+<form [formGroup]="signupForm">
+  <div *ngIf="signInFormSettings.user">
+    <h3 *ngIf="signInFormSettings.school" class="fw-semibold fs-3 text pt-3">
       Dane właściciela:
     </h3>
     <app-profile-form
       formControlName="profile"
-      [submitted]="submitted"
+      [submitted]="submitForm"
       [emailToCompare]="email"
     ></app-profile-form>
     <app-password-form
       formControlName="password"
-      [submitted]="submitted"
+      [submitted]="submitForm"
     ></app-password-form>
   </div>
-  <div *ngIf="initProperForm.school" class="mt-3">
-    <h3 *ngIf="initProperForm.user" class="fw-semibold fs-3 text pt-3">
+  <div *ngIf="signInFormSettings.school" class="mt-3">
+    <h3 *ngIf="signInFormSettings.user" class="fw-semibold fs-3 text pt-3">
       Dane szkoły:
     </h3>
     <app-school-form
       formControlName="school"
-      [submitted]="submitted"
+      [submitted]="submitForm"
     ></app-school-form>
   </div>
-  <div *ngIf="initProperForm.instructor">
-    <label class="ms-3 mb-1"><b>Kategorie:</b></label>
+  <div *ngIf="signInFormSettings.instructor">
     <div>
       <app-search-select-form
         [valuesObs]="categories"
@@ -31,14 +30,5 @@
         formControlName="categories"
       ></app-search-select-form>
     </div>
-  </div>
-  <hr />
-  <div class="form-group my-3">
-    <button
-      type="submit"
-      class="form-control btn btn-primary el-login-border btn-block fw-semibold fs-6 p-2"
-    >
-      <i class="fa fa-reply me-2" aria-hidden="true"></i>{{ buttonText }}
-    </button>
   </div>
 </form>
