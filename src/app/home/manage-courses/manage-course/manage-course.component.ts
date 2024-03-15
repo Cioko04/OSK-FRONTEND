@@ -14,6 +14,8 @@ import { Course } from 'src/app/shared/services/course/course';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
 import { Schedule } from 'src/app/shared/services/schedule/schedule';
+import { ScheduleGroup } from 'src/app/shared/services/scheduleGroup/schedule-group';
+import { ScheduleGroupService } from 'src/app/shared/services/scheduleGroup/schedule-group.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
 
 @UntilDestroy()
@@ -27,11 +29,11 @@ export class ManageCourseComponent
   implements OnInit
 {
   override headArray: HeadArray[] = [
-    { Head: 'Intruktor', FieldName: 'userRequest' },
+    { Head: 'Intruktor', FieldName: 'instructor' },
     { Head: 'Data rozpoczęcia', FieldName: 'userRequest' },
     { Head: 'Data zakończenia', FieldName: 'userRequest' },
-    { Head: 'Typ', FieldName: 'userRequest' },
-    { Head: 'Status', FieldName: 'categories' },
+    { Head: 'Typ', FieldName: 'type' },
+    { Head: 'Status', FieldName: 'accepted' },
   ];
 
   formSettings: FormSettings = {
@@ -41,7 +43,8 @@ export class ManageCourseComponent
     titile: '',
   };
 
-  schedule!: Schedule;
+  entity!: Schedule | ScheduleGroup;
+  scheduleGroups: ScheduleGroup[] = [];
 
   private course!: Course;
 
@@ -51,7 +54,8 @@ export class ManageCourseComponent
     private userService: UserService,
     private instructorService: InstructorService,
     private route: ActivatedRoute,
-    private courseServive: CourseService
+    private courseServive: CourseService,
+    private scheduleGroupService: ScheduleGroupService
   ) {
     super(modalService);
   }
@@ -59,6 +63,13 @@ export class ManageCourseComponent
   ngOnInit(): void {
     this.fetchInstructors();
     this.findCurrentCourse();
+    this.initSubscriptions();
+  }
+
+  private initSubscriptions() {
+    this.scheduleGroupService.scheduleGroupsSubject$
+      .pipe(untilDestroyed(this))
+      .subscribe((scheduleGroups) => (this.scheduleGroups = scheduleGroups));
   }
 
   private fetchInstructors() {
@@ -93,14 +104,24 @@ export class ManageCourseComponent
   override onDelete(id: number): void {
     throw new Error('Method not implemented.');
   }
-  override onSubmit(item: any): void {
-    throw new Error('Method not implemented.');
+
+  override onSubmit(): void {
+    if (this.formSettings.formType === FormType.SCHEDULE_GROUP) {
+      this.updateScheduleGroup();
+      this.add();
+    }
+  }
+
+  private updateScheduleGroup() {
+    (this.entity as ScheduleGroup).course = this.course;
   }
   override update(): void {
     throw new Error('Method not implemented.');
   }
   override add(): void {
-    throw new Error('Method not implemented.');
+    if (this.formSettings.formType === FormType.SCHEDULE_GROUP) {
+      this.scheduleGroupService.addScheduleGroup(this.entity);
+    }
   }
 
   addScheduleGroup(content: any) {
@@ -108,11 +129,12 @@ export class ManageCourseComponent
     this.formSettings.edit = false;
     this.formSettings.titile =
       'Dodaj nową grupę dla kategorii: ' + this.course.categoryType;
-      super.onAdd(content);
+    this.entity = {};
+    super.onAdd(content);
   }
 
   addSchedule(content: any, date: any) {
-    this.schedule = {
+    this.entity = {
       startDate: date,
     };
     this.formSettings.formType = FormType.SCHEDULE;
@@ -123,7 +145,7 @@ export class ManageCourseComponent
   }
 
   editSchedule(content: any, schedule: Schedule) {
-    this.schedule = schedule;
+    this.entity = schedule;
     this.formSettings.formType = FormType.SCHEDULE;
     this.formSettings.edit = true;
     this.formSettings.titile =

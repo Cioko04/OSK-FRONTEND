@@ -31,6 +31,7 @@
         #form
         [entity]="entity"
         [formSettings]="formSettings"
+        (entityChange)="submit()"
       ></app-schedule-form>
     </ng-template>
     <ng-template [ngSwitchCase]="FormType.SCHEDULE_GROUP">
@@ -38,6 +39,7 @@
         #form
         [entity]="entity"
         [formSettings]="formSettings"
+        (entityChange)="submit()"
       ></app-schedule-group-form>
     </ng-template>
   </ng-container>

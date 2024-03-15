@@ -2,9 +2,10 @@
   <div class="row mx-2">
     <div class="col-12 col-xl-5">
       <app-table
-        [useTableCards]="false"
         [isAction]="true"
+        [useTableCards]="false"
         [headArray]="headArray"
+        [gridArray]="scheduleGroups"
         (onAdd)="addScheduleGroup(content)"
       >
       </app-table>
@@ -20,7 +21,7 @@
 <ng-template #content let-modal style="width: 250px">
   <div class="container-fluid">
     <div class="row mx-1 mt-4">
-      <app-form [formSettings]="formSettings" [entity]="schedule"></app-form>
+      <app-form [formSettings]="formSettings" [(entity)]="entity" (entityChange)="onSubmit(); modal.close()"></app-form>
     </div>
   </div>
 </ng-template>

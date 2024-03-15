@@ -1,3 +1,39 @@
-<p>
-  schedule-group-form works!
-</p>
+<form [formGroup]="form">
+  <div class="row justify-content-between">
+    <div class="col-12 form-group px-0">
+      <mat-form-field class="instructor-select">
+        <mat-label>Typ kursu</mat-label>
+        <mat-select [formControl]="courseType">
+          <mat-option
+            *ngFor="let courseType of courseTypes"
+            [value]="courseType"
+            >{{ courseType }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row justify-content-between">
+    <div class="col-12 form-group px-0">
+      <mat-form-field class="instructor-select">
+        <mat-label>Instruktor</mat-label>
+        <mat-select [formControl]="instructor">
+          <mat-option
+            *ngFor="let instructor of instructors"
+            [value]="instructor"
+          >
+            {{ getInstructorName(instructor.userRequest) }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row justify-content-between">
+    <div class="col-12 form-group px-0">
+      <mat-form-field>
+        <mat-label>Informacje</mat-label>
+        <textarea matInput [formControl]="information"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+</form>
