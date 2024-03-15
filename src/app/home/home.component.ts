@@ -1,16 +1,17 @@
 import {
   Component,
   ElementRef,
-  HostListener,
   OnInit,
   ViewChild
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { UserService } from 'src/app/shared/services/user/user.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { User } from '../shared/services/user/user';
 
+@UntilDestroy()
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -32,6 +33,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.userService
       .getUserByEmail(this.authenticationService.getSessionUserEmail())
+      .pipe(untilDestroyed(this))
       .subscribe((user: User) => {
         this.user = user;
       });
