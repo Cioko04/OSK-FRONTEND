@@ -5,13 +5,13 @@
         [useTableCards]="false"
         [isAction]="true"
         [headArray]="headArray"
-        (onAdd)="addEmptySchedule(content)"
+        (onAdd)="addScheduleGroup(content)"
       >
       </app-table>
     </div>
     <div class="col-12 col-xl-7">
       <app-scheduler
-        (onAdd)="addScheduleWithStartDate(content, $event)"
+        (onAdd)="addSchedule(content, $event)"
         (onEdit)="editSchedule(content, $event)"
       ></app-scheduler>
     </div>

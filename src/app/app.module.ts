@@ -81,13 +81,14 @@ import { TableComponent } from './shared/utils/table/table.component';
 import { TableListComponent } from './shared/utils/table/table-list/table-list.component';
 import { ControlTablePanelComponent } from './shared/utils/table/control-table-panel/control-table-panel.component';
 import { FormComponent } from './forms/form.component';
+import { ScheduleGroupFormComponent } from './forms/schedule-group-form/schedule-group-form.component';
 
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LLL',
   },
   display: {
-    dateInput: 'DD MMMM YYYY',
+    dateInput: 'DD-MM-YYYY',
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
@@ -133,7 +134,8 @@ export const MY_FORMATS = {
     ScheduleFormComponent,
     TimePickerComponent,
     ControlTablePanelComponent,
-    FormComponent
+    FormComponent,
+    ScheduleGroupFormComponent
   ],
   imports: [
     BrowserModule,
