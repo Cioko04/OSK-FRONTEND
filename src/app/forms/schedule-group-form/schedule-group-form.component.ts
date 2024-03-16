@@ -82,13 +82,6 @@ export class ScheduleGroupFormComponent extends BaseFormComponent {
   }
 
   getInstructorName(userRequest: any): string {
-    let fullName = userRequest.name;
-    if (userRequest.secondName) {
-      fullName += ' ' + userRequest.secondName;
-    }
-    if (userRequest.lastName) {
-      fullName += ' ' + userRequest.lastName;
-    }
-    return fullName;
+    return this.instructorService.getInstructorName(userRequest);
   }
 }

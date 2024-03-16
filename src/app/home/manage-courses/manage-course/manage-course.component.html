@@ -5,8 +5,10 @@
         [isAction]="true"
         [useTableCards]="false"
         [headArray]="headArray"
-        [gridArray]="scheduleGroups"
+        [gridArray]="tableScheduleGroups"
         (onAdd)="addScheduleGroup(content)"
+        (onDelete)="onDelete($event)"
+        (onEdit)="onEdit(content, $event)"
       >
       </app-table>
     </div>

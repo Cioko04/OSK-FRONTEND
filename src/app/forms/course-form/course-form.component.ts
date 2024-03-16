@@ -16,11 +16,6 @@ export class CourseFormComponent extends BaseFormComponent {
   form: FormGroup | any;
   categories: string[] = Object.values(CategoryEnum);
 
-  @Output()
-  courseChange = new EventEmitter<Course>();
-  @Output()
-  onSubmit = new EventEmitter<any>();
-
   constructor(
     private formBuilder: FormBuilder,
     private categoryService: CategoryService
@@ -66,8 +61,9 @@ export class CourseFormComponent extends BaseFormComponent {
 
   submit() {
     if (this.form.valid) {
+      console.log("x");
       this.setCourseValues();
-      this.onSubmit.emit();
+      this.entityChange.emit(this.entity);
     }
   }
 

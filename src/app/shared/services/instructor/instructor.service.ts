@@ -1,10 +1,11 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MyErrorHandlerServiceService } from '../../errorHandlers/my-error-handler.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, Observable, catchError } from 'rxjs';
+import { MyErrorHandlerServiceService } from '../../errorHandlers/my-error-handler.service';
 import { Instructor } from './instructor';
-import { Schedule } from '../schedule/schedule';
 
+@UntilDestroy()
 @Injectable({
   providedIn: 'root',
 })
@@ -38,7 +39,11 @@ export class InstructorService {
   }
 
   updateInstructorSubject(schoolId: number) {
-    this.instructorSubject$ = this.getInstructorsBySchoolId(schoolId);
+    this.getInstructorsBySchoolId(schoolId)
+      .pipe(untilDestroyed(this))
+      .subscribe((instructors) => {
+        this.instructorSubject.next(instructors);
+      });
   }
 
   countInstructorsBySchoolId(id: number): Observable<number> {
@@ -61,5 +66,16 @@ export class InstructorService {
 
   deleteInstructor(id: number) {
     return this.http.delete(this.API_URL + '/deleteInstructorById/' + id);
+  }
+
+  getInstructorName(userRequest: any): string {
+    let fullName = userRequest.name;
+    if (userRequest.secondName) {
+      fullName += ' ' + userRequest.secondName;
+    }
+    if (userRequest.lastName) {
+      fullName += ' ' + userRequest.lastName;
+    }
+    return fullName;
   }
 }

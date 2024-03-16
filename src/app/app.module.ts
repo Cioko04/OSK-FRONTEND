@@ -85,13 +85,13 @@ import { ScheduleGroupFormComponent } from './forms/schedule-group-form/schedule
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'LLL',
+    dateInput: 'LL',
   },
   display: {
-    dateInput: 'DD-MM-YYYY',
-    monthYearLabel: 'MMM YYYY',
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MM YYYY',
     dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
+    monthYearA11yLabel: 'MM YYYY',
   },
 };
 @NgModule({

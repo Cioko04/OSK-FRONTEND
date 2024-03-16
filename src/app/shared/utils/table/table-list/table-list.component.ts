@@ -17,8 +17,7 @@ import {
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Observable, map } from 'rxjs';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { HeadArray } from '../../../core/BaseEntityComponent';
 import { TransformItemService } from './transform-item.service';
 
@@ -26,7 +25,7 @@ import { TransformItemService } from './transform-item.service';
 @Component({
   selector: 'app-table-list',
   templateUrl: './table-list.component.html',
-  styleUrls: ['./table-list.component.css' , '../../utils-style.css'],
+  styleUrls: ['./table-list.component.css', '../../utils-style.css'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -46,7 +45,7 @@ export class TableListComponent implements OnInit, OnChanges {
   headArray: HeadArray[] = [];
 
   @Input()
-  gridArrayObs: Observable<any[]> = new Observable<any[]>();
+  gridArray: any[] = [];
 
   @Input()
   isAction: boolean = false;
@@ -80,13 +79,13 @@ export class TableListComponent implements OnInit, OnChanges {
 
   constructor(private transformItemService: TransformItemService) {}
 
-  ngOnChanges(): void {
-    this.loadData();
-  }
-
   ngOnInit(): void {
     const resizeEvent = new Event('resize');
     window.dispatchEvent(resizeEvent);
+  }
+
+  ngOnChanges(): void {
+    this.loadData();
   }
 
   getHead(head: any): any {
@@ -97,41 +96,31 @@ export class TableListComponent implements OnInit, OnChanges {
     }
   }
 
-  adjustDisplayedColumns(length: number, showExpand: boolean) {
+  adjustColumns(length: number, showExpand: boolean) {
     this.displayedColumns = [];
     this.displayedInfo = [];
     this.headArray.forEach((head) => {
       this.displayedColumns.push(head.Head);
       this.displayedInfo.push(head.Head);
     });
-
-    if (length <= 2) {
-      this.displayedColumns.shift();
-    }
-    const countsOfColumnsToDelete = this.displayedColumns.length - length;
-    if (countsOfColumnsToDelete > 0) {
-      this.displayedColumns.splice(-countsOfColumnsToDelete);
-    }
-    if (this.isAction) {
-      this.addActions();
-    }
-
-    if (showExpand) {
-      this.displayedColumns.push('expand');
-    }
-  }
-
-  private addActions() {
-    this.displayedColumns.push('update', 'remove');
+    this.displayedColumns = this.transformItemService.adjustDisplayedColumns(
+      this.displayedColumns,
+      length,
+      showExpand,
+      this.isAction
+    );
   }
 
   private loadData() {
-    this.gridArrayObs.pipe(untilDestroyed(this)).subscribe((data) => {
-      this.dataSource = this.transformItemService.transformData(data, this.headArray);
+    if (this.gridArray) {
+      this.dataSource = this.transformItemService.transformData(
+        this.gridArray,
+        this.headArray
+      );
       this.applyFilter();
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-    });
+    }
   }
 
   private applyFilter() {
@@ -159,10 +148,8 @@ export class TableListComponent implements OnInit, OnChanges {
   }
 
   edit(id: number) {
-    this.gridArrayObs.pipe(
-      untilDestroyed(this),
-      map((data: any[]) => data.find((item) => item.id === id))
-    ).subscribe((data) => this.onEdit.emit(data));
+    const item = this.gridArray.find((item) => item.id === id);
+    this.onEdit.emit(item);
   }
 
   delete(id: number) {
@@ -181,19 +168,19 @@ export class TableListComponent implements OnInit, OnChanges {
   onWindowResize() {
     this.windowWidth = window.innerWidth;
     if (this.windowWidth >= 769) {
-      this.adjustDisplayedColumns(this.headArray.length + 1, true);
+      this.adjustColumns(this.headArray.length + 1, true);
     } else if (this.windowWidth <= 768 && this.windowWidth >= 635) {
-      this.adjustDisplayedColumns(5, true);
+      this.adjustColumns(5, true);
     } else if (this.windowWidth <= 634 && this.windowWidth >= 577) {
-      this.adjustDisplayedColumns(4, true);
+      this.adjustColumns(4, true);
     } else if (this.windowWidth <= 576 && this.windowWidth >= 481) {
-      this.adjustDisplayedColumns(3, true);
+      this.adjustColumns(3, true);
     } else if (this.windowWidth <= 480 && this.windowWidth >= 371) {
-      this.adjustDisplayedColumns(2, true);
+      this.adjustColumns(2, true);
     } else if (this.windowWidth <= 370 && this.windowWidth >= 321) {
-      this.adjustDisplayedColumns(2, false);
+      this.adjustColumns(2, false);
     } else if (this.windowWidth <= 320) {
-      this.adjustDisplayedColumns(1, false);
+      this.adjustColumns(1, false);
     }
   }
 }

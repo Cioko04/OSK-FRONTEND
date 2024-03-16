@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Observable, map } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
@@ -14,9 +15,27 @@ import { Course } from 'src/app/shared/services/course/course';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
 import { Schedule } from 'src/app/shared/services/schedule/schedule';
-import { ScheduleGroup } from 'src/app/shared/services/scheduleGroup/schedule-group';
+import {
+  CourseType,
+  ScheduleGroup,
+} from 'src/app/shared/services/scheduleGroup/schedule-group';
 import { ScheduleGroupService } from 'src/app/shared/services/scheduleGroup/schedule-group.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
+
+interface TableScheduleGroup {
+  id?: number;
+  instructor: string;
+  startDate?: Date;
+  endDate?: Date;
+  type: CourseType;
+  status?: ScheduleStatus;
+}
+
+enum ScheduleStatus {
+  WAITING = 'Oczekujący',
+  ONGOING = 'Rozpoczęty',
+  FINISHED = 'Zakończony',
+}
 
 @UntilDestroy()
 @Component({
@@ -30,10 +49,10 @@ export class ManageCourseComponent
 {
   override headArray: HeadArray[] = [
     { Head: 'Intruktor', FieldName: 'instructor' },
-    { Head: 'Data rozpoczęcia', FieldName: 'userRequest' },
-    { Head: 'Data zakończenia', FieldName: 'userRequest' },
+    { Head: 'Data rozpoczęcia', FieldName: 'startDate' },
+    { Head: 'Data zakończenia', FieldName: 'endDate' },
     { Head: 'Typ', FieldName: 'type' },
-    { Head: 'Status', FieldName: 'accepted' },
+    { Head: 'Status', FieldName: 'status' },
   ];
 
   formSettings: FormSettings = {
@@ -44,7 +63,9 @@ export class ManageCourseComponent
   };
 
   entity!: Schedule | ScheduleGroup;
+  scheduleGroups$!: Observable<TableScheduleGroup[]>;
   scheduleGroups: ScheduleGroup[] = [];
+  tableScheduleGroups: TableScheduleGroup[] = [];
 
   private course!: Course;
 
@@ -63,13 +84,43 @@ export class ManageCourseComponent
   ngOnInit(): void {
     this.fetchInstructors();
     this.findCurrentCourse();
-    this.initSubscriptions();
+    this.findRelevantScheduleGroups();
   }
 
-  private initSubscriptions() {
+  private findRelevantScheduleGroups() {
+    // this.scheduleGroups$ =
+    // {
+    //   return groups
+    //     .filter((group) => group.course?.id === this.course.id)
+    //     .map((group) => this.createTableScheduleGroups(group));
+    // }
     this.scheduleGroupService.scheduleGroupsSubject$
-      .pipe(untilDestroyed(this))
-      .subscribe((scheduleGroups) => (this.scheduleGroups = scheduleGroups));
+      .pipe(
+        map((groups) =>
+          groups.filter((group) => group.course?.id === this.course.id)
+        ),
+        untilDestroyed(this)
+      )
+      .subscribe((groups) => {
+        this.scheduleGroups = groups;
+        this.tableScheduleGroups = groups.map((group) =>
+          this.createTableScheduleGroups(group)
+        );
+      });
+  }
+
+  private createTableScheduleGroups(group: ScheduleGroup): TableScheduleGroup {
+    return {
+      id: group.id,
+      instructor: this.instructorService.getInstructorName(
+        group.instructor?.userRequest
+      ),
+      // TODO: implement it when finish schedule
+      // startDate: ,
+      // endDate: Date,
+      type: group.type!,
+      // status: ,
+    };
   }
 
   private fetchInstructors() {
@@ -102,22 +153,44 @@ export class ManageCourseComponent
   }
 
   override onDelete(id: number): void {
-    throw new Error('Method not implemented.');
+    console.log(id);
   }
 
   override onSubmit(): void {
     if (this.formSettings.formType === FormType.SCHEDULE_GROUP) {
-      this.updateScheduleGroup();
-      this.add();
+      if (this.formSettings.edit) {
+        console.log(this.entity);
+      } else {
+        this.addCourseToScheduleGroup();
+        this.add();
+      }
     }
   }
 
-  private updateScheduleGroup() {
+  private addCourseToScheduleGroup() {
     (this.entity as ScheduleGroup).course = this.course;
   }
   override update(): void {
-    throw new Error('Method not implemented.');
+    console.log(this.entity);
   }
+
+  override onEdit(content: any, entity: Schedule | ScheduleGroup) {
+    this.formSettings.edit = true;
+    this.formSettings.titile =
+      'Edytuj grupę dla kategorii: ' + this.course.categoryType;
+    this.formSettings.formType = FormType.SCHEDULE_GROUP;
+    this.entity = this.scheduleGroups.find(
+      (group) => group.id === (entity as ScheduleGroup).id
+    )!;
+    super.onEdit(content, this.entity);
+  }
+
+  private updateScheduleGroup(scheduleGroup: ScheduleGroup) {
+    (this.entity as ScheduleGroup).type = scheduleGroup.type;
+    (this.entity as ScheduleGroup).instructor = scheduleGroup.instructor;
+    (this.entity as ScheduleGroup).information = scheduleGroup.information;
+  }
+
   override add(): void {
     if (this.formSettings.formType === FormType.SCHEDULE_GROUP) {
       this.scheduleGroupService.addScheduleGroup(this.entity);

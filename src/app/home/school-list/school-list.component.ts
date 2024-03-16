@@ -8,7 +8,9 @@ import { HeadArray, BaseEntityComponent } from '../../shared/core/BaseEntityComp
 import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
 import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-school-list',
   templateUrl: './school-list.component.html',
@@ -36,7 +38,7 @@ export class SchoolListComponent extends BaseEntityComponent  implements OnInit 
   }
 
   school: School | any;
-  schoolObs: Observable<School[]> = new Observable<School[]>();
+  schools: School[] = [];
 
   constructor(
     modalService: NgbModal,
@@ -49,7 +51,7 @@ export class SchoolListComponent extends BaseEntityComponent  implements OnInit 
 
   ngOnInit(): void {
     this.school = {};
-    this.schoolObs = this.schoolService.getSchools();
+    this.schoolService.getSchools().pipe(untilDestroyed(this)).subscribe((schools) => this.schools);
   }
 
   onDelete(id: number) {
