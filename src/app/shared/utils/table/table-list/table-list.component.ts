@@ -20,6 +20,7 @@ import { MatSort } from '@angular/material/sort';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { HeadArray } from '../../../core/BaseEntityComponent';
 import { TransformItemService } from './transform-item.service';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
 
 @UntilDestroy()
 @Component({
@@ -38,8 +39,8 @@ import { TransformItemService } from './transform-item.service';
   ],
 })
 export class TableListComponent implements OnInit, OnChanges {
-  @ViewChild(MatPaginator) paginator: MatPaginator | any;
-  @ViewChild(MatSort) sort: MatSort | any;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   @Input()
   headArray: HeadArray[] = [];
@@ -96,7 +97,7 @@ export class TableListComponent implements OnInit, OnChanges {
     }
   }
 
-  adjustColumns(length: number, showExpand: boolean) {
+  private adjustColumns(length: number, showExpand: boolean) {
     this.displayedColumns = [];
     this.displayedInfo = [];
     this.headArray.forEach((head) => {
@@ -143,8 +144,8 @@ export class TableListComponent implements OnInit, OnChanges {
     ];
   }
 
-  add() {
-    this.onAdd.emit();
+  add(formType: FormType) {
+    this.onAdd.emit(formType);
   }
 
   edit(id: number) {

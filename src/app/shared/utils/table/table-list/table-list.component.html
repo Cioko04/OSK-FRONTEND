@@ -72,14 +72,14 @@
       *matCellDef="let element"
       [attr.colspan]="displayedColumns.length"
     >
-      <div class="container">
         <div class="row justify-content-center">
           <div
-            class="example-element-detail col-12 col-sm-10 col-md-7 col-lg-4"
+            class="example-element-detail col-12"
             [@detailExpand]="
               element == expandedElement ? 'expanded' : 'collapsed'
             "
           >
+            <mat-divider></mat-divider>
             <app-carousel
               *ngIf="showCategoryCarousel"
               [categories]="
@@ -87,9 +87,13 @@
               "
               (onBook)="book()"
             ></app-carousel>
+            <app-expansion-panel
+              [expansionPanelDetails]="element.expansionPanelDetails"
+              (onDelete)="delete($event)"
+              (onAdd)="add($event)"
+            ></app-expansion-panel>
           </div>
         </div>
-      </div>
     </td>
   </ng-container>
 

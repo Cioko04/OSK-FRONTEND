@@ -6,7 +6,7 @@
         [useTableCards]="false"
         [headArray]="headArray"
         [gridArray]="tableScheduleGroups"
-        (onAdd)="addScheduleGroup(content)"
+        (onAdd)="addEntity(content, $event)"
         (onDelete)="onDelete($event)"
         (onEdit)="onEdit(content, $event)"
       >
@@ -23,7 +23,12 @@
 <ng-template #content let-modal style="width: 250px">
   <div class="container-fluid">
     <div class="row mx-1 mt-4">
-      <app-form [formSettings]="formSettings" [(entity)]="entity" (entityChange)="onSubmit(); modal.close()"></app-form>
+      <app-form
+        [formSettings]="formSettings"
+        [signInFormSettings]="signInFormSettings"
+        [(entity)]="entity"
+        (entityChange)="onSubmit(); modal.close()"
+      ></app-form>
     </div>
   </div>
 </ng-template>

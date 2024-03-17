@@ -82,6 +82,8 @@ import { TableListComponent } from './shared/utils/table/table-list/table-list.c
 import { ControlTablePanelComponent } from './shared/utils/table/control-table-panel/control-table-panel.component';
 import { FormComponent } from './forms/form.component';
 import { ScheduleGroupFormComponent } from './forms/schedule-group-form/schedule-group-form.component';
+import { MatExpansionModule} from '@angular/material/expansion';
+import { ExpansionPanelComponent } from './shared/utils/table/table-list/expansion-panel/expansion-panel.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -135,7 +137,8 @@ export const MY_FORMATS = {
     TimePickerComponent,
     ControlTablePanelComponent,
     FormComponent,
-    ScheduleGroupFormComponent
+    ScheduleGroupFormComponent,
+    ExpansionPanelComponent
   ],
   imports: [
     BrowserModule,
@@ -164,7 +167,8 @@ export const MY_FORMATS = {
     BrowserAnimationsModule,
     MatButtonToggleModule,
     MatListModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    MatExpansionModule
   ],
   providers: [
     UserService,

@@ -1,0 +1,30 @@
+<mat-accordion class="headers-align" multi>
+  <mat-expansion-panel
+    class="mat-elevation-z8"
+    *ngFor="let expansionPanelDetail of expansionPanelDetails"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ expansionPanelDetail.titile }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ expansionPanelDetail.description }}
+        {{ expansionPanelDetail.entities.length }}
+        <mat-icon>{{ expansionPanelDetail.icon }}</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-list *ngFor="let entity of expansionPanelDetail.entities">
+      <mat-list-item>
+        <div class="expansion-panel-detail">
+          <p>{{ entity.displayContent }}</p>
+          <button type="button" class="btn btn-td float-end p-0" title="Usuń" (click)="remove(entity.id)">
+            <i class="fa fa-minus-circle fa-lg" aria-hidden="true"></i>
+          </button>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+    <button mat-raised-button (click)="add(expansionPanelDetail.formType)">{{ expansionPanelDetail.buttonText }}</button>
+  </mat-expansion-panel>
+</mat-accordion>
