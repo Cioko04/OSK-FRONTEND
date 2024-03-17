@@ -5,7 +5,12 @@ import { CourseService } from 'src/app/shared/services/course/course.service';
 import { Instructor } from 'src/app/shared/services/instructor/instructor';
 import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
 import { BaseFormComponent } from '../core/base-form/BaseFormComponent';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 enum CourseType {
   PRACTICE = 'Praktyka',
@@ -33,12 +38,15 @@ export class ScheduleGroupFormComponent extends BaseFormComponent {
     this.form = this.formBuilder.group({
       courseType: ['', [Validators.required]],
       instructor: ['', [Validators.required]],
-      information: ['']
+      information: [''],
     });
   }
 
   ngOnInit() {
     this.setInstructors();
+    if (this.formSettings.edit) {
+      this.patchValues();
+    }
   }
 
   override submit(): void {
@@ -83,5 +91,13 @@ export class ScheduleGroupFormComponent extends BaseFormComponent {
 
   getInstructorName(userRequest: any): string {
     return this.instructorService.getInstructorName(userRequest);
+  }
+
+  private patchValues() {
+    this.form.patchValue({
+      courseType: this.entity.type,
+      instructor: this.entity.instructor,
+      information: this.entity.information,
+    });
   }
 }

@@ -153,13 +153,13 @@ export class ManageCourseComponent
   }
 
   override onDelete(id: number): void {
-    console.log(id);
+    this.scheduleGroupService.removeScheduleGroup(id);
   }
 
   override onSubmit(): void {
     if (this.formSettings.formType === FormType.SCHEDULE_GROUP) {
       if (this.formSettings.edit) {
-        console.log(this.entity);
+        this.update()
       } else {
         this.addCourseToScheduleGroup();
         this.add();
@@ -170,25 +170,17 @@ export class ManageCourseComponent
   private addCourseToScheduleGroup() {
     (this.entity as ScheduleGroup).course = this.course;
   }
+
   override update(): void {
-    console.log(this.entity);
+    this.scheduleGroupService.updateGroup(this.entity as ScheduleGroup);
   }
 
   override onEdit(content: any, entity: Schedule | ScheduleGroup) {
     this.formSettings.edit = true;
-    this.formSettings.titile =
-      'Edytuj grupę dla kategorii: ' + this.course.categoryType;
+    this.formSettings.titile = 'Edytuj grupę dla kategorii: ' + this.course.categoryType;
     this.formSettings.formType = FormType.SCHEDULE_GROUP;
-    this.entity = this.scheduleGroups.find(
-      (group) => group.id === (entity as ScheduleGroup).id
-    )!;
+    this.entity = this.scheduleGroups.find((group) => group.id === (entity as ScheduleGroup).id)!;
     super.onEdit(content, this.entity);
-  }
-
-  private updateScheduleGroup(scheduleGroup: ScheduleGroup) {
-    (this.entity as ScheduleGroup).type = scheduleGroup.type;
-    (this.entity as ScheduleGroup).instructor = scheduleGroup.instructor;
-    (this.entity as ScheduleGroup).information = scheduleGroup.information;
   }
 
   override add(): void {
