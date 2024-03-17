@@ -1,30 +1,12 @@
-<h3 class="form-group fw-semibold fs-3 text-center pt-2 pb-3">
-  {{ edit ? "Edytuj termin" : "Dodaj termin" }} kategorii A
-  <mat-divider></mat-divider>
-</h3>
-<div class="row justify-content-between">
-  <div class="col-12 form-group px-0">
-    <mat-form-field class="instructor-select">
-      <mat-label>Typ kursu</mat-label>
-      <mat-select>
-        <mat-option
-          *ngFor="let courseType of courseTypes"
-          [value]="courseType"
-          >{{ courseType }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-  </div>
-</div>
 <div class="row justify-content-between">
   <div class="col-12 form-group px-0">
     <mat-form-field class="date-picker-form-field">
       <mat-label class="date-picker">
-        {{ edit ? "Data" : "Data rozpoczęcia" }}
+        {{ formSettings.edit ? "Data" : "Data rozpoczęcia" }}
       </mat-label>
       <input
         class="date-picker"
-        [(ngModel)]="schedule.startDate"
+        [(ngModel)]="entity.startDate"
         matInput
         [matDatepicker]="picker"
       />
@@ -45,7 +27,7 @@
       >
         <app-time-picker
           [label]="'Godzina rozpoczęcia'"
-          [(date)]="schedule.startDate!"
+          [(date)]="entity.startDate!"
         ></app-time-picker>
       </div>
       <div
@@ -58,7 +40,7 @@
       >
         <app-time-picker
           [label]="'Godzina zakończenia'"
-          [(date)]="schedule.endDate!"
+          [(date)]="entity.endDate!"
         ></app-time-picker>
       </div>
     </div>
@@ -74,18 +56,6 @@
           [value]="occurrence"
           >{{ occurrence }}</mat-option
         >
-      </mat-select>
-    </mat-form-field>
-  </div>
-</div>
-<div class="row justify-content-between">
-  <div class="col-12 form-group px-0">
-    <mat-form-field class="instructor-select">
-      <mat-label>Instruktor</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let instructor of instructors" [value]="instructor">
-          {{ getInstructorName(instructor.userRequest) }}
-        </mat-option>
       </mat-select>
     </mat-form-field>
   </div>

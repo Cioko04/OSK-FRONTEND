@@ -17,7 +17,7 @@ import { BaseFormComponent } from '../core/base-form/BaseFormComponent';
 export class SignUpFormComponent extends BaseFormComponent {
   email: string = '';
   signupForm!: FormGroup;
-  categories: Observable<string[]> = of(Object.values(CategoryEnum));
+  categories: string[] = Object.values(CategoryEnum);
   submitForm: boolean = false;
 
   constructor(private formBuilder: FormBuilder) {

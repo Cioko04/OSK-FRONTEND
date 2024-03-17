@@ -1,19 +1,21 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
+import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
 import { Instructor } from 'src/app/shared/services/instructor/instructor';
 import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
 import {
-  HeadArray,
   BaseEntityComponent,
+  HeadArray,
 } from '../../shared/core/BaseEntityComponent';
-import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
-import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
-import { FormType } from 'src/app/forms/core/data-types/FormType';
+import { EMPTY, Observable, of } from 'rxjs';
 
+@UntilDestroy()
 @Component({
   selector: 'app-instructor-list',
   templateUrl: './instructor-list.component.html',
@@ -32,7 +34,7 @@ export class InstructorListComponent
   ];
 
   instructor: Instructor | any;
-  instructorsObs: Observable<Instructor[]> = new Observable<Instructor[]>();
+  instructors$!: Observable<Instructor[]>;
   signInFormSettings: SignInFormSettings = {
     user: false,
     instructor: false,
@@ -58,42 +60,47 @@ export class InstructorListComponent
 
   ngOnInit(): void {
     let email = this.auth.getSessionUserEmail();
-    this.userService.getUserByEmail(email).subscribe({
-      next: (user) => {
-        this.instructor = {};
-        this.instructor.userRequest = {};
-        let schoolId = user.schoolRequest!.id;
-        this.instructor.schoolId = schoolId;
-        this.instructorsObs = this.instructorService.getInstructorsBySchoolId(
-          schoolId!
-        );
-      },
-      error: (e: HttpErrorResponse) => console.log(e.status),
-      complete: () => {
-        console.log('Instructors loaded!');
-      },
-    });
+    this.userService
+      .getUserByEmail(email)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (user) => {
+          this.instructor = {};
+          this.instructor.userRequest = {};
+          let schoolId = user.schoolRequest!.id;
+          this.instructor.schoolId = schoolId;
+          this.instructorService.updateInstructorSubject(schoolId!);
+          this.instructors$ = this.instructorService.instructorSubject$;
+        },
+        error: (e: HttpErrorResponse) => console.log(e.status),
+        complete: () => {
+          console.log('Instructors loaded!');
+        },
+      });
   }
 
   override onDelete(id: number) {
-    this.instructorService.deleteInstructor(id).subscribe({
-      error: (e: HttpErrorResponse) => console.log(e.status),
-      complete: () => {
-        console.log('Deleted!');
-        this.ngOnInit();
-      },
-    });
+    this.instructorService
+      .deleteInstructor(id)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        error: (e: HttpErrorResponse) => console.log(e.status),
+        complete: () => {
+          console.log('Deleted!');
+          this.ngOnInit();
+        },
+      });
   }
 
   override onAdd(content: any) {
     this.formSettings.edit = false;
-    this.formSettings.titile = 'Dodaj instruktora!'
+    this.formSettings.titile = 'Dodaj instruktora!';
     super.onAdd(content);
   }
 
   override onEdit(content: any, instructor: Instructor) {
     this.formSettings.edit = true;
-    this.formSettings.titile = 'Edytuj instruktora!'
+    this.formSettings.titile = 'Edytuj instruktora!';
     this.instructor = instructor;
     super.onEdit(content, instructor);
   }
@@ -103,27 +110,33 @@ export class InstructorListComponent
   }
 
   update() {
-    this.instructorService.updateInstructor(this.instructor).subscribe({
-      error: (e: HttpErrorResponse) => {
-        console.log(e);
-        this.ngOnInit();
-      },
-      complete: () => {
-        console.log('Updated!');
-        this.ngOnInit();
-      },
-    });
+    this.instructorService
+      .updateInstructor(this.instructor)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        error: (e: HttpErrorResponse) => {
+          console.log(e);
+          this.ngOnInit();
+        },
+        complete: () => {
+          console.log('Updated!');
+          this.ngOnInit();
+        },
+      });
   }
 
   add() {
-    this.instructorService.register(this.instructor).subscribe({
-      error: (e: HttpErrorResponse) => {
-        console.log(e.status);
-      },
-      complete: () => {
-        console.log('Registered!');
-        this.ngOnInit();
-      },
-    });
+    this.instructorService
+      .register(this.instructor)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        error: (e: HttpErrorResponse) => {
+          console.log(e.status);
+        },
+        complete: () => {
+          console.log('Registered!');
+          this.ngOnInit();
+        },
+      });
   }
 }

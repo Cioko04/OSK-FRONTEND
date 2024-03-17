@@ -29,9 +29,18 @@
     <ng-template [ngSwitchCase]="FormType.SCHEDULE">
       <app-schedule-form
         #form
-        [schedule]="entity"
-        [edit]="formSettings.edit!"
+        [entity]="entity"
+        [formSettings]="formSettings"
+        (entityChange)="submit()"
       ></app-schedule-form>
+    </ng-template>
+    <ng-template [ngSwitchCase]="FormType.SCHEDULE_GROUP">
+      <app-schedule-group-form
+        #form
+        [entity]="entity"
+        [formSettings]="formSettings"
+        (entityChange)="submit()"
+      ></app-schedule-group-form>
     </ng-template>
   </ng-container>
   <hr />

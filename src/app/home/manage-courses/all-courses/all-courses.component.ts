@@ -36,8 +36,6 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
 
   formSettings: FormSettings = {
     formType: FormType.COURSE,
-    buttonText: 'Dodaj',
-    titile: 'Dodaj kurs!',
   };
 
   override headArray: HeadArray[] = [
@@ -90,12 +88,16 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
 
   override onAdd(content: any) {
     this.formSettings.edit = false;
+    this.formSettings.titile = "Dodaj kurs";
+    this.formSettings.buttonText = "Dodaj";
     this.course = {};
     super.onAdd(content);
   }
 
   override onEdit(content: any, course: Course) {
     this.formSettings.edit = true;
+    this.formSettings.titile = "Edytuj kurs"
+    this.formSettings.buttonText = "Zapisz";
     this.course = course;
     super.onEdit(content, course);
   }

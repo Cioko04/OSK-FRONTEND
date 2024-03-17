@@ -11,7 +11,6 @@ import { ScheduleService } from '../../services/schedule/schedule.service';
 export class SchedulerComponent implements OnInit, OnDestroy {
   schedules: Schedule[] = [];
   schedule!: Schedule;
-  edit: boolean = false;
   private dataSubscription: Subscription = new Subscription();
 
   @Output()

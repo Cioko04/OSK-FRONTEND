@@ -7,7 +7,7 @@ export abstract class BaseEntityComponent {
 
   abstract onDelete(id: number): void;
 
-  abstract onSubmit(item: any): void;
+  abstract onSubmit(): void;
 
   abstract update(): void;
 

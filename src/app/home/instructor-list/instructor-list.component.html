@@ -3,7 +3,7 @@
     [useTableCards]="false"
     [isAction]="true"
     [headArray]="headArray"
-    [gridArrayObs]="instructorsObs"
+    [gridArray]="(instructors$ | async)!"
     (onAdd)="onAdd(content)"
     (onEdit)="onEdit(content, $event)"
     (onDelete)="onDelete($event)"

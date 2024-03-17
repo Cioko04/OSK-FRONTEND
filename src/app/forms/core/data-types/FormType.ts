@@ -1,6 +1,7 @@
 export enum FormType {
-  COURSE = 'Course-Form',
-  LOGIN = 'Login-Form',
-  SCHEDULE = 'Schedule-Form',
-  SIGNUP = 'Sign-Up-Form',
+  COURSE = 'Course',
+  LOGIN = 'Login',
+  SCHEDULE = 'Schedule',
+  SIGNUP = 'Sign up',
+  SCHEDULE_GROUP = 'Schedule group'
 }

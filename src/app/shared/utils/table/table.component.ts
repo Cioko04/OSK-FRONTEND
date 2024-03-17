@@ -5,11 +5,8 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { UntilDestroy } from '@ngneat/until-destroy';
-import { Observable } from 'rxjs';
 import { HeadArray } from '../../core/BaseEntityComponent';
 
-@UntilDestroy()
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -29,9 +26,6 @@ export class TableComponent implements OnInit{
 
   @Input()
   gridArray: any[] = [];
-
-  @Input()
-  gridArrayObs: Observable<any[]> = new Observable<any[]>();
 
   @Input()
   showCategoryCarousel: boolean = false;
