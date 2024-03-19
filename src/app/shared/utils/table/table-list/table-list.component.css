@@ -10,11 +10,18 @@
 }
 
 .paginator {
-  background: rgba(255, 255, 255, 0);
+  background: #e0e0e0;
   color: black;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
 }
 .header {
   background: rgba(255, 255, 255, 0);
+  position: sticky;
+  top: 0px;
+  z-index: 1;
 }
 th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type,
@@ -31,20 +38,23 @@ td.mat-footer-cell:last-of-type {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-tr.example-detail-row {
+tr.detail-row {
   height: 0;
 }
-tr.example-element-row:not(.example-expanded-row):active {
-  background: #efefef;
+
+.element-row:hover {
+  background: #cfdef5;
 }
-tr.example-element-row:not(.example-expanded-row):hover {
-  background: #3192e711;
+
+.element-row {
+  position: sticky;
+  top: 56px;
+  background-color: #f5f5f5;
   cursor: pointer;
+  z-index: 1;
 }
-.example-element-row td {
-  border-bottom-width: 0;
-}
-.example-element-detail {
+
+.element-detail {
   overflow: hidden;
 }
 .avatar {
@@ -94,4 +104,11 @@ tr.example-element-row:not(.example-expanded-row):hover {
 .form-control.search.active {
   box-shadow: none;
   border-color: #efefef00;
+}
+
+.xyz {
+  position: sticky;
+  top: 0; /* lub odpowiednią wartość, aby umieścić wiersz na odpowiedniej wysokości */
+  background-color: white; /* opcjonalnie, aby zachować czytelność */
+  z-index: 1; /* opcjonalnie, aby wiersz wyświetlał się na górze */
 }

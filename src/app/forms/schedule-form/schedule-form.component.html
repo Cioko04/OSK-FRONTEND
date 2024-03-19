@@ -1,5 +1,19 @@
 <div class="row justify-content-between">
   <div class="col-12 form-group px-0">
+    <mat-form-field class="instructor-select">
+      <mat-label>Grupa</mat-label>
+      <mat-select>
+        <mat-option
+          *ngFor="let scheduleGroup of scheduleGroups"
+          [value]="scheduleGroup"
+          >{{ scheduleGroup.id + ' ' + getInstructorName(scheduleGroup.instructor?.userRequest) }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+<div class="row justify-content-between">
+  <div class="col-12 form-group px-0">
     <mat-form-field class="date-picker-form-field">
       <mat-label class="date-picker">
         {{ formSettings.edit ? "Data" : "Data rozpoczęcia" }}

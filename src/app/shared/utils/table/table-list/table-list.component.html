@@ -6,7 +6,7 @@
   multiTemplateDataRows
 >
   <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-    <th mat-header-cell *matHeaderCellDef [ngClass]="column" class="px-3">
+    <th mat-header-cell *matHeaderCellDef [ngClass]="column">
       <span
         *ngIf="
           column !== 'update' && column !== 'remove' && column !== 'expand'
@@ -72,43 +72,46 @@
       *matCellDef="let element"
       [attr.colspan]="displayedColumns.length"
     >
-        <div class="row justify-content-center">
-          <div
-            class="example-element-detail col-12"
-            [@detailExpand]="
-              element == expandedElement ? 'expanded' : 'collapsed'
+      <div class="row justify-content-center">
+        <div
+          class="element-detail col-12"
+          [@detailExpand]="
+            element == expandedElement ? 'expanded' : 'collapsed'
+          "
+        >
+          <app-carousel
+            *ngIf="showCategoryCarousel"
+            [categories]="
+              categories.length === 0 ? element.Kategorie : categories
             "
-          >
-            <mat-divider></mat-divider>
-            <app-carousel
-              *ngIf="showCategoryCarousel"
-              [categories]="
-                categories.length === 0 ? element.Kategorie : categories
-              "
-              (onBook)="book()"
-            ></app-carousel>
-            <app-expansion-panel
-              [expansionPanelDetails]="element.expansionPanelDetails"
-              (onDelete)="delete($event)"
-              (onAdd)="add($event)"
-            ></app-expansion-panel>
-          </div>
+            (onBook)="book()"
+          ></app-carousel>
+          <app-expansion-panel
+            [expansionPanelDetails]="element.expansionPanelDetails"
+            (onDelete)="delete($event)"
+            (onAdd)="add($event)"
+          ></app-expansion-panel>
         </div>
+      </div>
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header"></tr>
+  <tr
+    mat-header-row
+    *matHeaderRowDef="displayedColumns"
+    class="header"
+  ></tr>
   <tr
     mat-row
     *matRowDef="let element; columns: displayedColumns"
-    class="example-element-row"
-    [class.example-expanded-row]="expandedElement === element"
+    class="element-row mat-elevation-z8"
+    [class.expanded-row]="expandedElement === element"
     (click)="expandedElement = expandedElement === element ? null : element"
   ></tr>
   <tr
     mat-row
     *matRowDef="let row; columns: ['expandedDetail']"
-    class="example-detail-row"
+    class="detail-row"
   ></tr>
 </table>
 <mat-paginator

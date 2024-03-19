@@ -72,7 +72,6 @@ export class ManageCourseComponent
   };
 
   entity!: Schedule | ScheduleGroup;
-  scheduleGroups$!: Observable<TableScheduleGroup[]>;
   scheduleGroups: ScheduleGroup[] = [];
   tableScheduleGroups: TableScheduleGroup[] = [];
 
@@ -91,12 +90,13 @@ export class ManageCourseComponent
   }
 
   ngOnInit(): void {
+    
     this.fetchInstructors();
     this.findCurrentCourse();
-    this.findRelevantScheduleGroups();
+    this.setScheduleGroups();
   }
 
-  private findRelevantScheduleGroups() {
+  private setScheduleGroups() {
     this.scheduleGroupService.scheduleGroupsSubject$
       .pipe(
         map((groups) =>
