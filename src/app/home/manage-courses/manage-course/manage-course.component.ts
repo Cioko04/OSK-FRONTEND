@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Observable, map } from 'rxjs';
+import { error } from 'console';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
@@ -90,26 +90,23 @@ export class ManageCourseComponent
   }
 
   ngOnInit(): void {
-    
     this.fetchInstructors();
     this.findCurrentCourse();
-    this.setScheduleGroups();
+    this.fetchScheduleGroups();
   }
 
-  private setScheduleGroups() {
-    this.scheduleGroupService.scheduleGroupsSubject$
-      .pipe(
-        map((groups) =>
-          groups.filter((group) => group.course?.id === this.course.id)
-        ),
-        untilDestroyed(this)
-      )
-      .subscribe((groups) => {
-        this.scheduleGroups = groups;
-        this.tableScheduleGroups = groups.map((group) =>
-          this.createTableScheduleGroups(group)
-        );
-      });
+  private fetchScheduleGroups() {
+    if (this.course) {
+      this.scheduleGroupService.fetchScheduleGroupForCourse(this.course.id!);
+      this.scheduleGroupService.scheduleGroupsSubject$
+        .pipe(untilDestroyed(this))
+        .subscribe((groups) => {
+          this.scheduleGroups = groups;
+          this.tableScheduleGroups = groups.map((group) =>
+            this.createTableScheduleGroups(group)
+          );
+        });
+    }
   }
 
   private createTableScheduleGroups(group: ScheduleGroup): TableScheduleGroup {
@@ -192,22 +189,18 @@ export class ManageCourseComponent
   }
 
   override onSubmit(): void {
-    if (this.formSettings.formType === FormType.SCHEDULE_GROUP) {
-      if (this.formSettings.edit) {
-        this.update();
-      } else {
-        this.addCourseToScheduleGroup();
-        this.add();
-      }
-    }
-  }
-
-  private addCourseToScheduleGroup() {
-    (this.entity as ScheduleGroup).course = this.course;
+    this.formSettings.edit ? this.update() : this.add();
   }
 
   override update(): void {
-    this.scheduleGroupService.updateGroup(this.entity as ScheduleGroup);
+    switch (this.formSettings.formType) {
+      case FormType.SCHEDULE:
+        //TODO: update schedule
+        break;
+      case FormType.SCHEDULE_GROUP:
+        this.scheduleGroupService.updateGroup(this.entity as ScheduleGroup);
+        break;
+    }
   }
 
   override onEdit(content: any, entity: Schedule | ScheduleGroup) {
@@ -222,13 +215,19 @@ export class ManageCourseComponent
   }
 
   override add(): void {
-    if (this.formSettings.formType === FormType.SCHEDULE_GROUP) {
-      this.scheduleGroupService.addScheduleGroup(this.entity);
+    switch (this.formSettings.formType) {
+      case FormType.SCHEDULE:
+        //TODO: add schedule
+        break;
+      case FormType.SCHEDULE_GROUP:
+        (this.entity as ScheduleGroup).course = this.course;
+        this.scheduleGroupService.addScheduleGroup(this.entity);
+        break;
     }
   }
 
   addEntity(content: any, formType: FormType) {
-    this.formSettings.buttonText = "Dodaj"
+    this.formSettings.buttonText = 'Dodaj';
     this.formSettings.edit = false;
     switch (formType) {
       case FormType.SCHEDULE:

@@ -11,8 +11,8 @@
       <app-sign-up-form
         #form
         [entity]="entity"
-        [signInFormSettings]="signInFormSettings!"
-        [formSettings]="formSettings"
+        [signInFormSettings]="signInFormSettings"
+        [edit]="formSettings.edit!"
         (entityChange)="submit()"
       >
       </app-sign-up-form>
@@ -22,7 +22,7 @@
         #form
         [entity]="entity"
         [signInFormSettings]="signInFormSettings"
-        [formSettings]="formSettings"
+        [edit]="formSettings.edit!"
         (entityChange)="submit()"
       ></app-course-form>
     </ng-template>
@@ -30,7 +30,7 @@
       <app-schedule-form
         #form
         [entity]="entity"
-        [formSettings]="formSettings"
+        [edit]="formSettings.edit!"
         (entityChange)="submit()"
       ></app-schedule-form>
     </ng-template>
@@ -38,7 +38,7 @@
       <app-schedule-group-form
         #form
         [entity]="entity"
-        [formSettings]="formSettings"
+        [edit]="formSettings.edit!"
         (entityChange)="submit()"
       ></app-schedule-group-form>
     </ng-template>

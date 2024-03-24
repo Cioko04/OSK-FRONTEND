@@ -1,16 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { Instructor } from 'src/app/shared/services/instructor/instructor';
 import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
 import { BaseFormComponent } from '../core/base-form/BaseFormComponent';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
 
 enum CourseType {
   PRACTICE = 'Praktyka',
@@ -22,11 +17,13 @@ enum CourseType {
   templateUrl: './schedule-group-form.component.html',
   styleUrls: ['./schedule-group-form.component.css'],
 })
-export class ScheduleGroupFormComponent extends BaseFormComponent {
+export class ScheduleGroupFormComponent
+  extends BaseFormComponent
+  implements OnInit
+{
   courseTypes: string[] = Object.values(CourseType);
   instructors: Instructor[] = [];
   categoryType!: CategoryEnum;
-  form: FormGroup;
 
   constructor(
     private instructorService: InstructorService,
@@ -44,21 +41,22 @@ export class ScheduleGroupFormComponent extends BaseFormComponent {
 
   ngOnInit() {
     this.setInstructors();
-    if (this.formSettings.edit) {
+    if (this.edit) {
       this.patchValues();
     }
   }
 
-  override submit(): void {
-    if (this.form.valid) {
-      this.setEntityValues();
-      this.entityChange.emit(this.entity);
-    }
-  }
-
-  private setEntityValues() {
+  override patchEntity() {
     this.entity.type = this.courseType.value;
     this.entity.instructor = this.instructor.value;
+  }
+
+  override patchValues() {
+    this.form.patchValue({
+      courseType: this.entity.type,
+      instructor: this.entity.instructor,
+      information: this.entity.information,
+    });
   }
 
   get courseType(): FormControl {
@@ -91,13 +89,5 @@ export class ScheduleGroupFormComponent extends BaseFormComponent {
 
   getInstructorName(userRequest: any): string {
     return this.instructorService.getInstructorName(userRequest);
-  }
-
-  private patchValues() {
-    this.form.patchValue({
-      courseType: this.entity.type,
-      instructor: this.entity.instructor,
-      information: this.entity.information,
-    });
   }
 }

@@ -12,6 +12,11 @@ export class ScheduleGroupService {
 
   constructor() {}
 
+  fetchScheduleGroupForCourse(courseId: number) {
+    // TODO: call api for groups
+    this.scheduleGroupsSubject.next([]);
+  }
+
   addScheduleGroup(scheduleGroup: ScheduleGroup) {
     // TODO: This should be done on suscces response from api, remve setting id
     const currentScheduleGroups = this.scheduleGroupsSubject.getValue();

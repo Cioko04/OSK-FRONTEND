@@ -1,76 +1,82 @@
-<div class="row justify-content-between">
-  <div class="col-12 form-group px-0">
-    <mat-form-field class="instructor-select">
-      <mat-label>Grupa</mat-label>
-      <mat-select>
-        <mat-option
-          *ngFor="let scheduleGroup of scheduleGroups"
-          [value]="scheduleGroup"
-          >{{ scheduleGroup.id + ' ' + getInstructorName(scheduleGroup.instructor?.userRequest) }}</mat-option
+<form [formGroup]="form">
+  <div class="row justify-content-between">
+    <div class="col-12 form-group px-0">
+      <mat-form-field class="instructor-select">
+        <mat-label>Grupa</mat-label>
+        <mat-select [formControl]="scheduleGroup">
+          <mat-option
+            *ngFor="let scheduleGroup of scheduleGroups"
+            [value]="scheduleGroup"
+            >{{
+              scheduleGroup.id +
+                " " +
+                getInstructorName(scheduleGroup.instructor?.userRequest)
+            }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row justify-content-between">
+    <div class="col-12 form-group px-0">
+      <mat-form-field class="date-picker-form-field">
+        <mat-label class="date-picker">
+          {{ edit ? "Data" : "Data rozpoczęcia" }}
+        </mat-label>
+        <input
+          class="date-picker"
+          matInput
+          [matDatepicker]="picker"
+          [formControl]="date"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+          class="date-picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row justify-content-between">
+    <div class="col-12 px-0">
+      <div class="row m-0 p-0">
+        <div
+          class="col-12 col-md-5 m-0 p-0 form-group d-flex justify-content-md-start justify-content-end"
         >
-      </mat-select>
-    </mat-form-field>
-  </div>
-</div>
-<div class="row justify-content-between">
-  <div class="col-12 form-group px-0">
-    <mat-form-field class="date-picker-form-field">
-      <mat-label class="date-picker">
-        {{ formSettings.edit ? "Data" : "Data rozpoczęcia" }}
-      </mat-label>
-      <input
-        class="date-picker"
-        [(ngModel)]="entity.startDate"
-        matInput
-        [matDatepicker]="picker"
-      />
-      <mat-datepicker-toggle
-        matIconSuffix
-        [for]="picker"
-        class="date-picker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </div>
-</div>
-<div class="row justify-content-between">
-  <div class="col-12 px-0">
-    <div class="row m-0 p-0">
-      <div
-        class="col-12 col-md-5 m-0 p-0 form-group d-flex justify-content-md-start justify-content-end"
-      >
-        <app-time-picker
-          [label]="'Godzina rozpoczęcia'"
-          [(date)]="entity.startDate!"
-        ></app-time-picker>
-      </div>
-      <div
-        class="col-12 col-md-2 m-0 p-0 form-group d-none d-md-flex justify-content-center"
-      >
-        <mat-icon class="mx-1 mt-3">arrow_forward</mat-icon>
-      </div>
-      <div
-        class="col-12 col-md-5 m-0 p-0 form-group d-flex justify-content-end"
-      >
-        <app-time-picker
-          [label]="'Godzina zakończenia'"
-          [(date)]="entity.endDate!"
-        ></app-time-picker>
+          <app-time-picker
+            [label]="'Godzina rozpoczęcia'"
+            [formControl]="starTime"
+          ></app-time-picker>
+        </div>
+        <div
+          class="col-12 col-md-2 m-0 p-0 form-group d-none d-md-flex justify-content-center"
+        >
+          <mat-icon class="mx-1 mt-3">arrow_forward</mat-icon>
+        </div>
+        <div
+          class="col-12 col-md-5 m-0 p-0 form-group d-flex justify-content-end"
+        >
+          <app-time-picker
+            [label]="'Godzina zakończenia'"
+            [formControl]="endTime"
+          ></app-time-picker>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div class="row justify-content-between">
-  <div class="col-12 form-group px-0">
-    <mat-form-field class="instructor-select">
-      <mat-label>Częstotliwość występowania</mat-label>
-      <mat-select>
-        <mat-option
-          *ngFor="let occurrence of occurrences"
-          [value]="occurrence"
-          >{{ occurrence }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
+  <div class="row justify-content-between">
+    <div class="col-12 form-group px-0">
+      <mat-form-field class="instructor-select">
+        <mat-label>Częstotliwość występowania</mat-label>
+        <mat-select [formControl]="occurrence">
+          <mat-option
+            *ngFor="let occurrence of occurrences"
+            [value]="occurrence"
+            >{{ occurrence }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
-</div>
+</form>

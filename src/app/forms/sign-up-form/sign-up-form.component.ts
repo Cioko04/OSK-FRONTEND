@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Observable, of } from 'rxjs';
@@ -14,9 +14,8 @@ import { BaseFormComponent } from '../core/base-form/BaseFormComponent';
   templateUrl: './sign-up-form.component.html',
   styleUrls: ['./sign-up-form.component.css'],
 })
-export class SignUpFormComponent extends BaseFormComponent {
+export class SignUpFormComponent extends BaseFormComponent implements OnInit {
   email: string = '';
-  signupForm!: FormGroup;
   categories: string[] = Object.values(CategoryEnum);
   submitForm: boolean = false;
 
@@ -24,34 +23,31 @@ export class SignUpFormComponent extends BaseFormComponent {
     super();
   }
 
-  override ngOnInit(): void {
-    this.signupForm = this.formBuilder.group({
+  ngOnInit(): void {
+    this.form = this.formBuilder.group({
       profile: [],
       password: [],
       school: [],
       categories: [],
     });
-    if (this.formSettings.edit) {
+    if (this.edit) {
       this.patchValues();
     }
   }
 
   override submit(): void {
     this.updateValueAndValidity();
-    if (this.signupForm.valid) {
-      this.createEntity();
-      this.entityChange.emit(this.entity);
-    }
+    this.submit();
   }
 
   updateValueAndValidity() {
     this.submitForm = true;
-    this.signupForm.get('profile')?.updateValueAndValidity();
-    this.signupForm.get('password')?.updateValueAndValidity();
-    this.signupForm.get('school')?.updateValueAndValidity();
+    this.form.get('profile')?.updateValueAndValidity();
+    this.form.get('password')?.updateValueAndValidity();
+    this.form.get('school')?.updateValueAndValidity();
   }
 
-  private createEntity() {
+  override patchEntity() {
     if (this.signInFormSettings.school) {
       this.createSchool(this.entity);
     } else if (this.signInFormSettings.instructor) {
@@ -63,29 +59,29 @@ export class SignUpFormComponent extends BaseFormComponent {
 
   private createInstructor(instructor: Instructor) {
     this.createUser(instructor.userRequest!);
-    instructor.categories = this.signupForm.value.categories;
+    instructor.categories = this.form.value.categories;
   }
 
   private createUser(user: User) {
-    user.name = this.signupForm.value.profile.name;
-    user.secondName = this.signupForm.value.profile.secondName;
-    user.lastName = this.signupForm.value.profile.lastName;
-    user.email = this.signupForm.value.profile.email;
-    user.password = this.signupForm.value.password.password;
-    user.dob = this.signupForm.value.profile.dob;
+    user.name = this.form.value.profile.name;
+    user.secondName = this.form.value.profile.secondName;
+    user.lastName = this.form.value.profile.lastName;
+    user.email = this.form.value.profile.email;
+    user.password = this.form.value.password.password;
+    user.dob = this.form.value.profile.dob;
   }
 
   private createSchool(school: School) {
-    school.schoolName = this.signupForm.value.school.schoolName;
-    school.city = this.signupForm.value.school.city;
-    school.zipCode = this.signupForm.value.school.zipCode;
-    school.nip = this.signupForm.value.school.nip;
+    school.schoolName = this.form.value.school.schoolName;
+    school.city = this.form.value.school.city;
+    school.zipCode = this.form.value.school.zipCode;
+    school.nip = this.form.value.school.nip;
     if (this.signInFormSettings.user) {
       this.createUser(school.userRequest);
     }
   }
 
-  private patchValues() {
+  override patchValues() {
     if (this.signInFormSettings.school) {
       this.patchSchool(this.entity);
       if (this.signInFormSettings.user) {
@@ -101,21 +97,21 @@ export class SignUpFormComponent extends BaseFormComponent {
 
   private patchUser(user: User) {
     this.email = user.email;
-    this.signupForm.get('profile')?.patchValue({
+    this.form.get('profile')?.patchValue({
       name: user.name,
       secondName: user.secondName,
       lastName: user.lastName,
       dob: user.dob,
       email: user.email,
     });
-    this.signupForm.get('password')?.patchValue({
+    this.form.get('password')?.patchValue({
       password: user.password,
       confirmPassword: user.password,
     });
   }
 
   private patchSchool(school: School) {
-    this.signupForm.get('school')?.patchValue({
+    this.form.get('school')?.patchValue({
       schoolName: school.schoolName,
       city: school.city,
       zipCode: school.zipCode,
@@ -124,6 +120,6 @@ export class SignUpFormComponent extends BaseFormComponent {
   }
 
   private patchCategories(categories: string[]) {
-    this.signupForm.get('categories')?.patchValue(categories);
+    this.form.get('categories')?.patchValue(categories);
   }
 }
