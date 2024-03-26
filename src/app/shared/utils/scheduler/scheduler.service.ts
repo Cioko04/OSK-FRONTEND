@@ -1,7 +1,8 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { eachDayOfInterval, endOfWeek, format, startOfWeek } from 'date-fns';
 import { Moment } from 'moment';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 const WEEK_DAYS: string[] = [
   'Poniedziałek',
@@ -18,10 +19,11 @@ export interface DayWithDate {
   dayOfMonth: number;
 }
 
+@UntilDestroy()
 @Injectable({
   providedIn: 'root',
 })
-export class SchedulerService implements OnDestroy {
+export class SchedulerService {
   private setOnlyOneDay = new BehaviorSubject<boolean>(false);
   setOnlyOneDay$ = this.setOnlyOneDay.asObservable();
 
@@ -31,16 +33,10 @@ export class SchedulerService implements OnDestroy {
   private currentDateSubject = new BehaviorSubject<Date>(new Date());
   currentDate$ = this.currentDateSubject.asObservable();
 
-  private dataSubscription: Subscription = new Subscription();
-
   constructor() {
-    this.dataSubscription.add(
-      this.setOnlyOneDay$.subscribe(() => this.setWeek())
-    );
-  }
-
-  ngOnDestroy() {
-    this.dataSubscription.unsubscribe();
+    this.setOnlyOneDay$
+      .pipe(untilDestroyed(this))
+      .subscribe(() => this.setWeek());
   }
 
   updateOnlyOneDay(setOnlyOneDay: boolean) {

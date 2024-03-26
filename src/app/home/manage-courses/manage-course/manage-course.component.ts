@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { error } from 'console';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
@@ -16,6 +15,7 @@ import { Course } from 'src/app/shared/services/course/course';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
 import { Schedule } from 'src/app/shared/services/schedule/schedule';
+import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
 import {
   CourseType,
   ScheduleGroup,
@@ -84,7 +84,8 @@ export class ManageCourseComponent
     private instructorService: InstructorService,
     private route: ActivatedRoute,
     private courseServive: CourseService,
-    private scheduleGroupService: ScheduleGroupService
+    private scheduleGroupService: ScheduleGroupService,
+    private scheduleService: ScheduleService
   ) {
     super(modalService);
   }
@@ -106,6 +107,20 @@ export class ManageCourseComponent
             this.createTableScheduleGroups(group)
           );
         });
+
+      this.scheduleService.scheduleSubject$
+        .pipe(untilDestroyed(this))
+        .subscribe((schedules) => {
+          this.scheduleGroups.forEach((group) => {
+            const schedulesForGroup = schedules.filter(
+              (schedule) => schedule.scheduleGroup?.id === group.id
+            );
+            group.schedules = schedulesForGroup;
+          });
+          this.tableScheduleGroups = this.scheduleGroups.map((group) =>
+            this.createTableScheduleGroups(group)
+          );
+        });
     }
   }
 
@@ -115,13 +130,20 @@ export class ManageCourseComponent
       instructor: this.instructorService.getInstructorName(
         group.instructor?.userRequest
       ),
-      // TODO: implement it when finish schedule
-      // startDate: ,
+      startDate: this.findDateOfFirstSchedule(group.schedules),
       // endDate: Date,
       type: group.type!,
       // status: ,
       expansionPanelDetails: this.createExpansionPanelDetails(group),
     };
+  }
+  private findDateOfFirstSchedule(schedules: Schedule[] | undefined): Date | undefined {
+    if (schedules && schedules.length > 0) {
+      return schedules!.reduce((earliest, current) => {
+        return current.startDate! < earliest.startDate! ? current : earliest;
+      }, schedules[0]).startDate;
+    }
+    return undefined;
   }
 
   private createExpansionPanelDetails(
@@ -217,7 +239,7 @@ export class ManageCourseComponent
   override add(): void {
     switch (this.formSettings.formType) {
       case FormType.SCHEDULE:
-        //TODO: add schedule
+        this.scheduleService.addScheduleForGroup(this.entity);
         break;
       case FormType.SCHEDULE_GROUP:
         (this.entity as ScheduleGroup).course = this.course;

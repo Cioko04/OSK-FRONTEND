@@ -88,10 +88,10 @@ export class ScheduleFormComponent extends BaseFormComponent implements OnInit {
   }
 
   private getPatchedDateWithTime(time: string): Date {
-    let date = this.date.value;
-    let fullTime = time.split(':');
-    let hours = parseInt(fullTime[0], 10);
-    let minutes = parseInt(fullTime[1], 10);
+    const date = new Date(this.date.value);
+    const fullTime = time.split(':');
+    const hours = parseInt(fullTime[0], 10);
+    const minutes = parseInt(fullTime[1], 10);
     date.setHours(hours);
     date.setMinutes(minutes);
     return date;

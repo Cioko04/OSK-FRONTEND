@@ -74,7 +74,7 @@ export class TimePickerComponent implements ControlValueAccessor {
 
   set value(time: string) {
     this.form.setValue({ time: time });
-    this.onChange({ time: time });
+    this.onChange(time);
     this.onTouched();
   }
 

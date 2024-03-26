@@ -1,17 +1,19 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { combineLatest } from 'rxjs';
 import { Schedule } from '../../services/schedule/schedule';
 import { ScheduleService } from '../../services/schedule/schedule.service';
+import { SchedulerService } from './scheduler.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-scheduler',
   templateUrl: './scheduler.component.html',
   styleUrls: ['./scheduler.component.css'],
 })
-export class SchedulerComponent implements OnInit, OnDestroy {
+export class SchedulerComponent implements OnInit {
   schedules: Schedule[] = [];
   schedule!: Schedule;
-  private dataSubscription: Subscription = new Subscription();
 
   @Output()
   onAdd = new EventEmitter<any>();
@@ -19,25 +21,22 @@ export class SchedulerComponent implements OnInit, OnDestroy {
   @Output()
   onEdit = new EventEmitter<any>();
 
-  constructor(private scheduleService: ScheduleService) {
-  }
+  constructor(
+    private scheduleService: ScheduleService,
+    private schedulerService: SchedulerService
+  ) {}
 
   ngOnInit() {
     this.initSubscription();
   }
 
   private initSubscription() {
-    this.dataSubscription.add(
-      this.scheduleService.scheduleSubject$.subscribe((schedules) => {
-        if (this.schedules !== schedules) {
-          this.schedules = schedules;
-        }
-      })
-    );
-  }
-
-  ngOnDestroy() {
-    this.dataSubscription.unsubscribe();
+    combineLatest([
+      this.scheduleService.scheduleSubject$.pipe(untilDestroyed(this)),
+      this.schedulerService.week$.pipe(untilDestroyed(this)),
+    ]).subscribe(([schedules, week]) => {
+      this.schedules = this.getSchedulesInWeek(schedules, week);
+    });
   }
 
   editSchedule(schedule: Schedule) {
@@ -46,5 +45,18 @@ export class SchedulerComponent implements OnInit, OnDestroy {
 
   addSchedule(date: Date) {
     this.onAdd.emit(date);
+  }
+
+  private getSchedulesInWeek(
+    schedules: Schedule[],
+    weekDays: Date[]
+  ): Schedule[] {
+    return schedules.filter((schedule) =>
+      this.scheduleService.isDateBetween(
+        schedule.startDate!,
+        weekDays[0],
+        weekDays[weekDays.length - 1]
+      )
+    );
   }
 }
