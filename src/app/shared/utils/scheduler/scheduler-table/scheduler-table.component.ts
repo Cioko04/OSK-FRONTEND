@@ -1,15 +1,26 @@
-import { Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
 import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
 import { SchedulePlaceholderPositionService } from '../schedule-placeholder/schedule-placeholder-position.service';
 import { SchedulerService } from '../scheduler.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-scheduler-table',
   templateUrl: './scheduler-table.component.html',
-  styleUrls: ['./scheduler-table.component.css', '../../utils-style.css']
+  styleUrls: ['./scheduler-table.component.css', '../../utils-style.css'],
 })
-export class SchedulerTableComponent implements OnInit, OnDestroy {
+export class SchedulerTableComponent implements OnInit {
   week!: Date[];
   dataSource: any = [];
   setOnlyOneDay: boolean = false;
@@ -22,9 +33,11 @@ export class SchedulerTableComponent implements OnInit, OnDestroy {
   @Output()
   onAdd = new EventEmitter<any>();
 
-  constructor(private schedulerService: SchedulerService,
+  constructor(
+    private schedulerService: SchedulerService,
     private scheduleService: ScheduleService,
-    private schedulePlaceholderPositionService: SchedulePlaceholderPositionService) { }
+    private schedulePlaceholderPositionService: SchedulePlaceholderPositionService
+  ) {}
 
   ngOnInit() {
     this.schedulerService.reset();
@@ -55,20 +68,9 @@ export class SchedulerTableComponent implements OnInit, OnDestroy {
   }
 
   private initSubscription() {
-    this.dataSubscription.add(
-      this.schedulerService.week$.subscribe((week) => {
-        if (this.week !== week) {
-          this.week = week;
-          this.scheduleService.updateScheduleSubjectForDate(
-            week
-          );
-        }
-      })
-    );
-  }
-
-  ngOnDestroy() {
-    this.dataSubscription.unsubscribe();
+    this.schedulerService.week$
+      .pipe(untilDestroyed(this))
+      .subscribe((week) => (this.week = week));
   }
 
   getColumnDefinition(): string[] {
@@ -113,5 +115,4 @@ export class SchedulerTableComponent implements OnInit, OnDestroy {
     scheduledSession.setHours(time.split(':')[0]);
     this.onAdd.emit(scheduledSession);
   }
-
 }

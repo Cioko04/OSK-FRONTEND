@@ -6,6 +6,7 @@ import {
   Output
 } from '@angular/core';
 import { HeadArray } from '../../core/BaseEntityComponent';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
 
 @Component({
   selector: 'app-table',
@@ -47,8 +48,8 @@ export class TableComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  add() {
-    this.onAdd.emit();
+  add(formType: FormType) {
+    this.onAdd.emit(formType);
   }
 
   edit(data: any) {

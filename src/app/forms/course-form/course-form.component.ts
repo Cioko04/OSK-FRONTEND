@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
-import { Course } from 'src/app/shared/services/course/course';
 import { BaseFormComponent } from '../core/base-form/BaseFormComponent';
 
 @UntilDestroy()
@@ -12,8 +11,7 @@ import { BaseFormComponent } from '../core/base-form/BaseFormComponent';
   templateUrl: './course-form.component.html',
   styleUrls: ['./course-form.component.css'],
 })
-export class CourseFormComponent extends BaseFormComponent {
-  form: FormGroup | any;
+export class CourseFormComponent extends BaseFormComponent implements OnInit {
   categories: string[] = Object.values(CategoryEnum);
 
   constructor(
@@ -30,7 +28,7 @@ export class CourseFormComponent extends BaseFormComponent {
 
   ngOnInit(): void {
     this.setCategories();
-    if (this.formSettings.edit) {
+    if (this.edit) {
       this.patchValues();
     }
   }
@@ -49,31 +47,23 @@ export class CourseFormComponent extends BaseFormComponent {
       });
   }
 
-  get category() {
-    return this.form.controls.category;
+  get category(): FormControl {
+    return this.form.controls['category'] as FormControl;
   }
   get price() {
-    return this.form.controls.price;
+    return this.form.controls['price'] as FormControl;
   }
   get description() {
-    return this.form.controls.description;
+    return this.form.controls['description'] as FormControl;
   }
 
-  submit() {
-    if (this.form.valid) {
-      console.log("x");
-      this.setCourseValues();
-      this.entityChange.emit(this.entity);
-    }
-  }
-
-  setCourseValues() {
+  override patchEntity() {
     this.entity.price = this.price.value;
     this.entity.description = this.description.value;
     this.entity.categoryType = this.category.value;
   }
 
-  private patchValues() {
+  override patchValues() {
     this.form.patchValue({
       price: this.entity.price,
       category: this.entity.categoryType,

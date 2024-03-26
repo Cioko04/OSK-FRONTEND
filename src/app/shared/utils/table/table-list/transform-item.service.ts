@@ -27,6 +27,7 @@ export class TransformItemService {
         transformedItem[column.Head] = data;
       });
       transformedItem['sourceId'] = item.id;
+      transformedItem['expansionPanelDetails'] = item.expansionPanelDetails;
       return transformedItem;
     });
     return new MatTableDataSource(transformedData);

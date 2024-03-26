@@ -1,23 +1,27 @@
-<mat-form-field class="time-picker">
-  <mat-label>{{ label }}</mat-label>
-  <input
-    class="time-picker-input"
-    type="time"
-    [(ngModel)]="time"
-    matInput
-  />
-  <div class="d-flex align-items-center" matSuffix>
-    <mat-icon
-      mat-icon-button
-      class="time-picker-button"
-      [ngxTimepicker]="fullTime"
-      [format]="24"
-      [(ngModel)]="time"
-      >access_time
-    </mat-icon>
-  </div>
-</mat-form-field>
-<ngx-material-timepicker
-  [theme]="darkTheme"
-  #fullTime
-></ngx-material-timepicker>
+<form [formGroup]="form">
+  <mat-form-field class="time-picker">
+    <mat-label>{{ label }}</mat-label>
+    <input
+      class="time-picker-input"
+      type="time"
+      [formControl]="time"
+      matInput
+      #picker
+    />
+    <div class="d-flex align-items-center" matSuffix>
+      <mat-icon
+        mat-icon-button
+        class="time-picker-button"
+        [ngxTimepicker]="fullTime"
+        [format]="24"
+        [value]="time.value"
+        >access_time
+      </mat-icon>
+    </div>
+  </mat-form-field>
+  <ngx-material-timepicker
+    [theme]="darkTheme"
+    #fullTime
+    (timeSet)="writeValue($event)"
+  ></ngx-material-timepicker>
+</form>

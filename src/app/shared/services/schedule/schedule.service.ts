@@ -3,49 +3,6 @@ import { format } from 'date-fns';
 import { BehaviorSubject } from 'rxjs';
 import { Schedule } from './schedule';
 
-const SCHEDULS: Schedule[] = [
-  {
-    id: 1,
-    startDate: new Date(2024, 1, 5, 12, 30),
-    endDate: new Date(2024, 1, 5, 15, 0),
-  },
-  {
-    id: 2,
-    startDate: new Date(2024, 1, 6, 9, 0),
-    endDate: new Date(2024, 1, 6, 11, 30),
-  },
-  {
-    id: 3,
-    startDate: new Date(2024, 1, 5, 9, 30),
-    endDate: new Date(2024, 1, 5, 11, 0),
-  },
-  {
-    id: 4,
-    startDate: new Date(2024, 1, 3, 9, 0),
-    endDate: new Date(2024, 1, 3, 11, 30),
-  },
-  {
-    id: 5,
-    startDate: new Date(2024, 1, 2, 12, 30),
-    endDate: new Date(2024, 1, 2, 15, 0),
-  },
-  {
-    id: 6,
-    startDate: new Date(2024, 1, 6, 12, 0),
-    endDate: new Date(2024, 1, 6, 13, 30),
-  },
-  {
-    id: 7,
-    startDate: new Date(2024, 1, 13, 12, 0),
-    endDate: new Date(2024, 1, 13, 13, 30),
-  },
-  {
-    id: 8,
-    startDate: new Date(2024, 1, 12, 9, 0),
-    endDate: new Date(2024, 1, 12, 11, 30),
-  },
-];
-
 @Injectable({
   providedIn: 'root',
 })
@@ -56,23 +13,21 @@ export class ScheduleService {
 
   constructor() {}
 
-  updateScheduleSubjectForDate(dates: Date[]) {
-    const startOfCurrentWeek = dates[0];
-    const endOfCurrentWeek = dates[dates.length - 1];
-
-    const relevantScheduledSchedules: Schedule[] =
-    SCHEDULS.filter((scheduledSchedule) =>
-        this.isDateBetween(
-          scheduledSchedule.startDate!,
-          startOfCurrentWeek,
-          endOfCurrentWeek
-        )
-      );
-
-    this.scheduleSubject.next(relevantScheduledSchedules);
+  getScheduleForGroup(groupId: number) {
+    //TODO: implement api calling
+    this.scheduleSubject.next([]);
   }
 
-  private isDateBetween(
+  addScheduleForGroup(schedule: Schedule) {
+    // TODO: This should be done on successful response from api, remve setting id
+    const currentSchedules = this.scheduleSubject.getValue();
+    schedule.id = currentSchedules.length + 1;
+    const newSchedules = [...currentSchedules];
+    newSchedules.push(schedule);
+    this.scheduleSubject.next(newSchedules);
+  }
+
+  public isDateBetween(
     targetDate: Date,
     startDate: Date,
     endDate: Date
