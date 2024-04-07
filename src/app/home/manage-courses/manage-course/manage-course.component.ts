@@ -23,12 +23,13 @@ import {
 import { ScheduleGroupService } from 'src/app/shared/services/scheduleGroup/schedule-group.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
 import { ExpansionPanelDetail } from 'src/app/shared/utils/table/table-list/expansion-panel/expansion-panel.component';
+import { TableScheduleGroupService } from './table-schedule-group/table-schedule-group.service';
 
-interface TableScheduleGroup {
+export interface TableScheduleGroup {
   id?: number;
   instructor: string;
-  startDate?: Date;
-  endDate?: Date;
+  startDate?: string;
+  endDate?: string;
   type: CourseType;
   status?: ScheduleStatus;
   expansionPanelDetails?: ExpansionPanelDetail[];
@@ -85,7 +86,8 @@ export class ManageCourseComponent
     private route: ActivatedRoute,
     private courseServive: CourseService,
     private scheduleGroupService: ScheduleGroupService,
-    private scheduleService: ScheduleService
+    private scheduleService: ScheduleService,
+    private tableScheduleGroupService: TableScheduleGroupService
   ) {
     super(modalService);
   }
@@ -104,7 +106,7 @@ export class ManageCourseComponent
         .subscribe((groups) => {
           this.scheduleGroups = groups;
           this.tableScheduleGroups = groups.map((group) =>
-            this.createTableScheduleGroups(group)
+            this.tableScheduleGroupService.createTableScheduleGroups(group)
           );
         });
 
@@ -118,62 +120,10 @@ export class ManageCourseComponent
             group.schedules = schedulesForGroup;
           });
           this.tableScheduleGroups = this.scheduleGroups.map((group) =>
-            this.createTableScheduleGroups(group)
+            this.tableScheduleGroupService.createTableScheduleGroups(group)
           );
         });
     }
-  }
-
-  private createTableScheduleGroups(group: ScheduleGroup): TableScheduleGroup {
-    return {
-      id: group.id,
-      instructor: this.instructorService.getInstructorName(
-        group.instructor?.userRequest
-      ),
-      startDate: this.findDateOfFirstSchedule(group.schedules),
-      // endDate: Date,
-      type: group.type!,
-      // status: ,
-      expansionPanelDetails: this.createExpansionPanelDetails(group),
-    };
-  }
-  private findDateOfFirstSchedule(schedules: Schedule[] | undefined): Date | undefined {
-    if (schedules && schedules.length > 0) {
-      return schedules!.reduce((earliest, current) => {
-        return current.startDate! < earliest.startDate! ? current : earliest;
-      }, schedules[0]).startDate;
-    }
-    return undefined;
-  }
-
-  private createExpansionPanelDetails(
-    group: ScheduleGroup
-  ): ExpansionPanelDetail[] {
-    const students = {
-      icon: 'account_circle',
-      titile: 'Studenci',
-      description: 'Liczba studentów: ',
-      buttonText: 'Dodaj studenta',
-      formType: FormType.SIGNUP,
-      entities: [
-        { id: 1, displayContent: 'Kazik Kowalski' },
-        { id: 2, displayContent: 'Andrzej Okoń' },
-      ],
-    };
-
-    const schedules = {
-      icon: 'date_range',
-      titile: 'Spotkania',
-      description: 'Liczba spotkań: ',
-      buttonText: 'Dodaj spotkanie',
-      formType: FormType.SCHEDULE,
-      entities: [
-        { id: 1, displayContent: '2024-04-01, 11:00 - 12:30' },
-        { id: 2, displayContent: '2024-04-06, 9:30 - 11:30' },
-      ],
-    };
-
-    return [students, schedules];
   }
 
   private fetchInstructors() {
@@ -187,9 +137,6 @@ export class ManageCourseComponent
           this.instructorService.updateInstructorSubject(schoolId!);
         },
         error: (e: HttpErrorResponse) => console.log(e.status),
-        complete: () => {
-          console.log('Instructors updated!');
-        },
       });
   }
 
@@ -295,6 +242,7 @@ export class ManageCourseComponent
     this.formSettings.edit = true;
     this.formSettings.titile =
       'Edytuj termin kategorii: ' + this.course.categoryType;
+    this.formSettings.buttonText = 'Zapisz';
     super.onEdit(content, schedule);
   }
 }

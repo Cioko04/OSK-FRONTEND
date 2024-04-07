@@ -18,13 +18,20 @@
       <mat-list-item>
         <div class="expansion-panel-detail">
           <p>{{ entity.displayContent }}</p>
-          <button type="button" class="btn btn-td float-end p-0" title="Usuń" (click)="remove(entity.id)">
+          <button
+            type="button"
+            class="btn btn-td float-end p-0"
+            title="Usuń"
+            (click)="remove(entity.id)"
+          >
             <i class="fa fa-minus-circle fa-lg" aria-hidden="true"></i>
           </button>
         </div>
       </mat-list-item>
       <mat-divider></mat-divider>
     </mat-list>
-    <button mat-raised-button (click)="add(expansionPanelDetail.formType)">{{ expansionPanelDetail.buttonText }}</button>
+    <button mat-raised-button (click)="add(expansionPanelDetail.formType)">
+      {{ expansionPanelDetail.buttonText }}
+    </button>
   </mat-expansion-panel>
 </mat-accordion>
