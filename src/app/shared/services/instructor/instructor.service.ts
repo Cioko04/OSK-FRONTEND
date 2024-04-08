@@ -4,6 +4,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, Observable, catchError } from 'rxjs';
 import { MyErrorHandlerServiceService } from '../../errorHandlers/my-error-handler.service';
 import { Instructor } from './instructor';
+import { User } from '../user/user';
 
 @UntilDestroy()
 @Injectable({
@@ -68,7 +69,7 @@ export class InstructorService {
     return this.http.delete(this.API_URL + '/deleteInstructorById/' + id);
   }
 
-  getInstructorName(userRequest: any): string {
+  getInstructorName(userRequest: User): string {
     let fullName = userRequest.name;
     if (userRequest.secondName) {
       fullName += ' ' + userRequest.secondName;

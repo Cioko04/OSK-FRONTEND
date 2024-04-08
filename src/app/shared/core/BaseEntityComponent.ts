@@ -1,11 +1,12 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
 
 export abstract class BaseEntityComponent {
   headArray: HeadArray[] = [];
 
   constructor(public modalService: NgbModal) {}
 
-  abstract onDelete(id: number): void;
+  abstract onDelete(id: number, formType: FormType): void;
 
   abstract onSubmit(): void;
 

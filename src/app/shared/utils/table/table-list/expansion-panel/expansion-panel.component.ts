@@ -28,14 +28,17 @@ export class ExpansionPanelComponent implements OnInit {
   onAdd = new EventEmitter<FormType>();
 
   @Output()
-  onDelete = new EventEmitter<number>();
+  onDelete = new EventEmitter<{id: number, formType: FormType}>();
+
+  @Output()
+  formType = new EventEmitter<FormType>();
 
   constructor() {}
 
   ngOnInit() {}
 
-  remove(id: number) {
-    this.onDelete.emit(id);
+  remove(id: number, formType: FormType) {
+    this.onDelete.emit({id, formType});
   }
 
   add(formType: FormType) {

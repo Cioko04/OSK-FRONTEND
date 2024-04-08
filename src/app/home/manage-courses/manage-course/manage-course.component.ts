@@ -24,6 +24,7 @@ import { ScheduleGroupService } from 'src/app/shared/services/scheduleGroup/sche
 import { UserService } from 'src/app/shared/services/user/user.service';
 import { ExpansionPanelDetail } from 'src/app/shared/utils/table/table-list/expansion-panel/expansion-panel.component';
 import { TableScheduleGroupService } from './table-schedule-group/table-schedule-group.service';
+import { combineLatest, filter, map } from 'rxjs';
 
 export interface TableScheduleGroup {
   id?: number;
@@ -101,29 +102,40 @@ export class ManageCourseComponent
   private fetchScheduleGroups() {
     if (this.course) {
       this.scheduleGroupService.fetchScheduleGroupForCourse(this.course.id!);
-      this.scheduleGroupService.scheduleGroupsSubject$
-        .pipe(untilDestroyed(this))
-        .subscribe((groups) => {
-          this.scheduleGroups = groups;
-          this.tableScheduleGroups = groups.map((group) =>
-            this.tableScheduleGroupService.createTableScheduleGroups(group)
-          );
-        });
-
-      this.scheduleService.scheduleSubject$
-        .pipe(untilDestroyed(this))
-        .subscribe((schedules) => {
-          this.scheduleGroups.forEach((group) => {
-            const schedulesForGroup = schedules.filter(
-              (schedule) => schedule.scheduleGroup?.id === group.id
-            );
-            group.schedules = schedulesForGroup;
-          });
-          this.tableScheduleGroups = this.scheduleGroups.map((group) =>
-            this.tableScheduleGroupService.createTableScheduleGroups(group)
-          );
+      combineLatest([
+        this.scheduleGroupService.scheduleGroupsSubject$,
+        this.scheduleService.scheduleSubject$,
+      ])
+        .pipe(
+          untilDestroyed(this),
+          map(([groups, schedules]) =>
+            this.createTableScheduleGroups(groups, schedules)
+          )
+        )
+        .subscribe((updatedTableScheduleGroups) => {
+          this.tableScheduleGroups = updatedTableScheduleGroups;
         });
     }
+  }
+
+  private createTableScheduleGroups(
+    groups: ScheduleGroup[],
+    schedules: Schedule[]
+  ): TableScheduleGroup[] {
+    this.addSchedulesToGroups(groups, schedules);
+    return groups.map((group) =>
+      this.tableScheduleGroupService.createTableScheduleGroups(group)
+    );
+  }
+
+  private addSchedulesToGroups(groups: ScheduleGroup[], schedules: Schedule[]) {
+    groups.forEach((group) => {
+      const schedulesForGroup = schedules.filter(
+        (schedule) => schedule.scheduleGroup?.id === group.id
+      );
+      group.schedules = schedulesForGroup;
+    });
+    this.scheduleGroups = groups;
   }
 
   private fetchInstructors() {
@@ -152,9 +164,15 @@ export class ManageCourseComponent
     });
   }
 
-  override onDelete(id: number): void {
-    console.log(id);
-    // this.scheduleGroupService.removeScheduleGroup(id);
+  override onDelete(id: number, formType: FormType): void {
+    switch (formType) {
+      case FormType.SCHEDULE:
+        this.scheduleService.removeSchedule(id);
+        break;
+      default:
+        this.scheduleGroupService.removeScheduleGroup(id);
+        break;
+    }
   }
 
   override onSubmit(): void {
@@ -177,9 +195,7 @@ export class ManageCourseComponent
     this.formSettings.titile =
       'Edytuj grupę dla kategorii: ' + this.course.categoryType;
     this.formSettings.formType = FormType.SCHEDULE_GROUP;
-    this.entity = this.scheduleGroups.find(
-      (group) => group.id === (entity as ScheduleGroup).id
-    )!;
+    this.entity = this.scheduleGroups.find(group => group.id === entity.id)!;
     super.onEdit(content, this.entity);
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ScheduleGroup } from './schedule-group';
-import { group } from 'console';
+import { Schedule } from '../schedule/schedule';
 
 @Injectable({
   providedIn: 'root',
@@ -12,12 +12,12 @@ export class ScheduleGroupService {
 
   constructor() {}
 
-  fetchScheduleGroupForCourse(courseId: number) {
+  public fetchScheduleGroupForCourse(courseId: number) {
     // TODO: call api for groups
     this.scheduleGroupsSubject.next([]);
   }
 
-  addScheduleGroup(scheduleGroup: ScheduleGroup) {
+  public addScheduleGroup(scheduleGroup: ScheduleGroup) {
     // TODO: This should be done on suscces response from api, remve setting id
     const currentScheduleGroups = this.scheduleGroupsSubject.getValue();
     scheduleGroup.id = currentScheduleGroups.length + 1;
@@ -26,7 +26,22 @@ export class ScheduleGroupService {
     this.scheduleGroupsSubject.next(newScheduleGroups);
   }
 
-  updateGroup(entity: ScheduleGroup) {
+  public addScheduleForGroup(schedule: Schedule) {
+    const scheduleGroups = this.scheduleGroupsSubject.getValue();
+    scheduleGroups
+      .filter((group) => group.id === schedule.scheduleGroup?.id)
+      .forEach((group) => group.schedules?.push(schedule));
+    this.scheduleGroupsSubject.next(scheduleGroups);
+
+    // TODO: This should be done on successful response from api, remve setting id
+    // const currentSchedules = this.scheduleSubject.getValue();
+    // schedule.id = currentSchedules.length + 1;
+    // const newSchedules = [...currentSchedules];
+    // newSchedules.push(schedule);
+    // this.scheduleSubject.next(newSchedules);
+  }
+
+  public updateGroup(entity: ScheduleGroup) {
     // TODO: This should be done on suscces response from api
     const currentScheduleGroups = this.scheduleGroupsSubject.getValue();
     const indexToUpdate = currentScheduleGroups.findIndex(
@@ -39,8 +54,10 @@ export class ScheduleGroupService {
     this.scheduleGroupsSubject.next(currentScheduleGroups);
   }
 
-  removeScheduleGroup(id: number) {
+  public removeScheduleGroup(id: number) {
     // TODO: This should be done on suscces response from api
-    this.scheduleGroupsSubject.next(this.scheduleGroupsSubject.getValue().filter(group => group.id !== id));
+    this.scheduleGroupsSubject.next(
+      this.scheduleGroupsSubject.getValue().filter((group) => group.id !== id)
+    );
   }
 }

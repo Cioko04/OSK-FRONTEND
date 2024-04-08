@@ -7,7 +7,7 @@
         [headArray]="headArray"
         [gridArray]="tableScheduleGroups"
         (onAdd)="addEntity(content, $event)"
-        (onDelete)="onDelete($event)"
+        (onDelete)="onDelete($event.id, $event.formType!)"
         (onEdit)="onEdit(content, $event)"
       >
       </app-table>

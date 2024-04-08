@@ -38,7 +38,7 @@ export class TableComponent implements OnInit{
   onEdit = new EventEmitter<any>();
 
   @Output()
-  onDelete = new EventEmitter<number>();
+  onDelete = new EventEmitter<{id: number, formType: FormType | undefined}>();
 
   @Output()
   onChoose = new EventEmitter<number>();
@@ -56,8 +56,8 @@ export class TableComponent implements OnInit{
     this.onEdit.emit(data);
   }
 
-  delete(id: number) {
-    this.onDelete.emit(id);
+  delete(event: {id: number, formType: FormType | undefined}) {
+    this.onDelete.emit(event);
   }
 
   choose(id: number) {

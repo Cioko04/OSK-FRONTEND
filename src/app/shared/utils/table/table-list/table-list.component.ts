@@ -67,10 +67,13 @@ export class TableListComponent implements OnInit, OnChanges {
   onEdit = new EventEmitter<any>();
 
   @Output()
-  onDelete = new EventEmitter<number>();
+  onDelete = new EventEmitter<{id: number, formType: FormType | undefined}>();
 
   @Output()
   onBook = new EventEmitter<number>();
+
+  @Output()
+  formType = new EventEmitter<FormType>();
 
   dataSource: any = [];
   displayedColumns: string[] = [];
@@ -153,12 +156,16 @@ export class TableListComponent implements OnInit, OnChanges {
     this.onEdit.emit(item);
   }
 
-  delete(id: number) {
-    this.onDelete.emit(id);
+  delete(event: {id: number, formType: FormType | undefined}) {
+    this.onDelete.emit(event);
   }
 
   book() {
     this.onBook.emit();
+  }
+
+  emitFormType(formType: FormType) {
+    this.formType.emit(formType);
   }
 
   isArray(element: any) {

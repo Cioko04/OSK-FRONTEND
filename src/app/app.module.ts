@@ -87,12 +87,12 @@ import { ExpansionPanelComponent } from './shared/utils/table/table-list/expansi
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'LL',
+    dateInput: 'LLLL',
   },
   display: {
     dateInput: 'DD.MM.YYYY',
     monthYearLabel: 'MM YYYY',
-    dateA11yLabel: 'LL',
+    dateA11yLabel: 'LLLL',
     monthYearA11yLabel: 'MM YYYY',
   },
 };

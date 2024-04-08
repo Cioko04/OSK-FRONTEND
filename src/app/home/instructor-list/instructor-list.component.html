@@ -6,7 +6,7 @@
     [gridArray]="(instructors$ | async)!"
     (onAdd)="onAdd(content)"
     (onEdit)="onEdit(content, $event)"
-    (onDelete)="onDelete($event)"
+    (onDelete)="onDelete($event.id)"
   >
   </app-table>
   <ng-template #content let-modal>

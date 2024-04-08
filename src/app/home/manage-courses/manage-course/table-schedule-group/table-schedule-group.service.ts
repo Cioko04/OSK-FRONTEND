@@ -19,7 +19,7 @@ export class TableScheduleGroupService {
     return {
       id: group.id,
       instructor: this.instructorService.getInstructorName(
-        group.instructor?.userRequest
+        group.instructor?.userRequest!
       ),
       startDate: this.findDateOfFirstSchedule(group.schedules),
       // endDate: Date,
@@ -30,7 +30,7 @@ export class TableScheduleGroupService {
   }
 
   private findDateOfFirstSchedule(schedules: Schedule[] | undefined): string {
-    if (schedules) {
+    if (schedules && schedules.length > 0) {
       return schedules
         .reduce((earliest, current) => {
           return current.startDate! < earliest.startDate! ? current : earliest;

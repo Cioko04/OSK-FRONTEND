@@ -32,7 +32,7 @@
             type="button"
             class="btn btn-td float-end p-0"
             title="Usuń"
-            (click)="delete(element.sourceId); $event.stopPropagation()"
+            (click)="delete({id: element.sourceId, formType: undefined}); $event.stopPropagation()"
           >
             <i class="fa fa-minus-circle fa-lg" aria-hidden="true"></i>
           </button>
@@ -90,6 +90,7 @@
             [expansionPanelDetails]="element.expansionPanelDetails"
             (onDelete)="delete($event)"
             (onAdd)="add($event)"
+            (formType)="emitFormType($event)"
           ></app-expansion-panel>
         </div>
       </div>

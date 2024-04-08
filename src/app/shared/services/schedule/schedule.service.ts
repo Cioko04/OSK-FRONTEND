@@ -7,24 +7,28 @@ import { Schedule } from './schedule';
   providedIn: 'root',
 })
 export class ScheduleService {
-
   private scheduleSubject = new BehaviorSubject<Schedule[]>([]);
   scheduleSubject$ = this.scheduleSubject.asObservable();
 
   constructor() {}
 
-  getScheduleForGroup(groupId: number) {
+  public getScheduleForGroup(groupId: number) {
     //TODO: implement api calling
     this.scheduleSubject.next([]);
   }
 
-  addScheduleForGroup(schedule: Schedule) {
+  public addScheduleForGroup(schedule: Schedule) {
     // TODO: This should be done on successful response from api, remve setting id
     const currentSchedules = this.scheduleSubject.getValue();
     schedule.id = currentSchedules.length + 1;
     const newSchedules = [...currentSchedules];
     newSchedules.push(schedule);
     this.scheduleSubject.next(newSchedules);
+  }
+
+  public removeSchedule(id: number) {
+     // TODO: This should be done on suscces response from api
+     this.scheduleSubject.next(this.scheduleSubject.getValue().filter(schedule => schedule.id !== id));
   }
 
   public isDateBetween(
