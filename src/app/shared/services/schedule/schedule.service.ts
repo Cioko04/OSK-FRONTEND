@@ -12,7 +12,7 @@ export class ScheduleService {
 
   constructor() {}
 
-  public getScheduleForGroup(groupId: number) {
+  public getScheduleForCourse(courseId: number) {
     //TODO: implement api calling
     this.scheduleSubject.next([]);
   }
@@ -24,6 +24,19 @@ export class ScheduleService {
     const newSchedules = [...currentSchedules];
     newSchedules.push(schedule);
     this.scheduleSubject.next(newSchedules);
+  }
+
+  public updateSchedule(changedSchedule: Schedule) {
+    // TODO: This should be done on successful response from api
+    const currentSchedules = this.scheduleSubject.getValue();
+    const indexToUpdate = currentSchedules.findIndex(
+      (schedule) => schedule.id === changedSchedule.id
+    );
+    currentSchedules[indexToUpdate] = {
+      ...currentSchedules[indexToUpdate],
+      ...changedSchedule,
+    };
+    this.scheduleSubject.next(currentSchedules);
   }
 
   public removeSchedule(id: number) {

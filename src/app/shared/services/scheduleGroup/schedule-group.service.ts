@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ScheduleGroup } from './schedule-group';
 import { Schedule } from '../schedule/schedule';
+import { ScheduleService } from '../schedule/schedule.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class ScheduleGroupService {
   private scheduleGroupsSubject = new BehaviorSubject<ScheduleGroup[]>([]);
   scheduleGroupsSubject$ = this.scheduleGroupsSubject.asObservable();
 
-  constructor() {}
+  constructor(private scheduleService: ScheduleService) {}
 
   public fetchScheduleGroupForCourse(courseId: number) {
     // TODO: call api for groups
@@ -24,21 +25,6 @@ export class ScheduleGroupService {
     const newScheduleGroups = [...currentScheduleGroups];
     newScheduleGroups.push(scheduleGroup);
     this.scheduleGroupsSubject.next(newScheduleGroups);
-  }
-
-  public addScheduleForGroup(schedule: Schedule) {
-    const scheduleGroups = this.scheduleGroupsSubject.getValue();
-    scheduleGroups
-      .filter((group) => group.id === schedule.scheduleGroup?.id)
-      .forEach((group) => group.schedules?.push(schedule));
-    this.scheduleGroupsSubject.next(scheduleGroups);
-
-    // TODO: This should be done on successful response from api, remve setting id
-    // const currentSchedules = this.scheduleSubject.getValue();
-    // schedule.id = currentSchedules.length + 1;
-    // const newSchedules = [...currentSchedules];
-    // newSchedules.push(schedule);
-    // this.scheduleSubject.next(newSchedules);
   }
 
   public updateGroup(entity: ScheduleGroup) {
@@ -56,6 +42,12 @@ export class ScheduleGroupService {
 
   public removeScheduleGroup(id: number) {
     // TODO: This should be done on suscces response from api
+    const removedGroup = this.scheduleGroupsSubject
+      .getValue()
+      .find((group) => group.id === id);
+    removedGroup?.schedules?.forEach((schedule) =>
+      this.scheduleService.removeSchedule(schedule.id!)
+    );
     this.scheduleGroupsSubject.next(
       this.scheduleGroupsSubject.getValue().filter((group) => group.id !== id)
     );

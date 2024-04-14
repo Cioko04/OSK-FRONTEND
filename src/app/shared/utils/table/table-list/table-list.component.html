@@ -89,7 +89,7 @@
           <app-expansion-panel
             [expansionPanelDetails]="element.expansionPanelDetails"
             (onDelete)="delete($event)"
-            (onAdd)="add($event)"
+            (onAdd)="add($event, element.sourceId)"
             (formType)="emitFormType($event)"
           ></app-expansion-panel>
         </div>

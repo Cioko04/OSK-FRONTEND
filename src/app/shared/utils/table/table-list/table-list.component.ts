@@ -147,8 +147,8 @@ export class TableListComponent implements OnInit, OnChanges {
     ];
   }
 
-  add(formType: FormType) {
-    this.onAdd.emit(formType);
+  add(formType: FormType, sourceId: number) {
+    this.onAdd.emit({formType, sourceId});
   }
 
   edit(id: number) {

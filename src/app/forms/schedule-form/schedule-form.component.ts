@@ -67,7 +67,7 @@ export class ScheduleFormComponent extends BaseFormComponent implements OnInit {
 
   override patchValues() {
     this.form.patchValue({
-      scheduleGroup: this.scheduleGroups[0],
+      scheduleGroup: this.entity.scheduleGroup,
       date: this.entity.startDate,
       starTime: this.parseTime(this.entity.startDate),
       endTime: this.parseTime(this.entity.endDate),
