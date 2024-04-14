@@ -1,20 +1,14 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
 
-export abstract class List {
-  headArray: HeadArray[] | any;
-
-  initProperForm: InitForm = {
-    school: false,
-    instructor: false,
-    user: false,
-    update: false,
-  };
+export abstract class BaseEntityComponent {
+  headArray: HeadArray[] = [];
 
   constructor(public modalService: NgbModal) {}
 
-  abstract onDelete(id: number): void;
+  abstract onDelete(id: number, formType: FormType): void;
 
-  abstract onSubmit(item: any): void;
+  abstract onSubmit(): void;
 
   abstract update(): void;
 
@@ -38,12 +32,3 @@ export interface HeadArray {
   FieldName: string;
   SecondField?: string;
 }
-
-export interface InitForm {
-  school: boolean;
-  instructor: boolean;
-  user: boolean;
-  update: boolean;
-}
-
-

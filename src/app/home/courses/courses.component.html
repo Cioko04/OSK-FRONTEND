@@ -6,7 +6,7 @@
           ><h3><b>Wybierz miasto: </b></h3></label
         >
         <app-search-select-form
-          [valuesObs]="citiesObs"
+          [valuesData]="(cities$ | async)!"
           formControlName="cities"
         ></app-search-select-form>
       </div>
@@ -15,7 +15,7 @@
           ><h3><b>Wybierz kategorię: </b></h3></label
         >
         <app-search-select-form
-          [valuesObs]="categoriesObs"
+          [valuesData]="categories"
           formControlName="categories"
         ></app-search-select-form>
       </div>
@@ -25,8 +25,8 @@
 
 <app-table-list
   [isAction]="false"
-  [HeadArray]="headArray"
-  [GridArrayObs]="schoolObs"
+  [headArray]="headArray"
+  [gridArray]="schools"
   [categories]="chosenCategories"
   [showCategoryCarousel]="true"
   (onBook)="book(content)"
@@ -35,7 +35,6 @@
 
 <ng-template #content let-modal>
   <div class="container-fluid">
-    <div class="row mx-1 mt-4">
-    </div>
+    <div class="row mx-1 mt-4"></div>
   </div>
 </ng-template>

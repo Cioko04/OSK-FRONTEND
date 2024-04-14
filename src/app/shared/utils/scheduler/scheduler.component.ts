@@ -1,73 +1,62 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs';
-import { List } from '../../core/list';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { combineLatest } from 'rxjs';
 import { Schedule } from '../../services/schedule/schedule';
 import { ScheduleService } from '../../services/schedule/schedule.service';
+import { SchedulerService } from './scheduler.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-scheduler',
   templateUrl: './scheduler.component.html',
   styleUrls: ['./scheduler.component.css'],
 })
-export class SchedulerComponent extends List implements OnInit, OnDestroy {
+export class SchedulerComponent implements OnInit {
   schedules: Schedule[] = [];
   schedule!: Schedule;
-  edit: boolean = false;
-  private dataSubscription: Subscription = new Subscription();
+
+  @Output()
+  onAdd = new EventEmitter<any>();
+
+  @Output()
+  onEdit = new EventEmitter<any>();
 
   constructor(
-    modalService: NgbModal,
-    private scheduleService: ScheduleService
-  ) {
-    super(modalService);
-  }
+    private scheduleService: ScheduleService,
+    private schedulerService: SchedulerService
+  ) {}
 
   ngOnInit() {
     this.initSubscription();
   }
 
   private initSubscription() {
-    this.dataSubscription.add(
-      this.scheduleService.scheduleSubject$.subscribe((schedules) => {
-        if (this.schedules !== schedules) {
-          this.schedules = schedules;
-        }
-      })
+    combineLatest([
+      this.scheduleService.scheduleSubject$.pipe(untilDestroyed(this)),
+      this.schedulerService.week$.pipe(untilDestroyed(this)),
+    ]).subscribe(([schedules, week]) => {
+      this.schedules = this.getSchedulesInWeek(schedules, week);
+    });
+  }
+
+  editSchedule(schedule: Schedule) {
+    this.onEdit.emit(schedule);
+  }
+
+  addSchedule(date: Date) {
+    this.onAdd.emit(date);
+  }
+
+  private getSchedulesInWeek(
+    schedules: Schedule[],
+    weekDays: Date[]
+  ): Schedule[] {
+    return schedules.filter((schedule) =>
+      this.scheduleService.isDateBetween(
+        schedule.startDate!,
+        weekDays[0],
+        weekDays[weekDays.length - 1]
+      )
     );
-  }
-
-  ngOnDestroy() {
-    this.dataSubscription.unsubscribe();
-  }
-
-  override onEdit(content: any, schedule: Schedule) {
-    this.schedule = schedule;
-    this.edit = true;
-    super.onEdit(content, schedule);
-  }
-
-  override onDelete(id: number): void {
-    throw new Error('Method not implemented.');
-  }
-
-  override onSubmit(item: any): void {
-    throw new Error('Method not implemented.');
-  }
-
-  override update(): void {
-    throw new Error('Method not implemented.');
-  }
-
-  override add(): void {
-    throw new Error('Method not implemented.');
-  }
-
-  addSchedule(content: any, date: Date) {
-    this.schedule = {
-      startDate: date
-    }
-    this.edit = false;
-    super.onAdd(content);
   }
 }

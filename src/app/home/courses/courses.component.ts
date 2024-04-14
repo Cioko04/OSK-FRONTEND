@@ -3,9 +3,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
 import { School } from 'src/app/shared/services/school/school';
 import { SchoolService } from 'src/app/shared/services/school/school.service';
-import { HeadArray } from 'src/app/shared/core/list';
+import { HeadArray } from 'src/app/shared/core/BaseEntityComponent';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+@UntilDestroy()
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
@@ -15,29 +18,28 @@ export class CoursesComponent implements OnInit {
   headArray: HeadArray[] = [
     { Head: 'Nazwa', FieldName: 'schoolName' },
     { Head: 'Miasto', FieldName: 'city' },
-    { Head: 'Kategorie', FieldName: 'categories' }
+    { Head: 'Kategorie', FieldName: 'categories' },
   ];
 
   headCard: HeadArray[] = [
     { Head: 'Kategoria', FieldName: 'category' },
     { Head: 'Cena', FieldName: 'price' },
-    { Head: 'Opis', FieldName: 'description' }
+    { Head: 'Opis', FieldName: 'description' },
   ];
 
   form: FormGroup | any;
   chosenCategories: string[] = [];
-
-  schoolObs: Observable<School[]> = new Observable<School[]>();
-  categoriesObs: Observable<string[]> = new Observable<string[]>();
-  citiesObs: Observable<string[]> = new Observable<string[]>();
+  schools: School[] = [];
+  categories: string[] = [];
+  cities$!: Observable<string[]>;
 
   constructor(
     private schoolService: SchoolService,
     private formBuilder: FormBuilder,
     private modalService: NgbModal
   ) {
-    this.citiesObs = this.schoolService.getCities();
-    this.categoriesObs = of(Object.values(CategoryEnum));
+   
+    this.categories = Object.values(CategoryEnum);
     this.form = this.formBuilder.group({
       cities: [[]],
       categories: [[]],
@@ -45,8 +47,13 @@ export class CoursesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.schoolObs = this.schoolService.getSchoolsWithCategories();
-    this.form.valueChanges.subscribe(() => {
+    this.cities$ = this.schoolService.getCities();
+    this.schoolService
+      .getSchoolsWithCategories()
+      .pipe(untilDestroyed(this))
+      .subscribe((schools) => (this.schools = schools));
+
+    this.form.valueChanges.pipe(untilDestroyed(this)).subscribe(() => {
       this.search();
       this.chosenCategories = this.form.value.categories;
     });
@@ -61,15 +68,7 @@ export class CoursesComponent implements OnInit {
   }
 
   private search() {
-    this.schoolObs = this.schoolObs.pipe(
-      map((school) =>
-        school.filter(
-          (item) =>
-            this.containsCategories(item.categories!) &&
-            this.containsCities(item.city)
-        )
-      )
-    );
+    this.schools = this.schools.filter((schools) => this.containsCategories(schools.categories!) && this.containsCities(schools.city));
   }
 
   private containsCities(city: string): boolean {

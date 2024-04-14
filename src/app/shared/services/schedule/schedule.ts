@@ -1,7 +1,8 @@
+import { ScheduleGroup } from "../scheduleGroup/schedule-group";
+
 export interface Schedule {
   id?: number;
-  // TODO: change it after implement end-point for this in API
-  instructor?: string;
   startDate?: Date;
   endDate?: Date;
+  scheduleGroup?: ScheduleGroup;
 }

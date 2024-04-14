@@ -1,42 +1,37 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <div class="form-group">
-    <label class="ms-3 mb-1"><b>Kategoria:</b></label>
-    <mat-form-field>
-      <mat-label>Wybierz kategorię</mat-label>
-      <mat-select [formControl]="category">
-        <mat-option *ngFor="let category of categories" [value]="category">
-          {{ category }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+<form [formGroup]="form">
+  <div class="row justify-content-between">
+    <div class="col-12 form-group px-0">
+      <mat-form-field>
+        <mat-label>Wybierz kategorię</mat-label>
+        <mat-select [formControl]="category">
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
-  <div class="form-group">
-    <label class="ms-3 mb-1"><b>Cena:</b></label>
-    <mat-form-field>
-      <mat-label>Cena</mat-label>
-      <input
-        matInput
-        type="number"
-        class="example-right-align"
-        placeholder="0"
-        [formControl]="price"
-      />
-      <span matTextSuffix>zł</span>
-    </mat-form-field>
+  <div class="row justify-content-between">
+    <div class="col-12 form-group px-0">
+      <mat-form-field>
+        <mat-label>Cena</mat-label>
+        <input
+          matInput
+          type="number"
+          class="example-right-align"
+          placeholder="0"
+          [formControl]="price"
+        />
+        <span matTextSuffix>zł</span>
+      </mat-form-field>
+    </div>
   </div>
-  <div class="form-group">
-    <label class="ms-3 mb-1"><b>Opis kursu:</b></label>
-    <mat-form-field class="example-full-width">
-      <mat-label>Opis kursu</mat-label>
-      <textarea matInput [formControl]="description"></textarea>
-    </mat-form-field>
-  </div>
-  <div class="form-group my-3">
-    <button
-      type="submit"
-      class="form-control btn btn-primary el-login-border btn-block fw-semibold fs-6 p-2"
-    >
-      <i class="fa fa-reply me-2" aria-hidden="true"></i> Zapisz
-    </button>
+  <div class="row justify-content-between">
+    <div class="col-12 form-group px-0">
+      <mat-form-field>
+        <mat-label>Opis kursu</mat-label>
+        <textarea matInput [formControl]="description"></textarea>
+      </mat-form-field>
+    </div>
   </div>
 </form>

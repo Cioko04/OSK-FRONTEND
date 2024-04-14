@@ -11,6 +11,7 @@ mat-select {
   color: rgb(0, 0, 0) !important;
   font-weight: 500 !important;
 }
+
 mat-form-field {
   margin-bottom: -1.3rem;
 }
@@ -28,7 +29,6 @@ th {
   max-width: 80px;
 }
 td {
-  font-size: 0.9rem;
   color: black;
   max-width: 80px;
 }
@@ -43,6 +43,6 @@ td {
   border-left: 2px solid midnightblue;
   border-right: 2px solid midnightblue;
   border-bottom: 2px solid midnightblue;
-  max-height: 60vh;
+  max-height: 70vh;
   overflow: auto;
 }

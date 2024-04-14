@@ -3,7 +3,7 @@
     <app-control-table-panel
       [isAction]="isAction"
       [(filter)]="filter"
-      (onAdd)="add()"
+      (onAdd)="add($event)"
     ></app-control-table-panel>
   </div>
   <div class="row">
@@ -11,7 +11,7 @@
       <app-table-cards
         [filter]="filter"
         [isAction]="isAction"
-        [HeadArray]="HeadArray"
+        [headArray]="headArray"
         [gridArray]="gridArray"
         (onEdit)="edit($event)"
         (onChoose)="choose($event)"
@@ -22,8 +22,9 @@
         <app-table-list
           [filter]="filter"
           [isAction]="isAction"
-          [HeadArray]="HeadArray"
-          [GridArrayObs]="GridArrayObs"
+          [headArray]="headArray"
+          [gridArray]="gridArray"
+          (onAdd)="add($event)"
           (onEdit)="edit($event)"
           (onDelete)="delete($event)"
         ></app-table-list>

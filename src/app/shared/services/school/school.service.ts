@@ -33,7 +33,7 @@ export class SchoolService {
     );
   }
 
-  getCities(): Observable<Array<string>> {
+  getCities(): Observable<string[]> {
     return this.http.get<Array<string>>(this.API_URL + '/getCities').pipe(
       catchError((error) => {
         return this.errorHandler.handleError(error);

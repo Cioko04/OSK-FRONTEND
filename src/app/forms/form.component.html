@@ -1,0 +1,57 @@
+<div class="form">
+  <div class="text-center mb-3 mt-2">
+    <h1 class="fw-bold text-primary">{{ formSettings.titile }}</h1>
+  </div>
+  <hr />
+  <ng-container [ngSwitch]="formSettings.formType">
+    <ng-template [ngSwitchCase]="FormType.LOGIN">
+      <app-login-form #form (entityChange)="submit()"></app-login-form>
+    </ng-template>
+    <ng-template [ngSwitchCase]="FormType.SIGNUP">
+      <app-sign-up-form
+        #form
+        [entity]="entity"
+        [signInFormSettings]="signInFormSettings"
+        [edit]="formSettings.edit!"
+        (entityChange)="submit()"
+      >
+      </app-sign-up-form>
+    </ng-template>
+    <ng-template [ngSwitchCase]="FormType.COURSE">
+      <app-course-form
+        #form
+        [entity]="entity"
+        [signInFormSettings]="signInFormSettings"
+        [edit]="formSettings.edit!"
+        (entityChange)="submit()"
+      ></app-course-form>
+    </ng-template>
+    <ng-template [ngSwitchCase]="FormType.SCHEDULE">
+      <app-schedule-form
+        #form
+        [entity]="entity"
+        [edit]="formSettings.edit!"
+        (entityChange)="submit()"
+      ></app-schedule-form>
+    </ng-template>
+    <ng-template [ngSwitchCase]="FormType.SCHEDULE_GROUP">
+      <app-schedule-group-form
+        #form
+        [entity]="entity"
+        [edit]="formSettings.edit!"
+        (entityChange)="submit()"
+      ></app-schedule-group-form>
+    </ng-template>
+  </ng-container>
+  <hr />
+  <div class="form-group my-3">
+    <button
+      type="submit"
+      (click)="triggerSubmit()"
+      class="form-control btn btn-primary el-login-border btn-block fw-semibold fs-6 p-2"
+    >
+      <i class="fa fa-share me-2" aria-hidden="true"></i
+      >{{ formSettings.buttonText }}
+    </button>
+  </div>
+</div>

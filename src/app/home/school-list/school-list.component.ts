@@ -4,14 +4,19 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { School } from 'src/app/shared/services/school/school';
 import { SchoolService } from 'src/app/shared/services/school/school.service';
-import { HeadArray, List } from '../../shared/core/list';
+import { HeadArray, BaseEntityComponent } from '../../shared/core/BaseEntityComponent';
+import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
+import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-school-list',
   templateUrl: './school-list.component.html',
   styleUrls: ['./school-list.component.css'],
 })
-export class SchoolListComponent extends List implements OnInit {
+export class SchoolListComponent extends BaseEntityComponent  implements OnInit {
   override headArray: HeadArray[] = [
     { Head: 'Nazwa', FieldName: 'schoolName' },
     { Head: 'Właściciel', FieldName: 'userRequest', SecondField: 'name' },
@@ -20,21 +25,33 @@ export class SchoolListComponent extends List implements OnInit {
     { Head: 'Data dodania', FieldName: 'addDate' },
   ];
 
+  signInFormSettings: SignInFormSettings = {
+    school: false,
+    instructor: false,
+    user: false
+  };
+
+  fromSettings: FormSettings = {
+    formType: FormType.SIGNUP,
+    buttonText: "Zapisz",
+    edit: false
+  }
+
   school: School | any;
-  schoolObs: Observable<School[]> = new Observable<School[]>();
+  schools: School[] = [];
 
   constructor(
     modalService: NgbModal,
     private schoolService: SchoolService
   ) {
     super(modalService);
-    this.initProperForm.school = true;
-    this.initProperForm.user = true;
+    this.signInFormSettings.school = true;
+    this.signInFormSettings.user = true;
   }
 
   ngOnInit(): void {
     this.school = {};
-    this.schoolObs = this.schoolService.getSchools();
+    this.schoolService.getSchools().pipe(untilDestroyed(this)).subscribe((schools) => this.schools);
   }
 
   onDelete(id: number) {
@@ -48,19 +65,19 @@ export class SchoolListComponent extends List implements OnInit {
   }
 
   override onAdd(content: any) {
-    this.initProperForm.update = false;
+    this.fromSettings.edit = false;
     this.school.userRequest = {};
     super.onAdd(content);
   }
 
   override onEdit(content: any, school: School) {
-    this.initProperForm.update = true;
+    this.fromSettings.edit = true;
     this.school = school;
     super.onEdit(content, school);
   }
 
   onSubmit() {
-    this.initProperForm.update ? this.update() : this.add();
+    this.fromSettings.edit ? this.update() : this.add();
   }
 
   update() {

@@ -68,9 +68,6 @@ import { UserService } from './shared/services/user/user.service';
 import { SchedulerNavComponent } from './shared/utils/scheduler/scheduler-nav/scheduler-nav.component';
 import { SchedulerTableComponent } from './shared/utils/scheduler/scheduler-table/scheduler-table.component';
 import { SchedulerComponent } from './shared/utils/scheduler/scheduler.component';
-import { CommonTableComponent } from './shared/utils/tables/common-table/common-table.component';
-import { TableCardsComponent } from './shared/utils/tables/table-cards/table-cards.component';
-import { TableListComponent } from './shared/utils/tables/table-list/table-list.component';
 import { LoginRegistrationComponent } from './welcome/login-registration/login-registration.component';
 import { WelcomeNavComponent } from './welcome/welcome-nav/welcome-nav.component';
 import { WelcomeComponent } from './welcome/welcome.component';
@@ -79,17 +76,24 @@ import { SchedulePlaceholderComponent } from './shared/utils/scheduler/schedule-
 import { TimePickerComponent } from './forms/common/time-picker/time-picker.component';
 import { MatListModule } from '@angular/material/list';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import { ControlTablePanelComponent } from './shared/utils/tables/control-table-panel/control-table-panel.component';
+import { TableCardsComponent } from './shared/utils/table/table-cards/table-cards.component';
+import { TableComponent } from './shared/utils/table/table.component';
+import { TableListComponent } from './shared/utils/table/table-list/table-list.component';
+import { ControlTablePanelComponent } from './shared/utils/table/control-table-panel/control-table-panel.component';
+import { FormComponent } from './forms/form.component';
+import { ScheduleGroupFormComponent } from './forms/schedule-group-form/schedule-group-form.component';
+import { MatExpansionModule} from '@angular/material/expansion';
+import { ExpansionPanelComponent } from './shared/utils/table/table-list/expansion-panel/expansion-panel.component';
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'LLL',
+    dateInput: 'LLLL',
   },
   display: {
-    dateInput: 'DD MMMM YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MM YYYY',
+    dateA11yLabel: 'LLLL',
+    monthYearA11yLabel: 'MM YYYY',
   },
 };
 @NgModule({
@@ -120,7 +124,7 @@ export const MY_FORMATS = {
     CourseFormComponent,
     TableCardsComponent,
     CardComponent,
-    CommonTableComponent,
+    TableComponent,
     FilterPipe,
     TableListComponent,
     AllCoursesComponent,
@@ -131,7 +135,10 @@ export const MY_FORMATS = {
     SchedulePlaceholderComponent,
     ScheduleFormComponent,
     TimePickerComponent,
-    ControlTablePanelComponent
+    ControlTablePanelComponent,
+    FormComponent,
+    ScheduleGroupFormComponent,
+    ExpansionPanelComponent
   ],
   imports: [
     BrowserModule,
@@ -160,7 +167,8 @@ export const MY_FORMATS = {
     BrowserAnimationsModule,
     MatButtonToggleModule,
     MatListModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    MatExpansionModule
   ],
   providers: [
     UserService,

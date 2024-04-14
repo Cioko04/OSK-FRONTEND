@@ -1,12 +1,35 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, forwardRef } from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  Validators,
+} from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
+@UntilDestroy()
 @Component({
   selector: 'app-time-picker',
   templateUrl: './time-picker.component.html',
   styleUrls: ['./time-picker.component.css'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => TimePickerComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => TimePickerComponent),
+      multi: true,
+    },
+  ],
 })
-export class TimePickerComponent implements OnInit {
+export class TimePickerComponent implements ControlValueAccessor {
   darkTheme: NgxMaterialTimepickerTheme = {
     container: {
       bodyBackgroundColor: '#424242',
@@ -22,26 +45,66 @@ export class TimePickerComponent implements OnInit {
     },
   };
 
-  time: string = '';
+
+  // @Input()
+  // date!: Date;
+
+  // @Output()
+  // dateChange = new EventEmitter<Date>();
+
+  form: FormGroup;
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
   @Input()
   label: string = '';
 
-  @Input()
-  date!: Date;
+  constructor(private formBuilder: FormBuilder) {
+    this.form = this.formBuilder.group({
+      time: ['', [Validators.required]],
+    });
 
-  @Output()
-  dateChange = new EventEmitter<Date>();
-
-  constructor() {}
-
-  ngOnInit() {
-    this.setTime();
+    this.form.valueChanges
+      .pipe(untilDestroyed(this))
+      .subscribe((value: any) => {
+        this.onChange(value);
+        this.onTouched();
+      });
   }
 
-  setTime() {
-    const hours = this.date.getHours().toString().padStart(2, '0');
-    const minutes = this.date.getMinutes().toString().padStart(2, '0');
-    this.time = `${hours}:${minutes}`;
+  set value(time: string) {
+    this.form.setValue({ time: time });
+    this.onChange(time);
+    this.onTouched();
+  }
+
+  get value(): string {
+    return this.form.value; 
+  }
+
+  get time(): FormControl {
+    return this.form.controls['time'] as FormControl;
+  }
+
+  writeValue(value: string): void {
+    if (value) {
+      this.value = value;
+    }
+
+    if (value === null) {
+      this.form.reset();
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  validate(_: FormControl) {
+    return this.form.valid ? null : { time: { valid: false } };
   }
 }

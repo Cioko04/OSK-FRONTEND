@@ -1,15 +1,34 @@
 <div class="container-fluid">
   <div class="row mx-2">
     <div class="col-12 col-xl-5">
-      <app-common-table
-      [useTableCards]="false"
-      [isAction]="true"
-      [HeadArray]="headArray"
-    >
-    </app-common-table>
+      <app-table
+        [isAction]="true"
+        [useTableCards]="false"
+        [headArray]="headArray"
+        [gridArray]="tableScheduleGroups"
+        (onAdd)="addEntity(content, $event)"
+        (onDelete)="onDelete($event.id, $event.formType!)"
+        (onEdit)="onEdit(content, $event)"
+      >
+      </app-table>
     </div>
     <div class="col-12 col-xl-7">
-      <app-scheduler></app-scheduler>
+      <app-scheduler
+        (onAdd)="addSchedule(content, $event, undefined)"
+        (onEdit)="editSchedule(content, $event)"
+      ></app-scheduler>
     </div>
   </div>
 </div>
+<ng-template #content let-modal style="width: 250px">
+  <div class="container-fluid">
+    <div class="row mx-1 mt-4">
+      <app-form
+        [formSettings]="formSettings"
+        [signInFormSettings]="signInFormSettings"
+        [(entity)]="entity"
+        (entityChange)="onSubmit(); modal.close()"
+      ></app-form>
+    </div>
+  </div>
+</ng-template>

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { eachDayOfInterval, endOfWeek, format, startOfWeek } from 'date-fns';
 import { Moment } from 'moment';
 import { BehaviorSubject } from 'rxjs';
@@ -18,6 +19,7 @@ export interface DayWithDate {
   dayOfMonth: number;
 }
 
+@UntilDestroy()
 @Injectable({
   providedIn: 'root',
 })
@@ -32,7 +34,9 @@ export class SchedulerService {
   currentDate$ = this.currentDateSubject.asObservable();
 
   constructor() {
-    this.setOnlyOneDay$.subscribe(() => this.setWeek());
+    this.setOnlyOneDay$
+      .pipe(untilDestroyed(this))
+      .subscribe(() => this.setWeek());
   }
 
   updateOnlyOneDay(setOnlyOneDay: boolean) {
@@ -87,7 +91,8 @@ export class SchedulerService {
   isRightNow(hour: string): boolean {
     const today: Date = new Date();
     return (
-      hour.split(':')[0] === today.getHours().toString() && !this.isDifferentDay(today)
+      hour.split(':')[0] === today.getHours().toString() &&
+      !this.isDifferentDay(today)
     );
   }
 

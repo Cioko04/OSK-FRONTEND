@@ -26,7 +26,7 @@ export interface PasswordFormValues {
 @Component({
   selector: 'app-password-form',
   templateUrl: './password-form.component.html',
-  styleUrls: ['./password-form.component.css', '../../form-style.css'],
+  styleUrls: ['./password-form.component.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

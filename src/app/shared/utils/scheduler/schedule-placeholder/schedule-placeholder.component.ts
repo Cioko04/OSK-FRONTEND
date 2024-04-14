@@ -11,6 +11,8 @@ import {
 } from '@angular/core';
 import { Schedule } from 'src/app/shared/services/schedule/schedule';
 import { SchedulePlaceholderPositionService } from './schedule-placeholder-position.service';
+import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
+import { User } from 'src/app/shared/services/user/user';
 
 @Component({
   selector: 'app-schedule-placeholder',
@@ -28,7 +30,8 @@ export class SchedulePlaceholderComponent implements AfterViewInit {
 
   constructor(
     private schedulePlaceholderPositionService: SchedulePlaceholderPositionService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private instructorService: InstructorService
   ) {}
 
   @HostListener('window:resize')
@@ -89,5 +92,9 @@ export class SchedulePlaceholderComponent implements AfterViewInit {
 
   editSchedule() {
     this.onEdit.emit(this.schedule);
+  }
+
+  getInstructorName(instructor: User): string {
+    return this.instructorService.getInstructorName(instructor);
   }
 }

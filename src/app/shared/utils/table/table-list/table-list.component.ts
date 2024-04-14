@@ -17,16 +17,16 @@ import {
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Observable, map } from 'rxjs';
-import { HeadArray } from '../../../core/list';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { HeadArray } from '../../../core/BaseEntityComponent';
+import { TransformItemService } from './transform-item.service';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
 
 @UntilDestroy()
 @Component({
   selector: 'app-table-list',
   templateUrl: './table-list.component.html',
-  styleUrls: ['./table-list.component.css' , '../../utils-style.css'],
+  styleUrls: ['./table-list.component.css', '../../utils-style.css'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -39,17 +39,14 @@ import { HeadArray } from '../../../core/list';
   ],
 })
 export class TableListComponent implements OnInit, OnChanges {
-  @ViewChild(MatPaginator) paginator: MatPaginator | any;
-  @ViewChild(MatSort) sort: MatSort | any;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   @Input()
-  HeadArray: HeadArray[] = [];
+  headArray: HeadArray[] = [];
 
   @Input()
-  HeadCard: HeadArray[] = [];
-
-  @Input()
-  GridArrayObs: Observable<any[]> = new Observable<any[]>();
+  gridArray: any[] = [];
 
   @Input()
   isAction: boolean = false;
@@ -70,10 +67,13 @@ export class TableListComponent implements OnInit, OnChanges {
   onEdit = new EventEmitter<any>();
 
   @Output()
-  onDelete = new EventEmitter<number>();
+  onDelete = new EventEmitter<{id: number, formType: FormType | undefined}>();
 
   @Output()
   onBook = new EventEmitter<number>();
+
+  @Output()
+  formType = new EventEmitter<FormType>();
 
   dataSource: any = [];
   displayedColumns: string[] = [];
@@ -81,15 +81,15 @@ export class TableListComponent implements OnInit, OnChanges {
   expandedElement: any;
   windowWidth: number | any;
 
-  constructor() {}
-
-  ngOnChanges(): void {
-    this.loadData();
-  }
+  constructor(private transformItemService: TransformItemService) {}
 
   ngOnInit(): void {
     const resizeEvent = new Event('resize');
     window.dispatchEvent(resizeEvent);
+  }
+
+  ngOnChanges(): void {
+    this.loadData();
   }
 
   getHead(head: any): any {
@@ -100,68 +100,35 @@ export class TableListComponent implements OnInit, OnChanges {
     }
   }
 
-  adjustDisplayedColumns(length: number, showExpand: boolean) {
+  private adjustColumns(length: number, showExpand: boolean) {
     this.displayedColumns = [];
     this.displayedInfo = [];
-    this.displayedColumns.push('Id');
-    this.HeadArray.forEach((head) => {
+    this.headArray.forEach((head) => {
       this.displayedColumns.push(head.Head);
       this.displayedInfo.push(head.Head);
     });
-
-    if (length <= 2) {
-      this.displayedColumns.shift();
-    }
-    const countsOfColumnsToDelete = this.displayedColumns.length - length;
-    if (countsOfColumnsToDelete > 0) {
-      this.displayedColumns.splice(-countsOfColumnsToDelete);
-    }
-    if (this.isAction) {
-      this.addActions();
-    }
-
-    if (showExpand) {
-      this.displayedColumns.push('expand');
-    }
-  }
-
-  private addActions() {
-    this.displayedColumns.push('update', 'remove');
+    this.displayedColumns = this.transformItemService.adjustDisplayedColumns(
+      this.displayedColumns,
+      length,
+      showExpand,
+      this.isAction
+    );
   }
 
   private loadData() {
-    this.GridArrayObs.pipe(untilDestroyed(this)).subscribe((data) => {
-      this.dataSource = this.transformData(data);
+    if (this.gridArray) {
+      this.dataSource = this.transformItemService.transformData(
+        this.gridArray,
+        this.headArray
+      );
       this.applyFilter();
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-    });
+    }
   }
 
   private applyFilter() {
     this.dataSource.filter = this.filter.trim().toLowerCase();
-  }
-
-  private transformData(data: any): MatTableDataSource<any> {
-    const transformedData = data.map((item: any) => {
-      const transformedItem: any = {};
-      transformedItem['Id'] = data.indexOf(item) + 1;
-      this.HeadArray.forEach((column) => {
-        let data;
-        if (column.SecondField) {
-          data = item[column.FieldName][column.SecondField];
-        } else {
-          data = item[column.FieldName];
-        }
-        if (this.isArray(data)) {
-          data.sort();
-        }
-        transformedItem[column.Head] = data;
-      });
-      transformedItem['sourceId'] = item.id;
-      return transformedItem;
-    });
-    return new MatTableDataSource(transformedData);
   }
 
   calculateVisibleRows(): number[] {
@@ -180,23 +147,25 @@ export class TableListComponent implements OnInit, OnChanges {
     ];
   }
 
-  add() {
-    this.onAdd.emit();
+  add(formType: FormType, sourceId: number) {
+    this.onAdd.emit({formType, sourceId});
   }
 
   edit(id: number) {
-    this.GridArrayObs.pipe(
-      untilDestroyed(this),
-      map((data: any[]) => data.find((item) => item.id === id))
-    ).subscribe((data) => this.onEdit.emit(data));
+    const item = this.gridArray.find((item) => item.id === id);
+    this.onEdit.emit(item);
   }
 
-  delete(id: number) {
-    this.onDelete.emit(id);
+  delete(event: {id: number, formType: FormType | undefined}) {
+    this.onDelete.emit(event);
   }
 
   book() {
     this.onBook.emit();
+  }
+
+  emitFormType(formType: FormType) {
+    this.formType.emit(formType);
   }
 
   isArray(element: any) {
@@ -204,22 +173,22 @@ export class TableListComponent implements OnInit, OnChanges {
   }
 
   @HostListener('window:resize', ['$event'])
-  onWindowResize(event: any) {
+  onWindowResize() {
     this.windowWidth = window.innerWidth;
     if (this.windowWidth >= 769) {
-      this.adjustDisplayedColumns(this.HeadArray.length + 1, true);
+      this.adjustColumns(this.headArray.length + 1, true);
     } else if (this.windowWidth <= 768 && this.windowWidth >= 635) {
-      this.adjustDisplayedColumns(5, true);
+      this.adjustColumns(5, true);
     } else if (this.windowWidth <= 634 && this.windowWidth >= 577) {
-      this.adjustDisplayedColumns(4, true);
+      this.adjustColumns(4, true);
     } else if (this.windowWidth <= 576 && this.windowWidth >= 481) {
-      this.adjustDisplayedColumns(3, true);
+      this.adjustColumns(3, true);
     } else if (this.windowWidth <= 480 && this.windowWidth >= 371) {
-      this.adjustDisplayedColumns(2, true);
+      this.adjustColumns(2, true);
     } else if (this.windowWidth <= 370 && this.windowWidth >= 321) {
-      this.adjustDisplayedColumns(2, false);
+      this.adjustColumns(2, false);
     } else if (this.windowWidth <= 320) {
-      this.adjustDisplayedColumns(1, false);
+      this.adjustColumns(1, false);
     }
   }
 }

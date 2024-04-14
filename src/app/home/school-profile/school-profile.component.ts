@@ -3,7 +3,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { School } from 'src/app/shared/services/school/school';
 import { SchoolService } from 'src/app/shared/services/school/school.service';
-import { InitForm } from 'src/app/shared/core/list';
+import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
+import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
 
 @UntilDestroy()
 @Component({
@@ -12,12 +14,17 @@ import { InitForm } from 'src/app/shared/core/list';
   styleUrls: ['./school-profile.component.css'],
 })
 export class SchoolProfileComponent {
-  initForm: InitForm = {
+  signInFormSettings: SignInFormSettings = {
     school: true,
     instructor: false,
     user: false,
-    update: true,
   };
+
+  fromSettings: FormSettings = {
+    formType: FormType.SIGNUP,
+    buttonText: "Zapisz",
+    edit: true
+  }
 
   @Input()
   school: School | any;

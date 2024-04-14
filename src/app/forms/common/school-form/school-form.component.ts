@@ -28,7 +28,7 @@ export interface SchoolFormValues {
 @Component({
   selector: 'app-school-form',
   templateUrl: './school-form.component.html',
-  styleUrls: ['./school-form.component.css', '../../form-style.css'],
+  styleUrls: ['./school-form.component.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

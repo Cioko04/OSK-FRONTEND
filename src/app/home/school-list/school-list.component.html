@@ -8,23 +8,24 @@
 >
 </app-table-list> -->
 
-<app-common-table
+<app-table
   [isAction]="true"
-  [HeadArray]="headArray"
-  [GridArrayObs]="schoolObs"
+  [headArray]="headArray"
+  [gridArray]="schools"
   (onAdd)="onAdd(content)"
   (onEdit)="onEdit(content, $event)"
-  (onDelete)="onDelete($event)"
+  (onDelete)="onDelete($event.id)"
 >
-</app-common-table>
+</app-table>
 <ng-template #content let-modal>
   <div class="container-fluid">
     <div class="row mx-1 mt-4">
-      <app-sign-up-form
-        [initProperForm]="initProperForm"
-        [(data)]="school"
+      <app-form
+      [signInFormSettings]="signInFormSettings"
+      [formSettings]="fromSettings"
+        [(entity)]="school"
         (onSubmit)="onSubmit(); modal.close()"
-      ></app-sign-up-form>
+      ></app-form>
     </div>
   </div>
 </ng-template>

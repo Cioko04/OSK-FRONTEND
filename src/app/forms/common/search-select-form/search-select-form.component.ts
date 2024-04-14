@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, forwardRef, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, forwardRef, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -27,7 +27,7 @@ import { Observable, map, startWith } from 'rxjs';
     },
   ],
 })
-export class SearchSelectFormComponent implements OnInit {
+export class SearchSelectFormComponent implements OnChanges {
   form: FormGroup | any;
   chosenValues: string[] = [];
   leftValues: string[] = [];
@@ -36,7 +36,7 @@ export class SearchSelectFormComponent implements OnInit {
   onTouched: any = () => {};
 
   @Input()
-  valuesObs: Observable<string[]> = new Observable<string[]>();
+  valuesData: string[] = [];
   @Input()
   showButtons: boolean = false;
 
@@ -54,11 +54,10 @@ export class SearchSelectFormComponent implements OnInit {
       values: [[]],
     });
   }
-
-  ngOnInit(): void {
-    this.valuesObs.pipe(untilDestroyed(this)).subscribe((values: string[]) => {
-      this.updateValuesInList(values, this.values.valueChanges);
-    });
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.valuesData && changes['valuesData']) {
+      this.updateValuesInList(this.valuesData, this.values.valueChanges);
+    }
   }
 
   select(value: string): void {

@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { HeadArray } from 'src/app/shared/core/list';
+import { HeadArray } from 'src/app/shared/core/BaseEntityComponent';
 
 @Component({
   selector: 'app-table-cards',
@@ -18,7 +18,7 @@ export class TableCardsComponent implements OnInit, OnChanges {
   filter: string = '';
 
   @Input()
-  HeadArray: HeadArray[] = [];
+  headArray: HeadArray[] = [];
 
   @Input()
   gridArray: any[] = [];
@@ -42,8 +42,8 @@ export class TableCardsComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     this.gridArray.sort((a, b) => {
-      const firstItem = a[this.HeadArray[0].FieldName].toUpperCase();
-      const secondItem = b[this.HeadArray[0].FieldName].toUpperCase();
+      const firstItem = a[this.headArray[0].FieldName].toUpperCase();
+      const secondItem = b[this.headArray[0].FieldName].toUpperCase();
 
       if (firstItem < secondItem) {
         return -1;
@@ -57,7 +57,7 @@ export class TableCardsComponent implements OnInit, OnChanges {
 
   getFilteredValues(): any[] {
     return this.gridArray.filter((item) =>
-      item[this.HeadArray[0].FieldName].toLowerCase().includes(this.filter.toLowerCase())
+      item[this.headArray[0].FieldName].toLowerCase().includes(this.filter.toLowerCase())
     );
   }
 
