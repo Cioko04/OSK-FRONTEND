@@ -4,9 +4,9 @@
     [isAction]="true"
     [headArray]="headArray"
     [gridArray]="(instructors$ | async)!"
-    (onAdd)="onAdd(content)"
-    (onEdit)="onEdit(content, $event)"
-    (onDelete)="onDelete($event.id)"
+    (onAdd)="onOpenAddForm(content)"
+    (onEdit)="onOpenEditForm(content, $event)"
+    (onDelete)="onDeleteEntity($event.id)"
   >
   </app-table>
   <ng-template #content let-modal>
@@ -16,7 +16,7 @@
           [signInFormSettings]="signInFormSettings"
           [formSettings]="formSettings"
           [(entity)]="instructor"
-          (entityChange)="onSubmit(); modal.close()"
+          (entityChange)="onFormSubmit(); modal.close()"
         ></app-form>
       </div>
     </div>

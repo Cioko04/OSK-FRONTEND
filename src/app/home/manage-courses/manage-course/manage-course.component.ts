@@ -166,39 +166,8 @@ export class ManageCourseComponent
     });
   }
 
-  override onDeleteEntity(id: number, formType: FormType): void {
-    switch (formType) {
-      case FormType.SCHEDULE:
-        this.scheduleService.removeSchedule(id);
-        break;
-      default:
-        this.scheduleGroupService.removeScheduleGroup(id);
-        break;
-    }
-  }
-
   override onFormSubmit(): void {
     this.formSettings.edit ? this.onUpdateEntity() : this.onAddEntity();
-  }
-
-  override onUpdateEntity(): void {
-    switch (this.formSettings.formType) {
-      case FormType.SCHEDULE:
-        this.scheduleService.updateSchedule(this.entity as Schedule);
-        break;
-      case FormType.SCHEDULE_GROUP:
-        this.scheduleGroupService.updateGroup(this.entity as ScheduleGroup);
-        break;
-    }
-  }
-
-  override onOpenEditForm(content: any, entity: Schedule | ScheduleGroup) {
-    this.formSettings.edit = true;
-    this.formSettings.titile =
-      'Edytuj grupę dla kategorii: ' + this.course.categoryType;
-    this.formSettings.formType = FormType.SCHEDULE_GROUP;
-    this.entity = this.scheduleGroups.find((group) => group.id === entity.id)!;
-    super.onOpenEditForm(content, this.entity);
   }
 
   override onAddEntity(): void {
@@ -213,29 +182,60 @@ export class ManageCourseComponent
     }
   }
 
-  addEntity(content: any, addContent: AddContent) {
+  override onUpdateEntity(): void {
+    switch (this.formSettings.formType) {
+      case FormType.SCHEDULE:
+        this.scheduleService.updateSchedule(this.entity as Schedule);
+        break;
+      case FormType.SCHEDULE_GROUP:
+        this.scheduleGroupService.updateGroup(this.entity as ScheduleGroup);
+        break;
+    }
+  }
+
+  override onDeleteEntity(id: number, formType: FormType): void {
+    switch (formType) {
+      case FormType.SCHEDULE:
+        this.scheduleService.removeSchedule(id);
+        break;
+      default:
+        this.scheduleGroupService.removeScheduleGroup(id);
+        break;
+    }
+  }
+
+  openAddForm(content: any, addContent: AddContent) {
     this.formSettings.buttonText = 'Dodaj';
     this.formSettings.edit = false;
     switch (addContent?.formType) {
       case FormType.SCHEDULE:
-        this.addSchedule(content, new Date(), addContent.sourceId);
+        this.openAddScheduleForm(content, new Date(), addContent.sourceId);
         break;
       case FormType.SIGNUP:
-        this.addStudent(content);
+        this.openAddStudentForm(content);
         break;
       default:
-        this.addScheduleGroup(content);
+        this.openAddScheduleGroupForm(content);
     }
   }
 
-  private addStudent(content: any) {
+  override onOpenEditForm(content: any, entity: Schedule | ScheduleGroup) {
+    this.formSettings.edit = true;
+    this.formSettings.titile =
+      'Edytuj grupę dla kategorii: ' + this.course.categoryType;
+    this.formSettings.formType = FormType.SCHEDULE_GROUP;
+    this.entity = this.scheduleGroups.find((group) => group.id === entity.id)!;
+    super.onOpenEditForm(content, this.entity);
+  }
+
+  private openAddStudentForm(content: any) {
     this.formSettings.formType = FormType.SIGNUP;
     this.formSettings.titile = 'Dodaj nowego studenta';
     this.entity = {};
     super.onOpenAddForm(content);
   }
 
-  private addScheduleGroup(content: any) {
+  private openAddScheduleGroupForm(content: any) {
     this.formSettings.formType = FormType.SCHEDULE_GROUP;
     this.formSettings.titile =
       'Dodaj nową grupę dla kategorii: ' + this.course.categoryType;
@@ -243,7 +243,7 @@ export class ManageCourseComponent
     super.onOpenAddForm(content);
   }
 
-  addSchedule(content: any, date: any, sourceId?: number) {
+  openAddScheduleForm(content: any, date: any, sourceId?: number) {
     this.entity = {
       scheduleGroup: this.scheduleGroups.find((group) => group.id === sourceId),
       startDate: date,
@@ -255,7 +255,7 @@ export class ManageCourseComponent
     super.onOpenAddForm(content);
   }
 
-  editSchedule(content: any, schedule: Schedule) {
+  openEditScheduleForm(content: any, schedule: Schedule) {
     this.entity = schedule;
     this.formSettings.formType = FormType.SCHEDULE;
     this.formSettings.edit = true;
