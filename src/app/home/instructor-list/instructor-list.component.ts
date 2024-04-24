@@ -79,7 +79,7 @@ export class InstructorListComponent
       });
   }
 
-  override onDelete(id: number) {
+  override onDeleteEntity(id: number) {
     this.instructorService
       .deleteInstructor(id)
       .pipe(untilDestroyed(this))
@@ -92,24 +92,24 @@ export class InstructorListComponent
       });
   }
 
-  override onAdd(content: any) {
+  override onOpenAddForm(content: any) {
     this.formSettings.edit = false;
     this.formSettings.titile = 'Dodaj instruktora!';
-    super.onAdd(content);
+    super.onOpenAddForm(content);
   }
 
-  override onEdit(content: any, instructor: Instructor) {
+  override onOpenEditForm(content: any, instructor: Instructor) {
     this.formSettings.edit = true;
     this.formSettings.titile = 'Edytuj instruktora!';
     this.instructor = instructor;
-    super.onEdit(content, instructor);
+    super.onOpenEditForm(content, instructor);
   }
 
-  onSubmit() {
-    this.formSettings.edit ? this.update() : this.add();
+  onFormSubmit() {
+    this.formSettings.edit ? this.onUpdateEntity() : this.onAddEntity();
   }
 
-  update() {
+  onUpdateEntity() {
     this.instructorService
       .updateInstructor(this.instructor)
       .pipe(untilDestroyed(this))
@@ -125,7 +125,7 @@ export class InstructorListComponent
       });
   }
 
-  add() {
+  onAddEntity() {
     this.instructorService
       .register(this.instructor)
       .pipe(untilDestroyed(this))

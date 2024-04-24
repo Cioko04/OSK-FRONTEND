@@ -166,7 +166,7 @@ export class ManageCourseComponent
     });
   }
 
-  override onDelete(id: number, formType: FormType): void {
+  override onDeleteEntity(id: number, formType: FormType): void {
     switch (formType) {
       case FormType.SCHEDULE:
         this.scheduleService.removeSchedule(id);
@@ -177,11 +177,11 @@ export class ManageCourseComponent
     }
   }
 
-  override onSubmit(): void {
-    this.formSettings.edit ? this.update() : this.add();
+  override onFormSubmit(): void {
+    this.formSettings.edit ? this.onUpdateEntity() : this.onAddEntity();
   }
 
-  override update(): void {
+  override onUpdateEntity(): void {
     switch (this.formSettings.formType) {
       case FormType.SCHEDULE:
         this.scheduleService.updateSchedule(this.entity as Schedule);
@@ -192,16 +192,16 @@ export class ManageCourseComponent
     }
   }
 
-  override onEdit(content: any, entity: Schedule | ScheduleGroup) {
+  override onOpenEditForm(content: any, entity: Schedule | ScheduleGroup) {
     this.formSettings.edit = true;
     this.formSettings.titile =
       'Edytuj grupę dla kategorii: ' + this.course.categoryType;
     this.formSettings.formType = FormType.SCHEDULE_GROUP;
     this.entity = this.scheduleGroups.find((group) => group.id === entity.id)!;
-    super.onEdit(content, this.entity);
+    super.onOpenEditForm(content, this.entity);
   }
 
-  override add(): void {
+  override onAddEntity(): void {
     switch (this.formSettings.formType) {
       case FormType.SCHEDULE:
         this.scheduleService.addScheduleForGroup(this.entity);
@@ -232,7 +232,7 @@ export class ManageCourseComponent
     this.formSettings.formType = FormType.SIGNUP;
     this.formSettings.titile = 'Dodaj nowego studenta';
     this.entity = {};
-    super.onAdd(content);
+    super.onOpenAddForm(content);
   }
 
   private addScheduleGroup(content: any) {
@@ -240,7 +240,7 @@ export class ManageCourseComponent
     this.formSettings.titile =
       'Dodaj nową grupę dla kategorii: ' + this.course.categoryType;
     this.entity = {};
-    super.onAdd(content);
+    super.onOpenAddForm(content);
   }
 
   addSchedule(content: any, date: any, sourceId?: number) {
@@ -252,7 +252,7 @@ export class ManageCourseComponent
     this.formSettings.edit = false;
     this.formSettings.titile =
       'Dodaj nowy termin kategorii: ' + this.course.categoryType;
-    super.onAdd(content);
+    super.onOpenAddForm(content);
   }
 
   editSchedule(content: any, schedule: Schedule) {
@@ -262,6 +262,6 @@ export class ManageCourseComponent
     this.formSettings.titile =
       'Edytuj termin kategorii: ' + this.course.categoryType;
     this.formSettings.buttonText = 'Zapisz';
-    super.onEdit(content, schedule);
+    super.onOpenEditForm(content, schedule);
   }
 }

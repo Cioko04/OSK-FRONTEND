@@ -86,23 +86,23 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
     });
   }
 
-  override onAdd(content: any) {
+  override onOpenAddForm(content: any) {
     this.formSettings.edit = false;
     this.formSettings.titile = "Dodaj kurs";
     this.formSettings.buttonText = "Dodaj";
     this.course = {};
-    super.onAdd(content);
+    super.onOpenAddForm(content);
   }
 
-  override onEdit(content: any, course: Course) {
+  override onOpenEditForm(content: any, course: Course) {
     this.formSettings.edit = true;
     this.formSettings.titile = "Edytuj kurs"
     this.formSettings.buttonText = "Zapisz";
     this.course = course;
-    super.onEdit(content, course);
+    super.onOpenEditForm(content, course);
   }
 
-  override onDelete(id: number): void {
+  override onDeleteEntity(id: number): void {
     this.courseService.deleteCourse(id).subscribe({
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => {
@@ -112,11 +112,11 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
     });
   }
 
-  override onSubmit(): void {
-    this.formSettings.edit ? this.update() : this.add();
+  override onFormSubmit(): void {
+    this.formSettings.edit ? this.onUpdateEntity() : this.onAddEntity();
   }
 
-  override update(): void {
+  override onUpdateEntity(): void {
     this.courseService.updateCourse(this.course).subscribe({
       error: (e: HttpErrorResponse) => {
         console.log(e);
@@ -129,7 +129,7 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
     });
   }
 
-  override add(): void {
+  override onAddEntity(): void {
     this.course.schoolId = this.schoolId;
     this.courseService.saveCourse(this.course).subscribe({
       error: (e: HttpErrorResponse) => {
