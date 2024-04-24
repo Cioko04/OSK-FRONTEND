@@ -1,10 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { combineLatest, map } from 'rxjs';
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
 import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
@@ -13,8 +10,6 @@ import {
   HeadArray,
 } from 'src/app/shared/core/BaseEntityComponent';
 import { Course } from 'src/app/shared/services/course/course';
-import { CourseService } from 'src/app/shared/services/course/course.service';
-import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
 import { Schedule } from 'src/app/shared/services/schedule/schedule';
 import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
 import {
@@ -22,10 +17,9 @@ import {
   ScheduleGroup,
 } from 'src/app/shared/services/scheduleGroup/schedule-group';
 import { ScheduleGroupService } from 'src/app/shared/services/scheduleGroup/schedule-group.service';
-import { UserService } from 'src/app/shared/services/user/user.service';
 import { AddContent } from 'src/app/shared/utils/table/table-interfaces/add-content';
 import { ExpansionPanelDetail } from 'src/app/shared/utils/table/table-list/expansion-panel/expansion-panel.component';
-import { TableScheduleGroupService } from './table-schedule-group/table-schedule-group.service';
+import { ManageCourseService } from './manage-course.service';
 
 export interface TableScheduleGroup {
   id?: number;
@@ -82,88 +76,42 @@ export class ManageCourseComponent
 
   constructor(
     modalService: NgbModal,
-    private auth: AuthenticationService,
-    private userService: UserService,
-    private instructorService: InstructorService,
-    private route: ActivatedRoute,
-    private courseServive: CourseService,
+    private manageCourseService: ManageCourseService,
     private scheduleGroupService: ScheduleGroupService,
     private scheduleService: ScheduleService,
-    private tableScheduleGroupService: TableScheduleGroupService
+    private route: ActivatedRoute
   ) {
     super(modalService);
   }
 
   ngOnInit(): void {
-    this.fetchInstructors();
-    this.findCurrentCourse();
-    this.fetchScheduleGroups();
-  }
-
-  private fetchScheduleGroups() {
-    if (this.course) {
-      this.scheduleGroupService.fetchScheduleGroupForCourse(this.course.id!);
-      this.scheduleService.getScheduleForCourse(this.course.id!);
-      combineLatest([
-        this.scheduleGroupService.scheduleGroupsSubject$,
-        this.scheduleService.scheduleSubject$,
-      ])
-        .pipe(
-          untilDestroyed(this),
-          map(([groups, schedules]) =>
-            this.createTableScheduleGroups(groups, schedules)
-          )
-        )
-        .subscribe((updatedTableScheduleGroups) => {
-          this.tableScheduleGroups = updatedTableScheduleGroups;
-        });
-    }
-  }
-
-  private createTableScheduleGroups(
-    groups: ScheduleGroup[],
-    schedules: Schedule[]
-  ): TableScheduleGroup[] {
-    this.addSchedulesToGroups(groups, schedules);
-    return groups.map((group) =>
-      this.tableScheduleGroupService.createTableScheduleGroups(group)
-    );
-  }
-
-  private addSchedulesToGroups(groups: ScheduleGroup[], schedules: Schedule[]) {
-    groups.forEach((group) => {
-      const schedulesForGroup = schedules.filter(
-        (schedule) => schedule.scheduleGroup?.id === group.id
-      );
-      group.schedules = schedulesForGroup;
-    });
-    this.scheduleGroups = groups;
-  }
-
-  private fetchInstructors() {
-    let email = this.auth.getSessionUserEmail();
-    this.userService
-      .getUserByEmail(email)
+    this.route.params
       .pipe(untilDestroyed(this))
-      .subscribe({
-        next: (user) => {
-          let schoolId = user.schoolRequest!.id;
-          this.instructorService.updateInstructorSubject(schoolId!);
-        },
-        error: (e: HttpErrorResponse) => console.log(e.status),
-      });
+      .subscribe((params) => this.manageCourseService.init(+params['id']));
+    this.subscribeCurrenCourse();
+    this.susbscribeScheduleGroups();
+    this.susbscribeTableScheduleGroups();
   }
 
-  private findCurrentCourse() {
-    this.route.params.pipe(untilDestroyed(this)).subscribe((params) => {
-      const courseId = +params['id'];
-      this.courseServive.courses$
-        .pipe(untilDestroyed(this))
-        .subscribe(
-          (courses) =>
-            (this.course = courses.find((course) => course.id === courseId)!)
-        );
-    });
+  private susbscribeTableScheduleGroups() {
+    this.manageCourseService.tableScheduleGroups$
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        (tableScheduleGroups) =>
+          (this.tableScheduleGroups = tableScheduleGroups)
+      );
+  }
+
+  private susbscribeScheduleGroups() {
+    this.manageCourseService.scheduleGroups$
+      .pipe(untilDestroyed(this))
+      .subscribe((scheduleGroups) => (this.scheduleGroups = scheduleGroups));
+  }
+
+  private subscribeCurrenCourse() {
+    this.manageCourseService.currentCourse$
+      .pipe(untilDestroyed(this))
+      .subscribe((course) => (this.course = course));
   }
 
   override onFormSubmit(): void {
