@@ -22,9 +22,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 import {
   MatPaginatorIntl,
   MatPaginatorModule,
@@ -36,6 +38,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthenticationService } from './authentication/authentication.service';
@@ -43,8 +46,12 @@ import { PasswordFormComponent } from './forms/common/password-form/password-for
 import { ProfileFormComponent } from './forms/common/profile-form/profile-form.component';
 import { SchoolFormComponent } from './forms/common/school-form/school-form.component';
 import { SearchSelectFormComponent } from './forms/common/search-select-form/search-select-form.component';
+import { TimePickerComponent } from './forms/common/time-picker/time-picker.component';
 import { CourseFormComponent } from './forms/course-form/course-form.component';
+import { FormComponent } from './forms/form.component';
 import { LoginFormComponent } from './forms/login-form/login-form.component';
+import { ScheduleFormComponent } from './forms/schedule-form/schedule-form.component';
+import { ScheduleGroupFormComponent } from './forms/schedule-group-form/schedule-group-form.component';
 import { SignUpFormComponent } from './forms/sign-up-form/sign-up-form.component';
 import { CoursesComponent } from './home/courses/courses.component';
 import { HomeComponent } from './home/home.component';
@@ -65,25 +72,18 @@ import { CardComponent } from './shared/common/card/card.component';
 import { CarouselComponent } from './shared/common/carousel/carousel.component';
 import { FilterPipe } from './shared/pipe/filter.pipe';
 import { UserService } from './shared/services/user/user.service';
+import { SchedulePlaceholderComponent } from './shared/utils/scheduler/schedule-placeholder/schedule-placeholder.component';
 import { SchedulerNavComponent } from './shared/utils/scheduler/scheduler-nav/scheduler-nav.component';
 import { SchedulerTableComponent } from './shared/utils/scheduler/scheduler-table/scheduler-table.component';
 import { SchedulerComponent } from './shared/utils/scheduler/scheduler.component';
+import { ControlTablePanelComponent } from './shared/utils/table/control-table-panel/control-table-panel.component';
+import { TableCardsComponent } from './shared/utils/table/table-cards/table-cards.component';
+import { ExpansionPanelComponent } from './shared/utils/table/table-list/expansion-panel/expansion-panel.component';
+import { TableListComponent } from './shared/utils/table/table-list/table-list.component';
+import { TableComponent } from './shared/utils/table/table.component';
 import { LoginRegistrationComponent } from './welcome/login-registration/login-registration.component';
 import { WelcomeNavComponent } from './welcome/welcome-nav/welcome-nav.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { ScheduleFormComponent } from './forms/schedule-form/schedule-form.component';
-import { SchedulePlaceholderComponent } from './shared/utils/scheduler/schedule-placeholder/schedule-placeholder.component';
-import { TimePickerComponent } from './forms/common/time-picker/time-picker.component';
-import { MatListModule } from '@angular/material/list';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import { TableCardsComponent } from './shared/utils/table/table-cards/table-cards.component';
-import { TableComponent } from './shared/utils/table/table.component';
-import { TableListComponent } from './shared/utils/table/table-list/table-list.component';
-import { ControlTablePanelComponent } from './shared/utils/table/control-table-panel/control-table-panel.component';
-import { FormComponent } from './forms/form.component';
-import { ScheduleGroupFormComponent } from './forms/schedule-group-form/schedule-group-form.component';
-import { MatExpansionModule} from '@angular/material/expansion';
-import { ExpansionPanelComponent } from './shared/utils/table/table-list/expansion-panel/expansion-panel.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -138,7 +138,7 @@ export const MY_FORMATS = {
     ControlTablePanelComponent,
     FormComponent,
     ScheduleGroupFormComponent,
-    ExpansionPanelComponent
+    ExpansionPanelComponent,
   ],
   imports: [
     BrowserModule,
@@ -168,7 +168,7 @@ export const MY_FORMATS = {
     MatButtonToggleModule,
     MatListModule,
     NgxMaterialTimepickerModule,
-    MatExpansionModule
+    MatExpansionModule,
   ],
   providers: [
     UserService,
@@ -181,7 +181,7 @@ export const MY_FORMATS = {
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }, 
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
     { provide: LOCALE_ID, useValue: 'pl-PL' },
   ],
