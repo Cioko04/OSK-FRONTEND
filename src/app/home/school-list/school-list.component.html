@@ -12,9 +12,9 @@
   [isAction]="true"
   [headArray]="headArray"
   [gridArray]="schools"
-  (onAdd)="onAdd(content)"
-  (onEdit)="onEdit(content, $event)"
-  (onDelete)="onDelete($event.id)"
+  (onAdd)="onOpenAddForm(content)"
+  (onEdit)="onOpenEditForm(content, $event)"
+  (onDelete)="onDeleteEntity($event.id)"
 >
 </app-table>
 <ng-template #content let-modal>
@@ -24,7 +24,7 @@
       [signInFormSettings]="signInFormSettings"
       [formSettings]="fromSettings"
         [(entity)]="school"
-        (onSubmit)="onSubmit(); modal.close()"
+        (onSubmit)="onFormSubmit(); modal.close()"
       ></app-form>
     </div>
   </div>

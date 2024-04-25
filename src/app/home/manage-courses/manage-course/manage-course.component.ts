@@ -1,10 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { combineLatest, map } from 'rxjs';
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
 import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
@@ -14,8 +11,6 @@ import {
   HeadArray,
 } from 'src/app/shared/core/BaseEntityComponent';
 import { Course } from 'src/app/shared/services/course/course';
-import { CourseService } from 'src/app/shared/services/course/course.service';
-import { InstructorService } from 'src/app/shared/services/instructor/instructor.service';
 import { Schedule } from 'src/app/shared/services/schedule/schedule';
 import { ScheduleService } from 'src/app/shared/services/schedule/schedule.service';
 import {
@@ -23,12 +18,9 @@ import {
   ScheduleGroup,
 } from 'src/app/shared/services/scheduleGroup/schedule-group';
 import { ScheduleGroupService } from 'src/app/shared/services/scheduleGroup/schedule-group.service';
-import { User } from 'src/app/shared/services/user/user';
-import { UserService } from 'src/app/shared/services/user/user.service';
 import { AddContent } from 'src/app/shared/utils/table/table-interfaces/add-content';
 import { ExpansionPanelDetail } from 'src/app/shared/utils/table/table-list/expansion-panel/expansion-panel.component';
-import { TableScheduleGroupService } from './table-schedule-group/table-schedule-group.service';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { ManageCourseService } from './manage-course.service';
 
 export interface TableScheduleGroup {
   id?: number;
@@ -85,107 +77,61 @@ export class ManageCourseComponent
 
   constructor(
     modalService: NgbModal,
-    private authenticationService: AuthenticationService,
-    private userService: UserService,
-    private instructorService: InstructorService,
-    private route: ActivatedRoute,
-    private courseServive: CourseService,
+    private manageCourseService: ManageCourseService,
     private scheduleGroupService: ScheduleGroupService,
     private scheduleService: ScheduleService,
-    private tableScheduleGroupService: TableScheduleGroupService,
-    private toastService: ToastService
+    private route: ActivatedRoute
   ) {
     super(modalService);
   }
 
   ngOnInit(): void {
-    this.fetchInstructors();
-    this.findCurrentCourse();
-    this.fetchScheduleGroups();
-  }
-
-  private fetchScheduleGroups() {
-    if (this.course) {
-      this.scheduleGroupService.fetchScheduleGroupForCourse(this.course.id!);
-      this.scheduleService.getScheduleForCourse(this.course.id!);
-      combineLatest([
-        this.scheduleGroupService.scheduleGroupsSubject$,
-        this.scheduleService.scheduleSubject$,
-      ])
-        .pipe(
-          untilDestroyed(this),
-          map(([groups, schedules]) =>
-            this.createTableScheduleGroups(groups, schedules)
-          )
-        )
-        .subscribe((updatedTableScheduleGroups) => {
-          this.tableScheduleGroups = updatedTableScheduleGroups;
-        });
-    }
-  }
-
-  private createTableScheduleGroups(
-    groups: ScheduleGroup[],
-    schedules: Schedule[]
-  ): TableScheduleGroup[] {
-    this.addSchedulesToGroups(groups, schedules);
-    return groups.map((group) =>
-      this.tableScheduleGroupService.createTableScheduleGroups(group)
-    );
-  }
-
-  private addSchedulesToGroups(groups: ScheduleGroup[], schedules: Schedule[]) {
-    groups.forEach((group) => {
-      const schedulesForGroup = schedules.filter(
-        (schedule) => schedule.scheduleGroup?.id === group.id
-      );
-      group.schedules = schedulesForGroup;
-    });
-    this.scheduleGroups = groups;
-  }
-
-  private fetchInstructors() {
-    let email = this.authenticationService.getSessionUserEmail();
-    this.userService
-      .getUserByEmail(email)
+    this.route.params
       .pipe(untilDestroyed(this))
-      .subscribe({
-        next: (user) => {
-          let schoolId = user.schoolRequest!.id;
-          this.instructorService.updateInstructorSubject(schoolId!);
-        },
-        error: (e: HttpErrorResponse) => console.log(e.status),
-      });
+      .subscribe((params) => this.manageCourseService.init(+params['id']));
+    this.subscribeCurrenCourse();
+    this.susbscribeScheduleGroups();
+    this.susbscribeTableScheduleGroups();
   }
 
-  private findCurrentCourse() {
-    this.route.params.pipe(untilDestroyed(this)).subscribe((params) => {
-      const courseId = +params['id'];
-      this.courseServive.courses$
-        .pipe(untilDestroyed(this))
-        .subscribe(
-          (courses) =>
-            (this.course = courses.find((course) => course.id === courseId)!)
-        );
-    });
+  private susbscribeTableScheduleGroups() {
+    this.manageCourseService.tableScheduleGroups$
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        (tableScheduleGroups) =>
+          (this.tableScheduleGroups = tableScheduleGroups)
+      );
   }
 
-  override onDelete(id: number, formType: FormType): void {
-    switch (formType) {
+  private susbscribeScheduleGroups() {
+    this.manageCourseService.scheduleGroups$
+      .pipe(untilDestroyed(this))
+      .subscribe((scheduleGroups) => (this.scheduleGroups = scheduleGroups));
+  }
+
+  private subscribeCurrenCourse() {
+    this.manageCourseService.currentCourse$
+      .pipe(untilDestroyed(this))
+      .subscribe((course) => (this.course = course));
+  }
+
+  override onFormSubmit(): void {
+    this.formSettings.edit ? this.onUpdateEntity() : this.onAddEntity();
+  }
+
+  override onAddEntity(): void {
+    switch (this.formSettings.formType) {
       case FormType.SCHEDULE:
-        this.scheduleService.removeSchedule(id);
+        this.scheduleService.addScheduleForGroup(this.entity);
         break;
-      default:
-        this.scheduleGroupService.removeScheduleGroup(id);
+      case FormType.SCHEDULE_GROUP:
+        (this.entity as ScheduleGroup).course = this.course;
+        this.scheduleGroupService.addScheduleGroup(this.entity);
         break;
     }
   }
 
-  override onSubmit(): void {
-    this.formSettings.edit ? this.update() : this.add();
-  }
-
-  override update(): void {
+  override onUpdateEntity(): void {
     switch (this.formSettings.formType) {
       case FormType.SCHEDULE:
         this.scheduleService.updateSchedule(this.entity as Schedule);
@@ -196,29 +142,13 @@ export class ManageCourseComponent
     }
   }
 
-  override onEdit(content: any, entity: Schedule | ScheduleGroup) {
-    this.setFormSettingsEditAndButton(true, 'Zapisz');
-    this.setFormSettingsTextAndType(
-      'Edytuj grupę dla kategorii: ' + this.course.categoryType,
-      FormType.SCHEDULE_GROUP
-    );
-    this.entity = this.scheduleGroups.find((group) => group.id === entity.id)!;
-    super.onEdit(content, this.entity);
-  }
-
-  override add(): void {
-    switch (this.formSettings.formType) {
+  override onDeleteEntity(id: number, formType: FormType): void {
+    switch (formType) {
       case FormType.SCHEDULE:
-        this.scheduleService.addScheduleForGroup(this.entity as Schedule);
+        this.scheduleService.removeSchedule(id);
         break;
-      case FormType.SIGNUP:
-        this.registerUserAndAddToGroup();
-        break;
-      case FormType.SCHEDULE_GROUP:
-        (this.entity as ScheduleGroup).course = this.course;
-        this.scheduleGroupService.addScheduleGroup(
-          this.entity as ScheduleGroup
-        );
+      default:
+        this.scheduleGroupService.removeScheduleGroup(id);
         break;
     }
   }
@@ -238,59 +168,65 @@ export class ManageCourseComponent
     
   }
 
-  addEntity(content: any, addContent: AddContent) {    
-    this.setFormSettingsEditAndButton(false, 'Dodaj');
+  openAddForm(content: any, addContent: AddContent) {
+    this.formSettings.buttonText = 'Dodaj';
+    this.formSettings.edit = false;
     switch (addContent?.formType) {
       case FormType.SCHEDULE:
-        this.addSchedule(content, new Date(), addContent.sourceId);
+        this.openAddScheduleForm(content, new Date(), addContent.sourceId);
         break;
       case FormType.SIGNUP:
-        this.addStudent(content, addContent.sourceId);
+        this.openAddStudentForm(content);
         break;
       default:
-        this.addScheduleGroup(content);
+        this.openAddScheduleGroupForm(content);
     }
   }
 
-  private addStudent(content: any, sourceId?: number) {
-    this.entity = {
-      scheduleGroups: this.scheduleGroups.filter(
-        (group) => group.id === sourceId
-      ),
-    };
-    this.setFormSettingsTextAndType('Dodaj nowego studenta', FormType.SIGNUP);
-    super.onAdd(content);
+  override onOpenEditForm(content: any, entity: Schedule | ScheduleGroup) {
+    this.formSettings.edit = true;
+    this.formSettings.titile =
+      'Edytuj grupę dla kategorii: ' + this.course.categoryType;
+    this.formSettings.formType = FormType.SCHEDULE_GROUP;
+    this.entity = this.scheduleGroups.find((group) => group.id === entity.id)!;
+    super.onOpenEditForm(content, this.entity);
   }
 
-  private addScheduleGroup(content: any) {
+  private openAddStudentForm(content: any) {
+    this.formSettings.formType = FormType.SIGNUP;
+    this.formSettings.titile = 'Dodaj nowego studenta';
     this.entity = {};
-    this.setFormSettingsTextAndType(
-      'Dodaj nową grupę dla kategorii: ' + this.course.categoryType,
-      FormType.SCHEDULE_GROUP
-    );
-    super.onAdd(content);
+    super.onOpenAddForm(content);
   }
 
-  addSchedule(content: any, date: any, sourceId?: number) {
+  private openAddScheduleGroupForm(content: any) {
+    this.formSettings.formType = FormType.SCHEDULE_GROUP;
+    this.formSettings.titile =
+      'Dodaj nową grupę dla kategorii: ' + this.course.categoryType;
+    this.entity = {};
+    super.onOpenAddForm(content);
+  }
+
+  openAddScheduleForm(content: any, date: any, sourceId?: number) {
     this.entity = {
       scheduleGroup: this.scheduleGroups.find((group) => group.id === sourceId),
       startDate: date,
     };
-    this.setFormSettingsTextAndType(
-      'Dodaj nowy termin kategorii: ' + this.course.categoryType,
-      FormType.SCHEDULE
-    );
-    super.onAdd(content);
+    this.formSettings.formType = FormType.SCHEDULE;
+    this.formSettings.edit = false;
+    this.formSettings.titile =
+      'Dodaj nowy termin kategorii: ' + this.course.categoryType;
+    super.onOpenAddForm(content);
   }
 
-  editSchedule(content: any, schedule: Schedule) {
+  openEditScheduleForm(content: any, schedule: Schedule) {
     this.entity = schedule;
-    this.setFormSettingsTextAndType(
-      'Edytuj termin kategorii: ' + this.course.categoryType,
-      FormType.SCHEDULE
-    );
-    this.setFormSettingsEditAndButton(true, 'Zapisz');
-    super.onEdit(content, schedule);
+    this.formSettings.formType = FormType.SCHEDULE;
+    this.formSettings.edit = true;
+    this.formSettings.titile =
+      'Edytuj termin kategorii: ' + this.course.categoryType;
+    this.formSettings.buttonText = 'Zapisz';
+    super.onOpenEditForm(content, schedule);
   }
 
   private setFormSettingsTextAndType(

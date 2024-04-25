@@ -6,19 +6,19 @@ export abstract class BaseEntityComponent {
 
   constructor(public modalService: NgbModal) {}
 
-  abstract onDelete(id: number, formType: FormType): void;
+  abstract onDeleteEntity(id: number, formType: FormType): void;
 
-  abstract onSubmit(): void;
+  abstract onFormSubmit(): void;
 
-  abstract update(): void;
+  abstract onUpdateEntity(): void;
 
-  abstract add(): void;
+  abstract onAddEntity(): void;
 
-  onAdd(content: any): void {
+  onOpenAddForm(content: any): void {
     this.openForm(content);
   }
 
-  onEdit(content: any, item: any): void {
+  onOpenEditForm(content: any, item: any): void {
     this.openForm(content);
   }
 

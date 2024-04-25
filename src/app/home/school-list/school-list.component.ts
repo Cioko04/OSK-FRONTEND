@@ -54,7 +54,7 @@ export class SchoolListComponent extends BaseEntityComponent  implements OnInit 
     this.schoolService.getSchools().pipe(untilDestroyed(this)).subscribe((schools) => this.schools);
   }
 
-  onDelete(id: number) {
+  onDeleteEntity(id: number) {
     this.schoolService.deleteSchool(id).subscribe({
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => {
@@ -64,23 +64,23 @@ export class SchoolListComponent extends BaseEntityComponent  implements OnInit 
     });
   }
 
-  override onAdd(content: any) {
+  override onOpenAddForm(content: any) {
     this.fromSettings.edit = false;
     this.school.userRequest = {};
-    super.onAdd(content);
+    super.onOpenAddForm(content);
   }
 
-  override onEdit(content: any, school: School) {
+  override onOpenEditForm(content: any, school: School) {
     this.fromSettings.edit = true;
     this.school = school;
-    super.onEdit(content, school);
+    super.onOpenEditForm(content, school);
   }
 
-  onSubmit() {
-    this.fromSettings.edit ? this.update() : this.add();
+  onFormSubmit() {
+    this.fromSettings.edit ? this.onUpdateEntity() : this.onAddEntity();
   }
 
-  update() {
+  onUpdateEntity() {
     this.schoolService.updateSchool(this.school).subscribe({
       error: (e: HttpErrorResponse) => {
         console.log(e);
@@ -93,7 +93,7 @@ export class SchoolListComponent extends BaseEntityComponent  implements OnInit 
     });
   }
 
-  add() {
+  onAddEntity() {
     this.schoolService.register(this.school).subscribe({
       error: (e: HttpErrorResponse) => {
         console.log(e.status);

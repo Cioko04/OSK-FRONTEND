@@ -6,16 +6,16 @@
         [useTableCards]="false"
         [headArray]="headArray"
         [gridArray]="tableScheduleGroups"
-        (onAdd)="addEntity(content, $event)"
-        (onDelete)="onDelete($event.id, $event.formType!)"
-        (onEdit)="onEdit(content, $event)"
+        (onAdd)="openAddForm(content, $event)"
+        (onDelete)="onDeleteEntity($event.id, $event.formType!)"
+        (onEdit)="onOpenEditForm(content, $event)"
       >
       </app-table>
     </div>
     <div class="col-12 col-xl-7">
       <app-scheduler
-        (onAdd)="addSchedule(content, $event, undefined)"
-        (onEdit)="editSchedule(content, $event)"
+        (onAdd)="openAddScheduleForm(content, $event, undefined)"
+        (onEdit)="openEditScheduleForm(content, $event)"
       ></app-scheduler>
     </div>
   </div>
@@ -27,7 +27,7 @@
         [formSettings]="formSettings"
         [signInFormSettings]="signInFormSettings"
         [(entity)]="entity"
-        (entityChange)="onSubmit(); modal.close()"
+        (entityChange)="onFormSubmit(); modal.close()"
       ></app-form>
     </div>
   </div>
