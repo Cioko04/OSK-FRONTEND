@@ -5,6 +5,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
 import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
+import { ToastService } from 'src/app/shared/common/toast/toast.service';
 import {
   BaseEntityComponent,
   HeadArray,
@@ -68,7 +69,7 @@ export class ManageCourseComponent
     user: true,
   };
 
-  entity!: Schedule | ScheduleGroup;
+  entity!: Schedule | ScheduleGroup | User;
   scheduleGroups: ScheduleGroup[] = [];
   tableScheduleGroups: TableScheduleGroup[] = [];
 
@@ -151,6 +152,21 @@ export class ManageCourseComponent
         break;
     }
   }
+  private registerUserAndAddToGroup() {
+    this.authenticationService
+      .register(this.entity as User)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        error: (e: HttpErrorResponse) => {
+          console.log(e.status);
+        },
+        complete: () => {
+          this.scheduleGroupService.addStudentToGroup(this.entity);
+          this.toastService.openSuccesToast('Pomyślnie dodano studenta!');
+        },
+      });
+    
+  }
 
   openAddForm(content: any, addContent: AddContent) {
     this.formSettings.buttonText = 'Dodaj';
@@ -211,5 +227,18 @@ export class ManageCourseComponent
       'Edytuj termin kategorii: ' + this.course.categoryType;
     this.formSettings.buttonText = 'Zapisz';
     super.onOpenEditForm(content, schedule);
+  }
+
+  private setFormSettingsTextAndType(
+    displayedText: string,
+    formType: FormType
+  ) {
+    this.formSettings.formType = formType;
+    this.formSettings.titile = displayedText;
+  }
+
+  private setFormSettingsEditAndButton(isEdit: boolean, buttonText: string) {
+    this.formSettings.edit = isEdit;
+    this.formSettings.buttonText = buttonText;
   }
 }

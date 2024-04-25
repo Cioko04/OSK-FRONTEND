@@ -37,7 +37,7 @@ export class SignUpFormComponent extends BaseFormComponent implements OnInit {
 
   override submit(): void {
     this.updateValueAndValidity();
-    this.submit();
+    super.submit();
   }
 
   updateValueAndValidity() {
@@ -96,7 +96,7 @@ export class SignUpFormComponent extends BaseFormComponent implements OnInit {
   }
 
   private patchUser(user: User) {
-    this.email = user.email;
+    this.email = user.email!;
     this.form.get('profile')?.patchValue({
       name: user.name,
       secondName: user.secondName,

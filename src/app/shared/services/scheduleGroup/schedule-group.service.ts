@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ScheduleGroup } from './schedule-group';
 import { Schedule } from '../schedule/schedule';
 import { ScheduleService } from '../schedule/schedule.service';
+import { User } from '../user/user';
 
 @Injectable({
   providedIn: 'root',
@@ -51,5 +52,12 @@ export class ScheduleGroupService {
     this.scheduleGroupsSubject.next(
       this.scheduleGroupsSubject.getValue().filter((group) => group.id !== id)
     );
+  }
+
+  public addStudentToGroup(entity: User) {
+    const currentScheduleGroups = this.scheduleGroupsSubject.getValue();
+    const indexToUpdate = currentScheduleGroups.findIndex(group => entity.scheduleGroups![0].id === group.id);
+    currentScheduleGroups[indexToUpdate].students!.push(entity);
+    this.scheduleGroupsSubject.next(currentScheduleGroups);
   }
 }
