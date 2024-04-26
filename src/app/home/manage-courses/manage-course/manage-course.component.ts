@@ -18,6 +18,7 @@ import {
   ScheduleGroup,
 } from 'src/app/shared/services/scheduleGroup/schedule-group';
 import { ScheduleGroupService } from 'src/app/shared/services/scheduleGroup/schedule-group.service';
+import { User } from 'src/app/shared/services/user/user';
 import { AddContent } from 'src/app/shared/utils/table/table-interfaces/add-content';
 import { ExpansionPanelDetail } from 'src/app/shared/utils/table/table-list/expansion-panel/expansion-panel.component';
 import { ManageCourseService } from './manage-course.service';
@@ -80,7 +81,8 @@ export class ManageCourseComponent
     private manageCourseService: ManageCourseService,
     private scheduleGroupService: ScheduleGroupService,
     private scheduleService: ScheduleService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastService: ToastService
   ) {
     super(modalService);
   }
@@ -122,11 +124,16 @@ export class ManageCourseComponent
   override onAddEntity(): void {
     switch (this.formSettings.formType) {
       case FormType.SCHEDULE:
-        this.scheduleService.addScheduleForGroup(this.entity);
+        this.scheduleService.addScheduleForGroup(this.entity as Schedule);
+        break;
+      case FormType.SIGNUP:
+        this.manageCourseService.registerUser(this.entity as User);
         break;
       case FormType.SCHEDULE_GROUP:
         (this.entity as ScheduleGroup).course = this.course;
-        this.scheduleGroupService.addScheduleGroup(this.entity);
+        this.scheduleGroupService.addScheduleGroup(
+          this.entity as ScheduleGroup
+        );
         break;
     }
   }
@@ -152,31 +159,15 @@ export class ManageCourseComponent
         break;
     }
   }
-  private registerUserAndAddToGroup() {
-    this.authenticationService
-      .register(this.entity as User)
-      .pipe(untilDestroyed(this))
-      .subscribe({
-        error: (e: HttpErrorResponse) => {
-          console.log(e.status);
-        },
-        complete: () => {
-          this.scheduleGroupService.addStudentToGroup(this.entity);
-          this.toastService.openSuccesToast('Pomyślnie dodano studenta!');
-        },
-      });
-    
-  }
 
   openAddForm(content: any, addContent: AddContent) {
-    this.formSettings.buttonText = 'Dodaj';
-    this.formSettings.edit = false;
+    this.setFormEditAndButton(false, 'Dodaj');
     switch (addContent?.formType) {
       case FormType.SCHEDULE:
         this.openAddScheduleForm(content, new Date(), addContent.sourceId);
         break;
       case FormType.SIGNUP:
-        this.openAddStudentForm(content);
+        this.openAddStudentForm(content, addContent.sourceId);
         break;
       default:
         this.openAddScheduleGroupForm(content);
@@ -184,60 +175,68 @@ export class ManageCourseComponent
   }
 
   override onOpenEditForm(content: any, entity: Schedule | ScheduleGroup) {
-    this.formSettings.edit = true;
-    this.formSettings.titile =
-      'Edytuj grupę dla kategorii: ' + this.course.categoryType;
-    this.formSettings.formType = FormType.SCHEDULE_GROUP;
+    this.setFormEditAndButton(true, 'Zapisz');
+    this.setFormTextAndType('Edytuj grupę dla kategorii: ' + this.course.categoryType, FormType.SCHEDULE_GROUP);
     this.entity = this.scheduleGroups.find((group) => group.id === entity.id)!;
     super.onOpenEditForm(content, this.entity);
   }
 
-  private openAddStudentForm(content: any) {
-    this.formSettings.formType = FormType.SIGNUP;
-    this.formSettings.titile = 'Dodaj nowego studenta';
-    this.entity = {};
+  private openAddStudentForm(content: any, sourceId: number) {
+    this.entity = {
+      scheduleGroups: [
+        this.scheduleGroupService.getScheduleGroupById(sourceId)!,
+      ],
+    };
+    this.setFormTextAndType('Dodaj nowego studenta', FormType.SIGNUP);
     super.onOpenAddForm(content);
   }
 
   private openAddScheduleGroupForm(content: any) {
-    this.formSettings.formType = FormType.SCHEDULE_GROUP;
-    this.formSettings.titile =
-      'Dodaj nową grupę dla kategorii: ' + this.course.categoryType;
     this.entity = {};
+    this.setFormTextAndType(
+      'Dodaj nową grupę dla kategorii: ' + this.course.categoryType,
+      FormType.SCHEDULE_GROUP
+    );
     super.onOpenAddForm(content);
   }
 
   openAddScheduleForm(content: any, date: any, sourceId?: number) {
-    this.entity = {
-      scheduleGroup: this.scheduleGroups.find((group) => group.id === sourceId),
-      startDate: date,
-    };
-    this.formSettings.formType = FormType.SCHEDULE;
-    this.formSettings.edit = false;
-    this.formSettings.titile =
-      'Dodaj nowy termin kategorii: ' + this.course.categoryType;
-    super.onOpenAddForm(content);
+    if (this.scheduleGroups.length > 0) {
+      this.setFormEditAndButton(false, 'Dodaj');
+      this.entity = {
+        scheduleGroup: this.scheduleGroupService.getScheduleGroupById(
+          sourceId!
+        ),
+        startDate: date,
+      };
+      this.setFormTextAndType(
+        'Dodaj nowy termin kategorii: ' + this.course.categoryType,
+        FormType.SCHEDULE
+      );
+      super.onOpenAddForm(content);
+    } else {
+      this.toastService.openWarningToast(
+        'Aby dodać termin trzeba najpierw utworzyć grupę!'
+      );
+    }
   }
 
   openEditScheduleForm(content: any, schedule: Schedule) {
     this.entity = schedule;
-    this.formSettings.formType = FormType.SCHEDULE;
-    this.formSettings.edit = true;
-    this.formSettings.titile =
-      'Edytuj termin kategorii: ' + this.course.categoryType;
-    this.formSettings.buttonText = 'Zapisz';
+    this.setFormTextAndType(
+      'Edytuj termin kategorii: ' + this.course.categoryType,
+      FormType.SCHEDULE
+    );
+    this.setFormEditAndButton(true, 'Zapisz');
     super.onOpenEditForm(content, schedule);
   }
 
-  private setFormSettingsTextAndType(
-    displayedText: string,
-    formType: FormType
-  ) {
+  private setFormTextAndType(displayedText: string, formType: FormType) {
     this.formSettings.formType = formType;
     this.formSettings.titile = displayedText;
   }
 
-  private setFormSettingsEditAndButton(isEdit: boolean, buttonText: string) {
+  private setFormEditAndButton(isEdit: boolean, buttonText: string) {
     this.formSettings.edit = isEdit;
     this.formSettings.buttonText = buttonText;
   }

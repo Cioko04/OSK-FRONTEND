@@ -7,6 +7,7 @@ import {
   ExpansionPanelDetail,
   ExpansionPanelEntity,
 } from 'src/app/shared/utils/table/table-list/expansion-panel/expansion-panel.component';
+import { User } from '../../../../shared/services/user/user';
 import { TableScheduleGroup } from '../manage-course.component';
 
 @Injectable({
@@ -49,10 +50,13 @@ export class TableScheduleGroupService {
       description: 'Liczba studentów: ',
       buttonText: 'Dodaj studenta',
       formType: FormType.SIGNUP,
-      entities: [
-        { id: 1, displayContent: 'Kazik Kowalski' },
-        { id: 2, displayContent: 'Andrzej Okoń' },
-      ],
+      entities: group.students
+        ? this.getStudentInformationToDisplay(group.students)
+        : [],
+      // [
+      //   { id: 1, displayContent: 'Kazik Kowalski' },
+      //   { id: 2, displayContent: 'Andrzej Okoń' },
+      // ],
     };
 
     const schedules = {
@@ -67,6 +71,27 @@ export class TableScheduleGroupService {
     };
 
     return [students, schedules];
+  }
+
+  private getStudentInformationToDisplay(
+    students: User[]
+  ): ExpansionPanelEntity[] {
+    return students
+      .sort((a, b) => this.sortByLastNameAndName(a, b))
+      .map((student) => this.mapStudentInformationToDisplay(student));
+  }
+
+  private mapStudentInformationToDisplay(student: User): ExpansionPanelEntity {
+    return {
+      id: student.id!,
+      displayContent: student.name + ' ' + student.lastName,
+    };
+  }
+
+  private sortByLastNameAndName(a: User, b: User): number {
+    return a.lastName !== b.lastName
+      ? a.lastName!.localeCompare(b.lastName!)
+      : a.name!.localeCompare(b.name!);
   }
 
   private getSchedulesForDisplay(

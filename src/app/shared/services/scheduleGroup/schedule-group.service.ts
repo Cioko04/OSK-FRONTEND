@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ScheduleGroup } from './schedule-group';
-import { Schedule } from '../schedule/schedule';
 import { ScheduleService } from '../schedule/schedule.service';
 import { User } from '../user/user';
+import { ScheduleGroup } from './schedule-group';
 
 @Injectable({
   providedIn: 'root',
@@ -54,10 +53,23 @@ export class ScheduleGroupService {
     );
   }
 
-  public addStudentToGroup(entity: User) {
+  public addStudentToGroup(student: User, groupToAdd: ScheduleGroup) {
     const currentScheduleGroups = this.scheduleGroupsSubject.getValue();
-    const indexToUpdate = currentScheduleGroups.findIndex(group => entity.scheduleGroups![0].id === group.id);
-    currentScheduleGroups[indexToUpdate].students!.push(entity);
+    const indexToUpdate = currentScheduleGroups.findIndex(
+      (group) => groupToAdd.id === group.id
+    );
+
+    if (!currentScheduleGroups[indexToUpdate].students) {
+        currentScheduleGroups[indexToUpdate].students = [];
+    }
+
+    currentScheduleGroups[indexToUpdate].students!.push(student);
     this.scheduleGroupsSubject.next(currentScheduleGroups);
+  }
+
+  public getScheduleGroupById(id: number): ScheduleGroup | undefined {
+    return this.scheduleGroupsSubject
+      .getValue()
+      .find((group) => group.id === id);
   }
 }

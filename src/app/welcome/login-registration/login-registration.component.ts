@@ -4,6 +4,7 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
 import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
 import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
+import { ToastService } from 'src/app/shared/common/toast/toast.service';
 import { User } from 'src/app/shared/services/user/user';
 
 @Component({
@@ -31,7 +32,7 @@ export class LoginRegistrationComponent implements OnInit {
   @Output()
   eventBack = new EventEmitter<string>();
 
-  constructor(private auth: AuthenticationService) {}
+  constructor(private auth: AuthenticationService, private toastService: ToastService) {}
 
   ngOnInit(): void {
     this.fromSettings.formType = this.formType;
@@ -44,9 +45,10 @@ export class LoginRegistrationComponent implements OnInit {
       this.auth.register(user).subscribe({
         error: (e: HttpErrorResponse) => {
           console.log(e.status);
+          this.toastService.openFailToast("Nie udało się zarejestrować użytkownika!");
         },
         complete: () => {
-          console.log('Registered!');
+          this.toastService.openSuccesToast("Pomyślnie zarejestrowano użytkownika!");
           this.eventBack.emit();
         },
       });

@@ -13,6 +13,8 @@ import { ScheduleGroupService } from 'src/app/shared/services/scheduleGroup/sche
 import { UserService } from 'src/app/shared/services/user/user.service';
 import { TableScheduleGroup } from './manage-course.component';
 import { TableScheduleGroupService } from './table-schedule-group/table-schedule-group.service';
+import { User } from 'src/app/shared/services/user/user';
+import { ToastService } from 'src/app/shared/common/toast/toast.service';
 
 @UntilDestroy()
 @Injectable({
@@ -30,12 +32,13 @@ export class ManageCourseService {
 
   constructor(
     private courseService: CourseService,
-    private auth: AuthenticationService,
+    private authenticationService: AuthenticationService,
     private userService: UserService,
     private instructorService: InstructorService,
     private scheduleGroupService: ScheduleGroupService,
     private scheduleService: ScheduleService,
-    private tableScheduleGroupService: TableScheduleGroupService
+    private tableScheduleGroupService: TableScheduleGroupService,
+    private toastService: ToastService
   ) {}
 
   public init(courseId: number) {
@@ -44,8 +47,24 @@ export class ManageCourseService {
     this.fetchScheduleGroups();
   }
 
+  public registerUser(student: User) {
+    this.authenticationService
+      .register(student)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        error: (e: HttpErrorResponse) => {
+          console.log(e.status);
+          this.toastService.openFailToast('Nie udało się dodać studenta!');
+        },
+        complete: () => {
+          this.scheduleGroupService.addStudentToGroup(student, student.scheduleGroups![0]);
+          this.toastService.openSuccesToast('Pomyślnie dodano studenta!');
+        },
+      });
+  }
+
   private fetchInstructors() {
-    let email = this.auth.getSessionUserEmail();
+    let email = this.authenticationService.getSessionUserEmail();
     this.userService
       .getUserByEmail(email)
       .pipe(untilDestroyed(this))
@@ -63,22 +82,24 @@ export class ManageCourseService {
   }
 
   private fetchScheduleGroups() {
-    const course = this.currentCourse.getValue();
-    this.scheduleGroupService.fetchScheduleGroupForCourse(course.id!);
-    this.scheduleService.getScheduleForCourse(course.id!);
-    combineLatest([
-      this.scheduleGroupService.scheduleGroupsSubject$,
-      this.scheduleService.scheduleSubject$,
-    ])
-      .pipe(
-        untilDestroyed(this),
-        map(([groups, schedules]) =>
-          this.createTableScheduleGroups(groups, schedules)
+    if (this.currentCourse.getValue()) {
+      const course = this.currentCourse.getValue();
+      this.scheduleGroupService.fetchScheduleGroupForCourse(course.id!);
+      this.scheduleService.getScheduleForCourse(course.id!);
+      combineLatest([
+        this.scheduleGroupService.scheduleGroupsSubject$,
+        this.scheduleService.scheduleSubject$,
+      ])
+        .pipe(
+          untilDestroyed(this),
+          map(([groups, schedules]) =>
+            this.createTableScheduleGroups(groups, schedules)
+          )
         )
-      )
-      .subscribe((updatedTableScheduleGroups) => {
-        this.tableScheduleGroups.next(updatedTableScheduleGroups);
-      });
+        .subscribe((updatedTableScheduleGroups) => {
+          this.tableScheduleGroups.next(updatedTableScheduleGroups);
+        });
+    }
   }
 
   private createTableScheduleGroups(
