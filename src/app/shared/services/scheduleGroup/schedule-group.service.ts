@@ -68,7 +68,11 @@ export class ScheduleGroupService {
   }
 
   public removeStudentFromGroup(studentId: number, groupId: number): void {
-    throw new Error('Method not implemented.');
+    const scheduleGroups = this.scheduleGroupsSubject.getValue();
+    const scheduleGroupToUpdate = scheduleGroups.find(scheduleGroup => scheduleGroup.id === groupId);
+    const updatedStudentList = scheduleGroupToUpdate?.students?.filter(student => student.id !== studentId);
+    scheduleGroupToUpdate!.students = updatedStudentList; 
+    this.scheduleGroupsSubject.next(scheduleGroups);
   }
 
   public getScheduleGroupById(id: number): ScheduleGroup | undefined {

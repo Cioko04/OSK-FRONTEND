@@ -59,7 +59,7 @@ export class LoginFormComponent extends BaseFormComponent implements OnInit {
           this.router.navigate(['/home']);
         },
         error: (e) => {this._failed.next(`Błąd logowania`); this.toastService.openFailToast("Błąd logowania!")},
-        complete: () => this.toastService.openSuccesToast("Pomyślnie zalogowano!"),
+        complete: () => this.toastService.openSuccessToast("Pomyślnie zalogowano!"),
       });
   }
 }

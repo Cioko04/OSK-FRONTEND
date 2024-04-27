@@ -48,7 +48,7 @@ export class LoginRegistrationComponent implements OnInit {
           this.toastService.openFailToast("Nie udało się zarejestrować użytkownika!");
         },
         complete: () => {
-          this.toastService.openSuccesToast("Pomyślnie zarejestrowano użytkownika!");
+          this.toastService.openSuccessToast("Pomyślnie zarejestrowano użytkownika!");
           this.eventBack.emit();
         },
       });

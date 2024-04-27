@@ -40,8 +40,10 @@ export class ScheduleService {
   }
 
   public removeSchedule(id: number) {
-     // TODO: This should be done on suscces response from api
-     this.scheduleSubject.next(this.scheduleSubject.getValue().filter(schedule => schedule.id !== id));
+    // TODO: This should be done on suscces response from api
+    this.scheduleSubject.next(
+      this.scheduleSubject.getValue().filter((schedule) => schedule.id !== id)
+    );
   }
 
   public isDateBetween(

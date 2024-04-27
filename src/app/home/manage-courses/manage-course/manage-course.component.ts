@@ -151,16 +151,34 @@ export class ManageCourseComponent
   }
 
   override onDeleteEntity(deleteContent: DeleteContent): void {
-    switch (deleteContent.formType) {
+    try {
+      switch (deleteContent.formType) {
+        case FormType.SCHEDULE:
+          this.scheduleService.removeSchedule(deleteContent.id);
+          break;
+        case FormType.SIGNUP:
+          this.scheduleGroupService.removeStudentFromGroup(deleteContent.id, deleteContent.sourceId!);
+          break;
+        default:
+          this.scheduleGroupService.removeScheduleGroup(deleteContent.id);
+          break;
+      }
+      this.toastService.openSuccessToast(`Pomyślnie usunięto ${this.adjustGrammar(deleteContent.formType, true)}!`)
+    } catch(error) {
+      console.log(error);
+      this.toastService.openFailToast(`Błąd podczas usuwania ${this.adjustGrammar(deleteContent.formType, false)}!`)
+    }
+    
+  }
+
+  private adjustGrammar(formType: FormType | undefined, success: boolean) {
+    switch (formType) {
       case FormType.SCHEDULE:
-        this.scheduleService.removeSchedule(deleteContent.id);
-        break;
+        return success ? 'termin' : 'terminu';
       case FormType.SIGNUP:
-        this.scheduleGroupService.removeStudentFromGroup(deleteContent.id, deleteContent.sourceId!);
-        break;
+        return 'studenta';
       default:
-        this.scheduleGroupService.removeScheduleGroup(deleteContent.id);
-        break;
+        return success ? 'grupę' : 'grupy';
     }
   }
 

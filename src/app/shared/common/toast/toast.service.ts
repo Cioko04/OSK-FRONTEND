@@ -20,7 +20,7 @@ export class ToastService {
     this.config.duration = 2500;
   }
 
-  public openSuccesToast(message: string) {
+  public openSuccessToast(message: string) {
     this.config.panelClass = ['success-snackbar'];
     this._snackBar.open(message, undefined, this.config);
   }

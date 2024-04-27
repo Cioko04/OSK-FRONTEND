@@ -52,13 +52,13 @@ export class ManageCourseService {
       .register(student)
       .pipe(untilDestroyed(this))
       .subscribe({
+        next: (response) => {
+          this.scheduleGroupService.addStudentToGroup(response, student.scheduleGroups![0]);
+          this.toastService.openSuccessToast('Pomyślnie dodano studenta!');
+        },
         error: (e: HttpErrorResponse) => {
           console.log(e.status);
           this.toastService.openFailToast('Nie udało się dodać studenta!');
-        },
-        complete: () => {
-          this.scheduleGroupService.addStudentToGroup(student, student.scheduleGroups![0]);
-          this.toastService.openSuccesToast('Pomyślnie dodano studenta!');
         },
       });
   }
