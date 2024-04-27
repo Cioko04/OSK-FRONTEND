@@ -22,6 +22,7 @@ import { User } from 'src/app/shared/services/user/user';
 import { AddContent } from 'src/app/shared/utils/table/table-interfaces/add-content';
 import { ExpansionPanelDetail } from 'src/app/shared/utils/table/table-list/expansion-panel/expansion-panel.component';
 import { ManageCourseService } from './manage-course.service';
+import { DeleteContent } from 'src/app/shared/utils/table/table-interfaces/delete-content';
 
 export interface TableScheduleGroup {
   id?: number;
@@ -149,18 +150,21 @@ export class ManageCourseComponent
     }
   }
 
-  override onDeleteEntity(id: number, formType: FormType): void {
-    switch (formType) {
+  override onDeleteEntity(deleteContent: DeleteContent): void {
+    switch (deleteContent.formType) {
       case FormType.SCHEDULE:
-        this.scheduleService.removeSchedule(id);
+        this.scheduleService.removeSchedule(deleteContent.id);
+        break;
+      case FormType.SIGNUP:
+        this.scheduleGroupService.removeStudentFromGroup(deleteContent.id, deleteContent.sourceId!);
         break;
       default:
-        this.scheduleGroupService.removeScheduleGroup(id);
+        this.scheduleGroupService.removeScheduleGroup(deleteContent.id);
         break;
     }
   }
 
-  openAddForm(content: any, addContent: AddContent) {
+  override onOpenAddForm(content: any, addContent?: AddContent) {
     this.setFormEditAndButton(false, 'Dodaj');
     switch (addContent?.formType) {
       case FormType.SCHEDULE:

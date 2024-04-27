@@ -15,6 +15,7 @@ import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { Course } from 'src/app/shared/services/course/course';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
+import { DeleteContent } from 'src/app/shared/utils/table/table-interfaces/delete-content';
 
 @UntilDestroy()
 @Component({
@@ -102,8 +103,8 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
     super.onOpenEditForm(content, course);
   }
 
-  override onDeleteEntity(id: number): void {
-    this.courseService.deleteCourse(id).subscribe({
+  override onDeleteEntity(deleteContent: DeleteContent): void {
+    this.courseService.deleteCourse(deleteContent.id).subscribe({
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => {
         console.log('Deleted!');

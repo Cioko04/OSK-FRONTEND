@@ -9,6 +9,7 @@ import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
 import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { DeleteContent } from 'src/app/shared/utils/table/table-interfaces/delete-content';
 
 @UntilDestroy()
 @Component({
@@ -54,8 +55,8 @@ export class SchoolListComponent extends BaseEntityComponent  implements OnInit 
     this.schoolService.getSchools().pipe(untilDestroyed(this)).subscribe((schools) => this.schools);
   }
 
-  onDeleteEntity(id: number) {
-    this.schoolService.deleteSchool(id).subscribe({
+  onDeleteEntity(deleteContent: DeleteContent) {
+    this.schoolService.deleteSchool(deleteContent.id).subscribe({
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => {
         console.log('Deleted!');

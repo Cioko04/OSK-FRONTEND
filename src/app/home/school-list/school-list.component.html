@@ -14,7 +14,7 @@
   [gridArray]="schools"
   (onAdd)="onOpenAddForm(content)"
   (onEdit)="onOpenEditForm(content, $event)"
-  (onDelete)="onDeleteEntity($event.id)"
+  (onDelete)="onDeleteEntity($event)"
 >
 </app-table>
 <ng-template #content let-modal>

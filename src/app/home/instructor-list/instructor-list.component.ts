@@ -14,6 +14,7 @@ import {
   HeadArray,
 } from '../../shared/core/BaseEntityComponent';
 import { EMPTY, Observable, of } from 'rxjs';
+import { DeleteContent } from 'src/app/shared/utils/table/table-interfaces/delete-content';
 
 @UntilDestroy()
 @Component({
@@ -79,9 +80,9 @@ export class InstructorListComponent
       });
   }
 
-  override onDeleteEntity(id: number) {
+  override onDeleteEntity(deleteContent: DeleteContent) {
     this.instructorService
-      .deleteInstructor(id)
+      .deleteInstructor(deleteContent.id)
       .pipe(untilDestroyed(this))
       .subscribe({
         error: (e: HttpErrorResponse) => console.log(e.status),

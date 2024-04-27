@@ -40,7 +40,7 @@ export class ScheduleGroupService {
     this.scheduleGroupsSubject.next(currentScheduleGroups);
   }
 
-  public removeScheduleGroup(id: number) {
+  public removeScheduleGroup(id: number): void {
     // TODO: This should be done on suscces response from api
     const removedGroup = this.scheduleGroupsSubject
       .getValue()
@@ -53,7 +53,7 @@ export class ScheduleGroupService {
     );
   }
 
-  public addStudentToGroup(student: User, groupToAdd: ScheduleGroup) {
+  public addStudentToGroup(student: User, groupToAdd: ScheduleGroup): void {
     const currentScheduleGroups = this.scheduleGroupsSubject.getValue();
     const indexToUpdate = currentScheduleGroups.findIndex(
       (group) => groupToAdd.id === group.id
@@ -65,6 +65,10 @@ export class ScheduleGroupService {
 
     currentScheduleGroups[indexToUpdate].students!.push(student);
     this.scheduleGroupsSubject.next(currentScheduleGroups);
+  }
+
+  public removeStudentFromGroup(studentId: number, groupId: number): void {
+    throw new Error('Method not implemented.');
   }
 
   public getScheduleGroupById(id: number): ScheduleGroup | undefined {

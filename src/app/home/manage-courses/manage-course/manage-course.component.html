@@ -6,8 +6,8 @@
         [useTableCards]="false"
         [headArray]="headArray"
         [gridArray]="tableScheduleGroups"
-        (onAdd)="openAddForm(content, $event)"
-        (onDelete)="onDeleteEntity($event.id, $event.formType!)"
+        (onAdd)="onOpenAddForm(content, $event)"
+        (onDelete)="onDeleteEntity($event)"
         (onEdit)="onOpenEditForm(content, $event)"
       >
       </app-table>

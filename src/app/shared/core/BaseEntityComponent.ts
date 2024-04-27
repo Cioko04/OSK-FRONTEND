@@ -1,12 +1,13 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormType } from 'src/app/forms/core/data-types/FormType';
+import { AddContent } from '../utils/table/table-interfaces/add-content';
+import { DeleteContent } from '../utils/table/table-interfaces/delete-content';
 
 export abstract class BaseEntityComponent {
   headArray: HeadArray[] = [];
 
   constructor(public modalService: NgbModal) {}
 
-  abstract onDeleteEntity(id: number, formType: FormType): void;
+  abstract onDeleteEntity(deleteContent: DeleteContent): void;
 
   abstract onFormSubmit(): void;
 
@@ -14,7 +15,10 @@ export abstract class BaseEntityComponent {
 
   abstract onAddEntity(): void;
 
-  onOpenAddForm(content: any): void {
+  onOpenAddForm(content: any): void;
+  onOpenAddForm(content: any, addContent: AddContent): void;
+
+  onOpenAddForm(content: any, addContent?: AddContent): void {
     this.openForm(content);
   }
 
