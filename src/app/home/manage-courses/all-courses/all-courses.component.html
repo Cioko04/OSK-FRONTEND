@@ -5,8 +5,8 @@
       [headArray]="headArray"
       [gridArray]="courses"
       [useTableCards]="true"
-      (onAdd)="onAdd(content)"
-      (onEdit)="onEdit(content, $event)"
+      (onAdd)="onOpenAddForm(content)"
+      (onEdit)="onOpenEditForm(content, $event)"
       (onChoose)="onChoose($event)"
     ></app-table>
   </div>
@@ -19,7 +19,7 @@
         [signInFormSettings]="signInFormSettings"
         [formSettings]="formSettings"
         [(entity)]="course"
-        (entityChange)="onSubmit(); modal.close()"
+        (entityChange)="onFormSubmit(); modal.close()"
       ></app-form>
     </div>
   </div>

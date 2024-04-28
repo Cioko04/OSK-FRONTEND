@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ScheduleGroup } from './schedule-group';
-import { Schedule } from '../schedule/schedule';
 import { ScheduleService } from '../schedule/schedule.service';
+import { User } from '../user/user';
+import { ScheduleGroup } from './schedule-group';
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +40,7 @@ export class ScheduleGroupService {
     this.scheduleGroupsSubject.next(currentScheduleGroups);
   }
 
-  public removeScheduleGroup(id: number) {
+  public removeScheduleGroup(id: number): void {
     // TODO: This should be done on suscces response from api
     const removedGroup = this.scheduleGroupsSubject
       .getValue()
@@ -51,5 +51,33 @@ export class ScheduleGroupService {
     this.scheduleGroupsSubject.next(
       this.scheduleGroupsSubject.getValue().filter((group) => group.id !== id)
     );
+  }
+
+  public addStudentToGroup(student: User, groupToAdd: ScheduleGroup): void {
+    const currentScheduleGroups = this.scheduleGroupsSubject.getValue();
+    const indexToUpdate = currentScheduleGroups.findIndex(
+      (group) => groupToAdd.id === group.id
+    );
+
+    if (!currentScheduleGroups[indexToUpdate].students) {
+        currentScheduleGroups[indexToUpdate].students = [];
+    }
+
+    currentScheduleGroups[indexToUpdate].students!.push(student);
+    this.scheduleGroupsSubject.next(currentScheduleGroups);
+  }
+
+  public removeStudentFromGroup(studentId: number, groupId: number): void {
+    const scheduleGroups = this.scheduleGroupsSubject.getValue();
+    const scheduleGroupToUpdate = scheduleGroups.find(scheduleGroup => scheduleGroup.id === groupId);
+    const updatedStudentList = scheduleGroupToUpdate?.students?.filter(student => student.id !== studentId);
+    scheduleGroupToUpdate!.students = updatedStudentList; 
+    this.scheduleGroupsSubject.next(scheduleGroups);
+  }
+
+  public getScheduleGroupById(id: number): ScheduleGroup | undefined {
+    return this.scheduleGroupsSubject
+      .getValue()
+      .find((group) => group.id === id);
   }
 }

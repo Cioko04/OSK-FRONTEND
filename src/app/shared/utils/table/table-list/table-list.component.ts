@@ -21,6 +21,8 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { HeadArray } from '../../../core/BaseEntityComponent';
 import { TransformItemService } from './transform-item.service';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
+import { DeleteContent } from '../table-interfaces/delete-content';
+import { AddContent } from '../table-interfaces/add-content';
 
 @UntilDestroy()
 @Component({
@@ -61,13 +63,13 @@ export class TableListComponent implements OnInit, OnChanges {
   filter: string = '';
 
   @Output()
-  onAdd = new EventEmitter<any>();
+  onAdd = new EventEmitter<AddContent>();
 
   @Output()
   onEdit = new EventEmitter<any>();
 
   @Output()
-  onDelete = new EventEmitter<{id: number, formType: FormType | undefined}>();
+  onDelete = new EventEmitter<DeleteContent>();
 
   @Output()
   onBook = new EventEmitter<number>();
@@ -156,7 +158,7 @@ export class TableListComponent implements OnInit, OnChanges {
     this.onEdit.emit(item);
   }
 
-  delete(event: {id: number, formType: FormType | undefined}) {
+  delete(event: DeleteContent) {
     this.onDelete.emit(event);
   }
 

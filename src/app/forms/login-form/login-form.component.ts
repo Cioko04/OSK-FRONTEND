@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthenticationService } from 'src/app/authentication/authentication.service';
 import { BaseFormComponent } from '../core/base-form/BaseFormComponent';
+import { ToastService } from 'src/app/shared/common/toast/toast.service';
 
 @Component({
   selector: 'app-login-form',
@@ -17,7 +18,8 @@ export class LoginFormComponent extends BaseFormComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastService: ToastService
   ) {
     super();
   }
@@ -56,8 +58,8 @@ export class LoginFormComponent extends BaseFormComponent implements OnInit {
           this.entityChange.emit();
           this.router.navigate(['/home']);
         },
-        error: (e) => this._failed.next(`Błąd logowania`),
-        complete: () => console.log('Logged in!'),
+        error: (e) => {this._failed.next(`Błąd logowania`); this.toastService.openFailToast("Błąd logowania!")},
+        complete: () => this.toastService.openSuccessToast("Pomyślnie zalogowano!"),
       });
   }
 }

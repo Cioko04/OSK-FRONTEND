@@ -77,6 +77,6 @@ export class InstructorService {
     if (userRequest.lastName) {
       fullName += ' ' + userRequest.lastName;
     }
-    return fullName;
+    return fullName!;
   }
 }

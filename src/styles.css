@@ -44,3 +44,27 @@ ngx-material-timepicker-container {
   position: relative;
   z-index: 2000;
 }
+
+.success-snackbar {
+  border-radius: 5px;
+  outline-offset: 2px;
+  outline: 3px solid #54b500;
+  --mdc-snackbar-container-color: #54b500;
+  --mdc-snackbar-supporting-text-color: #fff
+}
+
+.warning-snackbar {
+  border-radius: 5px;
+  outline-offset: 2px;
+  outline: 3px solid #b2b500;
+  --mdc-snackbar-container-color: #b2b500;
+  --mdc-snackbar-supporting-text-color: #fff
+}
+
+.fail-snackbar {
+  border-radius: 5px;
+  outline-offset: 2px;
+  outline: 3px solid #b51500;
+  --mdc-snackbar-container-color: #b51500;
+  --mdc-snackbar-supporting-text-color: #fff
+}

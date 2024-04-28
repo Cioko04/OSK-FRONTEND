@@ -97,4 +97,8 @@ export class CourseService {
     );
     this.coursesSubject.next(updatedCourses);
   }
+
+  public getCourseById(id: number): Course {
+    return this.coursesSubject.getValue().find((course) => course.id === id)!;
+  }
 }

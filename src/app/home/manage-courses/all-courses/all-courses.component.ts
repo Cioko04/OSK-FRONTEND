@@ -15,6 +15,7 @@ import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { Course } from 'src/app/shared/services/course/course';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
+import { DeleteContent } from 'src/app/shared/utils/table/table-interfaces/delete-content';
 
 @UntilDestroy()
 @Component({
@@ -86,24 +87,24 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
     });
   }
 
-  override onAdd(content: any) {
+  override onOpenAddForm(content: any) {
     this.formSettings.edit = false;
     this.formSettings.titile = "Dodaj kurs";
     this.formSettings.buttonText = "Dodaj";
     this.course = {};
-    super.onAdd(content);
+    super.onOpenAddForm(content);
   }
 
-  override onEdit(content: any, course: Course) {
+  override onOpenEditForm(content: any, course: Course) {
     this.formSettings.edit = true;
     this.formSettings.titile = "Edytuj kurs"
     this.formSettings.buttonText = "Zapisz";
     this.course = course;
-    super.onEdit(content, course);
+    super.onOpenEditForm(content, course);
   }
 
-  override onDelete(id: number): void {
-    this.courseService.deleteCourse(id).subscribe({
+  override onDeleteEntity(deleteContent: DeleteContent): void {
+    this.courseService.deleteCourse(deleteContent.id).subscribe({
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => {
         console.log('Deleted!');
@@ -112,11 +113,11 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
     });
   }
 
-  override onSubmit(): void {
-    this.formSettings.edit ? this.update() : this.add();
+  override onFormSubmit(): void {
+    this.formSettings.edit ? this.onUpdateEntity() : this.onAddEntity();
   }
 
-  override update(): void {
+  override onUpdateEntity(): void {
     this.courseService.updateCourse(this.course).subscribe({
       error: (e: HttpErrorResponse) => {
         console.log(e);
@@ -129,7 +130,7 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
     });
   }
 
-  override add(): void {
+  override onAddEntity(): void {
     this.course.schoolId = this.schoolId;
     this.courseService.saveCourse(this.course).subscribe({
       error: (e: HttpErrorResponse) => {
