@@ -14,7 +14,7 @@ import {
   HeadArray,
 } from '../../shared/core/BaseEntityComponent';
 import { EMPTY, Observable, of } from 'rxjs';
-import { DeleteContent } from 'src/app/shared/utils/table/table-interfaces/delete-content';
+import { ModificationContent } from 'src/app/shared/utils/table/table-list/table-list.component';
 
 @UntilDestroy()
 @Component({
@@ -35,7 +35,7 @@ export class InstructorListComponent
   ];
 
   instructor: Instructor | any;
-  instructors$!: Observable<Instructor[]>;
+  instructors: Instructor[] = [];
   signInFormSettings: SignInFormSettings = {
     user: false,
     instructor: false,
@@ -71,7 +71,7 @@ export class InstructorListComponent
           let schoolId = user.schoolRequest!.id;
           this.instructor.schoolId = schoolId;
           this.instructorService.updateInstructorSubject(schoolId!);
-          this.instructors$ = this.instructorService.instructorSubject$;
+          this.instructorService.instructorSubject$.subscribe(instructors => this.instructors = instructors);
         },
         error: (e: HttpErrorResponse) => console.log(e.status),
         complete: () => {
@@ -80,9 +80,9 @@ export class InstructorListComponent
       });
   }
 
-  override onDeleteEntity(deleteContent: DeleteContent) {
+  override onDeleteEntity(deleteContent: ModificationContent) {
     this.instructorService
-      .deleteInstructor(deleteContent.id)
+      .deleteInstructor(deleteContent.id!)
       .pipe(untilDestroyed(this))
       .subscribe({
         error: (e: HttpErrorResponse) => console.log(e.status),
@@ -99,11 +99,11 @@ export class InstructorListComponent
     super.onOpenAddForm(content);
   }
 
-  override onOpenEditForm(content: any, instructor: Instructor) {
+  override onOpenEditForm(content: any, editContent: ModificationContent) {
     this.formSettings.edit = true;
     this.formSettings.titile = 'Edytuj instruktora!';
-    this.instructor = instructor;
-    super.onOpenEditForm(content, instructor);
+    this.instructor = this.instructors.find(instructor => instructor.id === editContent.id);
+    super.onOpenEditForm(content);
   }
 
   onFormSubmit() {

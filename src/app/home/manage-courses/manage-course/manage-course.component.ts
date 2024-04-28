@@ -19,10 +19,9 @@ import {
 } from 'src/app/shared/services/scheduleGroup/schedule-group';
 import { ScheduleGroupService } from 'src/app/shared/services/scheduleGroup/schedule-group.service';
 import { User } from 'src/app/shared/services/user/user';
-import { AddContent } from 'src/app/shared/utils/table/table-interfaces/add-content';
 import { ExpansionPanelDetail } from 'src/app/shared/utils/table/table-list/expansion-panel/expansion-panel.component';
 import { ManageCourseService } from './manage-course.service';
-import { DeleteContent } from 'src/app/shared/utils/table/table-interfaces/delete-content';
+import { ModificationContent } from 'src/app/shared/utils/table/table-list/table-list.component';
 
 export interface TableScheduleGroup {
   id?: number;
@@ -150,17 +149,17 @@ export class ManageCourseComponent
     }
   }
 
-  override onDeleteEntity(deleteContent: DeleteContent): void {
+  override onDeleteEntity(deleteContent: ModificationContent): void {
     try {
       switch (deleteContent.formType) {
         case FormType.SCHEDULE:
-          this.scheduleService.removeSchedule(deleteContent.id);
+          this.scheduleService.removeSchedule(deleteContent.id!);
           break;
         case FormType.SIGNUP:
-          this.scheduleGroupService.removeStudentFromGroup(deleteContent.id, deleteContent.sourceId!);
+          this.scheduleGroupService.removeStudentFromGroup(deleteContent.id!, deleteContent.sourceId!);
           break;
         default:
-          this.scheduleGroupService.removeScheduleGroup(deleteContent.id);
+          this.scheduleGroupService.removeScheduleGroup(deleteContent.id!);
           break;
       }
       this.toastService.openSuccessToast(`Pomyślnie usunięto ${this.adjustGrammar(deleteContent.formType, true)}!`)
@@ -182,25 +181,33 @@ export class ManageCourseComponent
     }
   }
 
-  override onOpenAddForm(content: any, addContent?: AddContent) {
+  override onOpenAddForm(content: any, addContent?: ModificationContent) {
     this.setFormEditAndButton(false, 'Dodaj');
     switch (addContent?.formType) {
       case FormType.SCHEDULE:
         this.openAddScheduleForm(content, new Date(), addContent.sourceId);
         break;
       case FormType.SIGNUP:
-        this.openAddStudentForm(content, addContent.sourceId);
+        this.openAddStudentForm(content, addContent.sourceId!);
         break;
       default:
         this.openAddScheduleGroupForm(content);
     }
   }
 
-  override onOpenEditForm(content: any, entity: Schedule | ScheduleGroup) {
+  override onOpenEditForm(content: any, editContent: ModificationContent) {
     this.setFormEditAndButton(true, 'Zapisz');
-    this.setFormTextAndType('Edytuj grupę dla kategorii: ' + this.course.categoryType, FormType.SCHEDULE_GROUP);
-    this.entity = this.scheduleGroups.find((group) => group.id === entity.id)!;
-    super.onOpenEditForm(content, this.entity);
+    switch (editContent.formType) {
+      case FormType.SCHEDULE:
+        this.setFormTextAndType('Edytuj termin', FormType.SCHEDULE);
+        const group = this.scheduleGroups.find((group) => group.id === editContent.sourceId)!;
+        this.entity = group.schedules?.find(schedule => schedule.id === editContent.id)!;
+        break;
+      default:
+        this.setFormTextAndType('Edytuj grupę dla kategorii: ' + this.course.categoryType, FormType.SCHEDULE_GROUP);
+        this.entity = this.scheduleGroups.find((group) => group.id === editContent.id)!;
+    }
+    super.onOpenEditForm(content);
   }
 
   private openAddStudentForm(content: any, sourceId: number) {

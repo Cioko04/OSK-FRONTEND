@@ -85,6 +85,7 @@ export class TableScheduleGroupService {
     return {
       id: student.id!,
       displayContent: student.name + ' ' + student.lastName,
+      update: false
     };
   }
 
@@ -106,6 +107,7 @@ export class TableScheduleGroupService {
     return {
       id: schedule.id!,
       displayContent: this.getScheduleDisplayInformation(schedule),
+      update: true
     };
   }
 

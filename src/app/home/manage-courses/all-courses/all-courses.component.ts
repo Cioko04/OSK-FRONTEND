@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -15,7 +15,7 @@ import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { Course } from 'src/app/shared/services/course/course';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
-import { DeleteContent } from 'src/app/shared/utils/table/table-interfaces/delete-content';
+import { ModificationContent } from 'src/app/shared/utils/table/table-list/table-list.component';
 
 @UntilDestroy()
 @Component({
@@ -95,16 +95,16 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
     super.onOpenAddForm(content);
   }
 
-  override onOpenEditForm(content: any, course: Course) {
+  override onOpenEditForm(content: any, modificationContent: ModificationContent) {
     this.formSettings.edit = true;
     this.formSettings.titile = "Edytuj kurs"
     this.formSettings.buttonText = "Zapisz";
-    this.course = course;
-    super.onOpenEditForm(content, course);
+    this.course = this.courses.find(course => course.id === modificationContent.id);
+    super.onOpenEditForm(content);
   }
 
-  override onDeleteEntity(deleteContent: DeleteContent): void {
-    this.courseService.deleteCourse(deleteContent.id).subscribe({
+  override onDeleteEntity(deleteContent: ModificationContent): void {
+    this.courseService.deleteCourse(deleteContent.id!).subscribe({
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => {
         console.log('Deleted!');

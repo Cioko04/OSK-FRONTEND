@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
+import { ModificationContent } from '../table-list.component';
 
 export interface ExpansionPanelDetail {
   icon: string;
@@ -13,6 +14,7 @@ export interface ExpansionPanelDetail {
 export interface ExpansionPanelEntity {
   id: number;
   displayContent: string;
+  update: boolean;
 }
 
 @Component({
@@ -25,23 +27,27 @@ export class ExpansionPanelComponent implements OnInit {
   expansionPanelDetails: ExpansionPanelDetail[] = [];
 
   @Output()
-  onAdd = new EventEmitter<FormType>();
+  onAdd = new EventEmitter<ModificationContent>();
 
   @Output()
-  onDelete = new EventEmitter<{id: number, formType: FormType}>();
+  onDelete = new EventEmitter<ModificationContent>();
 
   @Output()
-  formType = new EventEmitter<FormType>();
+  onEdit = new EventEmitter<ModificationContent>();
 
   constructor() {}
 
   ngOnInit() {}
 
-  remove(id: number, formType: FormType) {
-    this.onDelete.emit({id, formType});
+  remove(content: ModificationContent) {
+    this.onDelete.emit(content);
   }
 
-  add(formType: FormType) {
-    this.onAdd.emit(formType);
+  add(content: ModificationContent) {
+    this.onAdd.emit(content);
+  }
+
+  edit(content: ModificationContent) {
+    this.onEdit.emit(content);
   }
 }

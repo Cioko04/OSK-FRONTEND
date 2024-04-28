@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HeadArray } from '../../core/BaseEntityComponent';
 import { CategoryService } from '../../services/category/category.service';
 import { CourseService } from '../../services/course/course.service';
+import { ModificationContent } from '../../utils/table/table-list/table-list.component';
 
 @Component({
   selector: 'app-card',
@@ -21,13 +22,7 @@ export class CardComponent {
   edit: boolean = true;
 
   @Output()
-  onAdd = new EventEmitter<any>();
-
-  @Output()
-  onEdit = new EventEmitter<any>();
-
-  @Output()
-  onDelete = new EventEmitter<number>();
+  onEdit = new EventEmitter<ModificationContent>();
 
   @Output()
   onChoose = new EventEmitter<number>();
@@ -38,7 +33,7 @@ export class CardComponent {
 
   showDetails(): void {
     this.edit
-      ? this.onEdit.emit(this.category)
+      ? this.onEdit.emit({id:this.category.id})
       : (this.isDetailsVisible = !this.isDetailsVisible);
   }
 

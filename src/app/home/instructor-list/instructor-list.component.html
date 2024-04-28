@@ -3,7 +3,7 @@
     [useTableCards]="false"
     [isAction]="true"
     [headArray]="headArray"
-    [gridArray]="(instructors$ | async)!"
+    [gridArray]="instructors"
     (onAdd)="onOpenAddForm(content)"
     (onEdit)="onOpenEditForm(content, $event)"
     (onDelete)="onDeleteEntity($event)"
