@@ -18,12 +18,15 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { UntilDestroy } from '@ngneat/until-destroy';
+import { FormType } from 'src/app/forms/core/data-types/FormType';
 import { HeadArray } from '../../../core/BaseEntityComponent';
 import { TransformItemService } from './transform-item.service';
-import { FormType } from 'src/app/forms/core/data-types/FormType';
-import { DeleteContent } from '../table-interfaces/delete-content';
-import { AddContent } from '../table-interfaces/add-content';
 
+export interface ModificationContent {
+  id?: number;
+  formType?: FormType;
+  sourceId?: number;
+}
 @UntilDestroy()
 @Component({
   selector: 'app-table-list',
@@ -63,19 +66,16 @@ export class TableListComponent implements OnInit, OnChanges {
   filter: string = '';
 
   @Output()
-  onAdd = new EventEmitter<AddContent>();
+  onAdd = new EventEmitter<ModificationContent>();
 
   @Output()
-  onEdit = new EventEmitter<any>();
+  onEdit = new EventEmitter<ModificationContent>();
 
   @Output()
-  onDelete = new EventEmitter<DeleteContent>();
+  onDelete = new EventEmitter<ModificationContent>();
 
   @Output()
   onBook = new EventEmitter<number>();
-
-  @Output()
-  formType = new EventEmitter<FormType>();
 
   dataSource: any = [];
   displayedColumns: string[] = [];
@@ -149,25 +149,20 @@ export class TableListComponent implements OnInit, OnChanges {
     ];
   }
 
-  add(formType: FormType, sourceId: number) {
-    this.onAdd.emit({formType, sourceId});
+  add(content: ModificationContent) {
+    this.onAdd.emit(content);
   }
 
-  edit(id: number) {
-    const item = this.gridArray.find((item) => item.id === id);
-    this.onEdit.emit(item);
+  edit(content: ModificationContent) {
+    this.onEdit.emit(content);
   }
 
-  delete(event: DeleteContent) {
-    this.onDelete.emit(event);
+  delete(content: ModificationContent) {
+    this.onDelete.emit(content);
   }
 
   book() {
     this.onBook.emit();
-  }
-
-  emitFormType(formType: FormType) {
-    this.formType.emit(formType);
   }
 
   isArray(element: any) {

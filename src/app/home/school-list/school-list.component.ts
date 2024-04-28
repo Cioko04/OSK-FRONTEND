@@ -9,7 +9,7 @@ import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
 import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { DeleteContent } from 'src/app/shared/utils/table/table-interfaces/delete-content';
+import { ModificationContent } from 'src/app/shared/utils/table/table-list/table-list.component';
 
 @UntilDestroy()
 @Component({
@@ -55,8 +55,8 @@ export class SchoolListComponent extends BaseEntityComponent  implements OnInit 
     this.schoolService.getSchools().pipe(untilDestroyed(this)).subscribe((schools) => this.schools);
   }
 
-  onDeleteEntity(deleteContent: DeleteContent) {
-    this.schoolService.deleteSchool(deleteContent.id).subscribe({
+  onDeleteEntity(deleteContent: ModificationContent) {
+    this.schoolService.deleteSchool(deleteContent.id!).subscribe({
       error: (e: HttpErrorResponse) => console.log(e.status),
       complete: () => {
         console.log('Deleted!');
@@ -71,10 +71,10 @@ export class SchoolListComponent extends BaseEntityComponent  implements OnInit 
     super.onOpenAddForm(content);
   }
 
-  override onOpenEditForm(content: any, school: School) {
+  override onOpenEditForm(content: any, editContent: ModificationContent) {
     this.fromSettings.edit = true;
-    this.school = school;
-    super.onOpenEditForm(content, school);
+    this.school = this.schools.find(school => school.id === editContent.id);
+    super.onOpenEditForm(content);
   }
 
   onFormSubmit() {

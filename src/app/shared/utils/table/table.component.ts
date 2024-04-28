@@ -6,9 +6,7 @@ import {
   Output
 } from '@angular/core';
 import { HeadArray } from '../../core/BaseEntityComponent';
-import { FormType } from 'src/app/forms/core/data-types/FormType';
-import { DeleteContent } from './table-interfaces/delete-content';
-import { AddContent } from './table-interfaces/add-content';
+import { ModificationContent } from './table-list/table-list.component';
 
 @Component({
   selector: 'app-table',
@@ -34,13 +32,13 @@ export class TableComponent implements OnInit{
   showCategoryCarousel: boolean = false;
 
   @Output()
-  onAdd = new EventEmitter<AddContent>();
+  onAdd = new EventEmitter<ModificationContent>();
 
   @Output()
-  onEdit = new EventEmitter<any>();
+  onEdit = new EventEmitter<ModificationContent>();
 
   @Output()
-  onDelete = new EventEmitter<DeleteContent>();
+  onDelete = new EventEmitter<ModificationContent>();
 
   @Output()
   onChoose = new EventEmitter<number>();
@@ -50,16 +48,16 @@ export class TableComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  add(addContent: AddContent) {
-    this.onAdd.emit(addContent);
+  add(content: ModificationContent) {
+    this.onAdd.emit(content);
   }
 
-  edit(data: any) {
-    this.onEdit.emit(data);
+  edit(content: ModificationContent) {
+    this.onEdit.emit(content);
   }
 
-  delete(event: DeleteContent) {
-    this.onDelete.emit(event);
+  delete(content: ModificationContent) {
+    this.onDelete.emit(content);
   }
 
   choose(id: number) {

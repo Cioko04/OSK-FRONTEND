@@ -18,19 +18,29 @@
       <mat-list-item>
         <div class="expansion-panel-detail">
           <p>{{ entity.displayContent }}</p>
+          <div class="float-end">
+            <button *ngIf="entity.update"
+            type="button"
+            class="btn btn-td p-0 me-1"
+            title="Edytuj"
+            (click)="edit({id: entity.id, formType: expansionPanelDetail.formType})"
+          >
+            <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+          </button>
           <button
             type="button"
-            class="btn btn-td float-end p-0"
+            class="btn btn-td p-0"
             title="Usuń"
-            (click)="remove(entity.id, expansionPanelDetail.formType)"
+            (click)="remove({id: entity.id, formType: expansionPanelDetail.formType})"
           >
             <i class="fa fa-minus-circle fa-lg" aria-hidden="true"></i>
           </button>
+          </div>
         </div>
       </mat-list-item>
       <mat-divider></mat-divider>
     </mat-list>
-    <button mat-raised-button (click)="add(expansionPanelDetail.formType)">
+    <button mat-raised-button (click)="add({formType:expansionPanelDetail.formType})">
       {{ expansionPanelDetail.buttonText }}
     </button>
   </mat-expansion-panel>

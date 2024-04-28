@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { HeadArray } from 'src/app/shared/core/BaseEntityComponent';
+import { ModificationContent } from '../table-list/table-list.component';
 
 @Component({
   selector: 'app-table-cards',
@@ -27,13 +28,7 @@ export class TableCardsComponent implements OnInit, OnChanges {
   isAction: boolean = true;
 
   @Output()
-  onAdd = new EventEmitter<any>();
-
-  @Output()
-  onEdit = new EventEmitter<any>();
-
-  @Output()
-  onDelete = new EventEmitter<number>();
+  onEdit = new EventEmitter<ModificationContent>();
 
   @Output()
   onChoose = new EventEmitter<number>();

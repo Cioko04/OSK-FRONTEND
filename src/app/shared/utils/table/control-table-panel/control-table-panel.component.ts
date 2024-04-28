@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ModificationContent } from '../table-list/table-list.component';
 
 @Component({
   selector: 'app-control-table-panel',
@@ -13,7 +14,7 @@ export class ControlTablePanelComponent implements OnInit {
   isAction: boolean = true;
 
   @Output()
-  onAdd = new EventEmitter<any>();
+  onAdd = new EventEmitter<ModificationContent>();
 
   @Output()
   filterChange = new EventEmitter<any>();
