@@ -12,7 +12,7 @@ import { UserService } from 'src/app/shared/services/user/user.service';
 import {
   BaseEntityComponent,
   HeadArray,
-} from '../../shared/core/BaseEntityComponent';
+} from '../../../shared/core/BaseEntityComponent';
 import { EMPTY, Observable, of } from 'rxjs';
 import { ModificationContent } from 'src/app/shared/utils/table/table-list/table-list.component';
 

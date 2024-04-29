@@ -73,7 +73,7 @@ export class MenuNavComponent implements OnInit {
     } else if (this.role == 'USER') {
       this.menuItems = [
         {
-          label: 'Zarezerwuj',
+          label: 'Zapisz się',
           icon: 'fa-calendar-plus-o',
           link: '/home/courses',
         },

@@ -4,12 +4,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { School } from 'src/app/shared/services/school/school';
 import { SchoolService } from 'src/app/shared/services/school/school.service';
-import { HeadArray, BaseEntityComponent } from '../../shared/core/BaseEntityComponent';
 import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
 import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ModificationContent } from 'src/app/shared/utils/table/table-list/table-list.component';
+import { BaseEntityComponent, HeadArray } from 'src/app/shared/core/BaseEntityComponent';
 
 @UntilDestroy()
 @Component({

@@ -53,17 +53,9 @@ import { LoginFormComponent } from './forms/login-form/login-form.component';
 import { ScheduleFormComponent } from './forms/schedule-form/schedule-form.component';
 import { ScheduleGroupFormComponent } from './forms/schedule-group-form/schedule-group-form.component';
 import { SignUpFormComponent } from './forms/sign-up-form/sign-up-form.component';
-import { CoursesComponent } from './home/courses/courses.component';
 import { HomeComponent } from './home/home.component';
-import { InstructorListComponent } from './home/instructor-list/instructor-list.component';
-import { AllCoursesComponent } from './home/manage-courses/all-courses/all-courses.component';
-import { InfoCardComponent } from './home/manage-courses/info-card/info-card.component';
-import { ManageCourseComponent } from './home/manage-courses/manage-course/manage-course.component';
-import { ManageCoursesComponent } from './home/manage-courses/manage-courses.component';
+import { InstructorListComponent } from './home/school-dashboard/instructor-list/instructor-list.component';
 import { MenuNavComponent } from './home/menu-nav/menu-nav.component';
-import { MyCoursesComponent } from './home/my-courses/my-courses.component';
-import { PaymentsComponent } from './home/payments/payments.component';
-import { SchoolListComponent } from './home/school-list/school-list.component';
 import { SchoolProfileComponent } from './home/school-profile/school-profile.component';
 import { UserProfileComponent } from './home/user-profile/user-profile.component';
 import { LogoComponent } from './logo/logo.component';
@@ -84,6 +76,14 @@ import { TableComponent } from './shared/utils/table/table.component';
 import { LoginRegistrationComponent } from './welcome/login-registration/login-registration.component';
 import { WelcomeNavComponent } from './welcome/welcome-nav/welcome-nav.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { AllCoursesComponent } from './home/school-dashboard/manage-courses/all-courses/all-courses.component';
+import { InfoCardComponent } from './home/school-dashboard/manage-courses/info-card/info-card.component';
+import { ManageCourseComponent } from './home/school-dashboard/manage-courses/manage-course/manage-course.component';
+import { ManageCoursesComponent } from './home/school-dashboard/manage-courses/manage-courses.component';
+import { SchoolListComponent } from './home/admin-dashboard/school-list/school-list.component';
+import { CoursesComponent } from './home/user-dashboard/courses/courses.component';
+import { MyCoursesComponent } from './home/user-dashboard/my-courses/my-courses.component';
+import { PaymentsComponent } from './home/user-dashboard/payments/payments.component';
 
 export const MY_FORMATS = {
   parse: {

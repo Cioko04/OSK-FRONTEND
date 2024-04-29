@@ -7,8 +7,8 @@ import {
   ExpansionPanelDetail,
   ExpansionPanelEntity,
 } from 'src/app/shared/utils/table/table-list/expansion-panel/expansion-panel.component';
-import { User } from '../../../../shared/services/user/user';
 import { TableScheduleGroup } from '../manage-course.component';
+import { User } from 'src/app/shared/services/user/user';
 
 @Injectable({
   providedIn: 'root',
