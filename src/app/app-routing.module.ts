@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthenticationGuard } from './authentication/authentication.guard';
 import { HasRoleGuard } from './authentication/has-role.guard';
-import { CoursesComponent } from './home/courses/courses.component';
+import { CoursesComponent } from './home/user-dashboard/courses/courses.component';
 import { HomeComponent } from './home/home.component';
-import { InstructorListComponent } from './home/instructor-list/instructor-list.component';
-import { AllCoursesComponent } from './home/manage-courses/all-courses/all-courses.component';
-import { ManageCourseComponent } from './home/manage-courses/manage-course/manage-course.component';
-import { ManageCoursesComponent } from './home/manage-courses/manage-courses.component';
-import { MyCoursesComponent } from './home/my-courses/my-courses.component';
-import { PaymentsComponent } from './home/payments/payments.component';
-import { SchoolListComponent } from './home/school-list/school-list.component';
+import { InstructorListComponent } from './home/school-dashboard/instructor-list/instructor-list.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { SchoolListComponent } from './home/admin-dashboard/school-list/school-list.component';
+import { AllCoursesComponent } from './home/school-dashboard/manage-courses/all-courses/all-courses.component';
+import { ManageCourseComponent } from './home/school-dashboard/manage-courses/manage-course/manage-course.component';
+import { ManageCoursesComponent } from './home/school-dashboard/manage-courses/manage-courses.component';
+import { MyCoursesComponent } from './home/user-dashboard/my-courses/my-courses.component';
+import { PaymentsComponent } from './home/user-dashboard/payments/payments.component';
 
 const routes: Routes = [
   {
