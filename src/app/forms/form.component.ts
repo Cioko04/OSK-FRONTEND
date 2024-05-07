@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  HostListener,
   Input,
   OnInit,
   Output,
@@ -45,5 +46,11 @@ export class FormComponent implements OnInit {
     if (this.formComponent) {
       this.formComponent.submit();
     }
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    event.preventDefault();
+    this.triggerSubmit();
   }
 }

@@ -105,10 +105,3 @@ tr.detail-row {
   box-shadow: none;
   border-color: #efefef00;
 }
-
-.xyz {
-  position: sticky;
-  top: 0; /* lub odpowiednią wartość, aby umieścić wiersz na odpowiedniej wysokości */
-  background-color: white; /* opcjonalnie, aby zachować czytelność */
-  z-index: 1; /* opcjonalnie, aby wiersz wyświetlał się na górze */
-}
