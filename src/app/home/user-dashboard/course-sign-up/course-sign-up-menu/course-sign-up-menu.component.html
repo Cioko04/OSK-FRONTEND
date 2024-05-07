@@ -1,0 +1,22 @@
+<div
+  class="container-fluid mt-lg-5 d-flex justify-content-center align-items-center"
+>
+  <div class="row">
+    <div class="col-12 col-lg-6 d-flex justify-content-center">
+      <app-course-sign-up-card
+        [imagePath]="'course-sing-in.png'"
+        [type]="'course'"
+        [text]="'Zapisz się na KURS'"
+        (click)="navigate('choose-school')"
+      ></app-course-sign-up-card>
+    </div>
+    <div class="col-12 col-lg-6 d-flex justify-content-center">
+      <app-course-sign-up-card
+        [imagePath]="'additional-lesson-sign-in.png'"
+        [type]="'lesson'"
+        [text]="'Zapisz się na DODATKOWE JAZDY'"
+        (click)="navigate('payments')"
+      ></app-course-sign-up-card>
+    </div>
+  </div>
+</div>

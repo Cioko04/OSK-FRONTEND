@@ -12,6 +12,9 @@ import { ManageCourseComponent } from './home/school-dashboard/manage-courses/ma
 import { ManageCoursesComponent } from './home/school-dashboard/manage-courses/manage-courses.component';
 import { MyCoursesComponent } from './home/user-dashboard/my-courses/my-courses.component';
 import { PaymentsComponent } from './home/user-dashboard/payments/payments.component';
+import { CourseSignUpComponent } from './home/user-dashboard/course-sign-up/course-sign-up.component';
+import { ChooseSchoolComponent } from './home/user-dashboard/course-sign-up/choose-school/choose-school.component';
+import { CourseSignUpMenuComponent } from './home/user-dashboard/course-sign-up/course-sign-up-menu/course-sign-up-menu.component';
 
 const routes: Routes = [
   {
@@ -20,8 +23,26 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard],
     children: [
       {
-        path: 'courses',
-        component: CoursesComponent,
+        path: 'course-sign-up',
+        component: CourseSignUpComponent,
+        canActivate: [HasRoleGuard],
+        data: {
+          role: 'USER',
+        },
+        children: [
+          {
+            path: '',
+            component: CourseSignUpMenuComponent,
+          },
+          {
+            path: 'choose-school',
+            component: ChooseSchoolComponent,
+          }
+        ],
+      },
+      {
+        path: 'choose-school',
+        component: ChooseSchoolComponent,
         canActivate: [HasRoleGuard],
         data: {
           role: 'USER',

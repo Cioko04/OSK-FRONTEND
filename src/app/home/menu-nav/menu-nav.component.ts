@@ -26,10 +26,10 @@ export class MenuNavComponent implements OnInit {
   }
 
   ngDoCheck(): void {
-    this.active = this.formantActiveRoute();
+    this.active = this.formatActiveRoute();
   }
 
-  private formantActiveRoute(): string {
+  private formatActiveRoute(): string {
     const segments = this.router.url.split('/');
     return segments.slice(0, 3).join('/');
   }
@@ -43,7 +43,7 @@ export class MenuNavComponent implements OnInit {
         this.active = '/home/manage-courses';
         break;
       case 'USER':
-        this.active = '/home/courses';
+        this.active = '/home/course-sign-up';
         break;
     }
   }
@@ -75,7 +75,7 @@ export class MenuNavComponent implements OnInit {
         {
           label: 'Zapisz się',
           icon: 'fa-calendar-plus-o',
-          link: '/home/courses',
+          link: '/home/course-sign-up',
         },
         {
           label: 'Moje kursy',
