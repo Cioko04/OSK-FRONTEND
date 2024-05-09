@@ -1,0 +1,20 @@
+<form class="form" name="form" [formGroup]="form">
+  <div class="container-fluid pt-3">
+    <div class="row">
+      <div class="col-12 col-sm-6 d-flex justify-content-center justify-content-sm-end px-5">
+        <app-search-select-form
+          [valuesData]="cities"
+          [label]="'Wybierz miasto'"
+          formControlName="cities"
+        ></app-search-select-form>
+      </div>
+      <div class="col-12 col-sm-6 d-flex justify-content-center justify-content-sm-start px-5">
+        <app-search-select-form
+          [valuesData]="categories"
+          [label]="'Wybierz kategorię'"
+          formControlName="categories"
+        ></app-search-select-form>
+      </div>
+    </div>
+  </div>
+</form>

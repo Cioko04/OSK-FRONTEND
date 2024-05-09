@@ -88,6 +88,7 @@ import { CourseSignUpComponent } from './home/user-dashboard/course-sign-up/cour
 import { ChooseSchoolComponent } from './home/user-dashboard/course-sign-up/choose-school/choose-school.component';
 import { CourseSignUpCardComponent } from './home/user-dashboard/course-sign-up/course-sign-up-menu/course-sign-up-card/course-sign-up-card.component';
 import { CourseSignUpMenuComponent } from './home/user-dashboard/course-sign-up/course-sign-up-menu/course-sign-up-menu.component';
+import { CourseSearchComponent } from './forms/course-search/course-search.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -146,7 +147,8 @@ export const MY_FORMATS = {
     CourseSignUpComponent,
     ChooseSchoolComponent,
     CourseSignUpMenuComponent,
-    CourseSignUpCardComponent
+    CourseSignUpCardComponent,
+    CourseSearchComponent
   ],
   imports: [
     BrowserModule,
