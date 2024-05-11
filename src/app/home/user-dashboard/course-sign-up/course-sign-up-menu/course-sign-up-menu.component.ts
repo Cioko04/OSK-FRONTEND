@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { CardDetails } from '../../../../shared/common/course-sign-up-card/course-sign-up-card.component';
+import { CardDetails } from '../../../../shared/common/card/card.component';
 
 @Component({
   selector: 'app-course-sign-up-menu',

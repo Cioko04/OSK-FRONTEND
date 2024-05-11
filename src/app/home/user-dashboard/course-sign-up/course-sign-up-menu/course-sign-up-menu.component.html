@@ -6,10 +6,10 @@
       *ngFor="let menuItem of menuItems"
       class="col-12 col-lg-6 d-flex justify-content-center"
     >
-      <app-course-sign-up-card
+      <app-card
         [cardDetails]="menuItem"
         (click)="navigate(menuItem.route!)"
-      ></app-course-sign-up-card>
+      ></app-card>
     </div>
   </div>
 </div>

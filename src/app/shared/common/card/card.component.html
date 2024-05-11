@@ -1,33 +1,32 @@
-<div class="container">
+<figure
+  class="m-4"
+  [ngClass]="{ 'figure-hover': !cardDetails.showActionButton }"
+  [ngStyle]="{
+    '--accent': cardDetails.accentColor,
+    'aspect-ratio': cardDetails.aspectRatio
+  }"
+  #container
+>
+  <img
+    class="pictogram"
+    [src]="'../../../../assets/' + cardDetails.imagePath"
+    alt="Icon"
+  />
+  <p class="label" id="dynamicFontSize">
+    <b
+      ><i>{{ cardDetails.label }}</i></b
+    >
+  </p>
+  <p class="info" id="dynamicFontSize">
+    <b
+      ><i>{{ cardDetails.info }}</i></b
+    >
+  </p>
   <div
-    class="wrap animate pop"
-    [ngClass]="{ 'details-open': isDetailsVisible }"
+    *ngIf="cardDetails.showActionButton"
+    class="col-12 d-flex justify-content-center action-buttons"
   >
-    <div class="overlay">
-      <div class="banner">
-        <div class="banner-image" id="banner-image">
-          <img
-            src="{{
-              categoryService.getCategoryImagePath(
-                category[HeadArray[0].FieldName]
-              )
-            }}"
-            alt="{{ category[HeadArray[0].FieldName] }} Icon"
-          />
-        </div>
-        <h2>
-          <b>{{ HeadArray[0].Head }}</b>
-        </h2>
-        <h1>
-          <b>{{ category[HeadArray[0].FieldName] }}</b>
-        </h1>
-      </div>
-    </div>
+    <button class="btn outline me-1" (click)="edit()">SZCZEGÓŁY</button>
+    <button class="btn fill ms-1" (click)="choose(cardDetails.sourceId!)">WYBIERZ</button>
   </div>
-  <div class="row justify-content-between pb-3 px-3">
-    <div class="col-12 d-flex justify-content-end">
-      <button class="btn outline me-1" (click)="showDetails()">SZCZEGÓŁY</button>
-      <button class="btn fill ms-1" (click)="choose(category.id)">WYBIERZ</button>
-    </div>
-  </div>
-</div>
+</figure>

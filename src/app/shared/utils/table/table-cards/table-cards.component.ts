@@ -8,6 +8,8 @@ import {
 } from '@angular/core';
 import { HeadArray } from 'src/app/shared/core/BaseEntityComponent';
 import { ModificationContent } from '../table-list/table-list.component';
+import { CardDetails } from 'src/app/shared/common/card/card.component';
+import { CategoryService } from 'src/app/shared/services/category/category.service';
 
 @Component({
   selector: 'app-table-cards',
@@ -33,6 +35,8 @@ export class TableCardsComponent implements OnInit, OnChanges {
   @Output()
   onChoose = new EventEmitter<number>();
 
+  constructor(private categoryService: CategoryService) {}
+
   ngOnInit(): void {}
 
   ngOnChanges(): void {
@@ -52,8 +56,23 @@ export class TableCardsComponent implements OnInit, OnChanges {
 
   getFilteredValues(): any[] {
     return this.gridArray.filter((item) =>
-      item[this.headArray[0].FieldName].toLowerCase().includes(this.filter.toLowerCase())
+      item[this.headArray[0].FieldName]
+        .toLowerCase()
+        .includes(this.filter.toLowerCase())
     );
+  }
+
+  getCardDetails(item: any): CardDetails {
+    return {
+      sourceId: item.id,
+      label: item[this.headArray[0].FieldName],
+      imagePath: this.categoryService.getCategoryImagePath(
+        item[this.headArray[0].FieldName]
+      ),
+      showActionButton: true,
+      aspectRatio: '8/3',
+      accentColor: `hsl(251, 56%, 45%)`,
+    };
   }
 
   edit(item: any) {

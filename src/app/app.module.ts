@@ -60,7 +60,6 @@ import { SchoolProfileComponent } from './home/school-profile/school-profile.com
 import { UserProfileComponent } from './home/user-profile/user-profile.component';
 import { LogoComponent } from './logo/logo.component';
 import { CustomPaginatorIntl } from './providers/CustomPaginatorIntl';
-import { CardComponent } from './shared/common/card/card.component';
 import { CarouselComponent } from './shared/common/carousel/carousel.component';
 import { FilterPipe } from './shared/pipe/filter.pipe';
 import { UserService } from './shared/services/user/user.service';
@@ -85,7 +84,7 @@ import { CoursesComponent } from './home/user-dashboard/courses/courses.componen
 import { MyCoursesComponent } from './home/user-dashboard/my-courses/my-courses.component';
 import { PaymentsComponent } from './home/user-dashboard/payments/payments.component';
 import { CourseSignUpComponent } from './home/user-dashboard/course-sign-up/course-sign-up.component';
-import { CourseSignUpCardComponent } from './shared/common/course-sign-up-card/course-sign-up-card.component';
+import { CourseSignUpCardComponent } from './shared/common/card/card.component';
 import { CourseSignUpMenuComponent } from './home/user-dashboard/course-sign-up/course-sign-up-menu/course-sign-up-menu.component';
 import { CourseSearchComponent } from './forms/course-search/course-search.component';
 import { ChooseCategoryComponent } from './home/user-dashboard/course-sign-up/choose-category/choose-category.component';
@@ -128,7 +127,6 @@ export const MY_FORMATS = {
     InfoCardComponent,
     CourseFormComponent,
     TableCardsComponent,
-    CardComponent,
     TableComponent,
     FilterPipe,
     TableListComponent,

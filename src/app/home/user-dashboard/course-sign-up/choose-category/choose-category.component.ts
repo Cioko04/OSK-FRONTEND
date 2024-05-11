@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HeadArray } from 'src/app/shared/core/BaseEntityComponent';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
-import { CardDetails } from '../../../../shared/common/course-sign-up-card/course-sign-up-card.component';
+import { CardDetails } from '../../../../shared/common/card/card.component';
 
 @Component({
   selector: 'app-choose-category',
@@ -28,8 +28,7 @@ export class ChooseCategoryComponent implements OnInit {
         info: 'Przedział cenowy: 2000zł - 4200zł',
         imagePath: this.categoryService.getCategoryImagePath(category)!,
         aspectRatio: '8/3',
-        accentColor: `hsl(${this.calculateAccentColor()}, 80%, 40%)`,
-        showActionButton: true
+        accentColor: `hsl(${this.calculateAccentColor()}, 80%, 40%)`
       });
     });
   }
