@@ -9,6 +9,16 @@ import {
   ViewChild,
 } from '@angular/core';
 
+export interface CardDetails {
+  label?: string;
+  info?: string;
+  imagePath?: string;
+  route?: string;
+  aspectRatio: string;
+  accentColor: string;
+  showActionButton?: boolean;
+}
+
 @Component({
   selector: 'app-course-sign-up-card',
   templateUrl: './course-sign-up-card.component.html',
@@ -18,13 +28,7 @@ export class CourseSignUpCardComponent implements AfterViewInit {
   @ViewChild('container') container: ElementRef<HTMLDivElement> | undefined;
 
   @Input()
-  type: string = '';
-
-  @Input()
-  text: string = '';
-
-  @Input()
-  imagePath: string = '';
+  cardDetails!: CardDetails;
 
   @Output()
   onNavigate: EventEmitter<string> = new EventEmitter();
@@ -44,10 +48,12 @@ export class CourseSignUpCardComponent implements AfterViewInit {
     if (this.container) {
       const containerWidth = this.container.nativeElement.offsetWidth;
       const fontSize = containerWidth / 25;
-      const paragraph = this.container.nativeElement.querySelector(
+      const paragraphs = this.container.nativeElement.querySelectorAll(
         '#dynamicFontSize'
-      ) as HTMLParagraphElement;
-      paragraph.style.fontSize = `${fontSize}px`;
+      ) as NodeListOf<HTMLParagraphElement>;
+      paragraphs.forEach((paragraph) => {
+        paragraph.style.fontSize = `${fontSize}px`;
+      });
     }
   }
 }

@@ -13,8 +13,8 @@ import { ManageCoursesComponent } from './home/school-dashboard/manage-courses/m
 import { MyCoursesComponent } from './home/user-dashboard/my-courses/my-courses.component';
 import { PaymentsComponent } from './home/user-dashboard/payments/payments.component';
 import { CourseSignUpComponent } from './home/user-dashboard/course-sign-up/course-sign-up.component';
-import { ChooseSchoolComponent } from './home/user-dashboard/course-sign-up/choose-school/choose-school.component';
 import { CourseSignUpMenuComponent } from './home/user-dashboard/course-sign-up/course-sign-up-menu/course-sign-up-menu.component';
+import { ChooseCategoryComponent } from './home/user-dashboard/course-sign-up/choose-category/choose-category.component';
 
 const routes: Routes = [
   {
@@ -35,18 +35,10 @@ const routes: Routes = [
             component: CourseSignUpMenuComponent,
           },
           {
-            path: 'choose-school',
-            component: ChooseSchoolComponent,
+            path: 'choose-category',
+            component: ChooseCategoryComponent,
           }
         ],
-      },
-      {
-        path: 'choose-school',
-        component: ChooseSchoolComponent,
-        canActivate: [HasRoleGuard],
-        data: {
-          role: 'USER',
-        },
       },
       {
         path: 'my-courses',

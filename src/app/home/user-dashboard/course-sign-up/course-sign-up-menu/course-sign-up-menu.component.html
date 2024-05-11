@@ -7,10 +7,8 @@
       class="col-12 col-lg-6 d-flex justify-content-center"
     >
       <app-course-sign-up-card
-        [imagePath]="menuItem.imagePath"
-        [type]="menuItem.type"
-        [text]="menuItem.text"
-        (click)="navigate(menuItem.route)"
+        [cardDetails]="menuItem"
+        (click)="navigate(menuItem.route!)"
       ></app-course-sign-up-card>
     </div>
   </div>

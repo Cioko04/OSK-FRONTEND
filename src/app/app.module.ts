@@ -85,10 +85,10 @@ import { CoursesComponent } from './home/user-dashboard/courses/courses.componen
 import { MyCoursesComponent } from './home/user-dashboard/my-courses/my-courses.component';
 import { PaymentsComponent } from './home/user-dashboard/payments/payments.component';
 import { CourseSignUpComponent } from './home/user-dashboard/course-sign-up/course-sign-up.component';
-import { ChooseSchoolComponent } from './home/user-dashboard/course-sign-up/choose-school/choose-school.component';
-import { CourseSignUpCardComponent } from './home/user-dashboard/course-sign-up/course-sign-up-menu/course-sign-up-card/course-sign-up-card.component';
+import { CourseSignUpCardComponent } from './shared/common/course-sign-up-card/course-sign-up-card.component';
 import { CourseSignUpMenuComponent } from './home/user-dashboard/course-sign-up/course-sign-up-menu/course-sign-up-menu.component';
 import { CourseSearchComponent } from './forms/course-search/course-search.component';
+import { ChooseCategoryComponent } from './home/user-dashboard/course-sign-up/choose-category/choose-category.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -145,7 +145,7 @@ export const MY_FORMATS = {
     ScheduleGroupFormComponent,
     ExpansionPanelComponent,
     CourseSignUpComponent,
-    ChooseSchoolComponent,
+    ChooseCategoryComponent,
     CourseSignUpMenuComponent,
     CourseSignUpCardComponent,
     CourseSearchComponent

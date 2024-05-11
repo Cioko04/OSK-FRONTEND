@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
-export interface MenuItem {
-  imagePath: string;
-  type: string;
-  text: string;
-  route: string;
-}
+import { CardDetails } from '../../../../shared/common/course-sign-up-card/course-sign-up-card.component';
 
 @Component({
   selector: 'app-course-sign-up-menu',
@@ -14,7 +8,7 @@ export interface MenuItem {
   styleUrls: ['./course-sign-up-menu.component.css'],
 })
 export class CourseSignUpMenuComponent {
-  menuItems: MenuItem[] = [];
+  menuItems: CardDetails[] = [];
 
   constructor(private router: Router) {
     this.addMenuItems();
@@ -24,15 +18,17 @@ export class CourseSignUpMenuComponent {
     this.menuItems = [
       {
         imagePath: 'course-sing-in.png',
-        type: 'course',
-        text: 'Zapisz się na KURS',
-        route: 'choose-school',
+        label: 'Zapisz się na KURS',
+        route: 'choose-category',
+        aspectRatio: '8/5',
+        accentColor: 'hsl(214, 80%, 40%)'
       },
       {
         imagePath: 'additional-lesson-sign-in.png',
-        type: 'lesson',
-        text: 'Zapisz się na DODATKOWE JAZDY',
+        label: 'Zapisz się na DODATKOWE JAZDY',
         route: 'payments',
+        aspectRatio: '8/5',
+        accentColor: 'hsl(70, 80%, 40%)'
       },
     ];
   }

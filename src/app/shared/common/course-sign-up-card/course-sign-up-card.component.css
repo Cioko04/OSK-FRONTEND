@@ -1,0 +1,128 @@
+figure {
+  width: 35vw;
+  background: radial-gradient(
+      circle at top left,
+      var(--accent),
+      transparent 75%
+    ),
+    var(--bg);
+  --bg: hsl(210 50% calc(90% - (var(--hover) * 10%)));
+  transition: background 0.2s;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  box-shadow: 3px 3px 10px rgb(119, 116, 116), rgb(12, 12, 12) -3px 3px 10px,
+    3px -3px 10px;
+}
+
+@media only screen and (max-width: 991px) {
+  figure {
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  figure {
+    width: 80vw;
+  }
+}
+
+.pictogram {
+  position: absolute;
+  left: 15%;
+  top: 15%;
+  width: 40%;
+  transform: translateX(calc(var(--hover) * -15%))
+    scale(calc(1 + (var(--hover) * 0.2)));
+  transition: transform 0.2s;
+}
+
+.label {
+  font-family: sans-serif;
+  font-weight: 800;
+  padding-right: 2%;
+  left: 65%;
+  top: 20%;
+  white-space: wrap;
+  overflow: hidden;
+  position: relative;
+  width: 35%;
+  transform: translateX(calc(var(--hover) * -5%))
+    scale(calc(1 + (var(--hover) * 0.2)));
+  transition: transform 0.2s;
+  line-height: 1.5;
+}
+
+.info {
+  font-family: sans-serif;
+  font-weight: 400;
+  left: 20%;
+  top: 45%;
+  color: rgba(0, 0, 0, 0.8);
+  white-space: wrap;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  line-height: 1.5;
+}
+
+.action-buttons {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+figure {
+  --hover: 0;
+}
+
+.figure-hover:hover {
+  --hover: 1;
+  cursor: pointer;
+}
+
+.button-wrapper {
+  margin-top: 0.8rem;
+  margin-bottom: 0.6rem;
+}
+
+.btn {
+  border: none;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-size: 12px;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.outline {
+  background: transparent;
+  color: rgba(11, 3, 45, 0.9);
+  border: 1px solid rgba(11, 3, 45, 0.6);
+  transition: all 0.3s ease;
+}
+
+.outline:hover {
+  transform: scale(1.125);
+  color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.fill {
+  background: rgba(49, 146, 231, 0.9);
+  color: rgba(255, 255, 255, 0.95);
+  filter: drop-shadow(0);
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.fill:hover {
+  transform: scale(1.125);
+  border-color: rgba(255, 255, 255, 0.9);
+  filter: drop-shadow(0 10px 5px rgba(0, 0, 0, 0.125));
+  transition: all 0.3s ease;
+}
