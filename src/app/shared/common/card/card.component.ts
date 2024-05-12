@@ -26,7 +26,7 @@ export interface CardDetails {
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css'],
 })
-export class CourseSignUpCardComponent implements AfterViewInit {
+export class CardComponent implements AfterViewInit {
   @ViewChild('container') container: ElementRef<HTMLDivElement> | undefined;
 
   @Input()
