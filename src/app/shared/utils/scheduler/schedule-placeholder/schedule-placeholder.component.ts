@@ -26,7 +26,7 @@ export class SchedulePlaceholderComponent implements AfterViewInit {
   schedule!: Schedule;
 
   @Output()
-  onEdit = new EventEmitter<any>();
+  onEdit: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     private schedulePlaceholderPositionService: SchedulePlaceholderPositionService,

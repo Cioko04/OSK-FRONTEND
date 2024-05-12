@@ -19,11 +19,11 @@ import { BaseEntityComponent, HeadArray } from 'src/app/shared/core/BaseEntityCo
 })
 export class SchoolListComponent extends BaseEntityComponent  implements OnInit {
   override headArray: HeadArray[] = [
-    { Head: 'Nazwa', FieldName: 'schoolName' },
-    { Head: 'Właściciel', FieldName: 'userRequest', SecondField: 'name' },
-    { Head: 'Miejscowość', FieldName: 'city' },
-    { Head: 'Kategorie', FieldName: 'categories' },
-    { Head: 'Data dodania', FieldName: 'addDate' },
+    { head: 'Nazwa', fieldName: 'schoolName' },
+    { head: 'Właściciel', fieldName: 'userRequest', secondField: 'name' },
+    { head: 'Miejscowość', fieldName: 'city' },
+    { head: 'Kategorie', fieldName: 'categories' },
+    { head: 'Data dodania', fieldName: 'addDate' },
   ];
 
   signInFormSettings: SignInFormSettings = {

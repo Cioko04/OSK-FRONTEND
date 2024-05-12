@@ -40,8 +40,8 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
   };
 
   override headArray: HeadArray[] = [
-    { Head: 'Kategoria', FieldName: 'categoryType' },
-    { Head: 'Cena', FieldName: 'price' },
+    { head: 'Kategoria', fieldName: 'categoryType' },
+    { head: 'Cena', fieldName: 'price' },
   ];
 
   constructor(

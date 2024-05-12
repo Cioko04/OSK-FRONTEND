@@ -2,11 +2,11 @@
   <div class="row justify-content-center">
     <div class="col-12 mt-3">
       <label class="label"><h1><b><i>Szukaj kursu</i></b></h1></label>
-      <app-course-search></app-course-search>
+      <app-course-search (onSearch)="filter($event)"></app-course-search>
       <mat-divider class="mx-5"></mat-divider>      
     </div>
     <div
-      *ngFor="let courseCard of courseCards"
+      *ngFor="let courseCard of filteredCourseCard"
       class="col-12 col-lg-6 d-flex justify-content-center"
     >
       <app-card

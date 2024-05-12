@@ -41,8 +41,8 @@ export class TableCardsComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     this.gridArray.sort((a, b) => {
-      const firstItem = a[this.headArray[0].FieldName].toUpperCase();
-      const secondItem = b[this.headArray[0].FieldName].toUpperCase();
+      const firstItem = a[this.headArray[0].fieldName].toUpperCase();
+      const secondItem = b[this.headArray[0].fieldName].toUpperCase();
 
       if (firstItem < secondItem) {
         return -1;
@@ -56,7 +56,7 @@ export class TableCardsComponent implements OnInit, OnChanges {
 
   getFilteredValues(): any[] {
     return this.gridArray.filter((item) =>
-      item[this.headArray[0].FieldName]
+      item[this.headArray[0].fieldName]
         .toLowerCase()
         .includes(this.filter.toLowerCase())
     );
@@ -65,13 +65,13 @@ export class TableCardsComponent implements OnInit, OnChanges {
   getCardDetails(item: any): CardDetails {
     return {
       sourceId: item.id,
-      label: item[this.headArray[0].FieldName],
+      label: `${this.headArray[0].head}  ${item[this.headArray[0].fieldName]}`,
       imagePath: this.categoryService.getCategoryImagePath(
-        item[this.headArray[0].FieldName]
+        item[this.headArray[0].fieldName]
       ),
       showActionButton: true,
       aspectRatio: '8/3',
-      accentColor: `hsl(251, 56%, 45%)`,
+      accentColor: 'hsl(214, 80%, 40%)', 
     };
   }
 

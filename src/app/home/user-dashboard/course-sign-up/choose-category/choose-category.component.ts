@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HeadArray } from 'src/app/shared/core/BaseEntityComponent';
+import { CourseSearchDetails } from 'src/app/forms/course-search/course-search.component';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { CardDetails } from '../../../../shared/common/card/card.component';
@@ -10,32 +10,38 @@ import { CardDetails } from '../../../../shared/common/card/card.component';
   styleUrls: ['./choose-category.component.css'],
 })
 export class ChooseCategoryComponent implements OnInit {
-  headArray: HeadArray[] = [
-    { Head: 'Kategoria', FieldName: 'categoryType' },
-    { Head: 'Cena', FieldName: 'price' },
-  ];
-
   categories: CategoryEnum[] = Object.values(CategoryEnum);
-
   courseCards: CardDetails[] = [];
+  filteredCourseCard: CardDetails[] = [];
 
   constructor(public categoryService: CategoryService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.categories.forEach((category) => {
       this.courseCards.push({
         label: category,
         info: 'Przedział cenowy: 2000zł - 4200zł',
         imagePath: this.categoryService.getCategoryImagePath(category)!,
         aspectRatio: '8/3',
-        accentColor: `hsl(${this.calculateAccentColor()}, 80%, 40%)`
+        accentColor: `hsl(${this.calculateAccentColor()}, 80%, 40%)`,
       });
     });
+    this.filteredCourseCard = this.courseCards;
   }
 
-  private calculateAccentColor() {
+  private calculateAccentColor(): number {
     let hue = 20 + 10 * this.courseCards.length;
     hue = hue % 360;
     return hue;
+  }
+
+  public filter(searchDetails: CourseSearchDetails): void {
+    this.filteredCourseCard = this.courseCards.filter((card) =>
+      this.containsCategories(card.label!, searchDetails.categories!)
+    );
+  }
+
+  private containsCategories(category: string, categories: string[]): boolean {
+    return categories.length === 0 || categories.includes(category);
   }
 }

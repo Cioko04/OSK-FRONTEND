@@ -16,15 +16,15 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class CoursesComponent implements OnInit {
   headArray: HeadArray[] = [
-    { Head: 'Nazwa', FieldName: 'schoolName' },
-    { Head: 'Miasto', FieldName: 'city' },
-    { Head: 'Kategorie', FieldName: 'categories' },
+    { head: 'Nazwa', fieldName: 'schoolName' },
+    { head: 'Miasto', fieldName: 'city' },
+    { head: 'Kategorie', fieldName: 'categories' },
   ];
 
   headCard: HeadArray[] = [
-    { Head: 'Kategoria', FieldName: 'category' },
-    { Head: 'Cena', FieldName: 'price' },
-    { Head: 'Opis', FieldName: 'description' },
+    { head: 'Kategoria', fieldName: 'category' },
+    { head: 'Cena', fieldName: 'price' },
+    { head: 'Opis', fieldName: 'description' },
   ];
 
   form: FormGroup | any;

@@ -9,7 +9,7 @@ import { SchedulerService } from './scheduler.service';
 @Component({
   selector: 'app-scheduler',
   templateUrl: './scheduler.component.html',
-  styleUrls: ['./scheduler.component.css'],
+  styleUrls: ['./scheduler.component.css', '../utils-style.css'],
 })
 export class SchedulerComponent implements OnInit {
   schedules: Schedule[] = [];
