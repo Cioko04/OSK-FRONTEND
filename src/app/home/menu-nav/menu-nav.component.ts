@@ -31,19 +31,19 @@ export class MenuNavComponent implements OnInit {
 
   private formatActiveRoute(): string {
     const segments = this.router.url.split('/');
-    return segments.slice(0, 3).join('/');
+    return segments.slice(0, 4).join('/');
   }
 
   private setActive() {
     switch (this.role.toString()) {
       case 'ADMIN':
-        this.active = '/home/schools';
+        this.active = '/home/admin-dashboard/schools';
         break;
       case 'OSK_ADMIN':
-        this.active = '/home/manage-courses';
+        this.active = '/home/osk-dashboard/manage-courses';
         break;
       case 'USER':
-        this.active = '/home/course-sign-up';
+        this.active = '/home/user-dashboard/course-sign-up';
         break;
     }
   }
@@ -54,7 +54,7 @@ export class MenuNavComponent implements OnInit {
         {
           label: 'Szkoły',
           icon: 'fa-university',
-          link: '/home/schools',
+          link: '/home/admin-dashboard/schools',
         },
       ];
     } else if (this.role == 'OSK_ADMIN') {
@@ -62,12 +62,12 @@ export class MenuNavComponent implements OnInit {
         {
           label: 'Kursy',
           icon: 'fa-pencil-square-o',
-          link: '/home/manage-courses',
+          link: '/home/osk-dashboard/manage-courses',
         },
         {
           label: 'Instruktorzy',
           icon: 'fa-users',
-          link: '/home/instructors',
+          link: '/home/osk-dashboard/instructors',
         },
       ];
     } else if (this.role == 'USER') {
@@ -75,17 +75,17 @@ export class MenuNavComponent implements OnInit {
         {
           label: 'Zapisz się',
           icon: 'fa-calendar-plus-o',
-          link: '/home/course-sign-up',
+          link: '/home/user-dashboard/course-sign-up',
         },
         {
           label: 'Moje kursy',
           icon: 'fa-graduation-cap',
-          link: '/home/my-courses',
+          link: '/home/user-dashboard/my-courses',
         },
         {
           label: 'Płatności',
           icon: 'fa-credit-card',
-          link: '/home/payments',
+          link: '/home/user-dashboard/payments',
         },
       ];
     }

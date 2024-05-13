@@ -73,7 +73,7 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
   }
 
   onChoose(id: number) {
-    this.router.navigate(['/home/manage-courses', id]);
+    this.router.navigate(['/home/osk-dashboard/manage-courses', id]);
   }
 
   private setSchoolId(schoolId: number) {
