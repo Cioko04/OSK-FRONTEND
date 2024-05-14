@@ -8,18 +8,11 @@ import { PaymentsComponent } from './payments/payments.component';
 
 const userDashboardRoutes: Routes = [
   {
-    path: 'course-sign-up',
-    component: CourseSignUpComponent,
-    children: [
-      {
-        path: '',
-        component: CourseSignUpMenuComponent,
-      },
-      {
-        path: 'choose-category',
-        component: ChooseCategoryComponent,
-      },
-    ],
+    path: '',
+    loadChildren: () =>
+      import('./course-sign-up/course-sign-up.module').then(
+        (m) => m.CourseSignUpModule
+      ),
   },
   {
     path: 'my-courses',

@@ -44,4 +44,8 @@ export class ChooseCategoryComponent implements OnInit {
   private containsCategories(category: string, categories: string[]): boolean {
     return categories.length === 0 || categories.includes(category);
   }
+
+  navigate(category: string) {
+    console.log(category);
+  }
 }

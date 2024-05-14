@@ -62,8 +62,8 @@ export class CardComponent implements AfterViewInit {
     }
   }
 
-  edit(): void {
-    this.onEdit.emit({ id: this.cardDetails.sourceId! });
+  edit(id: number): void {
+    this.onEdit.emit({ id: id });
   }
 
   choose(id: number) {

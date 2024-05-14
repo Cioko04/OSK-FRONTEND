@@ -23,7 +23,11 @@ export class MenuNavComponent implements OnInit {
 
   ngOnInit(): void {
     this.setMenuItems();
-    this.router.navigate([this.active]);
+    this.router.navigate([this.getRouteToNavigate()]);
+  }
+
+  private getRouteToNavigate(): string {
+    return this.router.url === '/home' ? this.active : this.router.url;
   }
 
   ngDoCheck(): void {

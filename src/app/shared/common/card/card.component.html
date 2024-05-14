@@ -26,7 +26,7 @@
     *ngIf="cardDetails.showActionButton"
     class="col-12 d-flex justify-content-center action-buttons"
   >
-    <button class="btn outline mx-2" (click)="edit()">EDUTUJ</button>
+    <button class="btn outline mx-2" (click)="edit(cardDetails.sourceId!)">EDUTUJ</button>
     <button class="btn fill mx-2" (click)="choose(cardDetails.sourceId!)">ZARZĄDZAJ</button>
   </div>
 </figure>

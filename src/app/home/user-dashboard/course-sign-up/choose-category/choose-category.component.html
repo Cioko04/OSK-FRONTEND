@@ -11,6 +11,7 @@
     >
       <app-card
         [cardDetails]="courseCard"
+        (click)="navigate(courseCard.label!)"
       ></app-card>
     </div>
   </div>
