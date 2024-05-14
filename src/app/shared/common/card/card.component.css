@@ -32,39 +32,39 @@ figure {
   position: absolute;
   left: 15%;
   top: 15%;
-  width: 40%;
   transform: translateX(calc(var(--hover) * -15%))
     scale(calc(1 + (var(--hover) * 0.2)));
   transition: transform 0.2s;
 }
 
-.label {
-  font-family: sans-serif;
-  font-weight: 800;
-  padding-right: 2%;
-  left: 65%;
-  top: 20%;
+.label,
+.info {
+  font-style: italic;
   white-space: wrap;
   overflow: hidden;
+  font-family: sans-serif;
+  line-height: 1.5;
+}
+
+.label {
+  font-weight: bolder;
+  padding-right: 2%;
+  top: 20%;
   position: relative;
   width: 35%;
   transform: translateX(calc(var(--hover) * -5%))
     scale(calc(1 + (var(--hover) * 0.2)));
   transition: transform 0.2s;
-  line-height: 1.5;
 }
 
 .info {
-  font-family: sans-serif;
-  font-weight: 400;
-  left: 20%;
-  top: 45%;
+  font-weight: 500;
+  top: 65%;
+  left: 5%;
   color: rgba(0, 0, 0, 0.8);
-  white-space: wrap;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-  line-height: 1.5;
+  position: absolute;
+  width: 90%;
+  text-align: center;
 }
 
 .action-buttons {

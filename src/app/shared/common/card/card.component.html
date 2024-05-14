@@ -9,24 +9,36 @@
 >
   <img
     class="pictogram"
+    [ngStyle]="{
+      height: cardDetails.height + '%'
+    }"
     [src]="'../../../../assets/' + cardDetails.imagePath"
     alt="Icon"
   />
-  <p class="label" id="dynamicFontSize">
-    <b
-      ><i>{{ cardDetails.label }}</i></b
-    >
+  <p
+    class="label"
+    [ngStyle]="{
+      left: cardDetails.left + '%'
+    }"
+    appResizeText
+    [innerHTML]="cardDetails.label! | newlineToBr"
+  >
   </p>
-  <p class="info" id="dynamicFontSize">
-    <b
-      ><i>{{ cardDetails.info }}</i></b
-    > 
+  <p
+    class="info"
+    appResizeText
+    [innerHTML]="cardDetails.info! | newlineToBr"
+  >
   </p>
   <div
     *ngIf="cardDetails.showActionButton"
     class="col-12 d-flex justify-content-center action-buttons"
   >
-    <button class="btn outline mx-2" (click)="edit(cardDetails.sourceId!)">EDUTUJ</button>
-    <button class="btn fill mx-2" (click)="choose(cardDetails.sourceId!)">ZARZĄDZAJ</button>
+    <button class="btn outline mx-2" (click)="edit(cardDetails.sourceId!)">
+      EDUTUJ
+    </button>
+    <button class="btn fill mx-2" (click)="choose(cardDetails.sourceId!)">
+      ZARZĄDZAJ
+    </button>
   </div>
 </figure>

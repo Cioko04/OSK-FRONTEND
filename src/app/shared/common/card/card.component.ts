@@ -1,9 +1,7 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
   Input,
   Output,
   ViewChild,
@@ -19,6 +17,8 @@ export interface CardDetails {
   aspectRatio: string;
   accentColor: string;
   showActionButton?: boolean;
+  height: number;
+  left: number;
 }
 
 @Component({
@@ -26,7 +26,7 @@ export interface CardDetails {
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css'],
 })
-export class CardComponent implements AfterViewInit {
+export class CardComponent {
   @ViewChild('container') container: ElementRef<HTMLDivElement> | undefined;
 
   @Input()
@@ -39,28 +39,6 @@ export class CardComponent implements AfterViewInit {
   onEdit = new EventEmitter<ModificationContent>();
 
   constructor() {}
-
-  ngAfterViewInit() {
-    this.adjustFontSize();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.adjustFontSize();
-  }
-
-  adjustFontSize() {
-    if (this.container) {
-      const containerWidth = this.container.nativeElement.offsetWidth;
-      const fontSize = containerWidth / 25;
-      const paragraphs = this.container.nativeElement.querySelectorAll(
-        '#dynamicFontSize'
-      ) as NodeListOf<HTMLParagraphElement>;
-      paragraphs.forEach((paragraph) => {
-        paragraph.style.fontSize = `${fontSize}px`;
-      });
-    }
-  }
 
   edit(id: number): void {
     this.onEdit.emit({ id: id });

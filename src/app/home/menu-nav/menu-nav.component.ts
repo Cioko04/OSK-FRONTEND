@@ -27,7 +27,8 @@ export class MenuNavComponent implements OnInit {
   }
 
   private getRouteToNavigate(): string {
-    return this.router.url === '/home' ? this.active : this.router.url;
+    const segments = this.router.url.split('/');
+    return segments.length < 4 ? this.active : this.router.url;
   }
 
   ngDoCheck(): void {

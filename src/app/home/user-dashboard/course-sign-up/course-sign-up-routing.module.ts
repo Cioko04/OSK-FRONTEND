@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { ChooseCategoryComponent } from "./choose-category/choose-category.component";
 import { CourseSignUpMenuComponent } from "./course-sign-up-menu/course-sign-up-menu.component";
 import { CourseSignUpComponent } from "./course-sign-up.component";
+import { ChooseSchoolComponent } from "./choose-school/choose-school.component";
 
 const routes: Routes = [
     {
@@ -16,6 +17,10 @@ const routes: Routes = [
         {
           path: 'choose-category',
           component: ChooseCategoryComponent,
+        },
+        {
+          path: ':category/choose-school',
+          component: ChooseSchoolComponent,
         },
       ],
     },

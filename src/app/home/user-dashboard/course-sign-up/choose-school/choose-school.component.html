@@ -1,17 +1,14 @@
 <div class="container-fluid">
   <div class="row justify-content-center">
     <div class="col-12 mt-3">
-      <label class="label"><h1><b><i>Szukaj kategorii</i></b></h1></label>
-      <app-course-search (onSearch)="filter($event)"></app-course-search>
       <mat-divider class="mx-5"></mat-divider>      
     </div>
     <div
-      *ngFor="let courseCard of filteredCourseCard"
+      *ngFor="let schoolCard of schoolCards"
       class="col-12 col-lg-6 d-flex justify-content-center"
     >
       <app-card
-        [cardDetails]="courseCard"
-        (click)="navigate(courseCard.label!)"
+        [cardDetails]="schoolCard"
       ></app-card>
     </div>
   </div>

@@ -8,6 +8,7 @@ import { CourseSignUpMenuComponent } from './course-sign-up-menu/course-sign-up-
 import { CourseSignUpComponent } from './course-sign-up.component';
 import { CommonModule as AngularCommon } from '@angular/common';
 import { CourseSignUpRoutingModule } from './course-sign-up-routing.module';
+import { ChooseSchoolComponent } from './choose-school/choose-school.component';
 
 @NgModule({
   imports: [RouterModule, CommonModule, FormModule, MatDividerModule, AngularCommon, CourseSignUpRoutingModule],
@@ -15,6 +16,7 @@ import { CourseSignUpRoutingModule } from './course-sign-up-routing.module';
     CourseSignUpComponent,
     CourseSignUpMenuComponent,
     ChooseCategoryComponent,
+    ChooseSchoolComponent
   ],
   exports: [],
 })

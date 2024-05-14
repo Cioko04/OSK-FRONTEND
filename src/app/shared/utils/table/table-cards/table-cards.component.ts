@@ -71,7 +71,9 @@ export class TableCardsComponent implements OnInit, OnChanges {
       ),
       showActionButton: true,
       aspectRatio: '8/3',
-      accentColor: 'hsl(214, 80%, 40%)', 
+      accentColor: 'hsl(214, 80%, 40%)',
+      left: 60,
+      height: 30,
     };
   }
 

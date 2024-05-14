@@ -3,6 +3,7 @@ import { CourseSearchDetails } from 'src/app/forms/course-search/course-search.c
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { CardDetails } from '../../../../shared/common/card/card.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-choose-category',
@@ -14,7 +15,10 @@ export class ChooseCategoryComponent implements OnInit {
   courseCards: CardDetails[] = [];
   filteredCourseCard: CardDetails[] = [];
 
-  constructor(public categoryService: CategoryService) {}
+  constructor(
+    public categoryService: CategoryService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.categories.forEach((category) => {
@@ -24,6 +28,8 @@ export class ChooseCategoryComponent implements OnInit {
         imagePath: this.categoryService.getCategoryImagePath(category)!,
         aspectRatio: '8/3',
         accentColor: `hsl(${this.calculateAccentColor()}, 80%, 40%)`,
+        left: category === CategoryEnum.TRAMWAJ ? 70 : 75,
+        height: 35,
       });
     });
     this.filteredCourseCard = this.courseCards;
@@ -46,6 +52,10 @@ export class ChooseCategoryComponent implements OnInit {
   }
 
   navigate(category: string) {
-    console.log(category);
+    this.router.navigate([
+      '/home/dashboard/course-sign-up',
+      category,
+      'choose-school',
+    ]);
   }
 }

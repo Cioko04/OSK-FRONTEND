@@ -21,14 +21,18 @@ export class CourseSignUpMenuComponent {
         label: 'Zapisz się na KURS',
         route: 'choose-category',
         aspectRatio: '8/5',
-        accentColor: 'hsl(214, 80%, 40%)'
+        accentColor: 'hsl(214, 80%, 40%)',
+        left: 65,
+        height: 60,
       },
       {
         imagePath: 'additional-lesson-sign-in.png',
         label: 'Zapisz się na DODATKOWE JAZDY',
         route: 'payments',
         aspectRatio: '8/5',
-        accentColor: 'hsl(70, 80%, 40%)'
+        accentColor: 'hsl(70, 80%, 40%)',
+        left: 65,
+        height: 60,
       },
     ];
   }
