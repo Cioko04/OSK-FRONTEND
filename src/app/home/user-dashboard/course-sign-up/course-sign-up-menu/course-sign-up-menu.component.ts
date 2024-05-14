@@ -34,6 +34,6 @@ export class CourseSignUpMenuComponent {
   }
 
   navigate(route: string) {
-    this.router.navigate([`/home/user-dashboard/course-sign-up/${route}`]);
+    this.router.navigate([`/home/dashboard/course-sign-up/${route}`]);
   }
 }

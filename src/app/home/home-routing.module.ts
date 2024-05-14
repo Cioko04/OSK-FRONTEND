@@ -9,7 +9,7 @@ const homeRoutes: Routes = [
     component: HomeComponent,
     children: [
       {
-        path: 'user-dashboard',
+        path: 'dashboard',
         canActivate: [HasRoleGuard],
         data: {
           role: 'USER',
@@ -20,7 +20,7 @@ const homeRoutes: Routes = [
           ),
       },
       {
-        path: 'osk-dashboard',
+        path: 'dashboard',
         canActivate: [HasRoleGuard],
         data: {
           role: 'OSK_ADMIN',
@@ -31,7 +31,7 @@ const homeRoutes: Routes = [
           ),
       },
       {
-        path: 'admin-dashboard',
+        path: 'dashboard',
         canActivate: [HasRoleGuard],
         data: {
           role: 'ADMIN',

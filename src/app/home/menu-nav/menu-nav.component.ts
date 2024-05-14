@@ -11,6 +11,7 @@ export class MenuNavComponent implements OnInit {
   role: string;
   active: any;
   menuItems: any[] = [];
+  private parentPath: string = '/home/dashboard/';
 
   constructor(
     private router: Router,
@@ -37,13 +38,13 @@ export class MenuNavComponent implements OnInit {
   private setActive() {
     switch (this.role.toString()) {
       case 'ADMIN':
-        this.active = '/home/admin-dashboard/schools';
+        this.active = `${this.parentPath}schools`;
         break;
       case 'OSK_ADMIN':
-        this.active = '/home/osk-dashboard/manage-courses';
+        this.active = `${this.parentPath}manage-courses`;
         break;
       case 'USER':
-        this.active = '/home/user-dashboard/course-sign-up';
+        this.active = `${this.parentPath}course-sign-up`;
         break;
     }
   }
@@ -54,7 +55,7 @@ export class MenuNavComponent implements OnInit {
         {
           label: 'Szkoły',
           icon: 'fa-university',
-          link: '/home/admin-dashboard/schools',
+          link: `${this.parentPath}schools`,
         },
       ];
     } else if (this.role == 'OSK_ADMIN') {
@@ -62,12 +63,12 @@ export class MenuNavComponent implements OnInit {
         {
           label: 'Kursy',
           icon: 'fa-pencil-square-o',
-          link: '/home/osk-dashboard/manage-courses',
+          link: `${this.parentPath}manage-courses`,
         },
         {
           label: 'Instruktorzy',
           icon: 'fa-users',
-          link: '/home/osk-dashboard/instructors',
+          link: `${this.parentPath}instructors`,
         },
       ];
     } else if (this.role == 'USER') {
@@ -75,17 +76,17 @@ export class MenuNavComponent implements OnInit {
         {
           label: 'Zapisz się',
           icon: 'fa-calendar-plus-o',
-          link: '/home/user-dashboard/course-sign-up',
+          link: `${this.parentPath}course-sign-up`,
         },
         {
           label: 'Moje kursy',
           icon: 'fa-graduation-cap',
-          link: '/home/user-dashboard/my-courses',
+          link: `${this.parentPath}my-courses`,
         },
         {
           label: 'Płatności',
           icon: 'fa-credit-card',
-          link: '/home/user-dashboard/payments',
+          link: `${this.parentPath}payments`,
         },
       ];
     }
