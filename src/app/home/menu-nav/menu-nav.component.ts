@@ -49,7 +49,7 @@ export class MenuNavComponent implements OnInit {
         this.active = `${this.parentPath}manage-courses`;
         break;
       case 'USER':
-        this.active = `${this.parentPath}course-sign-up`;
+        this.active = `${this.parentPath}sign-up`;
         break;
     }
   }
@@ -81,7 +81,7 @@ export class MenuNavComponent implements OnInit {
         {
           label: 'Zapisz się',
           icon: 'fa-calendar-plus-o',
-          link: `${this.parentPath}course-sign-up`,
+          link: `${this.parentPath}sign-up`,
         },
         {
           label: 'Moje kursy',

@@ -1,0 +1,25 @@
+.stepper {
+  background-color: transparent;
+}
+
+::ng-deep .mat-horizontal-stepper-header-container {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 130px;
+  overflow-y: hidden;
+  z-index: 1000;
+  background-color: #dddbdb;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  z-index: 9999;
+}

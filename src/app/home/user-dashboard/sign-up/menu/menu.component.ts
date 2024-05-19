@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { CardDetails } from '../../../../shared/common/card/card.component';
 
 @Component({
-  selector: 'app-course-sign-up-menu',
-  templateUrl: './course-sign-up-menu.component.html',
-  styleUrls: ['./course-sign-up-menu.component.css'],
+  selector: 'app-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.css'],
 })
-export class CourseSignUpMenuComponent {
+export class MenuComponent {
   menuItems: CardDetails[] = [];
 
   constructor(private router: Router) {
@@ -19,7 +19,7 @@ export class CourseSignUpMenuComponent {
       {
         imagePath: 'course-sing-in.png',
         label: 'Zapisz się na KURS',
-        route: 'choose-category',
+        route: 'course',
         aspectRatio: '8/5',
         accentColor: 'hsl(214, 80%, 40%)',
         left: 65,
@@ -28,7 +28,7 @@ export class CourseSignUpMenuComponent {
       {
         imagePath: 'additional-lesson-sign-in.png',
         label: 'Zapisz się na DODATKOWE JAZDY',
-        route: 'payments',
+        route: 'lesson',
         aspectRatio: '8/5',
         accentColor: 'hsl(70, 80%, 40%)',
         left: 65,
@@ -38,6 +38,6 @@ export class CourseSignUpMenuComponent {
   }
 
   navigate(route: string) {
-    this.router.navigate([`/home/dashboard/course-sign-up/${route}`]);
+    this.router.navigate([`/home/dashboard/sign-up/${route}`]);
   }
 }

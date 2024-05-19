@@ -8,8 +8,8 @@ import { TableModule } from 'src/app/shared/utils/table/table.module';
 import { CoursesComponent } from './courses/courses.component';
 import { MyCoursesComponent } from './my-courses/my-courses.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { SignUpModule } from './sign-up/sign-up.module';
 import { UserDashboardRoutingModule } from './user-dashboard-routing.module';
-import { CourseSignUpModule } from './course-sign-up/course-sign-up.module';
 
 @NgModule({
   imports: [
@@ -20,8 +20,8 @@ import { CourseSignUpModule } from './course-sign-up/course-sign-up.module';
     MatTableModule,
     TableModule,
     UserDashboardRoutingModule,
-    CourseSignUpModule
+    SignUpModule,
   ],
-  declarations: [PaymentsComponent, MyCoursesComponent, CoursesComponent]
+  declarations: [PaymentsComponent, MyCoursesComponent, CoursesComponent],
 })
 export class UserDashboardModule {}

@@ -1,5 +1,4 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
   Directive,
   ElementRef,
@@ -10,12 +9,12 @@ import {
 @Directive({
   selector: '[appResizeText]',
 })
-export class ResizeTextDirective implements AfterViewChecked {
+export class ResizeTextDirective implements AfterViewInit {
   private minFontSize = 5;
   private maxFontSize = 30;
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
-  ngAfterViewChecked() {
+  ngAfterViewInit() {
     this.resizeText();
   }
 

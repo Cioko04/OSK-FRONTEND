@@ -25,7 +25,6 @@ export class SchedulerTableComponent implements OnInit {
   dataSource: any = [];
   setOnlyOneDay: boolean = false;
   isSmallScreen: boolean = false;
-  private dataSubscription: Subscription = new Subscription();
 
   @ViewChildren('timeCell') timeCells: QueryList<ElementRef> | undefined;
   @ViewChildren('weekDayCell') weekDayCells: QueryList<ElementRef> | undefined;
@@ -35,7 +34,6 @@ export class SchedulerTableComponent implements OnInit {
 
   constructor(
     private schedulerService: SchedulerService,
-    private scheduleService: ScheduleService,
     private schedulePlaceholderPositionService: SchedulePlaceholderPositionService
   ) {}
 

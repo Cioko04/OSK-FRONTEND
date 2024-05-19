@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CourseSearchDetails } from 'src/app/forms/course-search/course-search.component';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
@@ -15,9 +15,11 @@ export class ChooseCategoryComponent implements OnInit {
   courseCards: CardDetails[] = [];
   filteredCourseCard: CardDetails[] = [];
 
+  @Output()
+  onChoose: EventEmitter<string> = new EventEmitter();
+
   constructor(
     public categoryService: CategoryService,
-    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +30,7 @@ export class ChooseCategoryComponent implements OnInit {
         imagePath: this.categoryService.getCategoryImagePath(category)!,
         aspectRatio: '8/3',
         accentColor: `hsl(${this.calculateAccentColor()}, 80%, 40%)`,
-        left: category === CategoryEnum.TRAMWAJ ? 70 : 75,
+        left: category === CategoryEnum.TRAMWAJ ? 65 : 75,
         height: 35,
       });
     });
@@ -52,10 +54,6 @@ export class ChooseCategoryComponent implements OnInit {
   }
 
   navigate(category: string) {
-    this.router.navigate([
-      '/home/dashboard/course-sign-up',
-      category,
-      'choose-school',
-    ]);
+    this.onChoose.emit(category)
   }
 }

@@ -53,6 +53,6 @@ export class ChooseSchoolComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.category = this.route.snapshot.paramMap.get('category')!;
+    // this.category = this.route.snapshot.paramMap.get('category')!;
   }
 }
