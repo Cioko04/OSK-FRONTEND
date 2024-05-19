@@ -41,9 +41,7 @@ export class StepperComponent implements AfterViewInit {
   @Input()
   stepDetails: StepDetail[] = [];
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngAfterViewInit() {
     this.stepDetails.forEach((stepDetail) =>

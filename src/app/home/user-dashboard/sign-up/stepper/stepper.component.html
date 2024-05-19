@@ -1,24 +1,25 @@
 <div class="container-fluid">
-  <div class="spinner-container" *ngIf="!isStepperLoaded">
-    <mat-spinner></mat-spinner>
+  <div class="spinner-container mt-5" *ngIf="!isStepperLoaded">
+    <osk-spinner></osk-spinner>
   </div>
   <mat-stepper orientation="horizontal" class="stepper" #stepper linear>
     <mat-step [stepControl]="step.control!" *ngFor="let step of steps">
       <ng-template matStepLabel>
         {{ step.label }}
       </ng-template>
-      <ng-template matStepContent >
+      <ng-template matStepContent>
         <ng-container *ngTemplateOutlet="step.template!"></ng-container>
       </ng-template>
     </mat-step>
   </mat-stepper>
 </div>
 
-<ng-template name='chooseCategory'>
-  <app-choose-category (onChoose)="nextStep($event, 'chooseCategory')"></app-choose-category>
+<ng-template name="chooseCategory">
+  <app-choose-category
+    (onChoose)="nextStep($event, 'chooseCategory')"
+  ></app-choose-category>
 </ng-template>
 
-<ng-template name='chooseSchool'>
+<ng-template name="chooseSchool">
   <app-choose-school></app-choose-school>
 </ng-template>
-
