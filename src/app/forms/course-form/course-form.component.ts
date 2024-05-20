@@ -7,7 +7,7 @@ import { BaseFormComponent } from '../core/base-form/BaseFormComponent';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-course-form',
+  selector: 'app-course-form', 
   templateUrl: './course-form.component.html',
   styleUrls: ['./course-form.component.css'],
 })

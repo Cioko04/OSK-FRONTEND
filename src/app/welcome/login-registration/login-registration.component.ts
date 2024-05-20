@@ -10,7 +10,7 @@ import { User } from 'src/app/shared/services/user/user';
 @Component({
   selector: 'app-login-registration',
   templateUrl: './login-registration.component.html',
-  styleUrls: ['./login-registration.component.css', './semipolar.css'],
+  styleUrls: ['./login-registration.component.css'],
 })
 export class LoginRegistrationComponent implements OnInit {
   signInFormSettings: SignInFormSettings = {

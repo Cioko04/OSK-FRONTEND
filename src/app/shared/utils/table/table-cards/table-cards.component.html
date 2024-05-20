@@ -1,12 +1,10 @@
 <div class="row">
   <div
     *ngFor="let item of getFilteredValues()"
-    class="col-sm-12 col-md-6 col-lg-4 mb-3"
+    class="col-12 col-lg-6 d-flex justify-content-center"
   >
     <app-card
-      [edit]="isAction"
-      [category]="item"
-      [HeadArray]="headArray"
+      [cardDetails]="getCardDetails(item)"
       (onEdit)="edit($event)"
       (onChoose)="choose($event)"
     ></app-card>

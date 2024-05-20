@@ -40,8 +40,8 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
   };
 
   override headArray: HeadArray[] = [
-    { Head: 'Kategoria', FieldName: 'categoryType' },
-    { Head: 'Cena', FieldName: 'price' },
+    { head: 'Kategoria', fieldName: 'categoryType' },
+    { head: 'Cena', fieldName: 'price' },
   ];
 
   constructor(
@@ -73,7 +73,7 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
   }
 
   onChoose(id: number) {
-    this.router.navigate(['/home/manage-courses', id]);
+    this.router.navigate(['/home/dashboard/manage-courses', id]);
   }
 
   private setSchoolId(schoolId: number) {

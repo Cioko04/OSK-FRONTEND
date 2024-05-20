@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <div class="spinner-container mt-5" *ngIf="!isStepperLoaded">
+    <osk-spinner></osk-spinner>
+  </div>
+
+  <mat-stepper orientation="horizontal" class="stepper" #stepper linear>
+    <mat-step [stepControl]="step.control!" *ngFor="let step of steps">
+      <ng-template matStepLabel>
+        {{ step.label }}
+        <br />
+        <i>{{ step.control!.value }}</i>
+      </ng-template>
+      <ng-template matStepContent>
+        <div class="city-search">
+          <label class="label">
+            <h1>
+              <b><i>Wybierz miasto</i></b>
+            </h1>
+          </label>
+          <app-search-select-form
+            [valuesData]="cities"
+            [label]="'szukaj...'"
+            formControlName="cities"
+          ></app-search-select-form>
+          <mat-divider></mat-divider>
+        </div>
+        <ng-container *ngTemplateOutlet="step.template!"></ng-container>
+      </ng-template>
+    </mat-step>
+  </mat-stepper>
+</div>
+
+<ng-template name="chooseCategory">
+  <app-choose-category
+    (onChoose)="nextStep($event, 'chooseCategory')"
+  ></app-choose-category>
+</ng-template>
+
+<ng-template name="chooseSchool">
+  <app-choose-school
+    (onChoose)="nextStep($event, 'chooseSchool')"
+  ></app-choose-school>
+</ng-template>

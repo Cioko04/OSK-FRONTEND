@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div
+      *ngFor="let schoolCard of schoolCards"
+      class="col-12 col-lg-6 d-flex justify-content-center"
+    >
+      <app-card
+        [cardDetails]="schoolCard"
+        (click)="choose(schoolCard.label!)"
+      ></app-card>
+    </div>
+  </div>
+</div>

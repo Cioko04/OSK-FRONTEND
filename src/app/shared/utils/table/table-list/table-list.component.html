@@ -79,13 +79,6 @@
             element == expandedElement ? 'expanded' : 'collapsed'
           "
         >
-          <app-carousel
-            *ngIf="showCategoryCarousel"
-            [categories]="
-              categories.length === 0 ? element.Kategorie : categories
-            "
-            (onBook)="book()"
-          ></app-carousel>
           <app-expansion-panel
             [expansionPanelDetails]="element.expansionPanelDetails"
             (onDelete)="delete($event)"

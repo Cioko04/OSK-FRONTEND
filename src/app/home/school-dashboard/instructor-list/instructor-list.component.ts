@@ -27,11 +27,11 @@ export class InstructorListComponent
   implements OnInit
 {
   override headArray: HeadArray[] = [
-    { Head: 'Imię', FieldName: 'userRequest', SecondField: 'name' },
-    { Head: 'Nazwisko', FieldName: 'userRequest', SecondField: 'lastName' },
-    { Head: 'Email', FieldName: 'userRequest', SecondField: 'email' },
-    { Head: 'Wiek', FieldName: 'userRequest', SecondField: 'age' },
-    { Head: 'Kategorie', FieldName: 'categories' },
+    { head: 'Imię', fieldName: 'userRequest', secondField: 'name' },
+    { head: 'Nazwisko', fieldName: 'userRequest', secondField: 'lastName' },
+    { head: 'Email', fieldName: 'userRequest', secondField: 'email' },
+    { head: 'Wiek', fieldName: 'userRequest', secondField: 'age' },
+    { head: 'Kategorie', fieldName: 'categories' },
   ];
 
   instructor: Instructor | any;

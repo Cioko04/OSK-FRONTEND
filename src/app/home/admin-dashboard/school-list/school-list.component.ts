@@ -1,15 +1,17 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
-import { School } from 'src/app/shared/services/school/school';
-import { SchoolService } from 'src/app/shared/services/school/school.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
 import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import {
+  BaseEntityComponent,
+  HeadArray,
+} from 'src/app/shared/core/BaseEntityComponent';
+import { School } from 'src/app/shared/services/school/school';
+import { SchoolService } from 'src/app/shared/services/school/school.service';
 import { ModificationContent } from 'src/app/shared/utils/table/table-list/table-list.component';
-import { BaseEntityComponent, HeadArray } from 'src/app/shared/core/BaseEntityComponent';
 
 @UntilDestroy()
 @Component({
@@ -17,34 +19,31 @@ import { BaseEntityComponent, HeadArray } from 'src/app/shared/core/BaseEntityCo
   templateUrl: './school-list.component.html',
   styleUrls: ['./school-list.component.css'],
 })
-export class SchoolListComponent extends BaseEntityComponent  implements OnInit {
+export class SchoolListComponent extends BaseEntityComponent implements OnInit {
   override headArray: HeadArray[] = [
-    { Head: 'Nazwa', FieldName: 'schoolName' },
-    { Head: 'Właściciel', FieldName: 'userRequest', SecondField: 'name' },
-    { Head: 'Miejscowość', FieldName: 'city' },
-    { Head: 'Kategorie', FieldName: 'categories' },
-    { Head: 'Data dodania', FieldName: 'addDate' },
+    { head: 'Nazwa', fieldName: 'schoolName' },
+    { head: 'Właściciel', fieldName: 'userRequest', secondField: 'name' },
+    { head: 'Miejscowość', fieldName: 'city' },
+    { head: 'Kategorie', fieldName: 'categories' },
+    { head: 'Data dodania', fieldName: 'addDate' },
   ];
 
   signInFormSettings: SignInFormSettings = {
     school: false,
     instructor: false,
-    user: false
+    user: false,
   };
 
   fromSettings: FormSettings = {
     formType: FormType.SIGNUP,
-    buttonText: "Zapisz",
-    edit: false
-  }
+    buttonText: 'Zapisz',
+    edit: false,
+  };
 
   school: School | any;
   schools: School[] = [];
 
-  constructor(
-    modalService: NgbModal,
-    private schoolService: SchoolService
-  ) {
+  constructor(modalService: NgbModal, private schoolService: SchoolService) {
     super(modalService);
     this.signInFormSettings.school = true;
     this.signInFormSettings.user = true;
@@ -52,7 +51,10 @@ export class SchoolListComponent extends BaseEntityComponent  implements OnInit 
 
   ngOnInit(): void {
     this.school = {};
-    this.schoolService.getSchools().pipe(untilDestroyed(this)).subscribe((schools) => this.schools);
+    this.schoolService
+      .getSchools()
+      .pipe(untilDestroyed(this))
+      .subscribe((schools) => this.schools);
   }
 
   onDeleteEntity(deleteContent: ModificationContent) {
@@ -73,7 +75,7 @@ export class SchoolListComponent extends BaseEntityComponent  implements OnInit 
 
   override onOpenEditForm(content: any, editContent: ModificationContent) {
     this.fromSettings.edit = true;
-    this.school = this.schools.find(school => school.id === editContent.id);
+    this.school = this.schools.find((school) => school.id === editContent.id);
     super.onOpenEditForm(content);
   }
 

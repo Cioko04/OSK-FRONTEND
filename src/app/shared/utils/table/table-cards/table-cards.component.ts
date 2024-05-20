@@ -8,6 +8,8 @@ import {
 } from '@angular/core';
 import { HeadArray } from 'src/app/shared/core/BaseEntityComponent';
 import { ModificationContent } from '../table-list/table-list.component';
+import { CardDetails } from 'src/app/shared/common/card/card.component';
+import { CategoryService } from 'src/app/shared/services/category/category.service';
 
 @Component({
   selector: 'app-table-cards',
@@ -33,12 +35,14 @@ export class TableCardsComponent implements OnInit, OnChanges {
   @Output()
   onChoose = new EventEmitter<number>();
 
+  constructor(private categoryService: CategoryService) {}
+
   ngOnInit(): void {}
 
   ngOnChanges(): void {
     this.gridArray.sort((a, b) => {
-      const firstItem = a[this.headArray[0].FieldName].toUpperCase();
-      const secondItem = b[this.headArray[0].FieldName].toUpperCase();
+      const firstItem = a[this.headArray[0].fieldName].toUpperCase();
+      const secondItem = b[this.headArray[0].fieldName].toUpperCase();
 
       if (firstItem < secondItem) {
         return -1;
@@ -52,8 +56,25 @@ export class TableCardsComponent implements OnInit, OnChanges {
 
   getFilteredValues(): any[] {
     return this.gridArray.filter((item) =>
-      item[this.headArray[0].FieldName].toLowerCase().includes(this.filter.toLowerCase())
+      item[this.headArray[0].fieldName]
+        .toLowerCase()
+        .includes(this.filter.toLowerCase())
     );
+  }
+
+  getCardDetails(item: any): CardDetails {
+    return {
+      sourceId: item.id,
+      label: `${this.headArray[0].head}  ${item[this.headArray[0].fieldName]}`,
+      imagePath: this.categoryService.getCategoryImagePath(
+        item[this.headArray[0].fieldName]
+      ),
+      showActionButton: true,
+      aspectRatio: '8/3',
+      accentColor: 'hsl(214, 80%, 40%)',
+      left: 60,
+      height: 30,
+    };
   }
 
   edit(item: any) {

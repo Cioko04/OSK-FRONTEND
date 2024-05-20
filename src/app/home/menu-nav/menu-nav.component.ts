@@ -11,6 +11,7 @@ export class MenuNavComponent implements OnInit {
   role: string;
   active: any;
   menuItems: any[] = [];
+  private parentPath: string = '/home/dashboard/';
 
   constructor(
     private router: Router,
@@ -22,7 +23,12 @@ export class MenuNavComponent implements OnInit {
 
   ngOnInit(): void {
     this.setMenuItems();
-    this.router.navigate([this.active]);
+    this.router.navigate([this.getRouteToNavigate()]);
+  }
+
+  private getRouteToNavigate(): string {
+    const segments = this.router.url.split('/');
+    return segments.length < 4 ? this.active : this.router.url;
   }
 
   ngDoCheck(): void {
@@ -31,19 +37,19 @@ export class MenuNavComponent implements OnInit {
 
   private formatActiveRoute(): string {
     const segments = this.router.url.split('/');
-    return segments.slice(0, 3).join('/');
+    return segments.slice(0, 4).join('/');
   }
 
   private setActive() {
     switch (this.role.toString()) {
       case 'ADMIN':
-        this.active = '/home/schools';
+        this.active = `${this.parentPath}schools`;
         break;
       case 'OSK_ADMIN':
-        this.active = '/home/manage-courses';
+        this.active = `${this.parentPath}manage-courses`;
         break;
       case 'USER':
-        this.active = '/home/course-sign-up';
+        this.active = `${this.parentPath}sign-up`;
         break;
     }
   }
@@ -54,7 +60,7 @@ export class MenuNavComponent implements OnInit {
         {
           label: 'Szkoły',
           icon: 'fa-university',
-          link: '/home/schools',
+          link: `${this.parentPath}schools`,
         },
       ];
     } else if (this.role == 'OSK_ADMIN') {
@@ -62,12 +68,12 @@ export class MenuNavComponent implements OnInit {
         {
           label: 'Kursy',
           icon: 'fa-pencil-square-o',
-          link: '/home/manage-courses',
+          link: `${this.parentPath}manage-courses`,
         },
         {
           label: 'Instruktorzy',
           icon: 'fa-users',
-          link: '/home/instructors',
+          link: `${this.parentPath}instructors`,
         },
       ];
     } else if (this.role == 'USER') {
@@ -75,17 +81,17 @@ export class MenuNavComponent implements OnInit {
         {
           label: 'Zapisz się',
           icon: 'fa-calendar-plus-o',
-          link: '/home/course-sign-up',
+          link: `${this.parentPath}sign-up`,
         },
         {
           label: 'Moje kursy',
           icon: 'fa-graduation-cap',
-          link: '/home/my-courses',
+          link: `${this.parentPath}my-courses`,
         },
         {
           label: 'Płatności',
           icon: 'fa-credit-card',
-          link: '/home/payments',
+          link: `${this.parentPath}payments`,
         },
       ];
     }

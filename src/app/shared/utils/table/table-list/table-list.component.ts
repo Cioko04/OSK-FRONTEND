@@ -106,8 +106,8 @@ export class TableListComponent implements OnInit, OnChanges {
     this.displayedColumns = [];
     this.displayedInfo = [];
     this.headArray.forEach((head) => {
-      this.displayedColumns.push(head.Head);
-      this.displayedInfo.push(head.Head);
+      this.displayedColumns.push(head.head);
+      this.displayedInfo.push(head.head);
     });
     this.displayedColumns = this.transformItemService.adjustDisplayedColumns(
       this.displayedColumns,

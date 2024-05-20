@@ -16,15 +16,15 @@ export class TransformItemService {
       const transformedItem: any = {};
       headArray.forEach((column) => {
         let data;
-        if (column.SecondField) {
-          data = item[column.FieldName][column.SecondField];
+        if (column.secondField) {
+          data = item[column.fieldName][column.secondField];
         } else {
-          data = item[column.FieldName];
+          data = item[column.fieldName];
         }
         if (Array.isArray(data)) {
           data.sort();
         }
-        transformedItem[column.Head] = data;
+        transformedItem[column.head] = data;
       });
       transformedItem['sourceId'] = item.id;
       transformedItem['expansionPanelDetails'] = item.expansionPanelDetails;

@@ -23,15 +23,14 @@
   </div>
 </form>
 
-<app-table-list
+<app-table
   [isAction]="false"
   [headArray]="headArray"
   [gridArray]="schools"
-  [categories]="chosenCategories"
   [showCategoryCarousel]="true"
   (onBook)="book(content)"
 >
-</app-table-list>
+</app-table>
 
 <ng-template #content let-modal>
   <div class="container-fluid">

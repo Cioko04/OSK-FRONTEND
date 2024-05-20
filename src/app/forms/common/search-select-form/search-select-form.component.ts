@@ -39,6 +39,8 @@ export class SearchSelectFormComponent implements OnChanges {
   valuesData: string[] = [];
   @Input()
   showButtons: boolean = false;
+  @Input()
+  label: string = '';
 
   set value(values: string[]) {
     this.chosenValues = values.slice();

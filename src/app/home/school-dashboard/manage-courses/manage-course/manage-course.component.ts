@@ -50,11 +50,11 @@ export class ManageCourseComponent
   implements OnInit
 {
   override headArray: HeadArray[] = [
-    { Head: 'Intruktor', FieldName: 'instructor' },
-    { Head: 'Data rozpoczęcia', FieldName: 'startDate' },
-    { Head: 'Data zakończenia', FieldName: 'endDate' },
-    { Head: 'Typ', FieldName: 'type' },
-    { Head: 'Status', FieldName: 'status' },
+    { head: 'Intruktor', fieldName: 'instructor' },
+    { head: 'Data rozpoczęcia', fieldName: 'startDate' },
+    { head: 'Data zakończenia', fieldName: 'endDate' },
+    { head: 'Typ', fieldName: 'type' },
+    { head: 'Status', fieldName: 'status' },
   ];
 
   formSettings: FormSettings = {

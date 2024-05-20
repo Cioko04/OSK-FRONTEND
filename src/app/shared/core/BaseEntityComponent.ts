@@ -28,7 +28,7 @@ export abstract class BaseEntityComponent {
 }
 
 export interface HeadArray {
-  Head: string;
-  FieldName: string;
-  SecondField?: string;
+  head: string;
+  fieldName: string;
+  secondField?: string;
 }

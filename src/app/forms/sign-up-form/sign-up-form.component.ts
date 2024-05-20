@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { Observable, of } from 'rxjs';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { Instructor } from 'src/app/shared/services/instructor/instructor';
 import { School } from 'src/app/shared/services/school/school';

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable, map, of } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Observable } from 'rxjs';
+import { HeadArray } from 'src/app/shared/core/BaseEntityComponent';
+import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { School } from 'src/app/shared/services/school/school';
 import { SchoolService } from 'src/app/shared/services/school/school.service';
-import { HeadArray } from 'src/app/shared/core/BaseEntityComponent';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CategoryEnum } from 'src/app/shared/services/category/category';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
@@ -16,15 +16,15 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class CoursesComponent implements OnInit {
   headArray: HeadArray[] = [
-    { Head: 'Nazwa', FieldName: 'schoolName' },
-    { Head: 'Miasto', FieldName: 'city' },
-    { Head: 'Kategorie', FieldName: 'categories' },
+    { head: 'Nazwa', fieldName: 'schoolName' },
+    { head: 'Miasto', fieldName: 'city' },
+    { head: 'Kategorie', fieldName: 'categories' },
   ];
 
   headCard: HeadArray[] = [
-    { Head: 'Kategoria', FieldName: 'category' },
-    { Head: 'Cena', FieldName: 'price' },
-    { Head: 'Opis', FieldName: 'description' },
+    { head: 'Kategoria', fieldName: 'category' },
+    { head: 'Cena', fieldName: 'price' },
+    { head: 'Opis', fieldName: 'description' },
   ];
 
   form: FormGroup | any;
