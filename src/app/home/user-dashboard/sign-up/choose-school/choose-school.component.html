@@ -6,7 +6,7 @@
     >
       <app-card
         [cardDetails]="schoolCard"
-        (click)="choose(schoolCard.label!)"
+        (click)="choose(schoolCard.label!.split('\n')[0])"
       ></app-card>
     </div>
   </div>

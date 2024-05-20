@@ -1,23 +1,23 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CourseSearchDetails } from 'src/app/forms/course-search/course-search.component';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { CardDetails } from '../../../../shared/common/card/card.component';
+import { BaseStep } from '../core/base-step';
 
 @Component({
   selector: 'app-choose-category',
   templateUrl: './choose-category.component.html',
   styleUrls: ['./choose-category.component.css'],
 })
-export class ChooseCategoryComponent implements OnInit {
+export class ChooseCategoryComponent extends BaseStep implements OnInit {
   categories: CategoryEnum[] = Object.values(CategoryEnum);
   courseCards: CardDetails[] = [];
   filteredCourseCard: CardDetails[] = [];
 
-  @Output()
-  onChoose: EventEmitter<string> = new EventEmitter();
-
-  constructor(public categoryService: CategoryService) {}
+  constructor(public categoryService: CategoryService) {
+    super();
+  }
 
   ngOnInit(): void {
     this.categories.forEach((category) => {
@@ -48,9 +48,5 @@ export class ChooseCategoryComponent implements OnInit {
 
   private containsCategories(category: string, categories: string[]): boolean {
     return categories.length === 0 || categories.includes(category);
-  }
-
-  choose(category: string) {
-    this.onChoose.emit(category);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CardDetails } from 'src/app/shared/common/card/card.component';
+import { BaseStep } from '../core/base-step';
 
 const MOCK_SCHOOL_CARDS: CardDetails[] = [
   {
@@ -46,18 +47,13 @@ const MOCK_SCHOOL_CARDS: CardDetails[] = [
   templateUrl: './choose-school.component.html',
   styleUrls: ['./choose-school.component.css'],
 })
-export class ChooseSchoolComponent implements OnInit {
+export class ChooseSchoolComponent extends BaseStep implements OnInit {
   schoolCards: CardDetails[] = MOCK_SCHOOL_CARDS;
   category: string = '';
 
-  @Output()
-  onChoose: EventEmitter<string> = new EventEmitter();
-
-  constructor() {}
+  constructor() {
+    super();
+  }
 
   ngOnInit() {}
-
-  choose(school: string) {
-    this.onChoose.emit(school.split('\n')[0]);
-  }
 }
