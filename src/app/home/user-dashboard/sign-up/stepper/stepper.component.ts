@@ -1,16 +1,23 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
   Input,
+  OnInit,
   QueryList,
   TemplateRef,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgTemplateNameDirective } from 'src/app/shared/directive/ng-template-name.directive';
+import { SchoolService } from 'src/app/shared/services/school/school.service';
 
 export interface StepDetail {
   label: string;
@@ -19,31 +26,44 @@ export interface StepDetail {
   control?: FormControl;
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-stepper',
   templateUrl: './stepper.component.html',
   styleUrls: ['./stepper.component.css'],
 })
-export class StepperComponent implements AfterViewInit {
+export class StepperComponent implements OnInit, AfterViewInit {
+  steps: StepDetail[] = [];
+  isStepperLoaded: boolean = false;
+  cities: string[] = [];
+  formGroup: FormGroup;
+  hide: boolean = false;
+
   @ViewChild('stepper') stepper!: MatStepper;
   @ViewChildren(NgTemplateNameDirective)
   private templates!: QueryList<NgTemplateNameDirective>;
 
-  formGroup = this.formBuilder.group({
-    chooseCategory: ['', Validators.required],
-    chooseSchool: ['', Validators.required],
-  });
-
-  steps: StepDetail[] = [];
-
-  isStepperLoaded: boolean = false;
-
   @Input()
   stepDetails: StepDetail[] = [];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private schoolService: SchoolService
+  ) {
+    this.formGroup = this.formBuilder.group({
+      chooseCategory: ['', Validators.required],
+      chooseSchool: ['', Validators.required],
+    });
+  }
 
-  ngAfterViewInit() {
+  ngOnInit(): void {
+    this.schoolService
+      .getCities()
+      .pipe(untilDestroyed(this))
+      .subscribe((cities) => (this.cities = cities));
+  }
+
+  ngAfterViewInit(): void {
     this.stepDetails.forEach((stepDetail) =>
       this.addStep(stepDetail.label, stepDetail.name)
     );

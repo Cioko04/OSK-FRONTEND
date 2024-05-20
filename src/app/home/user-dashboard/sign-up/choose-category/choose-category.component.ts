@@ -3,7 +3,6 @@ import { CourseSearchDetails } from 'src/app/forms/course-search/course-search.c
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { CardDetails } from '../../../../shared/common/card/card.component';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-choose-category',
@@ -18,9 +17,7 @@ export class ChooseCategoryComponent implements OnInit {
   @Output()
   onChoose: EventEmitter<string> = new EventEmitter();
 
-  constructor(
-    public categoryService: CategoryService,
-  ) {}
+  constructor(public categoryService: CategoryService) {}
 
   ngOnInit(): void {
     this.categories.forEach((category) => {
@@ -53,7 +50,7 @@ export class ChooseCategoryComponent implements OnInit {
     return categories.length === 0 || categories.includes(category);
   }
 
-  navigate(category: string) {
-    this.onChoose.emit(category)
+  choose(category: string) {
+    this.onChoose.emit(category);
   }
 }

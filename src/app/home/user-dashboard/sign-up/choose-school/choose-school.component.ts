@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CardDetails } from 'src/app/shared/common/card/card.component';
 
@@ -50,9 +50,14 @@ export class ChooseSchoolComponent implements OnInit {
   schoolCards: CardDetails[] = MOCK_SCHOOL_CARDS;
   category: string = '';
 
-  constructor(private route: ActivatedRoute) {}
+  @Output()
+  onChoose: EventEmitter<string> = new EventEmitter();
 
-  ngOnInit() {
-    // this.category = this.route.snapshot.paramMap.get('category')!;
+  constructor() {}
+
+  ngOnInit() {}
+
+  choose(school: string) {
+    this.onChoose.emit(school.split('\n')[0]);
   }
 }

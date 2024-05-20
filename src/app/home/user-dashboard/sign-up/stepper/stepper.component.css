@@ -5,10 +5,24 @@
 ::ng-deep .mat-horizontal-stepper-header-container {
   position: -webkit-sticky;
   position: sticky;
-  top: 130px;
+  top: 135px;
   overflow-y: hidden;
   z-index: 1000;
   background-color: #dddbdb;
+}
+
+.city-search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.city-search label,
+.city-search app-search-select-form,
+.city-search mat-divider {
+  width: 100%;
+  text-align: center;
 }
 
 .spinner-container {
