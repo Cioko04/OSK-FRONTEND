@@ -22,7 +22,6 @@ export class MenuComponent {
         route: 'course',
         aspectRatio: '8/5',
         accentColor: 'hsl(214, 80%, 40%)',
-        left: 65,
         height: 60,
       },
       {
@@ -31,7 +30,6 @@ export class MenuComponent {
         route: 'lesson',
         aspectRatio: '8/5',
         accentColor: 'hsl(70, 80%, 40%)',
-        left: 65,
         height: 60,
       },
     ];

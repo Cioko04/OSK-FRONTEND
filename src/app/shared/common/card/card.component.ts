@@ -17,8 +17,8 @@ export interface CardDetails {
   aspectRatio: string;
   accentColor: string;
   showActionButton?: boolean;
-  height: number;
-  left: number;
+  showDetails?: boolean;
+  height?: number;
 }
 
 @Component({

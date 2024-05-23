@@ -6,9 +6,9 @@ import { Output, EventEmitter, Component } from '@angular/core';
 })
 export abstract class BaseStep {
   @Output()
-  onChoose: EventEmitter<string> = new EventEmitter();
+  onChoose: EventEmitter<string | number> = new EventEmitter();
 
-  choose(data: string) {
-    this.onChoose.emit(data);
+  choose(value: string | number) {
+    this.onChoose.emit(value);
   }
 }

@@ -1,7 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { CardDetails } from 'src/app/shared/common/card/card.component';
-import { BaseStep } from '../core/base-step';
+import { BaseStep } from '../../core/base-step';
 
 const MOCK_SCHOOL_CARDS: CardDetails[] = [
   {
@@ -10,7 +9,6 @@ const MOCK_SCHOOL_CARDS: CardDetails[] = [
     imagePath: '../../../../assets/course.png',
     aspectRatio: '8/4',
     accentColor: `hsl(60, 80%, 40%)`,
-    left: 60,
     height: 40,
   },
   {
@@ -19,7 +17,6 @@ const MOCK_SCHOOL_CARDS: CardDetails[] = [
     imagePath: '../../../../assets/course.png',
     aspectRatio: '8/4',
     accentColor: `hsl(70, 80%, 40%)`,
-    left: 60,
     height: 40,
   },
   {
@@ -28,7 +25,6 @@ const MOCK_SCHOOL_CARDS: CardDetails[] = [
     imagePath: '../../../../assets/course.png',
     aspectRatio: '8/4',
     accentColor: `hsl(70, 80%, 40%)`,
-    left: 60,
     height: 40,
   },
   {
@@ -37,7 +33,6 @@ const MOCK_SCHOOL_CARDS: CardDetails[] = [
     imagePath: '../../../../assets/course.png',
     aspectRatio: '8/4',
     accentColor: `hsl(70, 80%, 40%)`,
-    left: 60,
     height: 40,
   },
 ];

@@ -6,10 +6,10 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { HeadArray } from 'src/app/shared/core/BaseEntityComponent';
-import { ModificationContent } from '../table-list/table-list.component';
 import { CardDetails } from 'src/app/shared/common/card/card.component';
+import { HeadArray } from 'src/app/shared/core/BaseEntityComponent';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
+import { ModificationContent } from '../table-list/table-list.component';
 
 @Component({
   selector: 'app-table-cards',
@@ -72,8 +72,6 @@ export class TableCardsComponent implements OnInit, OnChanges {
       showActionButton: true,
       aspectRatio: '8/3',
       accentColor: 'hsl(214, 80%, 40%)',
-      left: 60,
-      height: 30,
     };
   }
 

@@ -6,25 +6,14 @@
   <mat-stepper orientation="horizontal" class="stepper" #stepper linear>
     <mat-step [stepControl]="step.control!" *ngFor="let step of steps">
       <ng-template matStepLabel>
-        {{ step.label }}
+        <b>{{ step.label }}</b>
         <br />
         <i>{{ step.control!.value }}</i>
       </ng-template>
-      <ng-template matStepContent>
-        <div class="city-search">
-          <label class="label">
-            <h1>
-              <b><i>Wybierz miasto</i></b>
-            </h1>
-          </label>
-          <app-search-select-form
-            [valuesData]="cities"
-            [label]="'szukaj...'"
-            formControlName="cities"
-          ></app-search-select-form>
-          <mat-divider></mat-divider>
+      <ng-template matStepContent >
+        <div *ngFor="let template of step.templates!">
+          <ng-container *ngTemplateOutlet="template"></ng-container>
         </div>
-        <ng-container *ngTemplateOutlet="step.template!"></ng-container>
       </ng-template>
     </mat-step>
   </mat-stepper>
@@ -40,4 +29,26 @@
   <app-choose-school
     (onChoose)="nextStep($event, 'chooseSchool')"
   ></app-choose-school>
+</ng-template>
+
+<ng-template name="chooseCourse">
+  <app-choose-course
+    (onChoose)="nextStep($event, 'chooseCourse')"
+  ></app-choose-course>
+</ng-template>
+
+<ng-template name="citySearch">
+  <div class="city-search">
+    <label class="label">
+      <h1>
+        <b><i>Wybierz miasto</i></b>
+      </h1>
+    </label>
+    <app-search-select-form
+      [valuesData]="cities"
+      [label]="'szukaj...'"
+      formControlName="cities"
+    ></app-search-select-form>
+    <mat-divider></mat-divider>
+  </div>
 </ng-template>

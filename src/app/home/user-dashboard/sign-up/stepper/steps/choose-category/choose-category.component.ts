@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CourseSearchDetails } from 'src/app/forms/course-search/course-search.component';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
-import { CardDetails } from '../../../../shared/common/card/card.component';
-import { BaseStep } from '../core/base-step';
+import { CardDetails } from '../../../../../../shared/common/card/card.component';
+import { BaseStep } from '../../core/base-step';
 
 @Component({
   selector: 'app-choose-category',
@@ -27,8 +27,7 @@ export class ChooseCategoryComponent extends BaseStep implements OnInit {
         imagePath: this.categoryService.getCategoryImagePath(category)!,
         aspectRatio: '8/3',
         accentColor: `hsl(${this.calculateAccentColor()}, 80%, 40%)`,
-        left: category === CategoryEnum.TRAMWAJ ? 65 : 75,
-        height: 35,
+        height: 80,
       });
     });
     this.filteredCourseCard = this.courseCards;

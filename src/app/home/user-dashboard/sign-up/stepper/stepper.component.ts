@@ -18,13 +18,8 @@ import { MatStepper } from '@angular/material/stepper';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgTemplateNameDirective } from 'src/app/shared/directive/ng-template-name.directive';
 import { SchoolService } from 'src/app/shared/services/school/school.service';
-
-export interface StepDetail {
-  label: string;
-  name: string;
-  template?: TemplateRef<any>;
-  control?: FormControl;
-}
+import { StepDetail } from './core/step-detail';
+import { StepType, getStepTypesForCitySearch } from './core/step-type.enum';
 
 @UntilDestroy()
 @Component({
@@ -53,6 +48,7 @@ export class StepperComponent implements OnInit, AfterViewInit {
     this.formGroup = this.formBuilder.group({
       chooseCategory: ['', Validators.required],
       chooseSchool: ['', Validators.required],
+      chooseCourse: ['', Validators.required],
     });
   }
 
@@ -65,7 +61,7 @@ export class StepperComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.stepDetails.forEach((stepDetail) =>
-      this.addStep(stepDetail.label, stepDetail.name)
+      this.addStep(stepDetail.label, stepDetail.type)
     );
 
     setTimeout(() => (this.isStepperLoaded = !!this.stepper));
@@ -82,18 +78,18 @@ export class StepperComponent implements OnInit, AfterViewInit {
     return this.templates.find((t) => t.name === templateId)!.template;
   }
 
-  addStep(label: string, name: string) {
+  addStep(label: string, type: StepType) {
     if (!!this.templates && !!this.stepper) {
       this.steps.push({
         label: label,
-        name: name,
-        template: this.getTemplate(name),
-        control: this.formGroup.get(name) as FormControl,
+        type: type,
+        templates: getStepTypesForCitySearch().some(stepType => stepType === type) ? [this.getTemplate(StepType.CITY_SEARCH), this.getTemplate(type)] : [this.getTemplate(type)],
+        control: this.formGroup.get(type) as FormControl,
       });
     }
   }
 
-  nextStep(value: string, controlName: string) {
+  nextStep(value: string | number, controlName: string) {
     const control = this.formGroup.get(controlName);
     if (control) {
       control.patchValue(value);

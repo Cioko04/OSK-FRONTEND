@@ -1,44 +1,76 @@
 <figure
-  class="m-4"
-  [ngClass]="{ 'figure-hover': !cardDetails.showActionButton }"
+  class="m-4 pt-3"
+  [ngClass]="{
+    'figure-hover': !cardDetails.showActionButton && !cardDetails.showDetails,
+    'pb-3': !cardDetails.showActionButton && !cardDetails.showDetails && !cardDetails.info
+  }"
   [ngStyle]="{
     '--accent': cardDetails.accentColor,
     'aspect-ratio': cardDetails.aspectRatio
   }"
   #container
 >
-  <img
-    class="pictogram"
-    [ngStyle]="{
-      height: cardDetails.height + '%'
-    }"
-    [src]="'../../../../assets/' + cardDetails.imagePath"
-    alt="Icon"
-  />
-  <p
-    class="label"
-    [ngStyle]="{
-      left: cardDetails.left + '%'
-    }"
-    appResizeText
-    [innerHTML]="cardDetails.label! | newlineToBr"
-  >
-  </p>
-  <p
-    class="info"
-    appResizeText
-    [innerHTML]="cardDetails.info! | newlineToBr"
-  >
-  </p>
   <div
-    *ngIf="cardDetails.showActionButton"
-    class="col-12 d-flex justify-content-center action-buttons"
+    class="row main-row px-3"
+    [ngStyle]="{ height: cardDetails.showDetails ? '10%' : '60%' }"
+    [ngClass]="{
+      'main-row-hover': cardDetails.showDetails
+    }"
+    (click)="cardDetails.showDetails && choose(cardDetails.sourceId!)"
   >
-    <button class="btn outline mx-2" (click)="edit(cardDetails.sourceId!)">
-      EDUTUJ
-    </button>
-    <button class="btn fill mx-2" (click)="choose(cardDetails.sourceId!)">
-      ZARZĄDZAJ
-    </button>
+    <div class="col-7 p-0 pictogram">
+      <img
+        [ngStyle]="{
+          width: cardDetails.height + '%'
+        }"
+        [src]="'../../../../assets/' + cardDetails.imagePath"
+        alt="Icon"
+      />
+    </div>
+    <div class="col-5 label">
+      <p appResizeText [innerHTML]="cardDetails.label! | newlineToBr"></p>
+    </div>
+  </div>
+  <div *ngIf="cardDetails.info" class="row detail-row pb-3 px-3">
+    <div class="col-12 p-0 info">
+      <p appResizeText [innerHTML]="cardDetails.info! | newlineToBr"></p>
+    </div>
+  </div>
+  <div *ngIf="cardDetails.showDetails" class="row detail-row-extension">
+    <div class="col-12 info p-0">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> LISTA SPOTKAŃ</mat-panel-title>
+            <mat-panel-description>
+              <p>10.06.2024 - 30.09.2024</p>
+              <mat-icon>date_range</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dates-container">
+            <p appResizeText [ratio]="0.5">2023-08-12</p>
+            <p appResizeText [ratio]="0.5">2024-11-05</p>
+            <p appResizeText [ratio]="0.5">2022-06-21</p>
+            <p appResizeText [ratio]="0.5">2023-04-17</p>
+            <p appResizeText [ratio]="0.5">2024-02-09</p>
+            <p appResizeText [ratio]="0.5">2023-10-30</p>
+            <p appResizeText [ratio]="0.5">2022-09-18</p>
+            <p appResizeText [ratio]="0.5">2024-07-07</p>
+            <p appResizeText [ratio]="0.5">2022-12-29</p>
+            <p appResizeText [ratio]="0.5">2023-05-14</p>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+  <div *ngIf="cardDetails.showActionButton" class="row detail-row">
+    <div class="col-12 pb-3 info d-flex justify-content-center action-buttons">
+      <button class="btn outline mx-2" (click)="edit(cardDetails.sourceId!)">
+        EDUTUJ
+      </button>
+      <button class="btn fill mx-2" (click)="choose(cardDetails.sourceId!)">
+        ZARZĄDZAJ
+      </button>
+    </div>
   </div>
 </figure>

@@ -8,14 +8,17 @@ import { RouterModule } from '@angular/router';
 import { FormModule } from 'src/app/forms/form.module';
 import { CommonModule as OskCommon } from 'src/app/shared/common/common.module';
 import { NgTemplateNameDirective } from 'src/app/shared/directive/ng-template-name.directive';
-import { ChooseCategoryComponent } from './choose-category/choose-category.component';
-import { ChooseSchoolComponent } from './choose-school/choose-school.component';
+import { ChooseCategoryComponent } from './stepper/steps/choose-category/choose-category.component';
+import { ChooseSchoolComponent } from './stepper/steps/choose-school/choose-school.component';
 import { CourseSignUpComponent } from './course-sign-up/course-sign-up.component';
 import { LessonSignUpComponent } from './lesson-sign-up/lesson-sign-up.component';
 import { MenuComponent } from './menu/menu.component';
 import { SignUpRoutingModule } from './sign-up-routing.module';
 import { SignUpComponent } from './sign-up.component';
 import { StepperComponent } from './stepper/stepper.component';
+import { ChooseCourseComponent } from './stepper/steps/choose-course/choose-course.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -28,16 +31,20 @@ import { StepperComponent } from './stepper/stepper.component';
     MatStepperModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatIconModule,
   ],
   declarations: [
     SignUpComponent,
     MenuComponent,
     ChooseCategoryComponent,
     ChooseSchoolComponent,
+    ChooseCourseComponent,
     StepperComponent,
     NgTemplateNameDirective,
     CourseSignUpComponent,
     LessonSignUpComponent,
+
   ],
   exports: [],
 })
