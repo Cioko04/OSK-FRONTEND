@@ -19,6 +19,7 @@ import { StepperComponent } from './stepper/stepper.component';
 import { ChooseCourseComponent } from './stepper/steps/choose-course/choose-course.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { TableModule } from 'src/app/shared/utils/table/table.module';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatProgressSpinnerModule,
     MatExpansionModule,
     MatIconModule,
+    TableModule
   ],
   declarations: [
     SignUpComponent,

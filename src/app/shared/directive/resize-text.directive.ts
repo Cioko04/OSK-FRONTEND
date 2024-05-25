@@ -16,6 +16,10 @@ export class ResizeTextDirective implements AfterViewInit {
 
   @Input()
   ratio: number = 0.75;
+
+  @Input()
+  containerType: string = 'div';
+
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   ngAfterViewInit() {
@@ -28,14 +32,14 @@ export class ResizeTextDirective implements AfterViewInit {
   }
 
   private resizeText() {
-    const parent = this.el.nativeElement.closest('div');
+    const parent = this.el.nativeElement.closest(this.containerType);
     const element = this.el.nativeElement;
 
     let fontSize = this.minFontSize;
     this.renderer.setStyle(element, 'fontSize', `${fontSize}px`);
 
     while (
-      element.scrollHeight <= parent.clientHeight * this.ratio &&
+      element.scrollHeight <= parent.clientHeight * this.ratio && element.scrollWidth <= parent.clientWidth * 0.9 &&
       fontSize <= this.maxFontSize
     ) {
       fontSize += 1;
@@ -43,7 +47,7 @@ export class ResizeTextDirective implements AfterViewInit {
     }
 
     while (
-      element.scrollHeight > parent.clientHeight * this.ratio &&
+      element.scrollHeight > parent.clientHeight * this.ratio && element.scrollWidth > parent.clientWidth * 0.9 &&
       fontSize > this.minFontSize
     ) {
       fontSize -= 1;

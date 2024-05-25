@@ -19,7 +19,7 @@ figure {
   flex-direction: column;
 }
 
-@media only screen and (max-width: 991px) {
+@media only screen and (max-width: 1199px) {
   figure {
     width: 70vw;
   }
@@ -142,16 +142,6 @@ mat-accordion {
   transition: all 0.3s ease;
 }
 
-.dates-container {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.dates-container > p {
-  width: 20%;
-  padding: 0 5px;
-}
-
 .main-row {
   flex: 1;
   display: flex;
@@ -163,4 +153,7 @@ mat-accordion {
 
 .detail-row-extension {
   height: 90%;
+  overflow: scroll;
 }
+
+

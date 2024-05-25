@@ -7,11 +7,13 @@ import { AuthenticationService } from 'src/app/authentication/authentication.ser
 import { FormSettings } from 'src/app/forms/core/data-types/FormSettings';
 import { FormType } from 'src/app/forms/core/data-types/FormType';
 import { SignInFormSettings } from 'src/app/forms/core/data-types/SignInFormSettings';
+import { CardDetails } from 'src/app/shared/common/card/card.component';
 import {
   BaseEntityComponent,
   HeadArray,
 } from 'src/app/shared/core/BaseEntityComponent';
 import { CategoryEnum } from 'src/app/shared/services/category/category';
+import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { Course } from 'src/app/shared/services/course/course';
 import { CourseService } from 'src/app/shared/services/course/course.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
@@ -39,14 +41,10 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
     formType: FormType.COURSE,
   };
 
-  override headArray: HeadArray[] = [
-    { head: 'Kategoria', fieldName: 'categoryType' },
-    { head: 'Cena', fieldName: 'price' },
-  ];
-
   constructor(
     modalService: NgbModal,
     private courseService: CourseService,
+    private categoryService: CategoryService,
     private auth: AuthenticationService,
     private userService: UserService,
     private router: Router
@@ -89,17 +87,22 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
 
   override onOpenAddForm(content: any) {
     this.formSettings.edit = false;
-    this.formSettings.titile = "Dodaj kurs";
-    this.formSettings.buttonText = "Dodaj";
+    this.formSettings.titile = 'Dodaj kurs';
+    this.formSettings.buttonText = 'Dodaj';
     this.course = {};
     super.onOpenAddForm(content);
   }
 
-  override onOpenEditForm(content: any, modificationContent: ModificationContent) {
+  override onOpenEditForm(
+    content: any,
+    modificationContent: ModificationContent
+  ) {
     this.formSettings.edit = true;
-    this.formSettings.titile = "Edytuj kurs"
-    this.formSettings.buttonText = "Zapisz";
-    this.course = this.courses.find(course => course.id === modificationContent.id);
+    this.formSettings.titile = 'Edytuj kurs';
+    this.formSettings.buttonText = 'Zapisz';
+    this.course = this.courses.find(
+      (course) => course.id === modificationContent.id
+    );
     super.onOpenEditForm(content);
   }
 
@@ -140,6 +143,21 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
         console.log('Course has been added!');
         this.loadCourses();
       },
+    });
+  }
+
+  getCardDetails(): CardDetails[] {
+    return this.courses.map((course) => {
+      return {
+        sourceId: course.id!,
+        label: `Kategoria  ${course.categoryType}`,
+        imagePath: this.categoryService.getCategoryImagePath(
+          course.categoryType
+        ),
+        showActionButton: true,
+        aspectRatio: '8/3',
+        accentColor: 'hsl(214, 80%, 40%)',
+      };
     });
   }
 }

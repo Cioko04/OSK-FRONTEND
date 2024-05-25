@@ -2,7 +2,13 @@
   class="container-fluid d-flex justify-content-center align-items-center"
 >
   <div class="row">
-    <div
+    <label class="label mt-3">
+      <h1>
+        <b><i>ZAPISZ SIĘ!</i></b>
+      </h1>
+    </label>
+    <mat-divider></mat-divider>
+    <!-- <div
       *ngFor="let menuItem of menuItems"
       class="col-12 col-lg-6 d-flex justify-content-center"
     >
@@ -10,6 +16,11 @@
         [cardDetails]="menuItem"
         (click)="navigate(menuItem.route!)"
       ></app-card>
-    </div>
+    </div> -->
+    <app-table
+      [gridArray]="menuItems"
+      [useTableCards]="true"
+      [isAction]="false"
+    ></app-table>
   </div>
 </div>

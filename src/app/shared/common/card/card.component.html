@@ -2,7 +2,10 @@
   class="m-4 pt-3"
   [ngClass]="{
     'figure-hover': !cardDetails.showActionButton && !cardDetails.showDetails,
-    'pb-3': !cardDetails.showActionButton && !cardDetails.showDetails && !cardDetails.info
+    'pb-3':
+      !cardDetails.showActionButton &&
+      !cardDetails.showDetails &&
+      !cardDetails.info
   }"
   [ngStyle]="{
     '--accent': cardDetails.accentColor,
@@ -47,17 +50,11 @@
               <mat-icon>date_range</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <div class="dates-container">
-            <p appResizeText [ratio]="0.5">2023-08-12</p>
-            <p appResizeText [ratio]="0.5">2024-11-05</p>
-            <p appResizeText [ratio]="0.5">2022-06-21</p>
-            <p appResizeText [ratio]="0.5">2023-04-17</p>
-            <p appResizeText [ratio]="0.5">2024-02-09</p>
-            <p appResizeText [ratio]="0.5">2023-10-30</p>
-            <p appResizeText [ratio]="0.5">2022-09-18</p>
-            <p appResizeText [ratio]="0.5">2024-07-07</p>
-            <p appResizeText [ratio]="0.5">2022-12-29</p>
-            <p appResizeText [ratio]="0.5">2023-05-14</p>
+          <div class="row">
+            <div *ngFor="let extensionDetail of cardDetails.extensionDetails" class="col-6 col-md-3">
+              <mat-icon>date_range</mat-icon> 
+              <p class="pb-2">{{ extensionDetail }}</p>
+            </div>
           </div>
         </mat-expansion-panel>
       </mat-accordion>

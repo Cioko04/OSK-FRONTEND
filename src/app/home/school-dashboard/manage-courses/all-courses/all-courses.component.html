@@ -2,8 +2,7 @@
   <div class="col-10">
     <app-table
       [isAction]="true"
-      [headArray]="headArray"
-      [gridArray]="courses"
+      [gridArray]="getCardDetails()"
       [useTableCards]="true"
       (onAdd)="onOpenAddForm(content)"
       (onEdit)="onOpenEditForm(content, $event)"
