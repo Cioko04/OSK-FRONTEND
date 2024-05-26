@@ -1,13 +1,10 @@
 <div class="container-fluid">
   <div class="row justify-content-center">
-    <div
-      *ngFor="let courseCard of filteredCourseCard"
-      class="col-12 col-xl-6 d-flex justify-content-center"
-    >
-      <app-card
-        [cardDetails]="courseCard"
-        (click)="choose(courseCard.label!)"
-      ></app-card>
-    </div>
+    <app-table
+      [gridArray]="filteredCourseCard"
+      [useTableCards]="true"
+      [isAction]="false"
+      (onChoose)="choose($event)"
+    ></app-table>
   </div>
 </div>

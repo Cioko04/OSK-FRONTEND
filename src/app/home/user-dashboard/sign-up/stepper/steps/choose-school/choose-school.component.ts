@@ -39,6 +39,15 @@ const MOCK_SCHOOL_CARDS: CardDetails[] = [
     accentColor: `hsl(70, 80%, 40%)`,
     height: 40,
   },
+  {
+    sourceId: 5,
+    label: 'Szkoła Jazdy Turbo\nCena: 2500zł',
+    info: 'Szkoła Jazdy Turbo to dynamiczny ośrodek, który kładzie nacisk na praktyczne umiejętności i pewność siebie za kierownicą. Dzięki naszym intensywnym kursom i profesjonalnym instruktorom, nasi kursanci szybko opanowują techniki jazdy i zdobywają niezbędne doświadczenie, aby czuć się pewnie na drodze. Nasze motto to "Prędkość w nauce, bezpieczeństwo na drodze".',
+    imagePath: '../../../../assets/course.png',
+    aspectRatio: '8/4',
+    accentColor: `hsl(70, 80%, 40%)`,
+    height: 40,
+  },
 ];
 
 @Component({
