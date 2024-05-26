@@ -8,19 +8,11 @@
       </h1>
     </label>
     <mat-divider></mat-divider>
-    <!-- <div
-      *ngFor="let menuItem of menuItems"
-      class="col-12 col-lg-6 d-flex justify-content-center"
-    >
-      <app-card
-        [cardDetails]="menuItem"
-        (click)="navigate(menuItem.route!)"
-      ></app-card>
-    </div> -->
     <app-table
       [gridArray]="menuItems"
       [useTableCards]="true"
       [isAction]="false"
+      (onChoose)="navigate($event)"
     ></app-table>
   </div>
 </div>

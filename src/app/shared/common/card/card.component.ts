@@ -27,6 +27,8 @@ export interface CardDetails {
   styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
+  panelOpenState: boolean = false;
+
   @ViewChild('container') container: ElementRef<HTMLDivElement> | undefined;
 
   @Input()

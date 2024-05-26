@@ -1,5 +1,5 @@
 <figure
-  class="m-4 pt-3"
+  class="m-4"
   [ngClass]="{
     'figure-hover': !cardDetails.showActionButton && !cardDetails.showDetails,
     'pb-3':
@@ -14,24 +14,18 @@
   #container
 >
   <div
-    class="row main-row px-3"
-    [ngStyle]="{ height: cardDetails.showDetails ? '10%' : '60%' }"
+    *ngIf="!panelOpenState"
+    class="row main-row p-3"
     [ngClass]="{
       'main-row-hover': cardDetails.showDetails
     }"
-    (click)="cardDetails.showDetails && choose(cardDetails.sourceId!)"
+    (click)="choose(cardDetails.sourceId)"
   >
-    <div class="col-7 p-0 pictogram">
-      <img
-        [ngStyle]="{
-          width: cardDetails.height + '%'
-        }"
-        [src]="'../../../../assets/' + cardDetails.imagePath"
-        alt="Icon"
-      />
+    <div class="col-7 pictogram">
+      <img [src]="'../../../../assets/' + cardDetails.imagePath" alt="Icon" />
     </div>
     <div class="col-5 label">
-      <p appResizeText [innerHTML]="cardDetails.label! | newlineToBr"></p>
+      <p appResizeText [ratio]="0.6" [innerHTML]="cardDetails.label! | newlineToBr"></p>
     </div>
   </div>
   <div *ngIf="cardDetails.info" class="row detail-row pb-3 px-3">
@@ -39,10 +33,19 @@
       <p appResizeText [innerHTML]="cardDetails.info! | newlineToBr"></p>
     </div>
   </div>
-  <div *ngIf="cardDetails.showDetails" class="row detail-row-extension">
+  <div
+    *ngIf="cardDetails.showDetails"
+    class="row"
+    [ngClass]="{
+      'detail-row-extension': panelOpenState
+    }"
+  >
     <div class="col-12 info p-0">
       <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+        >
           <mat-expansion-panel-header>
             <mat-panel-title> LISTA SPOTKAŃ</mat-panel-title>
             <mat-panel-description>
@@ -50,9 +53,12 @@
               <mat-icon>date_range</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <div class="row">
-            <div *ngFor="let extensionDetail of cardDetails.extensionDetails" class="col-6 col-md-3">
-              <mat-icon>date_range</mat-icon> 
+          <div class="row extension-details">
+            <div
+              *ngFor="let extensionDetail of cardDetails.extensionDetails"
+              class="col-6 col-md-3"
+            >
+              <mat-icon>date_range</mat-icon>
               <p class="pb-2">{{ extensionDetail }}</p>
             </div>
           </div>

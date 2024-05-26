@@ -27,7 +27,6 @@ export class MenuComponent {
         label: 'KURS',
         aspectRatio: '8/4',
         accentColor: 'hsl(214, 80%, 40%)',
-        height: 60,
       },
       {
         sourceId: 2,
@@ -40,7 +39,13 @@ export class MenuComponent {
     ];
   }
 
-  navigate(route: string) {
-    this.router.navigate([`/home/dashboard/sign-up/${route}`]);
+  navigate(id: number) {
+    this.router.navigate([`/home/dashboard/sign-up/${this.getRoute(id)}`]);
+  }
+
+  private getRoute(menuId: number) {
+    return menuId === 1 ? 'course' : 'lesson';
   }
 }
+
+
