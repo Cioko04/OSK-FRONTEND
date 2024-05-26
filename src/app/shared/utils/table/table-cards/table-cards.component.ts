@@ -7,7 +7,6 @@ import {
   Output,
 } from '@angular/core';
 import { CardDetails } from 'src/app/shared/common/card/card.component';
-import { HeadArray } from 'src/app/shared/core/BaseEntityComponent';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { ModificationContent } from '../table-list/table-list.component';
 
@@ -21,10 +20,7 @@ export class TableCardsComponent implements OnInit, OnChanges {
   filter: string = '';
 
   @Input()
-  headArray: HeadArray[] = [];
-
-  @Input()
-  gridArray: any[] = [];
+  cards: CardDetails[] = [];
 
   @Input()
   isAction: boolean = true;
@@ -40,9 +36,9 @@ export class TableCardsComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
 
   ngOnChanges(): void {
-    this.gridArray.sort((a, b) => {
-      const firstItem = a[this.headArray[0].fieldName].toUpperCase();
-      const secondItem = b[this.headArray[0].fieldName].toUpperCase();
+    this.cards.sort((a, b) => {
+      const firstItem = a.label.toUpperCase();
+      const secondItem = b.label.toUpperCase();
 
       if (firstItem < secondItem) {
         return -1;
@@ -54,25 +50,12 @@ export class TableCardsComponent implements OnInit, OnChanges {
     });
   }
 
-  getFilteredValues(): any[] {
-    return this.gridArray.filter((item) =>
-      item[this.headArray[0].fieldName]
+  getFilteredValues(): CardDetails[] {
+    return this.cards.filter((item) =>
+      item.label
         .toLowerCase()
         .includes(this.filter.toLowerCase())
     );
-  }
-
-  getCardDetails(item: any): CardDetails {
-    return {
-      sourceId: item.id,
-      label: `${this.headArray[0].head}  ${item[this.headArray[0].fieldName]}`,
-      imagePath: this.categoryService.getCategoryImagePath(
-        item[this.headArray[0].fieldName]
-      ),
-      showActionButton: true,
-      aspectRatio: '8/3',
-      accentColor: 'hsl(214, 80%, 40%)',
-    };
   }
 
   edit(item: any) {

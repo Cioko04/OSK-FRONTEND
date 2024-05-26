@@ -1,5 +1,5 @@
 <div class="container-fluid mb-2">
-  <div class="row pt-3">
+  <div *ngIf="showControlPanel" class="row pt-3">
     <app-control-table-panel
       [isAction]="isAction"
       [(filter)]="filter"
@@ -12,8 +12,7 @@
       <app-table-cards
         [filter]="filter"
         [isAction]="isAction"
-        [headArray]="headArray"
-        [gridArray]="gridArray"
+        [cards]="gridArray"
         (onEdit)="edit($event)"
         (onChoose)="choose($event)"
       ></app-table-cards>

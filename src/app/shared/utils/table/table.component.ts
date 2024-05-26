@@ -31,6 +31,9 @@ export class TableComponent implements OnInit{
   @Input()
   showCategoryCarousel: boolean = false;
 
+  @Input()
+  showControlPanel: boolean = true;
+
   @Output()
   onAdd = new EventEmitter<ModificationContent>();
 

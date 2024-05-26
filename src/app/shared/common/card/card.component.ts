@@ -9,16 +9,16 @@ import {
 import { ModificationContent } from '../../utils/table/table-list/table-list.component';
 
 export interface CardDetails {
-  sourceId?: number;
-  label?: string;
+  sourceId: number;
+  label: string;
   info?: string;
   imagePath?: string;
-  route?: string;
   aspectRatio: string;
   accentColor: string;
   showActionButton?: boolean;
   showDetails?: boolean;
-  height?: number;
+  extensionDetails?: string[];
+  height?: number; 
 }
 
 @Component({
@@ -27,6 +27,8 @@ export interface CardDetails {
   styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
+  panelOpenState: boolean = false;
+
   @ViewChild('container') container: ElementRef<HTMLDivElement> | undefined;
 
   @Input()

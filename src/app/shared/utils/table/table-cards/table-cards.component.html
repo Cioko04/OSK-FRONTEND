@@ -1,10 +1,10 @@
-<div class="row">
+<div class="row justify-content-center">
   <div
-    *ngFor="let item of getFilteredValues()"
-    class="col-12 col-lg-6 d-flex justify-content-center"
+    *ngFor="let card of getFilteredValues()"
+    class="col-12 col-xl-6 d-flex justify-content-center"
   >
     <app-card
-      [cardDetails]="getCardDetails(item)"
+      [cardDetails]="card"
       (onEdit)="edit($event)"
       (onChoose)="choose($event)"
     ></app-card>

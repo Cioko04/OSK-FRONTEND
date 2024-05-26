@@ -1,15 +1,11 @@
 <div class="container-fluid">
   <div class="row justify-content-center">
-    <div
-      *ngFor="let course of courses"
-      class="col-12 col-lg-6 d-flex justify-content-center"
-    >
-      <app-card
-        [cardDetails]="course"
-        (onChoose)="choose($event)"
-      ></app-card>
-    </div>
+    <app-table
+      [gridArray]="courses"
+      [useTableCards]="true"
+      [isAction]="false"
+      [showControlPanel]="false"
+      (onChoose)="choose($event)"
+    ></app-table>
   </div>
 </div>
-
-

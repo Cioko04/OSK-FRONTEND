@@ -22,6 +22,7 @@ export class ChooseCategoryComponent extends BaseStep implements OnInit {
   ngOnInit(): void {
     this.categories.forEach((category) => {
       this.courseCards.push({
+        sourceId: this.courseCards.length,
         label: category,
         info: 'Przedział cenowy: 2000zł - 4200zł',
         imagePath: this.categoryService.getCategoryImagePath(category)!,

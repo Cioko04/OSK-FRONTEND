@@ -1,8 +1,11 @@
 <figure
-  class="m-4 pt-3"
+  class="m-4"
   [ngClass]="{
     'figure-hover': !cardDetails.showActionButton && !cardDetails.showDetails,
-    'pb-3': !cardDetails.showActionButton && !cardDetails.showDetails && !cardDetails.info
+    'pb-3':
+      !cardDetails.showActionButton &&
+      !cardDetails.showDetails &&
+      !cardDetails.info
   }"
   [ngStyle]="{
     '--accent': cardDetails.accentColor,
@@ -11,35 +14,46 @@
   #container
 >
   <div
-    class="row main-row px-3"
-    [ngStyle]="{ height: cardDetails.showDetails ? '10%' : '60%' }"
+    *ngIf="!panelOpenState"
+    class="row main-row p-3"
     [ngClass]="{
       'main-row-hover': cardDetails.showDetails
     }"
-    (click)="cardDetails.showDetails && choose(cardDetails.sourceId!)"
+    (click)="!cardDetails.showActionButton && choose(cardDetails.sourceId)"
   >
-    <div class="col-7 p-0 pictogram">
-      <img
-        [ngStyle]="{
-          width: cardDetails.height + '%'
-        }"
-        [src]="'../../../../assets/' + cardDetails.imagePath"
-        alt="Icon"
-      />
+    <div class="col-7 pictogram">
+      <img [src]="'../../../../assets/' + cardDetails.imagePath" alt="Icon" />
     </div>
     <div class="col-5 label">
-      <p appResizeText [innerHTML]="cardDetails.label! | newlineToBr"></p>
+      <p
+        appResizeText
+        [ratio]="0.6"
+        [innerHTML]="cardDetails.label! | newlineToBr"
+      ></p>
     </div>
   </div>
-  <div *ngIf="cardDetails.info" class="row detail-row pb-3 px-3">
+  <div
+    *ngIf="cardDetails.info"
+    class="row detail-row pb-3 px-3"
+    (click)="!cardDetails.showActionButton && choose(cardDetails.sourceId)"
+  >
     <div class="col-12 p-0 info">
       <p appResizeText [innerHTML]="cardDetails.info! | newlineToBr"></p>
     </div>
   </div>
-  <div *ngIf="cardDetails.showDetails" class="row detail-row-extension">
+  <div
+    *ngIf="cardDetails.showDetails"
+    class="row"
+    [ngClass]="{
+      'detail-row-extension': panelOpenState
+    }"
+  >
     <div class="col-12 info p-0">
       <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+        >
           <mat-expansion-panel-header>
             <mat-panel-title> LISTA SPOTKAŃ</mat-panel-title>
             <mat-panel-description>
@@ -47,17 +61,14 @@
               <mat-icon>date_range</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <div class="dates-container">
-            <p appResizeText [ratio]="0.5">2023-08-12</p>
-            <p appResizeText [ratio]="0.5">2024-11-05</p>
-            <p appResizeText [ratio]="0.5">2022-06-21</p>
-            <p appResizeText [ratio]="0.5">2023-04-17</p>
-            <p appResizeText [ratio]="0.5">2024-02-09</p>
-            <p appResizeText [ratio]="0.5">2023-10-30</p>
-            <p appResizeText [ratio]="0.5">2022-09-18</p>
-            <p appResizeText [ratio]="0.5">2024-07-07</p>
-            <p appResizeText [ratio]="0.5">2022-12-29</p>
-            <p appResizeText [ratio]="0.5">2023-05-14</p>
+          <div class="row extension-details mt-2">
+            <div
+              *ngFor="let extensionDetail of cardDetails.extensionDetails"
+              class="col-6 col-md-3"
+            >
+              <mat-icon>date_range</mat-icon>
+              <p class="pb-2">{{ extensionDetail }}</p>
+            </div>
           </div>
         </mat-expansion-panel>
       </mat-accordion>

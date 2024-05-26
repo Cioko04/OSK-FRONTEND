@@ -1,13 +1,11 @@
 <div class="container-fluid">
   <div class="row justify-content-center">
-    <div
-      *ngFor="let schoolCard of schoolCards"
-      class="col-12 col-lg-6 d-flex justify-content-center"
-    >
-      <app-card
-        [cardDetails]="schoolCard"
-        (click)="choose(schoolCard.label!.split('\n')[0])"
-      ></app-card>
-    </div>
+    <app-table
+      [gridArray]="schoolCards"
+      [useTableCards]="true"
+      [isAction]="false"
+      [showControlPanel]="false"
+      (onChoose)="choose($event)"
+    ></app-table>
   </div>
 </div>
