@@ -19,16 +19,24 @@
     [ngClass]="{
       'main-row-hover': cardDetails.showDetails
     }"
-    (click)="choose(cardDetails.sourceId)"
+    (click)="!cardDetails.showActionButton && choose(cardDetails.sourceId)"
   >
     <div class="col-7 pictogram">
       <img [src]="'../../../../assets/' + cardDetails.imagePath" alt="Icon" />
     </div>
     <div class="col-5 label">
-      <p appResizeText [ratio]="0.6" [innerHTML]="cardDetails.label! | newlineToBr"></p>
+      <p
+        appResizeText
+        [ratio]="0.6"
+        [innerHTML]="cardDetails.label! | newlineToBr"
+      ></p>
     </div>
   </div>
-  <div *ngIf="cardDetails.info" class="row detail-row pb-3 px-3">
+  <div
+    *ngIf="cardDetails.info"
+    class="row detail-row pb-3 px-3"
+    (click)="!cardDetails.showActionButton && choose(cardDetails.sourceId)"
+  >
     <div class="col-12 p-0 info">
       <p appResizeText [innerHTML]="cardDetails.info! | newlineToBr"></p>
     </div>

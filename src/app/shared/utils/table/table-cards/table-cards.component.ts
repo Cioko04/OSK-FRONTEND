@@ -19,12 +19,6 @@ export class TableCardsComponent implements OnInit, OnChanges {
   @Input()
   filter: string = '';
 
-  // @Input()
-  // headArray: HeadArray[] = [];
-
-  // @Input()
-  // gridArray: any[] = [];
-
   @Input()
   cards: CardDetails[] = [];
 
@@ -63,19 +57,6 @@ export class TableCardsComponent implements OnInit, OnChanges {
         .includes(this.filter.toLowerCase())
     );
   }
-
-  // getCardDetails(item: any): CardDetails {
-  //   return {
-  //     sourceId: item.id,
-  //     label: `${this.headArray[0].head}  ${item[this.headArray[0].fieldName]}`,
-  //     imagePath: this.categoryService.getCategoryImagePath(
-  //       item[this.headArray[0].fieldName]
-  //     ),
-  //     showActionButton: true,
-  //     aspectRatio: '8/3',
-  //     accentColor: 'hsl(214, 80%, 40%)',
-  //   };
-  // }
 
   edit(item: any) {
     this.onEdit.emit(item);

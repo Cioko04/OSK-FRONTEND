@@ -61,7 +61,7 @@ figure {
 img {
   transform: scale(calc(1 + (var(--hover) * 0.2)));
   transition: transform 0.2s;
-  height: 60%;
+  height: 65%;
 }
 
 .label {
