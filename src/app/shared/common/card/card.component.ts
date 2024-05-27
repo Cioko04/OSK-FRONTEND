@@ -1,12 +1,17 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
   Input,
   Output,
+  QueryList,
+  TemplateRef,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { ModificationContent } from '../../utils/table/table-list/table-list.component';
+import { NgTemplateNameDirective } from '../../directive/ng-template-name.directive';
 
 export interface CardDetails {
   sourceId: number;
@@ -18,9 +23,15 @@ export interface CardDetails {
   showActionButton?: boolean;
   showDetails?: boolean;
   extensionDetails?: string[];
-  height?: number; 
+  height?: number;
 }
 
+enum CardTemplatesContent {
+  MAIN_ROW = 'mainRow',
+  ACTION_BUTTONS = 'actionButtons',
+  DETAILS = 'details',
+  INFO = 'info',
+}
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -28,8 +39,7 @@ export interface CardDetails {
 })
 export class CardComponent {
   panelOpenState: boolean = false;
-
-  @ViewChild('container') container: ElementRef<HTMLDivElement> | undefined;
+  templatesToRender: TemplateRef<any>[] = [];
 
   @Input()
   cardDetails!: CardDetails;
@@ -42,11 +52,11 @@ export class CardComponent {
 
   constructor() {}
 
-  edit(id: number): void {
+  public edit(id: number): void {
     this.onEdit.emit({ id: id });
   }
 
-  choose(id: number) {
+  public choose(id: number) {
     this.onChoose.emit(id);
   }
 }
