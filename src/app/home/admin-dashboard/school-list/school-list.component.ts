@@ -54,7 +54,7 @@ export class SchoolListComponent extends BaseEntityComponent implements OnInit {
     this.schoolService
       .getSchools()
       .pipe(untilDestroyed(this))
-      .subscribe((schools) => this.schools);
+      .subscribe((schools) => this.schools = schools);
   }
 
   onDeleteEntity(deleteContent: ModificationContent) {

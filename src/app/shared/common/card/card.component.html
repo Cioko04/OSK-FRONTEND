@@ -13,7 +13,7 @@
   }"
   #container
 >
-  <div
+<div
     *ngIf="!panelOpenState"
     class="row main-row p-3"
     [ngClass]="{
@@ -55,9 +55,12 @@
           (closed)="panelOpenState = false"
         >
           <mat-expansion-panel-header>
-            <mat-panel-title> LISTA SPOTKAŃ</mat-panel-title>
+            <mat-panel-title><b>LISTA SPOTKAŃ</b></mat-panel-title>
             <mat-panel-description>
-              <p>10.06.2024 - 30.09.2024</p>
+              <p>
+                <b>{{ cardDetails.extensionDetails?.length }} spotkań:</b>
+                10.06.2024 - 30.09.2024
+              </p>
               <mat-icon>date_range</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>

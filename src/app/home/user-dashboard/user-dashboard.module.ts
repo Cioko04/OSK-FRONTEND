@@ -20,7 +20,7 @@ import { UserDashboardRoutingModule } from './user-dashboard-routing.module';
     MatTableModule,
     TableModule,
     UserDashboardRoutingModule,
-    SignUpModule,
+    SignUpModule
   ],
   declarations: [PaymentsComponent, MyCoursesComponent, CoursesComponent],
 })

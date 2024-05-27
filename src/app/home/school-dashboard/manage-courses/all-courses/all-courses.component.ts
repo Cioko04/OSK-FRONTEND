@@ -29,6 +29,7 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
   schoolId?: number;
   courses: Course[] = [];
   course: Course | any;
+  courseCardDetails: CardDetails[] = [];
   categoriesFromSchool: CategoryEnum[] = [];
 
   signInFormSettings: SignInFormSettings = {
@@ -80,7 +81,10 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
 
   private loadCourses() {
     this.courseService.courses$.pipe(untilDestroyed(this)).subscribe({
-      next: (courses: Course[]) => (this.courses = courses),
+      next: (courses: Course[]) => {
+        this.courses = courses;
+        this.courseCardDetails = this.mapCardDetails(courses);
+      },
       error: (error) => console.error('Error during fetching courses:' + error),
     });
   }
@@ -146,8 +150,8 @@ export class AllCoursesComponent extends BaseEntityComponent implements OnInit {
     });
   }
 
-  getCardDetails(): CardDetails[] {
-    return this.courses.map((course) => {
+  private mapCardDetails(courses: Course[]): CardDetails[] {
+    return courses.map((course) => {
       return {
         sourceId: course.id!,
         label: `Kategoria  ${course.categoryType}`,

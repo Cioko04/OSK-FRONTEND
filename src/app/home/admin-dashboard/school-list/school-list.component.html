@@ -1,22 +1,16 @@
-<!-- <app-table-list
-  [isAction]="true"
-  [HeadArray]="headArray"
-  [GridArrayObs]="schoolObs"
-  (onAdd)="onAdd(content)"
-  (onEdit)="onEdit(content, $event)"
-  (onDelete)="onDelete($event)"
->
-</app-table-list> -->
-
-<app-table
+<div class="container-fluid">
+  <app-table
   [isAction]="true"
   [headArray]="headArray"
   [gridArray]="schools"
+  [useTableCards]="false"
   (onAdd)="onOpenAddForm(content)"
   (onEdit)="onOpenEditForm(content, $event)"
   (onDelete)="onDeleteEntity($event)"
 >
 </app-table>
+</div>
+
 <ng-template #content let-modal>
   <div class="container-fluid">
     <div class="row mx-1 mt-4">

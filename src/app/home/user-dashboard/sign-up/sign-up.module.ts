@@ -20,6 +20,7 @@ import { ChooseCourseComponent } from './stepper/steps/choose-course/choose-cour
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { TableModule } from 'src/app/shared/utils/table/table.module';
+import { OskDirectiveModule } from 'src/app/shared/directive/osk-directive.module';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { TableModule } from 'src/app/shared/utils/table/table.module';
     MatProgressSpinnerModule,
     MatExpansionModule,
     MatIconModule,
-    TableModule
+    TableModule,
+    OskDirectiveModule
   ],
   declarations: [
     SignUpComponent,
@@ -43,7 +45,6 @@ import { TableModule } from 'src/app/shared/utils/table/table.module';
     ChooseSchoolComponent,
     ChooseCourseComponent,
     StepperComponent,
-    NgTemplateNameDirective,
     CourseSignUpComponent,
     LessonSignUpComponent,
 
